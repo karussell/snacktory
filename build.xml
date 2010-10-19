@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="Article Text Extractor" default="test">
+  <property name="build.dir" location="${basedir}/build"/>
+  <property name="config.dir" location="${basedir}/config"/>
+  <property name="doc.dir" location="${basedir}/doc"/> 
+  <property name="log.dir" location="${basedir}/log"/> 
+  <property name="lib.dir" location="${basedir}/lib"/> 
+  <property name="src.dir" location="${basedir}/src/java/main"/>
+  <property name="jar.dir" location="${basedir}/jar"/>
+
+  <property name="test.src.dir" location="${basedir}/src/java/tests"/>
+  <property name="test.build.dir" location="${build.dir}/tests"/>
+
+  <!-- TODO: add an ability to run it from console! -->
+  <property name="main.class"  value="com."/>
+  <property name="file.encoding" value="UTF-8"/>
+
+  <!-- versioning -->
+  <property name="release.version.major" value="0"/>
+  <property name="release.version.minor" value="0"/>
+  <property name="release.version.revision" value="1"/>
+  <property name="release.version.string" value="${release.version.major}.${release.version.minor}.${release.version.revision}"/>
+
+  <!-- - - - - -  dependencies  - - - - - -->
+
+  <!-- libs -->
+  <fileset id="all.jars" dir="${lib.dir}" includes="*.jar"/>
+
+  <!-- - - - - -  project settings  - - - - - -->
+  <property name="application.java_source_dir" location="${src.dir}"/>
+  <path id="application.classpath">
+    <fileset refid="all.jars"/>
+  </path>
+
+  <path id="test.classpath">
+    <path refid="application.classpath"/>
+    <pathelement location="${build.dir}"/>
+    <pathelement location="${test.build.dir}"/>
+  </path>
+
+  <target name="clean" description="--> Remove build and jar directories">
+    <delete dir="${build.dir}"/>
+    <delete dir="${jar.dir}"/>
+    <delete dir="${doc.dir}"/>
+    <delete dir="${log.dir}"/>
+  </target>
+	
+  <target name="compile-source" description="--> Compile source code">
+    <mkdir dir="${build.dir}"/>
+    <javac srcdir="${application.java_source_dir}" destdir="${build.dir}" classpathref="application.classpath" encoding="ISO-8859-1" />
+  </target>
+
+  <target name="jar" description="--> Build JAR file" depends="compile-source">
+    <pathconvert property="string.classpath" pathsep=" ">
+       <path refid="application.classpath" />
+       <chainedmapper>
+          <flattenmapper/>
+          <regexpmapper from="^(.*)" to="../lib/\1"/>
+       </chainedmapper>
+    </pathconvert>
+    <property name="env"  value="production"/>
+    <mkdir dir="${jar.dir}"/>
+    <jar destfile="${jar.dir}/article-extractor-${release.version.string}.jar" basedir = "${build.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="${main.class}"/>
+        <attribute name="Class-Path" value="${string.classpath}"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="compile-test-suite" description="--> Compile the tests" depends = "compile-source">
+    <mkdir dir="${test.build.dir}"/>
+    <javac destdir="${test.build.dir}"
+           debug="${build.debug}"
+           includeAntRuntime="true"
+           srcdir="${test.src.dir}"
+           encoding="UTF-8">
+      <classpath refid="test.classpath"/>
+    </javac>
+
+    <copy todir="${test.build.dir}">
+      <fileset dir="${test.src.dir}" excludes="**/*.java"/>
+    </copy>
+  </target>
+
+  <target name="test" description="--> Run test suite" depends="compile-test-suite">
+    <property name="env"  value="test"/>
+    <delete dir="${log.dir}"/>
+    <mkdir dir="${log.dir}"/>
+    <echo message="Start all tests..."/>
+    <junit printsummary="true" haltonfailure="true">
+      <classpath refid="test.classpath"/>
+      <formatter type="plain" usefile="false"/>
+      <formatter type="xml"/>
+      <batchtest todir="${log.dir}">
+        <fileset dir="${test.build.dir}" includes="**/*Test.class"/>
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="javadoc" description="--> Generate JavaDoc">
+    <javadoc destdir="${doc.dir}" sourcepath="${application.java_source_dir}" classpathref="application.classpath"/>
+  </target>
+
+  <target name="resolve" description="--> Retrieve dependencies with ivy">
+    <ivy:retrieve />
+  </target>
+</project>
