@@ -12,5 +12,11 @@
 	<dependencies>
     <dependency org="org.jsoup" name="jsoup" rev="1.3.2"/>
     <dependency org="junit" name="junit" rev="4.7"/>
+    <!-- Scala Dependencies -->
+    <dependency org="org.scala-lang" name="scala-library" rev="2.7.7"/>
+    <dependency org="org.scala-lang" name="scala-compiler" rev="2.7.7"/>
+    <dependency org="org.scalatest" name="scalatest" rev="1.0"/>
+    <dependency org="org.scala-tools.testing" name="specs" rev="1.6.1-2.8.0.Beta1-RC6"/>
+    <!-- -->
 	</dependencies>
 </ivy-module>
