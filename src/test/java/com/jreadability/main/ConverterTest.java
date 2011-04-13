@@ -22,7 +22,7 @@ import junit.framework.TestCase;
  * @author Peter Karich, jetwick_@_pannous_._info
  */
 public class ConverterTest extends TestCase {
-    
+
     public ConverterTest(String testName) {
         super(testName);
     }
@@ -31,17 +31,25 @@ public class ConverterTest extends TestCase {
         Converter d = new Converter();
         d.streamToString(getClass().getResourceAsStream("test.html"), Integer.MAX_VALUE);
         assertEquals("utf-8", d.getEncoding());
-        
+
+        d = new Converter();
         d.streamToString(getClass().getResourceAsStream("test_ch.html"), Integer.MAX_VALUE);
-        assertEquals("shift_jis", d.getEncoding());        
-        
+        assertEquals("shift_jis", d.getEncoding());
+
+        d = new Converter();
         d.streamToString(getClass().getResourceAsStream("test_spiegel.html"), Integer.MAX_VALUE);
-        assertEquals("iso-8859-1", d.getEncoding());        
-        
+        assertEquals("iso-8859-1", d.getEncoding());
+
+        d = new Converter();
         d.streamToString(getClass().getResourceAsStream("test_itunes.html"), Integer.MAX_VALUE);
-        assertEquals("utf-8", d.getEncoding());        
-        
+        assertEquals("utf-8", d.getEncoding());
+
+        d = new Converter();
         d.streamToString(getClass().getResourceAsStream("test_twitter.html"), Integer.MAX_VALUE);
-        assertEquals("utf-8", d.getEncoding());        
+        assertEquals("utf-8", d.getEncoding());
+
+        d = new Converter();
+        d.streamToString(getClass().getResourceAsStream("test_nyt.html"), Integer.MAX_VALUE);
+        assertEquals("utf-8", d.getEncoding());
     }
 }

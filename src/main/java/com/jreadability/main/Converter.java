@@ -58,6 +58,11 @@ public class Converter {
         return encoding.toLowerCase();
     }
 
+    public Converter setEncoding(String encoding) {
+        this.encoding = encoding;
+        return this;
+    }
+
     public String streamToString(InputStream is) {
         return streamToString(is, 1000000, encoding);
     }
@@ -101,16 +106,23 @@ public class Converter {
                 else {
                     // if we have "text/html; charset=utf-8"                    
                     int first = res.indexOf("\"", encIndex + 8);
+                    if(first < 0)
+                        first = Integer.MAX_VALUE;
+                    
                     // or "text/html; charset=utf-8 "
                     int sec = res.indexOf(" ", encIndex + 8);
-                    lastEncIndex = Math.min(first, sec);
+                    if(sec < 0)
+                        sec = Integer.MAX_VALUE;
+                    lastEncIndex = Math.min(first, sec);                    
 
                     // or "text/html; charset=utf-8 '
-                    int third = res.indexOf("'", encIndex + 8);
-                    lastEncIndex = Math.min(lastEncIndex, third);
+                    int third = res.indexOf("'", encIndex + 8);                    
+                    if(third > 0)
+                        lastEncIndex = Math.min(lastEncIndex, third);
                 }
 
                 // re-read byte array with different encoding
+                // assume that the encoding string cannot be greater than 40 chars
                 if (lastEncIndex > encIndex + 8 && lastEncIndex < encIndex + 8 + 40) {
                     encoding = res.substring(encIndex + 8, lastEncIndex);
                     try {

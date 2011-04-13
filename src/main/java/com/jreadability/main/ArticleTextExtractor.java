@@ -31,8 +31,6 @@ public class ArticleTextExtractor {
             + "(.*foot.*)|(.*footer.*)|(.*footnote.*)|(.*masthead.*)|(.*media.*)|(.*meta.*)|"
             + "(.*outbrain.*)|(.*promo.*)|(.*related.*)|(.*scroll.*)|(.*shoutbox.*)|"
             + "(.*sidebar.*)|(.*sponsor.*)|(.*shopping.*)|(.*tags.*)|(.*tool.*)|(.*widget.*)");
-    private String imageSrc;
-    private String title;
     private boolean preferEmptyTextOverGarbageText = false;
 
     /** 
@@ -41,10 +39,10 @@ public class ArticleTextExtractor {
      * to handle minor stuff.
      * @returns extracted article, all HTML tags stripped
      */
-    public String getArticleText(String html) throws Exception {
-        if(html.isEmpty())
+    public JResult getArticleText(String html) throws Exception {
+        if (html.isEmpty())
             throw new IllegalArgumentException("html string is empty!?");
-        
+
         // http://jsoup.org/cookbook/extracting-data/selector-syntax
         Document doc = Jsoup.parse(html);
 
@@ -52,14 +50,15 @@ public class ArticleTextExtractor {
 //            print(e);
 //        }
 
-        imageSrc = "";
+        JResult res = new JResult();
+
         // grabbing the title should be easy
-        title = doc.select("head title").text();
+        res.setTitle(doc.select("head title").text());
 
-        if (title.isEmpty())
-            title = doc.select("head meta[name=title]").attr("content");
+        if (res.getTitle().isEmpty())
+            res.setTitle(doc.select("head meta[name=title]").attr("content"));
 
-        String text = doc.select("head meta[name=description]").attr("content");
+        res.setDescription(doc.select("head meta[name=description]").attr("content"));
 
         // now remove the clutter
         prepareDocument(doc);
@@ -89,37 +88,29 @@ public class ArticleTextExtractor {
         }
 
         if (bestMatchElement != null && !bestMatchElement.text().isEmpty())
-            text = bestMatchElement.text();
+            res.setText(bestMatchElement.text());
 
         if (bestMatchElement != null) {
             Element imgEl = determineImageSource(bestMatchElement);
             if (imgEl != null) {
-                imageSrc = imgEl.attr("src");
+                res.setImageUrl(imgEl.attr("src"));
                 // TODO remove parent container of image if it is contained in bestMatchElement
                 // to avoid image subtitles flooding in
             }
         }
 
         // use open graph tag to get image
-        if (imageSrc.isEmpty())
-            imageSrc = doc.select("head meta[property=og:image]").attr("content");
-                
+        if (res.getImageUrl().isEmpty())
+            res.setImageUrl(doc.select("head meta[property=og:image]").attr("content"));
+
         // prefer link over thumbnail-meta if empty
-        if (imageSrc.isEmpty())
-            imageSrc = doc.select("link[rel=image_src]").attr("href");
-        
-        if (imageSrc.isEmpty())
-            imageSrc = doc.select("head meta[name=thumbnail]").attr("content");
+        if (res.getImageUrl().isEmpty())
+            res.setImageUrl(doc.select("link[rel=image_src]").attr("href"));
 
-        return text;
-    }
+        if (res.getImageUrl().isEmpty())
+            res.setImageUrl(doc.select("head meta[name=thumbnail]").attr("content"));
 
-    public String getImageSource() {
-        return imageSrc;
-    }
-
-    public String getTitle() {
-        return title;
+        return res;
     }
 
     public Element determineImageSource(Element el) {
