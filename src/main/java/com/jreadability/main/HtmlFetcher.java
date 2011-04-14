@@ -21,6 +21,8 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,24 +30,35 @@ import java.util.zip.GZIPInputStream;
  */
 public class HtmlFetcher {
 
+    private static final Logger logger = LoggerFactory.getLogger(HtmlFetcher.class);
+
     static {
         Helper.enableCookieMgmt();
         Helper.enableUserAgentOverwrite();
     }
 
-    public static JResult fetchAndExtract(String url, int timeout) throws Exception {
-        JResult res = new ArticleTextExtractor().extractContent(fetchAsString(url, timeout));
+    public static JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
+        if (resolve) {
+            // TODO remove time taken to resolve from timeout!
+            String resUrl = getResolvedUrl(url, timeout);
+            // if resolved url is longer: use it!
+            if (resUrl != null && resUrl.trim().length() > url.length())
+                url = resUrl;
+        }
+
+        JResult result = new ArticleTextExtractor().extractContent(fetchAsString(url, timeout));
+        result.setUrl(url);
         String domain = Helper.extractDomain(url, false);
 
         // some images are relative to root and do not include the url :/
-        if (res.getImageUrl().startsWith("/"))
-            res.setImageUrl("http://" + domain + res.getImageUrl());
+        if (result.getImageUrl().startsWith("/"))
+            result.setImageUrl("http://" + domain + result.getImageUrl());
 
         // some websites do not store favicon links within the page
-        if (res.getFaviconUrl().isEmpty())
-            res.setFaviconUrl(Helper.getDefaultFavicon(url));
+        if (result.getFaviconUrl().isEmpty())
+            result.setFaviconUrl(Helper.getDefaultFavicon(url));
 
-        return res;
+        return result;
     }
 
     public static String fetchAsString(String urlAsString, int timeout) {
@@ -61,7 +74,7 @@ public class HtmlFetcher {
                 hConn.setRequestProperty("content-charset", "UTF-8");
                 hConn.addRequestProperty("Referer", "http://jetwick.com/s");
                 // why should we avoid the cache?
-//                hConn.setRequestProperty("Cache-Control", "max-age=0");                
+                hConn.setRequestProperty("Cache-Control", "max-age=0");
             }
 
             // on android we got problems because of this
@@ -69,18 +82,49 @@ public class HtmlFetcher {
 //            hConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
             hConn.setConnectTimeout(timeout);
             hConn.setReadTimeout(timeout);
-            // default length of bufferedinputstream is 8k
-            byte[] arr = new byte[Converter.K4];
             InputStream is = hConn.getInputStream();
 
             if ("gzip".equals(hConn.getContentEncoding()))
                 is = new GZIPInputStream(is);
 
-            BufferedInputStream in = new BufferedInputStream(is, arr.length);
-            in.read(arr);
-
             String enc = Converter.extractEncoding(hConn.getContentType());
+//            logger.info("header encoding:" + enc);
             return new Converter().streamToString(is, enc);
+        } catch (Exception ex) {
+        }
+        return "";
+    }
+
+    /**
+     * On some devices we have to hack:
+     * http://developers.sun.com/mobility/reference/techart/design_guidelines/http_redirection.html
+     * @return the resolved url if any. Or null if it couldn't resolve the url
+     * (within the specified time) or the same url if response code is OK
+     */
+    public static String getResolvedUrl(String urlAsString, int timeout) {
+        try {
+            URL url = new URL(urlAsString);
+            //using proxy may increase latency
+            HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
+            // force no follow
+
+            hConn.setInstanceFollowRedirects(false);
+            // the program doesn't care what the content actually is !!
+            // http://java.sun.com/developer/JDCTechTips/2003/tt0422.html
+            hConn.setRequestMethod("HEAD");
+            // default is 0 => infinity waiting
+            hConn.setConnectTimeout(timeout);
+            hConn.setReadTimeout(timeout);
+            hConn.connect();
+            int responseCode = hConn.getResponseCode();
+            hConn.getInputStream().close();
+            if (responseCode == HttpURLConnection.HTTP_OK)
+                return urlAsString;
+
+            String loc = hConn.getHeaderField("Location");
+            if (responseCode / 100 == 3 && loc != null)
+                return loc.replaceAll(" ", "+");
+
         } catch (Exception ex) {
         }
         return "";

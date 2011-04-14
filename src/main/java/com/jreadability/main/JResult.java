@@ -22,11 +22,25 @@ package com.jreadability.main;
 public class JResult {
 
     private String title;
+    private String url;
     private String imageUrl;
     private String videoUrl;
     private String text;
     private String faviconUrl;
     private String description;
+
+    public JResult() {
+    }
+
+    public String getUrl() {
+        if (url == null)
+            return "";
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getFaviconUrl() {
         if (faviconUrl == null)

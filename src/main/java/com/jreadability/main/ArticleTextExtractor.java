@@ -81,7 +81,7 @@ public class ArticleTextExtractor {
             int currentWeight = getWeight(entry);
             if (currentWeight > maxWeight) {
                 // TODO REMOVE
-                currentWeight = getWeight(entry);
+//                currentWeight = getWeight(entry);
                 maxWeight = currentWeight;
                 bestMatchElement = entry;
             }
