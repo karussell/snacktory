@@ -29,13 +29,15 @@ public class JResult {
     private String description;
 
     public String getFaviconUrl() {
+        if (faviconUrl == null)
+            return "";
         return faviconUrl;
     }
 
     public void setFaviconUrl(String faviconUrl) {
         this.faviconUrl = faviconUrl;
     }
-    
+
     public String getDescription() {
         if (description == null)
             return "";
@@ -79,6 +81,8 @@ public class JResult {
     }
 
     public String getVideoUrl() {
+        if (videoUrl == null)
+            return "";
         return videoUrl;
     }
 

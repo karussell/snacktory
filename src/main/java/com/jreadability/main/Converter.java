@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 public class Converter {
 
     private final static Logger logger = Logger.getLogger(Converter.class);
+    public static final int MAX_BYTES = 1000000;
     public final static String UTF8 = "UTF8";
     public final static String ISO = "ISO-8859-1";
     public final static int K4 = 4096;
@@ -64,11 +65,11 @@ public class Converter {
     }
 
     public String streamToString(InputStream is) {
-        return streamToString(is, 1000000, encoding);
+        return streamToString(is, MAX_BYTES, encoding);
     }
 
-    public String streamToString(InputStream is, int maxBytes) {
-        return streamToString(is, maxBytes, encoding);
+    public String streamToString(InputStream is, String enc) {
+        return streamToString(is, MAX_BYTES, enc);
     }
 
     /**
@@ -80,8 +81,9 @@ public class Converter {
     public String streamToString(InputStream is, int maxBytes, String enc) {
         encoding = enc;
         // Http 1.1. standard is iso-8859-1 not utf8 :(
-        if (encoding == null)
-            encoding = "ISO-8859-1";
+        // but we force utf-8 as youtube assumes it ;)
+        if (encoding == null || encoding.isEmpty())
+            encoding = "utf-8";
 
         byte[] arr = new byte[K4];
         BufferedInputStream in = null;
@@ -106,18 +108,18 @@ public class Converter {
                 else {
                     // if we have "text/html; charset=utf-8"                    
                     int first = res.indexOf("\"", encIndex + 8);
-                    if(first < 0)
+                    if (first < 0)
                         first = Integer.MAX_VALUE;
-                    
+
                     // or "text/html; charset=utf-8 "
                     int sec = res.indexOf(" ", encIndex + 8);
-                    if(sec < 0)
+                    if (sec < 0)
                         sec = Integer.MAX_VALUE;
-                    lastEncIndex = Math.min(first, sec);                    
+                    lastEncIndex = Math.min(first, sec);
 
                     // or "text/html; charset=utf-8 '
-                    int third = res.indexOf("'", encIndex + 8);                    
-                    if(third > 0)
+                    int third = res.indexOf("'", encIndex + 8);
+                    if (third > 0)
                         lastEncIndex = Math.min(lastEncIndex, third);
                 }
 

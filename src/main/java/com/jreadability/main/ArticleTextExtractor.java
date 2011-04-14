@@ -30,6 +30,8 @@ public class ArticleTextExtractor {
             + "(.*foot.*)|(.*footer.*)|(.*footnote.*)|(.*masthead.*)|(.*media.*)|(.*meta.*)|"
             + "(.*outbrain.*)|(.*promo.*)|(.*related.*)|(.*scroll.*)|(.*shoutbox.*)|"
             + "(.*sidebar.*)|(.*sponsor.*)|(.*shopping.*)|(.*tags.*)|(.*tool.*)|(.*widget.*)");
+    private static final Pattern imageCaption =
+            Pattern.compile("(.*caption.*)");
 
     /** 
      * @param html extracts article text from given html string. 
@@ -43,13 +45,13 @@ public class ArticleTextExtractor {
 
         // http://jsoup.org/cookbook/extracting-data/selector-syntax
         Document doc = Jsoup.parse(html);
+        
         JResult res = new JResult();
-
-        // grabbing the title should be easy
-        res.setTitle(Helper.innerTrim(doc.select("head title").text()));
+        // grabbing the title should be easy or use doc.title()
+        res.setTitle(cleanTitle(doc.select("head title").text()));
 
         if (res.getTitle().isEmpty())
-            res.setTitle(Helper.innerTrim(doc.select("head meta[name=title]").attr("content")));
+            res.setTitle(cleanTitle(doc.select("head meta[name=title]").attr("content")));
 
         res.setDescription(Helper.innerTrim(doc.select("head meta[name=description]").attr("content")));
 
@@ -78,6 +80,7 @@ public class ArticleTextExtractor {
         for (Element entry : scores) {
             int currentWeight = getWeight(entry);
             if (currentWeight > maxWeight) {
+                // TODO REMOVE
                 currentWeight = getWeight(entry);
                 maxWeight = currentWeight;
                 bestMatchElement = entry;
@@ -170,6 +173,7 @@ public class ArticleTextExtractor {
 
             if (negative.matcher(className).matches()
                     || negative.matcher(id).matches()) {
+//                print("REMOVE:", child);
                 child.remove();
             }
         }
@@ -188,23 +192,15 @@ public class ArticleTextExtractor {
         if (positive.matcher(e.id()).matches())
             weight += 20;
 
-        if (unlikely.matcher(e.className()).matches())
-            weight -= 40;
+        if (unlikely.matcher(e.className()).matches() || unlikely.matcher(e.id()).matches())
+            return -1;
 
-        if (unlikely.matcher(e.id()).matches())
-            weight -= 40;
 
-        if (weight >= 0) {
-            int childNodesWeight = weightChildNodes(e);
-            if (childNodesWeight == 0) {
-                if (e.ownText().length() > 100)
-                    weight += Math.round(e.ownText().length() / 100) * 5;
-                else
-                    weight = 0;
-            } else {
-                weight += childNodesWeight;
-            }
-        }
+        weight += (int) Math.round(e.ownText().length() / 100.0 * 10);
+        weight += weightChildNodes(e);
+        if (weight <= 40)
+            return -1;
+
         return weight;
     }
 
@@ -218,17 +214,24 @@ public class ArticleTextExtractor {
     protected int weightChildNodes(Element e) {
         int weight = 0;
         for (Element child : e.children()) {
+            if (child.ownText().length() < 10 || e.tagName().equals("script"))
+                continue;
+
+            if (imageCaption.matcher(e.id()).matches() || imageCaption.matcher(e.className()).matches())
+                weight += 30;
+
             if (child.tag().getName().equals("h1") || child.tag().getName().equals("h2")) {
-                weight += 20;
+                weight += 30;
             } else if (child.tag().getName().equals("div") || child.tag().getName().equals("p")) {
                 weight += calcWeightForChild(child, e);
-            } else if (child.className().isEmpty() && child.id().isEmpty() && child.attr("style").isEmpty()) {
-                if (child.ownText().length() > 0)
-                    weight += calcWeightForChild(child, e);
-                else
-                    // got deeper if a container has no styling attributes like ol, li, strong, ...
-                    weight += weightChildNodes(child);
             }
+//            else if (child.className().isEmpty() && child.id().isEmpty() && child.attr("style").isEmpty()) {
+//                if (child.ownText().length() > 0)
+//                    weight += calcWeightForChild(child, e);
+//                else
+//                    // got deeper if a container has no styling attributes like ol, li, strong, ...
+//                    weight += weightChildNodes(child);
+//            }
         }
         return weight;
     }
@@ -242,13 +245,12 @@ public class ArticleTextExtractor {
         if (c > 5)
             return -30;
 
-        if (child.ownText().length() > 100) {
-            if (child.parent() == e) {
-                return Math.round(child.ownText().length() / 100) * 4;
-            } else if (child.parent().parent() == e) {
-                return Math.round(child.ownText().length() / 100) * 3;
-            }
+        if (child.parent() == e) {
+            return (int) Math.round(child.ownText().length() / 100.0 * 4);
+        } else if (child.parent().parent() == e) {
+            return (int) Math.round(child.ownText().length() / 100.0 * 3);
         }
+
         return 0;
     }
 
@@ -277,5 +279,68 @@ public class ArticleTextExtractor {
         if (index1 >= 0)
             text = text.substring(index1 + title.length());
         return text;
+    }
+
+    public String cleanTitle(String title) {
+        boolean usedDelimeter = false;
+
+        // THIS PROCESS is a bit unreliable as it sometimes removes information from title
+        // as it is based on length comparison of the title parts
+        // and the title is the most important thing of the article
+//        if (title.contains("|")) {
+//            title = doTitleSplits(title, "\\|");
+//            usedDelimeter = true;
+//        }
+//
+//        if (!usedDelimeter && title.contains("»")) {
+//            title = doTitleSplits(title, "»");
+//            usedDelimeter = true;
+//        }
+//
+//        if (!usedDelimeter && title.contains("«")) {
+//            title = doTitleSplits(title, "«");
+//            usedDelimeter = true;
+//        }
+
+        // removes author in youtube :/
+//        if (!usedDelimeter && title.contains("-")) {
+//            title = doTitleSplits(title, " - ");
+//            usedDelimeter = true;
+//        }
+
+        // do not do this as titles contain colon in rare cases (twitter blog, golem)
+//        if (!usedDelimeter && title.contains(":")) {
+//            title = doTitleSplits(title, ":");
+//            usedDelimeter = true;
+//        }
+
+        // encode unicode charz
+//        title = StringEscapeUtils.escapeHtml(titleText);
+        return Helper.innerTrim(title);
+    }
+
+    /**
+     * based on a delimeter in the title take the longest piece or do some custom logic based on the site
+     *
+     * @param title
+     * @param delimeter
+     * @return
+     */
+    private String doTitleSplits(String title, String delimeter) {
+        String largeText = "";
+        int largetTextLen = 0;
+        String[] titlePieces = title.split(delimeter);
+
+        // take the largest split
+        for (String p : titlePieces) {
+            if (p.length() > largetTextLen) {
+                largeText = p;
+                largetTextLen = p.length();
+            }
+        }
+
+        largeText = largeText.replace("&raquo;", " ");
+        largeText = largeText.replace("»", " ");
+        return largeText.trim();
     }
 }

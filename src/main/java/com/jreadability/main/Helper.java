@@ -15,6 +15,10 @@
  */
 package com.jreadability.main;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+
 /**
  *
  * @author Peter Karich, jetwick_@_pannous_._info
@@ -95,27 +99,46 @@ public class Helper {
         }
         return sb.toString();
     }
-    
+
     public static String getDefaultFavicon(String url) {
-        url = extractDomain(url);
+        url = extractDomain(url, true);
         return "http://" + url + "/favicon.ico";
     }
 
-    public static String extractDomain(String url) {
+    public static String extractDomain(String url, boolean includeMobile) {
         if (url.startsWith("http://"))
             url = url.substring("http://".length());
+        else if (url.startsWith("https://"))
+            url = url.substring("https://".length());
+
         if (url.startsWith("www."))
             url = url.substring("www.".length());
 
         // strip mobile from start
-        if (url.startsWith("m."))
+        if (includeMobile && url.startsWith("m."))
             url = url.substring("m.".length());
         return url;
     }
 
     public static boolean isVideoLink(String url) {
-        url = extractDomain(url);
+        url = extractDomain(url, true);
         return url.startsWith("youtube.com") || url.startsWith("video.yahoo.com")
                 || url.startsWith("vimeo.com") || url.startsWith("blip.tv");
+    }
+
+    /**
+     * @see http://blogs.sun.com/CoreJavaTechTips/entry/cookie_handling_in_java_se
+     */
+    public static void enableCookieMgmt() {
+        CookieManager manager = new CookieManager();
+        manager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        CookieHandler.setDefault(manager);
+    }
+
+    /**
+     * @see http://stackoverflow.com/questions/2529682/setting-user-agent-of-a-java-urlconnection
+     */
+    public static void enableUserAgentOverwrite() {
+        System.setProperty("http.agent", "");
     }
 }

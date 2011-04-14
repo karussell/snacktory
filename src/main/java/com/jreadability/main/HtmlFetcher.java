@@ -28,16 +28,44 @@ import java.util.zip.GZIPInputStream;
  */
 public class HtmlFetcher {
 
-    public static String getHtmlAsString(String urlAsString, int timeout) {
+    static {
+        Helper.enableCookieMgmt();
+        Helper.enableUserAgentOverwrite();
+    }
+
+    public static JResult fetchAndExtract(String url, int timeout) throws Exception {
+        JResult res = new ArticleTextExtractor().extractContent(fetchAsString(url, timeout));
+        String domain = Helper.extractDomain(url, false);
+
+        // some images are relative to root and do not include the url :/
+        if (res.getImageUrl().startsWith("/"))
+            res.setImageUrl("http://" + domain + res.getImageUrl());
+
+        // some websites do not store favicon links within the page
+        if (res.getFaviconUrl().isEmpty())
+            res.setFaviconUrl(Helper.getDefaultFavicon(url));
+
+        return res;
+    }
+
+    public static String fetchAsString(String urlAsString, int timeout) {
         try {
-            // TODO steal some stuff from goose to set request properties            
             URL url = new URL(urlAsString);
             //using proxy may increase latency
             HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
             hConn.setRequestProperty("User-Agent", "Mozilla/5.0 Gecko/20100915 Firefox/3.6.10");
 
+            boolean goose = true;
+            if (goose) {
+                hConn.setRequestProperty("Accept-Language", "en-us");
+                hConn.setRequestProperty("content-charset", "UTF-8");
+                hConn.addRequestProperty("Referer", "http://jetwick.com/s");
+                // why should we avoid the cache?
+//                hConn.setRequestProperty("Cache-Control", "max-age=0");                
+            }
+
             // on android we got problems because of this
-            // so disable that for now
+            // so do not allow gzip compression for now
 //            hConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
             hConn.setConnectTimeout(timeout);
             hConn.setReadTimeout(timeout);
@@ -52,7 +80,7 @@ public class HtmlFetcher {
             in.read(arr);
 
             String enc = Converter.extractEncoding(hConn.getContentType());
-            return new Converter().streamToString(is, 1000000, enc);
+            return new Converter().streamToString(is, enc);
         } catch (Exception ex) {
         }
         return "";

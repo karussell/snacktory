@@ -61,8 +61,11 @@ public class HelperTest {
         assertTrue(Helper.isVideoLink("m.vimeo.com"));
         assertTrue(Helper.isVideoLink("m.youtube.com"));
         assertTrue(Helper.isVideoLink("www.youtube.com"));
-        assertTrue(Helper.isVideoLink("http://youtube.com"));
+        assertTrue(Helper.isVideoLink("http://youtube.com"));        
         assertTrue(Helper.isVideoLink("http://www.youtube.com"));
+        
+        assertTrue(Helper.isVideoLink("https://youtube.com"));
+        
         assertFalse(Helper.isVideoLink("test.com"));
         assertFalse(Helper.isVideoLink("irgendwas.com/youtube.com"));
     }
