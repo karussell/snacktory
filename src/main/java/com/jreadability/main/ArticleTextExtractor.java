@@ -107,7 +107,7 @@ public class ArticleTextExtractor {
             text = removeTitleFromText(text, res.getTitle());
             if (text.length() > res.getDescription().length() && text.length() > res.getTitle().length()) {
                 res.setText(text);
-                print("best element:", bestMatchElement);
+//                print("best element:", bestMatchElement);
             }
         }
 
@@ -123,6 +123,11 @@ public class ArticleTextExtractor {
             res.setImageUrl(Helper.innerTrim(doc.select("head meta[name=thumbnail]").attr("content")));
 
         res.setVideoUrl(Helper.innerTrim(doc.select("head meta[property=og:video]").attr("content")));
+
+        res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel=icon]").attr("href")));
+
+//        if(res.getFaviconUrl().isEmpty())
+//            res.setFaviconUrl(Helper.getDefaultFavicon(url));
         return res;
     }
 
@@ -273,5 +278,4 @@ public class ArticleTextExtractor {
             text = text.substring(index1 + title.length());
         return text;
     }
-
 }

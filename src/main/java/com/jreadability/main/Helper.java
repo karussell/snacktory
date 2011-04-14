@@ -95,4 +95,27 @@ public class Helper {
         }
         return sb.toString();
     }
+    
+    public static String getDefaultFavicon(String url) {
+        url = extractDomain(url);
+        return "http://" + url + "/favicon.ico";
+    }
+
+    public static String extractDomain(String url) {
+        if (url.startsWith("http://"))
+            url = url.substring("http://".length());
+        if (url.startsWith("www."))
+            url = url.substring("www.".length());
+
+        // strip mobile from start
+        if (url.startsWith("m."))
+            url = url.substring("m.".length());
+        return url;
+    }
+
+    public static boolean isVideoLink(String url) {
+        url = extractDomain(url);
+        return url.startsWith("youtube.com") || url.startsWith("video.yahoo.com")
+                || url.startsWith("vimeo.com") || url.startsWith("blip.tv");
+    }
 }

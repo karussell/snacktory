@@ -25,8 +25,17 @@ public class JResult {
     private String imageUrl;
     private String videoUrl;
     private String text;
+    private String faviconUrl;
     private String description;
 
+    public String getFaviconUrl() {
+        return faviconUrl;
+    }
+
+    public void setFaviconUrl(String faviconUrl) {
+        this.faviconUrl = faviconUrl;
+    }
+    
     public String getDescription() {
         if (description == null)
             return "";
@@ -75,20 +84,6 @@ public class JResult {
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
-    }
-
-    public static boolean isVideoLink(String url) {
-        if (url.startsWith("http://"))
-            url = url.substring("http://".length());
-        if (url.startsWith("www."))
-            url = url.substring("www.".length());
-
-        // strip mobile from start
-        if (url.startsWith("m."))
-            url = url.substring("m.".length());
-
-        return url.startsWith("youtube.com") || url.startsWith("video.yahoo.com")
-                || url.startsWith("vimeo.com") || url.startsWith("blip.tv");
     }
 
     @Override

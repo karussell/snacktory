@@ -32,7 +32,7 @@ public class ArticleTextExtractorTest {
         // TODO remove start
         res = extractor.extractContent(readFileAsString("test_data/3.html"));
 //        System.out.println("3:" + res.getText());
-        assertTrue(res.getText().startsWith("October 2010"));
+        assertTrue(res.getText().startsWith("October 2010Silicon Valley proper is mostly suburban sprawl. At first glance it "));
         assertTrue(res.getText().endsWith(" and Jessica Livingston for reading drafts of this."));
     }
 

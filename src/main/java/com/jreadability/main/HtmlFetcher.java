@@ -28,10 +28,9 @@ import java.util.zip.GZIPInputStream;
  */
 public class HtmlFetcher {
 
-    public static String getUrlInfos(String urlAsString, int timeout) {
+    public static String getHtmlAsString(String urlAsString, int timeout) {
         try {
-            // TODO steal some stuff from goose
-            
+            // TODO steal some stuff from goose to set request properties            
             URL url = new URL(urlAsString);
             //using proxy may increase latency
             HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);

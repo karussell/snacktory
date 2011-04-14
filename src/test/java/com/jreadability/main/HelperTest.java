@@ -55,4 +55,15 @@ public class HelperTest {
         assertEquals("", Helper.longestSubstring("?", "people"));
         assertEquals("people", Helper.longestSubstring(" people ", "people"));
     }
+
+    @Test
+    public void testIsVideoLink() {
+        assertTrue(Helper.isVideoLink("m.vimeo.com"));
+        assertTrue(Helper.isVideoLink("m.youtube.com"));
+        assertTrue(Helper.isVideoLink("www.youtube.com"));
+        assertTrue(Helper.isVideoLink("http://youtube.com"));
+        assertTrue(Helper.isVideoLink("http://www.youtube.com"));
+        assertFalse(Helper.isVideoLink("test.com"));
+        assertFalse(Helper.isVideoLink("irgendwas.com/youtube.com"));
+    }
 }
