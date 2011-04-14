@@ -1,0 +1,1307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>        
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta name="keywords" content="news,twitter,search,jetwick"/>
+        <meta name="description" content="Search twitter without noise - Jetwick!"/>
+        <link type="image/png" rel="icon" href="favicon.ico"/>
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>      
+        <!--[if IE 6]>
+        <link rel="stylesheet" type="text/css" href="css/ie.css"/>
+        <![endif]-->
+    
+        <title>Jetwick | twitter | Twitter Search Without Noise</title>
+
+    <script type="text/javascript" src="resources/org.odlabs.wiquery.core.commons.CoreJavaScriptResourceReference/jquery/jquery-1.5.min.js"></script>
+<link rel="stylesheet" type="text/css" href="resources/org.odlabs.wiquery.ui.themes.WiQueryCoreThemeResourceReference/uilightness/jquery-ui-1.8.9.custom.css" />
+<script type="text/javascript" src="resources/org.odlabs.wiquery.ui.core.CoreUIJavaScriptResourceReference/jquery.ui.core.min.js"></script>
+<script type="text/javascript" src="resources/org.odlabs.wiquery.ui.widget.WidgetJavascriptResourceReference/jquery.ui.widget.min.js"></script>
+<script type="text/javascript" src="resources/org.odlabs.wiquery.ui.mouse.MouseJavascriptResourceReference/jquery.ui.mouse.min.js"></script>
+<script type="text/javascript" src="resources/org.odlabs.wiquery.ui.position.PositionJavascriptResourceReference/jquery.ui.position.min.js"></script>
+<script type="text/javascript" src="resources/org.odlabs.wiquery.ui.dialog.DialogJavaScriptResourceReference/jquery.ui.dialog.min.js"></script>
+<script type="text/javascript" src="resources/org.odlabs.wiquery.ui.draggable.DraggableJavaScriptResourceReference/jquery.ui.draggable.min.js"></script>
+<script type="text/javascript" src="resources/org.odlabs.wiquery.ui.resizable.ResizableJavaScriptResourceReference/jquery.ui.resizable.min.js"></script>
+
+<script type="text/javascript" src="resources/org.odlabs.wiquery.ui.dialog.util.DialogUtilsBehavior/wiquery-dialog.js"></script>
+<script type="text/javascript" src="resources/org.odlabs.wiquery.ui.dialog.util.DialogUtilsBehavior/i18n/wiquery-dialog_de_de.js"></script>
+<script type="text/javascript" id="wiquery-gen-1302726238519"><!--/*--><![CDATA[/*><!--*/
+(function($) {
+$(document).ready(function() {
+$('#id26c0').dialog({autoOpen: false, position: 'center', title: 'Information', width: 540});
+});
+})(jQuery);
+
+/*-->]]>*/</script>
+
+<script type="text/javascript" src="resources/org.apache.wicket.markup.html.WicketEventReference/wicket-event.js"></script>
+<script type="text/javascript" src="resources/org.apache.wicket.ajax.WicketAjaxReference/wicket-ajax.js"></script>
+<script type="text/javascript" ><!--/*--><![CDATA[/*><!--*/
+Wicket.Event.add(window, "domready", function(event) { var wcall=wicketAjaxGet('?wicket:interface=:6:results:onelinead::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26c1') != null;}.bind(this));;});
+/*-->]]>*/</script>
+
+<script type="text/javascript" ><!--/*--><![CDATA[/*><!--*/
+Wicket.Event.add(window, "domready", function(event) { var wcall=wicketAjaxGet('?wicket:interface=:6:wikipanel::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26c2') != null;}.bind(this));;});
+/*-->]]>*/</script>
+
+<script type="text/javascript" ><!--/*--><![CDATA[/*><!--*/
+Wicket.Event.add(window, "load", function(event) { document.getElementById('querybox').focus();;});
+/*-->]]>*/</script>
+
+<script type="text/javascript" src="resources/de.jetwick.ui.util.MyAutoCompleteBehavior/wicket-autocomplete.js"></script>
+<script type="text/javascript" ><!--/*--><![CDATA[/*><!--*/
+Wicket.Event.add(window, "domready", function(event) { new Wicket.AutoComplete('querybox','?wicket:interface=:6:searchbox:searchform:textField::IActivePageBehaviorListener:1:&wicket:ignoreIfNotActive=true',{preselect: false,maxHeight: -1,adjustInputWidth: true,useSmartPositioning: false,useHideShowCoveredIEFix: false,showListOnEmptyInput: false,showListOnFocusGain: false,throttleDelay: 200,showCompleteListOnFocusGain: false},null);;});
+/*-->]]>*/</script>
+
+<script type="text/javascript" ><!--/*--><![CDATA[/*><!--*/
+Wicket.Event.add(window, "domready", function(event) { new Wicket.AutoComplete('userbox','?wicket:interface=:6:searchbox:searchform:searchTypes:userTextField::IActivePageBehaviorListener:0:&wicket:ignoreIfNotActive=true',{preselect: false,maxHeight: -1,adjustInputWidth: true,useSmartPositioning: false,useHideShowCoveredIEFix: false,showListOnEmptyInput: false,showListOnFocusGain: false,throttleDelay: 200,showCompleteListOnFocusGain: false},null);;});
+/*-->]]>*/</script>
+
+</head>
+    <body>
+    
+    <script>
+        $(document).ready(function() {
+            // attach on click: a dialog with 2 links and twitter results
+            $(".tweet-text .tw-tag").click(function () {
+                var clean = $(this).attr('clean');
+                var tag = $(this).attr('tag');
+                var newDiv = $(document.createElement('div'));
+                var twUrl = "http://search.twitter.com/search?q="+clean;
+                //var mTwUrl = "http://mobile.twitter.com/searches?q="+clean;
+                newDiv.html(
+                '<a href="?q='+clean+'"><img src="img/jetwick-twitter.png"/> Search Jetwick for '+tag+'</a><br/>'
+                    +'<a target="_blank" href="'+twUrl +'"><img src="img/twitter-icon.png"/> Search Twitter for '+tag+'</a><br/><br/>'
+                    +'<iframe src="'+twUrl+'" width="640" height="450"/>');
+                newDiv.dialog({ title: 'Search ' + tag, width: 680, height: 620, modal: true });
+            });
+        });
+    </script>
+
+    <div class="external-refs-right">              
+    </div>
+    <div id="main">
+        <div class="feedback" id="id26c3">
+  
+</div>
+        <div class="left-column">
+            
+            <div class="jetroidad">
+                <a target="_blank"
+                   href="https://market.android.com/details?id=com.pannous.twitter.search.jetroid"
+                   title="Jetroid is the Android version of Jetwick Twitter Search">
+                    <img src="img/jetwick-logo48.png"/>
+
+                </a>
+            </div>
+            <div>
+        <div class="login-link">
+            <a title="Login with your twitter account" id="id26c4" href="?wicket:interface=:6:userPanel:loginLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:userPanel:loginLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26c4') != null;}.bind(this));return !wcall;">
+                <img src="img/authenticate.png"/>            
+            </a>
+        </div>
+        <div class="login-link">
+
+            <a title="Change Filters: Date, Language, With/Without Links, ... (Login Required)" id="id26c5" href="?wicket:interface=:6:userPanel:editFilters::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:userPanel:editFilters::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26c5') != null;}.bind(this));return !wcall;">
+                <img src="img/edit.png"/> Edit Search Filters
+            </a>        
+        </div>        
+        <div class="hide" id="id26c0">
+            <!-- dialog markup will be moved out of main ! -->
+            <div class="login-dialog">
+                <div>
+                    To edit filters, to use friend search or 
+                    <a href="http://www.youtube.com/watch?v=SMURdDVbShI" target="_blank">to track keywords</a>
+
+                    you need to be logged in!
+                </div>
+                <div>
+                    Follow us at <a href="http://twitter.com/jetwick">twitter.com/jetwick</a><br/>
+                    to recieve updates via private message (rare frequency).
+                </div>
+                <img src="img/accept2.png"/> I have read and accept the <a href="imprint">Terms of Service</a>
+
+                <div class="dialog-button">
+                    <a title="Login" id="id26c6" href="?wicket:interface=:6:userPanel:dialog:loginLinkProceed::ILinkListener::" onclick="wicketShow('id26c6--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:userPanel:dialog:loginLinkProceed::IBehaviorListener:0:',function() { ;wicketHide('id26c6--ajax-indicator');}.bind(this),function() { ;wicketHide('id26c6--ajax-indicator');}.bind(this), function() {return Wicket.$('id26c6') != null;}.bind(this));return !wcall;">
+                        <img src="img/arrow_right.png"/>
+                        and I want to login with my twitter account!
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id26c6--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </div>
+                <!--
+                <div class="screenshot">
+                    <a href="http://www.youtube.com/watch?v=9U2uxeaVIXk" target="_blank" title="Video Introduction">
+                        <img src="img/screenshot.png" width="600px" alt="View Video Intro"/>
+                    </a>
+                </div>
+                -->
+            </div>
+        </div>
+
+        
+    </div>            
+            
+            
+            
+            <div id="id26c7" style="display:none"></div>
+            <div id="id26c2"><div><span/></div></div>
+        </div>
+        <div class="content">
+            <div id="id26c8">           
+        <div class="searchbox">
+            <form class="searchform not-logged-in-spacer" id="queryform" method="post" action="?wicket:interface=:6:searchbox:searchform::IFormSubmitListener::"><div style="display:none"><input type="hidden" name="queryform_hf_0" id="queryform_hf_0" /></div>                
+
+                <div class="jetwicklogo" title="Go back to home">                        
+                    <a href="./">
+                        <img src="img/jetwick.png"/>
+
+                        <div class="subtitle">Search twitter without noise</div>
+                    </a>
+                </div>
+                <div class="searchform-glue">
+                    <input type="text" class="searchform-text" name="textField" title="Enter your query" value="twitter" id="querybox" autocomplete="off"/>                            
+                    <button title="Search" class="searchform-button-left" name="submitbuttonleft" id="id26c9">                        
+                    </button>                                        
+                    <button title="Search" class="searchform-button" name="submitbutton" id="id26ca">                                            
+                    </button>                                                
+                </div>
+
+                <div class="search-type">
+                    
+                        <span id="search-type-left">User Filter</span>
+                        <input onclick="getElementById(&#34;userbox&#34;).value=&#34;&#34;" id="sbnone" type="radio" group="searchType" value="radio14" name="searchTypes" checked="checked" class="wicket-id26cb"/>                                 
+                        <label for="sbnone" title="No restriction">None</label>
+                        <input onclick="getElementById(&#34;userbox&#34;).value=&#34;&#34;" id="sbfriends" type="radio" group="searchType" value="radio15" name="searchTypes" class="wicket-id26cb"/>
+                        <label for="sbfriends" title="Only show tweets of people you follow! Login before!">Only Friends</label>
+                        <input onclick="getElementById(&#34;userbox&#34;).focus()" id="sbuser" type="radio" group="searchType" value="radio16" name="searchTypes" class="wicket-id26cb"/>
+
+                        <label for="sbuser" title="Only show tweets of the specified user">One User:</label>
+                        <input type="text" class="searchform-user" name="searchTypes:userTextField" title="Restrict search result to one user" value="" id="userbox" autocomplete="off"/>                            
+                    
+                </div>
+            </form>
+                        
+        </div>
+    </div>
+            
+            <div id="id26cc">        
+        <div id="resultslist">
+            <div id="resultslist-header">                   
+                <div>                        
+                    <div class="translate-all" title="Translate all tweets into your language detected from the browser">
+
+            <a id="id26cd" href="?wicket:interface=:6:results:translateAllLink:linkId::ILinkListener::" onclick="wicketShow('id26cd--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:translateAllLink:linkId::IBehaviorListener:0:',function() { ;wicketHide('id26cd--ajax-indicator');}.bind(this),function() { ;wicketHide('id26cd--ajax-indicator');}.bind(this), function() {return Wicket.$('id26cd') != null;}.bind(this));return !wcall;"><span>Translate tweets into German</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26cd--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+        </div>                        
+                    <div class="sorting">
+                        Sort
+                        <a id="id26ce" href="?wicket:interface=:6:results:sortRelevance::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:sortRelevance::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26ce') != null;}.bind(this));return !wcall;" class="">relevance</a>
+                        <a id="id26cf" href="?wicket:interface=:6:results:sortRetweets::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:sortRetweets::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26cf') != null;}.bind(this));return !wcall;" class="selected">retweets</a>
+                        <a id="id26d0" href="?wicket:interface=:6:results:sortLatest::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:sortLatest::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26d0') != null;}.bind(this));return !wcall;" class="">latest</a>
+                        <a id="id26d1" href="?wicket:interface=:6:results:sortOldest::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:sortOldest::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26d1') != null;}.bind(this));return !wcall;" class="">oldest</a>
+
+                    </div>
+                </div>
+            </div>                
+            <div class="onelinead ol-ad-hidden" id="id26c1"><div><span/></div></div>            
+            <ul class="users">
+                <li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:0:profileUrl::ILinkListener::">
+                                <img src="http://a3.twimg.com/profile_images/1282226088/image_normal.jpg"/>
+
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+            <a href="?wicket:interface=:6:results:users:0:userNameLink:linkId::ILinkListener::"><span>ddlovato</span></a>
+        </div>                            
+                        </div>
+                    </div>
+                    <ul class="tweets">
+                        <li class="tweet">
+
+                            <div id="id26d2">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id26d3">Crap y&#039;all i didn&#039;t even see she was back on twitter! Welcome back <a class="i-tw-link" href="?search=user&user=%40MileyCyrus">@MileyCyrus</a>!</div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id26d4" href="?wicket:interface=:6:results:users:0:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id26d4--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:0:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id26d4--ajax-indicator');}.bind(this),function() { ;wicketHide('id26d4--ajax-indicator');}.bind(this), function() {return Wicket.$('id26d4') != null;}.bind(this));return !wcall;">
+
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id26d4--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+                    <a class="button-link" id="id26d5" href="?wicket:interface=:6:results:users:0:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:0:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26d5') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+
+                    <a title="Show Retweets" id="id26d6" href="?wicket:interface=:6:results:users:0:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id26d6--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:0:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id26d6--ajax-indicator');}.bind(this),function() { ;wicketHide('id26d6--ajax-indicator');}.bind(this), function() {return Wicket.$('id26d6') != null;}.bind(this));return !wcall;"><span>retweets 344</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26d6--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/ddlovato/status/55785943336108034"><span>00:16 2011-04-07</span></a>
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@ddlovato &amp;in_reply_to_status_id=55785943336108034&amp;in_reply_to=ddlovato">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40ddlovato%3A%20Crap%20y%27all%20i%20didn%27t%20even%20see%20she%20was%20back%20on%20twitter%21%20Welcome%20back%20%40MileyCyrus%21&amp;in_reply_to_status_id=55785943336108034&amp;in_reply_to=ddlovato">retweet</a>
+
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li><li class="tweet">
+
+                            <div id="id26d7">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id26d8">Ughhh this is why I hate twitter..</div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id26d9" href="?wicket:interface=:6:results:users:0:tweets:1:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id26d9--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:0:tweets:1:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id26d9--ajax-indicator');}.bind(this),function() { ;wicketHide('id26d9--ajax-indicator');}.bind(this), function() {return Wicket.$('id26d9') != null;}.bind(this));return !wcall;">
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id26d9--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+
+                </li>                    
+                <li>
+                    <a class="button-link" id="id26da" href="?wicket:interface=:6:results:users:0:tweets:1:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:0:tweets:1:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26da') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+                    <a title="Show Retweets" id="id26db" href="?wicket:interface=:6:results:users:0:tweets:1:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id26db--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:0:tweets:1:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id26db--ajax-indicator');}.bind(this),function() { ;wicketHide('id26db--ajax-indicator');}.bind(this), function() {return Wicket.$('id26db') != null;}.bind(this));return !wcall;"><span>retweets 118</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26db--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+
+                    <a title="Show Replies" id="id26dc" href="?wicket:interface=:6:results:users:0:tweets:1:oneTweet:replies::ILinkListener::" onclick="wicketShow('id26dc--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:0:tweets:1:oneTweet:replies::IBehaviorListener:0:',function() { ;wicketHide('id26dc--ajax-indicator');}.bind(this),function() { ;wicketHide('id26dc--ajax-indicator');}.bind(this), function() {return Wicket.$('id26dc') != null;}.bind(this));return !wcall;"><span>replies 2</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26dc--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/ddlovato/status/55786099125133312"><span>00:16 2011-04-07</span></a>
+
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@ddlovato &amp;in_reply_to_status_id=55786099125133312&amp;in_reply_to=ddlovato">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40ddlovato%3A%20Ughhh%20this%20is%20why%20I%20hate%20twitter..&amp;in_reply_to_status_id=55786099125133312&amp;in_reply_to=ddlovato">retweet</a>
+                </li>
+            </ul>
+
+        </div>
+        <div class="subtweets">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li><li class="tweet">
+                            <div id="id26dd">            
+        <div class="tweet-links-container" onmouseover="">
+
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id26de">Ahhhhh I didn&#039;t favorite anything!!!! I was twitter creeping and accidentally favorites it!!! :( I don&#039;t even know how to favorite things :(</div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id26df" href="?wicket:interface=:6:results:users:0:tweets:2:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id26df--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:0:tweets:2:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id26df--ajax-indicator');}.bind(this),function() { ;wicketHide('id26df--ajax-indicator');}.bind(this), function() {return Wicket.$('id26df') != null;}.bind(this));return !wcall;">
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id26df--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+
+                    <a class="button-link" id="id26e0" href="?wicket:interface=:6:results:users:0:tweets:2:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:0:tweets:2:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26e0') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+                    <a title="Show Retweets" id="id26e1" href="?wicket:interface=:6:results:users:0:tweets:2:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id26e1--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:0:tweets:2:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id26e1--ajax-indicator');}.bind(this),function() { ;wicketHide('id26e1--ajax-indicator');}.bind(this), function() {return Wicket.$('id26e1') != null;}.bind(this));return !wcall;"><span>retweets 114</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26e1--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/ddlovato/status/55785516725055488"><span>00:14 2011-04-07</span></a>
+                </li>
+                <li>
+
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@ddlovato &amp;in_reply_to_status_id=55785516725055488&amp;in_reply_to=ddlovato">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40ddlovato%3A%20Ahhhhh%20I%20didn%27t%20favorite%20anything%21%21%21%21%20I%20was%20twitter%20creeping%20and%20accidentally%20favorites%20it%21%21%21%20%3A%28%20I%20don%27t%20even%20know%20how%20to%20favorite%20things%20%3A%28&amp;in_reply_to_status_id=55785516725055488&amp;in_reply_to=ddlovato">retweet</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:1:profileUrl::ILinkListener::">
+                                <img src="http://a3.twimg.com/profile_images/117742414/mugshot5_normal.png"/>
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+            <a href="?wicket:interface=:6:results:users:1:userNameLink:linkId::ILinkListener::"><span>cbeust</span></a>
+        </div>                            
+                        </div>
+                    </div>
+
+                    <ul class="tweets">
+                        <li class="tweet">
+                            <div id="id26e2">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id26e3">Twitter replacing Ruby on Rails with a Java server, search is now 3 times faster  <a title="http://engineering.twitter.com/2011/04/twitter-search-is-now-3x-faster_1656.html" class="ex-tw-link" target="_blank" href="http://engineering.twitter.com/2011/04/twitter-search-is-now-3x-faster_1656.html">http://engineering.twitter.com/2011/04/twitter-...</a></div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id26e4" href="?wicket:interface=:6:results:users:1:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id26e4--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:1:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id26e4--ajax-indicator');}.bind(this),function() { ;wicketHide('id26e4--ajax-indicator');}.bind(this), function() {return Wicket.$('id26e4') != null;}.bind(this));return !wcall;">
+
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id26e4--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+                    <a class="button-link" id="id26e5" href="?wicket:interface=:6:results:users:1:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:1:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26e5') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+
+                    <a title="Show Retweets" id="id26e6" href="?wicket:interface=:6:results:users:1:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id26e6--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:1:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id26e6--ajax-indicator');}.bind(this),function() { ;wicketHide('id26e6--ajax-indicator');}.bind(this), function() {return Wicket.$('id26e6') != null;}.bind(this));return !wcall;"><span>retweets 137</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26e6--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/cbeust/status/56407303192182784"><span>17:25 2011-04-08</span></a>
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@cbeust &amp;in_reply_to_status_id=56407303192182784&amp;in_reply_to=cbeust">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40cbeust%3A%20Twitter%20replacing%20Ruby%20on%20Rails%20with%20a%20Java%20server%2C%20search%20is%20now%203%20times%20faster%20%20http%3A%2F%2Fgoo.gl%2FeTS8b&amp;in_reply_to_status_id=56407303192182784&amp;in_reply_to=cbeust">retweet</a>
+
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:2:profileUrl::ILinkListener::">
+                                <img src="http://a2.twimg.com/profile_images/1290736207/BS_FF_CoverMini-web_normal.jpg"/>
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+
+            <a href="?wicket:interface=:6:results:users:2:userNameLink:linkId::ILinkListener::"><span>britneyspears</span></a>
+        </div>                            
+                        </div>
+                    </div>
+                    <ul class="tweets">
+                        <li class="tweet">
+                            <div id="id26e7">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+
+            
+            <div class="tweet-text" id="id26e8">The S&amp;M remix is now officially on iTunes! I like it, like it.....  <a title="http://click.linksynergy.com/fs-bin/click?id=tqr8d9gf/qk&amp;subid=&amp;offerid=146261.1&amp;type=10&amp;tmpid=3909&amp;RD_PARM1=http://itunes.apple.com/us/album/s-m-remix-single/id431637506%3Fls%3D1&amp;u1=twitter" class="ex-tw-link" target="_blank" href="http://click.linksynergy.com/fs-bin/click?id=tqr8d9gf/qk&subid=&offerid=146261.1&type=10&tmpid=3909&RD_PARM1=http://itunes.apple.com/us/album/s-m-remix-single/id431637506%3Fls%3D1&u1=twitter">http://click.linksynergy.com/fs-bin/click?id=tq...</a> -Britney</div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id26e9" href="?wicket:interface=:6:results:users:2:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id26e9--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:2:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id26e9--ajax-indicator');}.bind(this),function() { ;wicketHide('id26e9--ajax-indicator');}.bind(this), function() {return Wicket.$('id26e9') != null;}.bind(this));return !wcall;">
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id26e9--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+
+                    <a class="button-link" id="id26ea" href="?wicket:interface=:6:results:users:2:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:2:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26ea') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+                    <a title="Show Retweets" id="id26eb" href="?wicket:interface=:6:results:users:2:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id26eb--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:2:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id26eb--ajax-indicator');}.bind(this),function() { ;wicketHide('id26eb--ajax-indicator');}.bind(this), function() {return Wicket.$('id26eb') != null;}.bind(this));return !wcall;"><span>retweets 107</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26eb--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/britneyspears/status/57565068501594112"><span>22:05 2011-04-11</span></a>
+                </li>
+                <li>
+
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@britneyspears &amp;in_reply_to_status_id=57565068501594112&amp;in_reply_to=britneyspears">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40britneyspears%3A%20The%20S%26M%20remix%20is%20now%20officially%20on%20iTunes%21%20I%20like%20it%2C%20like%20it.....%20%20http%3A%2F%2Fidj.to%2FdHnm34%20-Britney&amp;in_reply_to_status_id=57565068501594112&amp;in_reply_to=britneyspears">retweet</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:3:profileUrl::ILinkListener::">
+                                <img src="http://a3.twimg.com/profile_images/1219306597/GT_color3_1_normal.jpg"/>
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+            <a href="?wicket:interface=:6:results:users:3:userNameLink:linkId::ILinkListener::"><span>georgetakei</span></a>
+        </div>                            
+                        </div>
+                    </div>
+
+                    <ul class="tweets">
+                        <li class="tweet">
+                            <div id="id26ec">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id26ed">We use Twitter to get breaking news, Facebook to keep up with friends, and YouTube to watch cat videos. <a class="i-tw-link tw-tag" clean="%23OhMeowww" tag="#OhMeowww " >#OhMeowww</a></div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id26ee" href="?wicket:interface=:6:results:users:3:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id26ee--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:3:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id26ee--ajax-indicator');}.bind(this),function() { ;wicketHide('id26ee--ajax-indicator');}.bind(this), function() {return Wicket.$('id26ee') != null;}.bind(this));return !wcall;">
+
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id26ee--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+                    <a class="button-link" id="id26ef" href="?wicket:interface=:6:results:users:3:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:3:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26ef') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+
+                    <a title="Show Retweets" id="id26f0" href="?wicket:interface=:6:results:users:3:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id26f0--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:3:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id26f0--ajax-indicator');}.bind(this),function() { ;wicketHide('id26f0--ajax-indicator');}.bind(this), function() {return Wicket.$('id26f0') != null;}.bind(this));return !wcall;"><span>retweets 103</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26f0--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/georgetakei/status/57888268188004352"><span>19:30 2011-04-12</span></a>
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@georgetakei &amp;in_reply_to_status_id=57888268188004352&amp;in_reply_to=georgetakei">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40georgetakei%3A%20We%20use%20Twitter%20to%20get%20breaking%20news%2C%20Facebook%20to%20keep%20up%20with%20friends%2C%20and%20YouTube%20to%20watch%20cat%20videos.%20%23OhMeowww&amp;in_reply_to_status_id=57888268188004352&amp;in_reply_to=georgetakei">retweet</a>
+
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:4:profileUrl::ILinkListener::">
+                                <img src="http://a0.twimg.com/profile_images/1083675039/19296967_1437038289_normal.jpg"/>
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+
+            <a href="?wicket:interface=:6:results:users:4:userNameLink:linkId::ILinkListener::"><span>tokeyneale</span></a>
+        </div>                            
+                        </div>
+                    </div>
+                    <ul class="tweets">
+                        <li class="tweet">
+                            <div id="id26f1">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+
+            
+            <div class="tweet-text" id="id26f2">孫正義が、ネット上を流言飛語だから取り締まろうとする総務省に対して、安全で影響ないと言う「総務省も流言飛語だ」と発言。全く仰った通りです。今、一番でデマを流してるのは官僚・政府・マスコミが一体となった原発（エコ）利権集団ですからね。 <a title="Twitter / 孫正義: 充分な確証無しに「直ちには健康被害無し」も「危険だ」 ..." class="ex-tw-link" target="_blank" href="https://twitter.com/masason/status/56016205730955265">Twitter / 孫正義: 充分な確証無しに「直ちには健康被害無し」も「危険だ」 ...</a></div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id26f3" href="?wicket:interface=:6:results:users:4:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id26f3--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:4:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id26f3--ajax-indicator');}.bind(this),function() { ;wicketHide('id26f3--ajax-indicator');}.bind(this), function() {return Wicket.$('id26f3') != null;}.bind(this));return !wcall;">
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id26f3--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+                    <a class="button-link" id="id26f4" href="?wicket:interface=:6:results:users:4:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:4:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26f4') != null;}.bind(this));return !wcall;">
+
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+                    <a title="Show Retweets" id="id26f5" href="?wicket:interface=:6:results:users:4:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id26f5--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:4:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id26f5--ajax-indicator');}.bind(this),function() { ;wicketHide('id26f5--ajax-indicator');}.bind(this), function() {return Wicket.$('id26f5') != null;}.bind(this));return !wcall;"><span>retweets 96</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26f5--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+                <li>
+
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/tokeyneale/status/56020056303353856"><span>15:46 2011-04-07</span></a>
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@tokeyneale &amp;in_reply_to_status_id=56020056303353856&amp;in_reply_to=tokeyneale">reply</a>
+
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40tokeyneale%3A%20%E5%AD%AB%E6%AD%A3%E7%BE%A9%E3%81%8C%E3%80%81%E3%83%8D%E3%83%83%E3%83%88%E4%B8%8A%E3%82%92%E6%B5%81%E8%A8%80%E9%A3%9B%E8%AA%9E%E3%81%A0%E3%81%8B%E3%82%89%E5%8F%96%E3%82%8A%E7%B7%A0%E3%81%BE%E3%82%8D%E3%81%86%E3%81%A8%E3%81%99%E3%82%8B%E7%B7%8F%E5%8B%99%E7%9C%81%E3%81%AB%E5%AF%BE%E3%81%97%E3%81%A6%E3%80%81%E5%AE%89%E5%85%A8%E3%81%A7%E5%BD%B1%E9%9F%BF%E3%81%AA%E3%81%84%E3%81%A8%E8%A8%80%E3%81%86%E3%80%8C%E7%B7%8F%E5%8B%99%E7%9C%81%E3%82%82%E6%B5%81%E8%A8%80%E9%A3%9B%E8%AA%9E%E3%81%A0%E3%80%8D%E3%81%A8%E7%99%BA%E8%A8%80%E3%80%82%E5%85%A8%E3%81%8F%E4%BB%B0%E3%81%A3%E3%81%9F%E9%80%9A%E3%82%8A%E3%81%A7%E3%81%99%E3%80%82%E4%BB%8A%E3%80%81%E4%B8%80%E7%95%AA%E3%81%A7%E3%83%87%E3%83%9E%E3%82%92%E6%B5%81%E3%81%97%E3%81%A6%E3%82%8B%E3%81%AE%E3%81%AF%E5%AE%98%E5%83%9A%E3%83%BB%E6%94%BF%E5%BA%9C%E3%83%BB%E3%83%9E%E3%82%B9%E3%82%B3%E3%83%9F%E3%81%8C%E4%B8%80%E4%BD%93%E3%81%A8%E3%81%AA%E3%81%A3%E3%81%9F%E5%8E%9F%E7%99%BA%EF%BC%88%E3%82%A8%E3%82%B3%EF%BC%89%E5%88%A9%E6%A8%A9%E9%9B%86%E5%9B%A3%E3%81%A7%E3%81%99%E3%81%8B%E3%82%89%E3%81%AD%E3%80%82%20http%3A%2F%2Fbit.ly%2Fi2aheI&amp;in_reply_to_status_id=56020056303353856&amp;in_reply_to=tokeyneale">retweet</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+            <ul>
+
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:5:profileUrl::ILinkListener::">
+
+                                <img src="http://a0.twimg.com/profile_images/1228380904/anigifdsaa_normal_normal_normal.gif"/>
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+            <a href="?wicket:interface=:6:results:users:5:userNameLink:linkId::ILinkListener::"><span>piadas_power</span></a>
+        </div>                            
+                        </div>
+                    </div>
+                    <ul class="tweets">
+
+                        <li class="tweet">
+                            <div id="id26f6">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id26f7">Tenho Msn, Orkut, Twitter, entre outros... Quando eu morrer quero que na minha lápide esteja escrito: Enfim off-line! <a class="i-tw-link tw-tag" clean="%23PiadasPower" tag="#PiadasPower " >#PiadasPower</a></div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id26f8" href="?wicket:interface=:6:results:users:5:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id26f8--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:5:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id26f8--ajax-indicator');}.bind(this),function() { ;wicketHide('id26f8--ajax-indicator');}.bind(this), function() {return Wicket.$('id26f8') != null;}.bind(this));return !wcall;">
+                        <img src="img/translate.png" title="Translate Tweet"/>
+
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id26f8--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+                    <a class="button-link" id="id26f9" href="?wicket:interface=:6:results:users:5:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:5:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26f9') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+                    <a title="Show Retweets" id="id26fa" href="?wicket:interface=:6:results:users:5:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id26fa--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:5:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id26fa--ajax-indicator');}.bind(this),function() { ;wicketHide('id26fa--ajax-indicator');}.bind(this), function() {return Wicket.$('id26fa') != null;}.bind(this));return !wcall;"><span>retweets 71</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26fa--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+
+                </li>  
+                <li>
+                    
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/piadas_power/status/57519128633815040"><span>19:03 2011-04-11</span></a>
+
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@piadas_power &amp;in_reply_to_status_id=57519128633815040&amp;in_reply_to=piadas_power">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40piadas_power%3A%20Tenho%20Msn%2C%20Orkut%2C%20Twitter%2C%20entre%20outros...%20Quando%20eu%20morrer%20quero%20que%20na%20minha%20l%C3%A1pide%20esteja%20escrito%3A%20Enfim%20off-line%21%20%23PiadasPower&amp;in_reply_to_status_id=57519128633815040&amp;in_reply_to=piadas_power">retweet</a>
+                </li>
+            </ul>
+
+        </div>
+        <div class="subtweets">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+                    </ul>
+                </li><li class="user">
+
+                    <div class="userheader">
+                        <div class="profile-url">
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:6:profileUrl::ILinkListener::">
+                                <img src="http://a2.twimg.com/profile_images/115466107/techcrunch_bigger_normal.png"/>
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+            <a href="?wicket:interface=:6:results:users:6:userNameLink:linkId::ILinkListener::"><span>techcrunch</span></a>
+
+        </div>                            
+                        </div>
+                    </div>
+                    <ul class="tweets">
+                        <li class="tweet">
+                            <div id="id26fb">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id26fc">Google Said To Have High Level Mole At Twitter, Makes Massive Counteroffers To Retain Employees <a title="http://techcrunch.com/2011/04/06/google-said-to-have-high-level-mole-at-twitter-makes-massive-counteroffers-to-retain-employees/" class="ex-tw-link" target="_blank" href="http://techcrunch.com/2011/04/06/google-said-to-have-high-level-mole-at-twitter-makes-massive-counteroffers-to-retain-employees/">http://techcrunch.com/2011/04/06/google-said-to...</a> by <a class="i-tw-link" href="?search=user&user=%40arrington">@arrington</a></div>                                        
+            <ul class="tweet-important-links">
+
+                <li>
+                    <a class="button-link" id="id26fd" href="?wicket:interface=:6:results:users:6:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id26fd--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:6:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id26fd--ajax-indicator');}.bind(this),function() { ;wicketHide('id26fd--ajax-indicator');}.bind(this), function() {return Wicket.$('id26fd') != null;}.bind(this));return !wcall;">
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id26fd--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+                    <a class="button-link" id="id26fe" href="?wicket:interface=:6:results:users:6:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:6:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id26fe') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+
+                </li>
+                <li>
+                    <a title="Show Retweets" id="id26ff" href="?wicket:interface=:6:results:users:6:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id26ff--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:6:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id26ff--ajax-indicator');}.bind(this),function() { ;wicketHide('id26ff--ajax-indicator');}.bind(this), function() {return Wicket.$('id26ff') != null;}.bind(this));return !wcall;"><span>retweets 59</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id26ff--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+
+            <ul class="tweet-links">
+                <li>
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/techcrunch/status/55780896158121984"><span>23:56 2011-04-06</span></a>
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@techcrunch &amp;in_reply_to_status_id=55780896158121984&amp;in_reply_to=techcrunch">reply</a>
+                </li>
+                <li>
+
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40techcrunch%3A%20Google%20Said%20To%20Have%20High%20Level%20Mole%20At%20Twitter%2C%20Makes%20Massive%20Counteroffers%20To%20Retain%20Employees%20http%3A%2F%2Ftcrn.ch%2FdITr9M%20by%20%40arrington&amp;in_reply_to_status_id=55780896158121984&amp;in_reply_to=techcrunch">retweet</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+            <ul>
+                
+            </ul>
+        </div>
+
+    </div>
+                        </li>
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:7:profileUrl::ILinkListener::">
+                                <img src="http://a0.twimg.com/profile_images/1213311982/34916_413928996091_643786091_4474232_8166300_n_normal.jpg"/>
+                            </a>                            
+                        </div>
+
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+            <a href="?wicket:interface=:6:results:users:7:userNameLink:linkId::ILinkListener::"><span>fanultra</span></a>
+        </div>                            
+                        </div>
+                    </div>
+                    <ul class="tweets">
+                        <li class="tweet">
+                            <div id="id2700">            
+        <div class="tweet-links-container" onmouseover="">
+
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id2701">Estar sin ti es cómo; Twitter sin seguidores, Facebook sin fotos, Youtube sin música, Google sin resultados. ©CafeMan</div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id2702" href="?wicket:interface=:6:results:users:7:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id2702--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:7:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id2702--ajax-indicator');}.bind(this),function() { ;wicketHide('id2702--ajax-indicator');}.bind(this), function() {return Wicket.$('id2702') != null;}.bind(this));return !wcall;">
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id2702--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+
+                    <a class="button-link" id="id2703" href="?wicket:interface=:6:results:users:7:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:7:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id2703') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+                    <a title="Show Retweets" id="id2704" href="?wicket:interface=:6:results:users:7:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id2704--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:7:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id2704--ajax-indicator');}.bind(this),function() { ;wicketHide('id2704--ajax-indicator');}.bind(this), function() {return Wicket.$('id2704') != null;}.bind(this));return !wcall;"><span>retweets 59</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id2704--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/fanultra/status/55855143404580864"><span>04:51 2011-04-07</span></a>
+                </li>
+                <li>
+
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@fanultra &amp;in_reply_to_status_id=55855143404580864&amp;in_reply_to=fanultra">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40fanultra%3A%20Estar%20sin%20ti%20es%20c%C3%B3mo%3B%20Twitter%20sin%20seguidores%2C%20Facebook%20sin%20fotos%2C%20Youtube%20sin%20m%C3%BAsica%2C%20Google%20sin%20resultados.%20%C2%A9CafeMan&amp;in_reply_to_status_id=55855143404580864&amp;in_reply_to=fanultra">retweet</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:8:profileUrl::ILinkListener::">
+                                <img src="http://a0.twimg.com/profile_images/58439629/petepassport_normal.PNG"/>
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+            <a href="?wicket:interface=:6:results:users:8:userNameLink:linkId::ILinkListener::"><span>mashable</span></a>
+        </div>                            
+                        </div>
+                    </div>
+
+                    <ul class="tweets">
+                        <li class="tweet">
+                            <div id="id2705">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id2706">Twitter Search Is Now Three Times Faster - <a title="http://mashable.com/2011/04/07/twitter-search-faster/" class="ex-tw-link" target="_blank" href="http://mashable.com/2011/04/07/twitter-search-faster/">http://mashable.com/2011/04/07/twitter-search-f...</a></div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id2707" href="?wicket:interface=:6:results:users:8:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id2707--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:8:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id2707--ajax-indicator');}.bind(this),function() { ;wicketHide('id2707--ajax-indicator');}.bind(this), function() {return Wicket.$('id2707') != null;}.bind(this));return !wcall;">
+
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id2707--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+                    <a class="button-link" id="id2708" href="?wicket:interface=:6:results:users:8:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:8:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id2708') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+
+                    <a title="Show Retweets" id="id2709" href="?wicket:interface=:6:results:users:8:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id2709--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:8:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id2709--ajax-indicator');}.bind(this),function() { ;wicketHide('id2709--ajax-indicator');}.bind(this), function() {return Wicket.$('id2709') != null;}.bind(this));return !wcall;"><span>retweets 53</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id2709--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/mashable/status/55927274842755073"><span>09:37 2011-04-07</span></a>
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@mashable &amp;in_reply_to_status_id=55927274842755073&amp;in_reply_to=mashable">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40mashable%3A%20Twitter%20Search%20Is%20Now%20Three%20Times%20Faster%20-%20http%3A%2F%2Fon.mash.to%2FeSNHnP&amp;in_reply_to_status_id=55927274842755073&amp;in_reply_to=mashable">retweet</a>
+
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:9:profileUrl::ILinkListener::">
+                                <img src="http://a1.twimg.com/profile_images/1125323984/darthvader_normal.jpg"/>
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+
+            <a href="?wicket:interface=:6:results:users:9:userNameLink:linkId::ILinkListener::"><span>depresseddarth</span></a>
+        </div>                            
+                        </div>
+                    </div>
+                    <ul class="tweets">
+                        <li class="tweet">
+                            <div id="id270a">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+
+            
+            <div class="tweet-text" id="id270b">The Rebel Alliance could&#039;ve taken down the Empire a lot sooner if they had organized on Twitter. It only took Egypt a few weeks.</div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id270c" href="?wicket:interface=:6:results:users:9:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id270c--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:9:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id270c--ajax-indicator');}.bind(this),function() { ;wicketHide('id270c--ajax-indicator');}.bind(this), function() {return Wicket.$('id270c') != null;}.bind(this));return !wcall;">
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id270c--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+                    <a class="button-link" id="id270d" href="?wicket:interface=:6:results:users:9:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:9:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id270d') != null;}.bind(this));return !wcall;">
+
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+                    <a title="Show Retweets" id="id270e" href="?wicket:interface=:6:results:users:9:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id270e--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:9:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id270e--ajax-indicator');}.bind(this),function() { ;wicketHide('id270e--ajax-indicator');}.bind(this), function() {return Wicket.$('id270e') != null;}.bind(this));return !wcall;"><span>retweets 49</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id270e--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+                <li>
+
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/depresseddarth/status/58197967391305728"><span>16:00 2011-04-13</span></a>
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@depresseddarth &amp;in_reply_to_status_id=58197967391305728&amp;in_reply_to=depresseddarth">reply</a>
+
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40depresseddarth%3A%20The%20Rebel%20Alliance%20could%27ve%20taken%20down%20the%20Empire%20a%20lot%20sooner%20if%20they%20had%20organized%20on%20Twitter.%20It%20only%20took%20Egypt%20a%20few%20weeks.&amp;in_reply_to_status_id=58197967391305728&amp;in_reply_to=depresseddarth">retweet</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+            <ul>
+
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:10:profileUrl::ILinkListener::">
+
+                                <img src="http://a2.twimg.com/profile_images/1305902653/MOUHAHAHAH_WESH_normal.jpg"/>
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+            <a href="?wicket:interface=:6:results:users:10:userNameLink:linkId::ILinkListener::"><span>iamthibault</span></a>
+        </div>                            
+                        </div>
+                    </div>
+                    <ul class="tweets">
+
+                        <li class="tweet">
+                            <div id="id270f">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id2710">Expliquez à quelqu&#039;un qui n&#039;a pas Twitter que c&#039;est bien les &quot;vraies&quot; stars qui sont sur Twitter c&#039;est... mission impossible.</div>                                        
+            <ul class="tweet-important-links">
+
+                <li>
+                    <a class="button-link" id="id2711" href="?wicket:interface=:6:results:users:10:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id2711--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:10:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id2711--ajax-indicator');}.bind(this),function() { ;wicketHide('id2711--ajax-indicator');}.bind(this), function() {return Wicket.$('id2711') != null;}.bind(this));return !wcall;">
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id2711--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+                    <a class="button-link" id="id2712" href="?wicket:interface=:6:results:users:10:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:10:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id2712') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+
+                </li>
+                <li>
+                    <a title="Show Retweets" id="id2713" href="?wicket:interface=:6:results:users:10:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id2713--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:10:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id2713--ajax-indicator');}.bind(this),function() { ;wicketHide('id2713--ajax-indicator');}.bind(this), function() {return Wicket.$('id2713') != null;}.bind(this));return !wcall;"><span>retweets 48</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id2713--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+
+            <ul class="tweet-links">
+                <li>
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/iamthibault/status/57912496333393920"><span>21:06 2011-04-12</span></a>
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@iamthibault &amp;in_reply_to_status_id=57912496333393920&amp;in_reply_to=iamthibault">reply</a>
+                </li>
+                <li>
+
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40iamthibault%3A%20Expliquez%20%C3%A0%20quelqu%27un%20qui%20n%27a%20pas%20Twitter%20que%20c%27est%20bien%20les%20%22vraies%22%20stars%20qui%20sont%20sur%20Twitter%20c%27est...%20mission%20impossible.&amp;in_reply_to_status_id=57912496333393920&amp;in_reply_to=iamthibault">retweet</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+            <ul>
+                
+            </ul>
+        </div>
+
+    </div>
+                        </li>
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:11:profileUrl::ILinkListener::">
+                                <img src="http://a0.twimg.com/profile_images/1037003450/4a46b55d45b060956ecd8_normal_normal.gif"/>
+                            </a>                            
+                        </div>
+
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+            <a href="?wicket:interface=:6:results:users:11:userNameLink:linkId::ILinkListener::"><span>piadas_fail</span></a>
+        </div>                            
+                        </div>
+                    </div>
+                    <ul class="tweets">
+                        <li class="tweet">
+                            <div id="id2714">            
+        <div class="tweet-links-container" onmouseover="">
+
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id2715">O twitter é tão vício que hoje em dia a namorada diz ” TE AMO ” e o cara responde “RT” <a class="i-tw-link tw-tag" clean="%23piadasfail" tag="#piadasfail " >#piadasfail</a></div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id2716" href="?wicket:interface=:6:results:users:11:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id2716--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:11:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id2716--ajax-indicator');}.bind(this),function() { ;wicketHide('id2716--ajax-indicator');}.bind(this), function() {return Wicket.$('id2716') != null;}.bind(this));return !wcall;">
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id2716--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+
+                    <a class="button-link" id="id2717" href="?wicket:interface=:6:results:users:11:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:11:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id2717') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+                    <a title="Show Retweets" id="id2718" href="?wicket:interface=:6:results:users:11:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id2718--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:11:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id2718--ajax-indicator');}.bind(this),function() { ;wicketHide('id2718--ajax-indicator');}.bind(this), function() {return Wicket.$('id2718') != null;}.bind(this));return !wcall;"><span>retweets 45</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id2718--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/piadas_fail/status/55734188002918400"><span>20:50 2011-04-06</span></a>
+                </li>
+                <li>
+
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@piadas_fail &amp;in_reply_to_status_id=55734188002918400&amp;in_reply_to=piadas_fail">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40piadas_fail%3A%20O%20twitter%20%C3%A9%20t%C3%A3o%20v%C3%ADcio%20que%20hoje%20em%20dia%20a%20namorada%20diz%20%E2%80%9D%20TE%20AMO%20%E2%80%9D%20e%20o%20cara%20responde%20%E2%80%9CRT%E2%80%9D%20%23piadasfail&amp;in_reply_to_status_id=55734188002918400&amp;in_reply_to=piadas_fail">retweet</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+                    </ul>
+                </li><li class="user">
+                    <div class="userheader">
+                        <div class="profile-url">
+
+                            <a title="Search User on Jetwick" href="?wicket:interface=:6:results:users:12:profileUrl::ILinkListener::">
+                                <img src="http://a0.twimg.com/profile_images/1231130746/7418_555376449216_23507121_32805341_3405328_n_normal.jpg"/>
+                            </a>                            
+                        </div>
+                        <div class="user-left">                            
+                            <div class="user-name" title="Search User on Jetwick">
+            <a href="?wicket:interface=:6:results:users:12:userNameLink:linkId::ILinkListener::"><span>alliebrosh</span></a>
+        </div>                            
+                        </div>
+                    </div>
+
+                    <ul class="tweets">
+                        <li class="tweet">
+                            <div id="id2719">            
+        <div class="tweet-links-container" onmouseover="">
+            <div class="user-name" title="Search User on Jetwick"></div>
+            
+            <div class="tweet-text" id="id271a">Did you guys know that Facebook has a Twitter account?  That&#039;s like a car driving around on a motorcycle.</div>                                        
+            <ul class="tweet-important-links">
+                <li>
+                    <a class="button-link" id="id271b" href="?wicket:interface=:6:results:users:12:tweets:0:oneTweet:translateLink::ILinkListener::" onclick="wicketShow('id271b--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:12:tweets:0:oneTweet:translateLink::IBehaviorListener:0:',function() { ;wicketHide('id271b--ajax-indicator');}.bind(this),function() { ;wicketHide('id271b--ajax-indicator');}.bind(this), function() {return Wicket.$('id271b') != null;}.bind(this));return !wcall;">
+
+                        <img src="img/translate.png" title="Translate Tweet"/>
+                    </a><span style="display:none;" class="wicket-ajax-indicator" id="id271b--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>                    
+                <li>
+                    <a class="button-link" id="id271c" href="?wicket:interface=:6:results:users:12:tweets:0:oneTweet:similarLink::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:12:tweets:0:oneTweet:similarLink::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id271c') != null;}.bind(this));return !wcall;">
+                        <img src="img/find-similar.png" title="Find Similar Tweets"/>
+                    </a>
+                </li>
+                <li>
+
+                    <a title="Show Retweets" id="id271d" href="?wicket:interface=:6:results:users:12:tweets:0:oneTweet:retweeters::ILinkListener::" onclick="wicketShow('id271d--ajax-indicator');var wcall=wicketAjaxGet('?wicket:interface=:6:results:users:12:tweets:0:oneTweet:retweeters::IBehaviorListener:0:',function() { ;wicketHide('id271d--ajax-indicator');}.bind(this),function() { ;wicketHide('id271d--ajax-indicator');}.bind(this), function() {return Wicket.$('id271d') != null;}.bind(this));return !wcall;"><span>retweets 43</span></a><span style="display:none;" class="wicket-ajax-indicator" id="id271d--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+                </li>  
+                <li>
+                    
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <ul class="tweet-links">
+                <li>
+
+                    <a target="_blank" title="Show Status on twitter.com" href="http://twitter.com/alliebrosh/status/55841081526452226"><span>03:55 2011-04-07</span></a>
+                </li>
+                <li>
+                    <a target="_blank" title="Reply on twitter.com" href="http://twitter.com?status=@alliebrosh &amp;in_reply_to_status_id=55841081526452226&amp;in_reply_to=alliebrosh">reply</a>
+                </li>
+                <li>
+                    <a target="_blank" title="Retweet on twitter.com" href="http://twitter.com?status=RT%20%40alliebrosh%3A%20Did%20you%20guys%20know%20that%20Facebook%20has%20a%20Twitter%20account%3F%20%20That%27s%20like%20a%20car%20driving%20around%20on%20a%20motorcycle.&amp;in_reply_to_status_id=55841081526452226&amp;in_reply_to=alliebrosh">retweet</a>
+
+                </li>
+            </ul>
+        </div>
+        <div class="subtweets">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+            <div id="resultslist-footer">                    
+                <div>
+                    <div class="find-origin-link" title="You will get the oldest, most retweeted content">
+            <a href="?wicket:interface=:6:results:findOriginLink:linkId::ILinkListener::"><span>Find origin of &#039;twitter&#039;</span></a>
+        </div>
+
+                    
+                    <span class="querymessage">Found 281937 tweets in 0.3 s</span>                        
+                    - Content from Twitter.
+                </div>
+                <div class="export-link">
+                    Export as <a href="?wicket:interface=:6:results:exportCsvLink::IResourceListener::">csv</a> |
+                    <a href="?wicket:interface=:6:results:exportHtmlLink::ILinkListener::">html</a>
+                </div>
+                <div class="hitsPerPage">
+
+                    Tweets per page
+                    <a href="?wicket:interface=:6:results:hits15::ILinkListener::" title="Show 15 tweets per page" id="id271e" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:hits15::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id271e') != null;}.bind(this));return !wcall;" class="selected">15</a>
+                    <a href="?wicket:interface=:6:results:hits30::ILinkListener::" title="Show 30 tweets per page" id="id271f" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:hits30::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id271f') != null;}.bind(this));return !wcall;" class="">30</a>
+                    <a href="?wicket:interface=:6:results:hits60::ILinkListener::" title="Show 60 tweets per page" id="id2720" onclick="var wcall=wicketAjaxGet('?wicket:interface=:6:results:hits60::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id2720') != null;}.bind(this));return !wcall;" class="">60</a>
+                </div>                   
+            </div>
+        </div>            
+    </div>
+            <div id="id2721">            
+            <div class="navigation">
+
+                
+                <span>Page 1 of 18796</span>
+                <a href="?wicket:interface=:6:navigation:next::ILinkListener::"><img src="img/next-page.png" alt="Next Page &gt;"/></a>
+            </div>
+        </div>
+        </div>
+        <!--<div id="info-panel">
+        </div> -->
+
+        <div class="footer">
+            <ul>
+
+                <li>
+                    <a href="about" title="About Jetwick">
+                        <img id="aboutimg" src="img/information.png"/>
+                        <span>About</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://www.pannous.info/products/jetwick-twitter-search/"
+                       title="Watch an introduction video or read about the features of jetwick" target="_blank">
+
+                        <img id="learnmoreimg" src="img/film.png"/>
+                        <span>Learn more</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://flattr.com/thing/113063/Open-Twitter-Search" target="_blank">
+                        <img id="flattrimg" src="img/flattr-badge-large.png" alt="Flattr" title="Flattr this" border="0"/>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="http://twitter.com/jetwick" title="See the latest news of jetwick at twitter.com" target="_blank">
+                        <img id="jetwickaccountimg" src="img/twitter-icon.png"/>
+                        <span>Jetwick @ Twitter</span>
+                    </a>
+                </li>
+                <li>
+
+                    <a href="http://www.facebook.com/jetwick#!/pages/Jetwick/101149616624415" title="Jetwick@Facebook" target="_blank">
+                        <img id="fbimg" src="img/fb.png"/>
+                        <span>Jetwick @ Facebook</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://github.com/karussell/Jetwick" target="_blank">
+                        <img id="fbimg" src="img/github.png"/>
+
+                        <span>Jetwick @ GitHub</span>
+                    </a>
+                </li>
+                <li class="yourkitlogo">
+                    <a target="_blank" href="http://www.yourkit.com/java/profiler/index.jsp">
+                        <img src="img/yourkit.png" title="YourKit is kindly supporting open source projects with its full-featured Java Profiler."/>
+                        <span>Thanks to Yourkit!</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="http://jetwick.com/m">
+                        <img id="mobilejetwickimg" src="img/jetwick-twitter.png" alt="Mobile" title="Mobile Jetwick Search" border="0"/>
+                        <span>Jetwick For Mobile Phones</span>
+                    </a>
+                </li>
+                <li>
+
+                    <a href="imprint" title="Imprint / Terms / Privacy">
+                        <img id="imprintimg" src="img/book_addresses.png"/>
+                        <span>Imprint / Terms / Privacy</span>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="http://www.pannous.info/">Jetwick is hosted from<div>Pannous GmbH</div></a>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var pkBaseURL = (("https:" == document.location.protocol) ? "https://www.pannous.info/piwik/" : "http://www.pannous.info/piwik/");
+        document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+        try {
+            var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 3);
+            piwikTracker.trackPageView();
+            piwikTracker.enableLinkTracking();
+        } catch( err ) {  }
+    </script>
+    <noscript><p><img src="http://www.pannous.info/piwik/piwik.php?idsite=3" style="border:0" alt="" /></p></noscript>
+
+</body>
+</html>
+

@@ -33,7 +33,7 @@ public class ConverterTest extends TestCase {
         assertEquals("utf-8", d.getEncoding());
 
         d = new Converter();
-        d.streamToString(getClass().getResourceAsStream("test_ch.html"), Integer.MAX_VALUE);
+        d.streamToString(getClass().getResourceAsStream("yomiuri.html"), Integer.MAX_VALUE);
         assertEquals("shift_jis", d.getEncoding());
 
         d = new Converter();

@@ -51,7 +51,7 @@ public class JResult {
         // fall back to description which can be better determined
         if (text == null || text.isEmpty())
             return getDescription();
-        
+
         return text;
     }
 
@@ -70,12 +70,29 @@ public class JResult {
     }
 
     public String getVideoUrl() {
-        if (videoUrl == null)
-            return "";
         return videoUrl;
     }
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+    }
+
+    public static boolean isVideoLink(String url) {
+        if (url.startsWith("http://"))
+            url = url.substring("http://".length());
+        if (url.startsWith("www."))
+            url = url.substring("www.".length());
+
+        // strip mobile from start
+        if (url.startsWith("m."))
+            url = url.substring("m.".length());
+
+        return url.startsWith("youtube.com") || url.startsWith("video.yahoo.com")
+                || url.startsWith("vimeo.com") || url.startsWith("blip.tv");
+    }
+
+    @Override
+    public String toString() {
+        return "title:" + getTitle() + " imageUrl:" + getImageUrl() + " text:" + text;
     }
 }

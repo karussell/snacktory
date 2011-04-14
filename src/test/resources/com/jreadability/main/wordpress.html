@@ -1,0 +1,1024 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Twitter API and Me &laquo; Find Time for the Karussell</title>
+	<style type="text/css" media="screen">
+		@import url( http://s0.wp.com/wp-content/themes/pub/k2/style.css?m=1292638056g&amp;1 );
+	</style>
+	<link rel="stylesheet" type="text/css" media="print" href="http://s0.wp.com/wp-content/themes/pub/k2/css/print.css?m=1268754919g" />
+	<link rel="pingback" href="http://karussell.wordpress.com/xmlrpc.php" />
+	<link rel="alternate" type="application/rss+xml" title="Find Time for the Karussell &raquo; Feed" href="http://karussell.wordpress.com/feed/" />
+
+<link rel="alternate" type="application/rss+xml" title="Find Time for the Karussell &raquo; Comments Feed" href="http://karussell.wordpress.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Find Time for the Karussell &raquo; Twitter API and&nbsp;Me Comments Feed" href="http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/h4/global.css?m=1297799136g" type="text/css" />
+<link rel='stylesheet' id='sharedaddy-css'  href='http://s1.wp.com/wp-content/mu-plugins/sharing/sharing.css?m=1287601727g&#038;ver=MU' type='text/css' media='all' />
+<script type='text/javascript' src='http://s2.wp.com/wp-includes/js/l10n.js?m=1295648996g&amp;ver=20101110'></script>
+<script type='text/javascript' src='http://s1.wp.com/wp-includes/js/jquery/jquery.js?m=1290133841g&amp;ver=1.4.4'></script>
+<script type='text/javascript' src='http://s0.wp.com/wp-includes/js/comment-reply.js?m=1268754846g&amp;ver=20090102'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://karussell.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://karussell.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Find Time for the Karussell' href='http://karussell.wordpress.com/' />
+<link rel='prev' title='Mobile Jetwick &#8211; Twitter Search without&nbsp;Noise' href='http://karussell.wordpress.com/2011/02/27/mobile-jetwick-search/' />
+<link rel='next' title='Time Traveling with&nbsp;Twitter' href='http://karussell.wordpress.com/2011/04/02/time-traveling-with-twitter/' />
+
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/' />
+<link rel='shortlink' href='http://wp.me/p8zlh-NO' />
+	<link rel="stylesheet" href="http://s0.wp.com/wp-content/mu-plugins/admin-bar/admin-bar-css.php?t=K2-lite&amp;a=&amp;p=&amp;sa=&amp;td=ltr" type="text/css" />
+	<!--[if IE 6]><style type="text/css">#wpcombar, #wpcombar .menupop a span, #wpcombar .menupop ul li a:hover, #wpcombar .myaccount a, .quicklinks a:hover,#wpcombar .menupop:hover { background-image: none !important; } #wpcombar .myaccount a { margin-left:0 !important; padding-left:12px !important;}</style><![endif]-->
+	<style type="text/css" media="print">#wpcombar { display:none; }</style><link rel="shortcut icon" type="image/x-icon" href="http://s1.wp.com/i/favicon-stacked.ico?m=1284002170g" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="http://s1.wp.com/i/favicon-stacked.ico?m=1284002170g" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon" href="http://s0.wp.com/wp-content/themes/h4/i/webclip.png?m=1268754871g" />
+	<style type="text/css">
+	/* <![CDATA[ */
+				 #wpcombar li.ab-wpl-like a { outline: none; }
+		 #wpcombar li.ab-wpl-like a em { font-style: normal }
+		 #wpcombar li.ab-wpl-like > a { background-image: url( http://wordpress.com/wp-content/themes/h4/i/like_star.gif ); background-position: 8px 40%; background-repeat: no-repeat; padding-left: 27px }
+		 #wpcombar li.ab-wpl-like a.loading { background-position: 8px 50% !important;  }
+		 #wpcombar li.like > a { height: 28px; }
+		 #wpcombar div#reblog { background: #444; color: #fff; }
+				div#likes { margin-top: 15px; }
+		.like-button { border: 1px solid #eee; padding: 2px 6px; font-size: 13px; font-family: arial, tahoma, sans-serif; }
+		#wpl-likebox { clear: left; font-size: 11px; font-family: arial, tahoma, verdana, sans-serif !important; min-height: 30px; margin: 10px 0 !important; padding: 5px 0 10px 0 !important; }
+		#wpl-button { float: left; background: url( /i/buttonbg.png ) top left repeat-x; margin-right: 7px; border: 1px solid #d4d4d4; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-button a { color: #666 !important; line-height: 130% !important; text-decoration: none !important; outline: none; float: left; padding: 3px 6px 2px 24px !important; font-size: 11px !important; background: url( /i/likestar.png ) 6px 49.8% no-repeat; }
+		#wpl-button.liked { background: #feffce; border: 1px solid #f3e389; }
+		#wpl-button.liked a { color: #ba871b !important; }
+		#wpl-likebox #wpl-count { min-height: 25px; line-height: 130% !important; float: left; padding-top: 4px; }
+		#wpl-likebox #wpl-avatars { clear: left; max-height: 98px; overflow: hidden; margin-top: 15px; line-height: 130% !important; }
+		#wpl-likebox #wpl-avatars img { border: none !important; }
+		#wpl-likebox #wpl-mustlogin { line-height: 14px !important; font-size: 11px; clear: left; margin-top: 5px; background: #f0f0f0; padding: 10px; width: 65%; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-likebox #wpl-mustlogin a { color: #888; text-decoration: underline; }
+		#wpl-likebox #wpl-mustlogin p { margin: 5px 0; padding: 0 }
+		#wpl-likebox #wpl-mustlogin input.input { padding: 2px; background: #fff; font-size: 11px; font-family: inherit; border: 1px solid #ccc; -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin input#wp-submit { border: 1px solid #ccc; font-size: 11px; background: #fafafa; repeat-x; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; padding: 2px 4px !important; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin label { position: relative; cursor: text; }
+		#wpl-likebox #wpl-mustlogin label span { position: absolute; top: 0px; left: 5px; padding: 0 !important; }
+		#wpl-likebox #wpl-mustlogin label span { top /*\**/: -10px\9; }
+	/* ]]> */
+	</style>
+	<link rel='openid.server' href='http://karussell.wordpress.com/?openidserver=1' />
+
+<link rel='openid.delegate' href='http://karussell.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://karussell.wordpress.com/osd.xml" title="Find Time for the Karussell" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+	<script type="text/javascript" charset="utf-8">
+		try{
+			var id = location.hash.match( /\#\!\/entry\/(\d+)/ )[1];
+			if ( id ) {
+				window.location = "http://karussell.wordpress.com?p=" + id;
+			};
+		}catch( error ){
+		}
+	</script>		
+<style type="text/css">
+#header {
+	background:#3371a3 url(http://karussell.files.wordpress.com/2010/04/karussell-splash-screen23.png) center repeat-y;
+}
+#header h1 a, #header .description {
+	display: none;
+}
+</style>
+<meta name="application-name" content="Find Time for the Karussell" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Thoughts about Java and more" /><meta name="msapplication-task" content="name=Edit post;action-uri=http://karussell.wordpress.com/wp-admin/post.php?post=3088&amp;action=edit;icon-uri=http://s1.wp.com/i/icons/post.ico" /><meta name="msapplication-task" content="name=Write a post;action-uri=http://karussell.wordpress.com/wp-admin/post-new.php;icon-uri=http://s1.wp.com/i/icons/post.ico" /><meta name="msapplication-task" content="name=Moderate comments;action-uri=http://karussell.wordpress.com/wp-admin/edit-comments.php?comment_status=moderated;icon-uri=http://s0.wp.com/i/icons/comment.ico" /><meta name="msapplication-task" content="name=Upload new media;action-uri=http://karussell.wordpress.com/wp-admin/media-new.php;icon-uri=http://s1.wp.com/i/icons/media.ico" /><meta name="msapplication-task" content="name=Blog stats;action-uri=http://karussell.wordpress.com/wp-admin/index.php?page=stats;icon-uri=http://s0.wp.com/i/icons/stats.ico" /></head>
+
+<body>
+<div id="page">
+	<div id="header">
+		<h1><a href="http://karussell.wordpress.com/">Find Time for the Karussell</a></h1>
+
+		<p class="description">Thoughts about Java and more</p>
+		
+		<div class="menu"><ul id="nav" class="menu"><li ><a href="http://karussell.wordpress.com/" title="Blog">Blog</a></li><li class="page_item page-item-2"><a href="http://karussell.wordpress.com/about/" title="About">About</a></li><li class="page_item page-item-1907"><a href="http://karussell.wordpress.com/java-courses/" title="Java&nbsp;Courses">Java&nbsp;Courses</a></li><li class="page_item page-item-1920"><a href="http://karussell.wordpress.com/guest-book/" title="Guest&nbsp;Book">Guest&nbsp;Book</a></li></ul></div>
+
+	</div>
+		<hr />
+
+<div class="content">
+	
+	<div id="primary">
+		<div id="current-content">
+			<div id="primarycontent" class="hfeed">
+
+				
+	
+	 
+
+		
+	
+		
+	<hr />
+
+	
+	<div class="navigation">
+		<div class="left"><span>&laquo;</span> <a href="http://karussell.wordpress.com/2011/02/27/mobile-jetwick-search/">Mobile Jetwick &#8211; Twitter Search without&nbsp;Noise</a></div>		<div class="right"><a href="http://karussell.wordpress.com/2011/04/02/time-traveling-with-twitter/">Time Traveling with&nbsp;Twitter</a> <span>&raquo;</span></div>		<div class="clear"></div>
+
+	</div>
+
+	
+	<hr />
+
+	
+		<div id="post-3088" class="post-3088 post type-post status-publish format-standard hentry category-java category-jetwick category-twitter">
+			<div class="entry-head">
+				<h3 class="entry-title"><a href="http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/" rel="bookmark" title="Permanent link to Twitter API and&nbsp;Me">Twitter API and&nbsp;Me</a></h3>
+
+				<small class="entry-meta">
+
+					<span class="chronodata">
+						Published <abbr class="published" title="2011-03-07T22:27:56+0000">7 March, 2011</abbr>					</span>
+
+					<span class="entry-category"> <a href="http://en.wordpress.com/tag/java/" title="View all posts in Java" rel="category tag">Java</a> , <a href="http://en.wordpress.com/tag/jetwick/" title="View all posts in Jetwick" rel="category tag">Jetwick</a> , <a href="http://en.wordpress.com/tag/twitter/" title="View all posts in Twitter" rel="category tag">Twitter</a></span>
+
+					<a href="http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/#respond" class="commentslink"  title="Comment on Twitter API and&nbsp;Me">Leave a&nbsp;<span>Comment</span></a>				
+					<span class="entry-edit"><a class="post-edit-link" href="http://karussell.wordpress.com/wp-admin/post.php?post=3088&amp;action=edit" title="Edit Post">Edit</a></span>
+					<br />				
+				</small> <!-- .entry-meta -->
+			</div> <!-- .entry-head -->
+
+			<div class="entry-content">
+
+				<p>I have a love hate relationship with Twitter. As a user I see the benefits of Twitter, when looking at it without the spam, duplicates and senseless tweets e.g. through jetwick. But as a developer the Twitter API is very &#8216;heuristic&#8217; and handwaving in a lot areas and makes it complicated to use. I would have been lost without the nice <a href="http://twitter4j.org/">twitter4j</a> project, so thanks to <a href="http://twitter.com/#!/yusukeyamamoto">the author</a>!</p>
+<p>Now let me give you some examples of</p>
+<h3>Strange things of the Twitter API</h3>
+<ul>
+<li><a href="http://apiwiki.twitter.com/w/page/22554756/Twitter-Search-API-Method:-search"></a><a href="http://apiwiki.twitter.com/w/page/22554756/Twitter-Search-API-Method:-search"><em>&#8220;The user ids in the Search API are different from those in the REST API&#8221;</em></a></li>
+
+</ul>
+<ul>
+<li><a href="http://dev.twitter.com/doc/get/search">The since id attribute is not supported when paginating in the search API</a>:<br />
+<em>&#8220;The since_id parameter will be removed from the next_page element as it is not supported for pagination. If since_id is removed a warning will be added to alert you.&#8221;</em><br />
+So you need to create your own pagination when you do not want to get already visited tweets via search API</li>
+<li>Search API returns matches in URLs. This is in nearly all cases <strong>not</strong> useful. Especially for terms like &#8216;twitter&#8217; or &#8216;google&#8217; where the search API returns confusing tweets containing URLs <em>search.twitter.com</em> or <em>google.com</em>. But marketing companies need to search URLs and also the tweet button also relies on that &#8216;feature&#8217;, why not disable that and enable &#8216;link:http://any-link.here&#8217; ? And it would be more useful to match against the title of the website like jetwick it does, but that&#8217;s another topic.</li>
+
+<li>Search API does NOT return complete results compared to streaming API. I.e. results from streaming API contains all tweets with the specified keywords (without tweets via the URL bug I mentioned in the previous point). But the search API in contrast can leave out &#8216;spam&#8217; tweets. I&#8217;m unsure if those tweets has to be really low quality or whatever. I guess this is more a technically issue with the search API that it leaves out some tweets the streaming has.</li>
+<li>REST API allows one to get only ~3200 old tweets from one user and 800 tweets from your friends (i.e. your homeline).</li>
+<li>Huge amount of different API limits:
+<ul>
+<li>350 requests per hour and user for the REST API</li>
+<li>Searches are restricted to IP (unknown number much higher than the 350 requests per hour)</li>
+<li>Only 2 filter streams are allowed &#8211; this is restricted to the IP.  And only 200 keywords are possible per stream! But filter streams allow  only approx. 50 tweets/s even if only a few keywords are used. (Then  those keywords are high frequent)</li>
+
+<li>Search API allows searches into history, but how long depends on the  frequency of the term. I know this is logically for every real time inverted  index of this size, but should be better documented.</li>
+</ul>
+</li>
+</ul>
+<h3>Regarding API Terms</h3>
+<p>Of course Twitter has  <a href="http://dev.twitter.com/pages/api_terms">API terms</a>. This is necessary and nice to prevent the users from spam sites etc.</p>
+<p>But there is also  a <a href="http://dev.twitter.com/pages/display_guidelines">display style guideline</a>, which I had <a href="http://twitter.com/#!/jetwick/status/43388188873592833">&#8216;fun&#8217; the last weekend</a>.  Where I was asked e.g. to make the hashtag links of jetwick  according to the display guideline. This is annoying. Now I need to pop  up a dialog instead of directly triggering a search on jetwick &#8211; hey, it is  a search engine! But twitter has to make money. That is ok. But I would like to have an exception for free or open source projects. No chance <img src='http://s0.wp.com/wp-includes/images/smilies/icon_sad.gif?m=1268754848g' alt=':(' class='wp-smiley' />  &#8230; here is my email conversation regarding the minor API term violation:</p>
+
+<pre>Dear XY,
+ok, I won't provide an API to others. Thanks for the clarification.
+
+I've got a further question. Are the display guidelines a requirement to
+be aligned with the API terms of use and to continue running Jetwick? (I
+shutted it down to not being evil)
+
+In the terms I can read as the first principle: "Don't surprise users"
+which is very important for me and it would disturb the user experience
+if a hashtag click (or a click on '@user') in a tweet would result in a
+pop up to twitter search or something and not simply trigger a search on
+jetwick.
+
+Please do not understand me wrong, I have already several links back to
+twitter: the date links to the tweet on twitter, the retweet and reply
+links to twitter and finally the user links back to twitter. Jetwick is
+a complete read only service (see my API access), so I would be stupid
+if I hadn't links back to twitter, which actually allows my users to
+share noisefree information via twitter.
+
+Finally: If the layout guides are a requirement, would you make an
+exception for Jetwick regarding the hashtag and @user links within a
+tweet? Many companies make exceptions when it comes to open source
+projects such as Jetbrains (IDEA), Yourkit (Profiler), Attlassian
+(Confluence), ... what about Twitter?
+
+Kind Regards,
+Peter.</pre>
+<p>The answer from twitter is crystal clear that Twitter does <strong>not</strong> provide API term exceptions to open source projects like other companies does. It also indicates that the API guys have a bit too much to do as the support does not really answer my question and neither understands what github is nor what jetwick means:</p>
+<pre>Hey Peter,
+
+Thanks for following up. The API Terms of Service, as an overriding
+document, do require you to adhere to these display guidelines -- in the
+same "Don't Surprise Users" section you referenced. I recommend
+adding links of your own, such as "#github on Jetwick" that surface
+these results. Again, I'm sorry for the inconvenience this has caused,
+and let me know if you have any other questions.
+
+Regards,
+XY</pre>
+<h4>A second  important thing</h4>
+<p>you&#8217;ll otherwise miss is that you are <strong>not allowed to offer an API to other people</strong>. Even if your project is open source! Here the email:<em></em> <em><br />
+
+&#8220;Returning   Twitter data, like tweets, through an API of your own is  not allowed,   neither for commercial services nor independent or  open-source  services.  We are not looking for partners to formally  extend new APIs  as you  request.</em>&#8220;</p>
+<h3>Conclusion</h3>
+<p>So, keep this all in mind when you start to build a system using or even relying on the Twitter API. I hope this post clarifies the mystics of the Twitter API a bit! If you have encountered similar issues: feel free to comment <img src='http://s2.wp.com/wp-includes/images/smilies/icon_smile.gif?m=1268754848g' alt=':)' class='wp-smiley' />  !
+<div class="snap_nopreview sharing robots-nocontent">
+<ul>
+<li class="sharing_label">Share this:</li>
+<li class="share-stumbleupon share-regular"><a rel="nofollow" class="share-stumbleupon share-icon" href="http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/?share=stumbleupon" target="_blank" title="Click to share on StumbleUpon">StumbleUpon</a></li>
+<li class="share-twitter share-regular">
+<div class="twitter_button"><iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/tweet_button.html?url=http%3A%2F%2Fwp.me%2Fp8zlh-NO&#038;counturl=http%3A%2F%2Fkarussell.wordpress.com%2F2011%2F03%2F07%2Ftwitter-api-and-me%2F&#038;count=horizontal&#038;text=Twitter%20API%20and%20Me: " style="width:97px; height:20px;"></iframe></div>
+</li>
+
+<li class="share-custom"><a href="#" class="sharing-anchor">Share</a></li>
+<li class="share-end"></li>
+</ul>
+<div class="sharing-hidden">
+<div class="inner" style="display: none;">
+<ul>
+<li class="share-facebook"><a rel="nofollow" class="share-facebook share-icon" href="http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/?share=facebook" target="_blank" title="Share on Facebook">Facebook</a></li>
+<li class="share-digg"><a rel="nofollow" class="share-digg share-icon" href="http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/?share=digg" target="_blank" title="Click to Digg this post">Digg</a></li>
+<li class="share-end"></li>
+<li class="share-reddit"><a rel="nofollow" class="share-reddit share-icon" href="http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/?share=reddit" target="_blank" title="Click to share on Reddit">Reddit</a></li>
+<li class="share-email"><a rel="nofollow" class="share-email share-icon" href="http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/?share=email" target="_blank" title="Click to email this to a friend">Email</a></li>
+<li class="share-end"></li>
+
+<li class="share-end"></li>
+</ul>
+</div>
+</div>
+<div class="sharing-clear"></div>
+</div>
+<div id="ilikeposts"></div>
+							</div> <!-- .entry-content -->
+			<div class="clear"></div>
+		</div> <!-- #post-ID -->
+
+	
+	
+				<div id="wpl-likebox"><div id="wpl-button"><a href='http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/?like=1&amp;_wpnonce=7f557db327' title='I like this post' class='like' rel='nofollow'><span>Like</span></a></div><div id="wpl-count">Be the first to like this post.</div></div>
+
+	<div class="comments">
+
+		<h4><span id="comments">0</span> Responses to &#8220;Twitter API and&nbsp;Me&#8221;</h4>
+
+		<div class="metalinks">
+			<span class="commentsrsslink"><a href='http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/feed/'>Feed for this Entry</a></span>
+			<span class="trackbacklink"><a href="http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/trackback/" title="Copy this URI to trackback this entry.">Trackback Address</a></span>		</div>
+
+	<hr />
+
+	<ol id="commentlist">
+		</ol> <!-- END #commentlist -->
+		
+	<div class="navigation">
+		<div class="alignleft"></div>
+		<div class="alignright"></div>
+	</div>
+	<br />
+
+	<ol id="pinglist">
+		</ol> <!-- END #pinglist -->
+		
+	 
+	<ol id="commentlist">
+		<li id="leavecomment">
+			Leave a Comment		</li>
+	</ol>
+	
+	
+	</div> <!-- END .comments 1 -->
+
+		
+		
+	
+									<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2011/03/07/twitter-api-and-me/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://karussell.wordpress.com/wp-comments-post.php" method="post" id="commentform">
+																			<p class="logged-in-as">Logged in as <a href="http://karussell.wordpress.com/wp-admin/profile.php">karussell</a>. <a href="http://karussell.wordpress.com/wp-login.php?action=logout&amp;redirect_to=http%3A%2F%2Fkarussell.wordpress.com%2F2011%2F03%2F07%2Ftwitter-api-and-me%2F&amp;_wpnonce=1775817f0e" title="Log out of this account">Log out?</a></p>																			<p class="comment-form-comment"><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;pre&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></p>						<p class="form-submit">
+
+							<input name="submit" type="submit" id="submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='3088' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1302788155" />
+<p class="comment-subscription-form">You are the author of this post.</p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" tabindex="7"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of new posts via email.</label></p><input type="hidden" name="sub-type" value="comment-form-text0" /><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="f4459bb0eb" /></p>					</form>
+							</div><!-- #respond -->
+						
+	
+		
+	<hr />
+
+	
+	<div class="navigation">
+		<div class="left"><span>&laquo;</span> <a href="http://karussell.wordpress.com/2011/02/27/mobile-jetwick-search/">Mobile Jetwick &#8211; Twitter Search without&nbsp;Noise</a></div>		<div class="right"><a href="http://karussell.wordpress.com/2011/04/02/time-traveling-with-twitter/">Time Traveling with&nbsp;Twitter</a> <span>&raquo;</span></div>		<div class="clear"></div>
+	</div>
+
+	
+	<hr />
+
+			</div> <!-- #primarycontent .hfeed -->
+		</div> <!-- #current-content -->
+
+		<div id="dynamic-content"></div>
+	</div> <!-- #primary -->
+
+	<hr />
+
+<div class="secondary">
+
+<div id="text-2" class="widget widget_text"><h2 class="widgettitle">Support Me</h2>
+			<div class="textwidget"><a href="https://flattr.com/thing/113084/Thoughts-about-Java-and-more-Blog" target="_blank">
+<img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a></div>
+		</div><div id="search-2" class="widget widget_search">
+<form method="get" id="searchform" action="/">
+	<input type="text" id="s" name="s" onblur="this.value=(this.value=='') ? 'search' : this.value;" onfocus="this.value=(this.value=='search') ? '' : this.value;" id="supports" name="s" value="search" />
+	<input type="submit" id="searchsubmit" value="go" />
+
+</form>
+
+
+</div><div id="linkcat-2200" class="widget widget_links"><h2 class="widgettitle">Links</h2>
+
+	<ul class='xoxo blogroll'>
+<li><a href="http://timefinder.sourceforge.net/" title="An automatic timetabler for universities and schools. Free Software and Open Source.">Free Timetabling with TimeFinder!</a></li>
+<li><a href="http://www.handinhand-ev.org/" title="Hand In Hand supports children AIDS patient in africa">Hand In Hand</a></li>
+<li><a href="http://volkerstruebing.wordpress.com/klos-und-spinne/">Klos und Spinne</a></li>
+
+	</ul>
+
+</div>
+		<div id="recent-posts-2" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>
+		<ul>
+				<li><a href="http://karussell.wordpress.com/2011/04/10/viewing-hprof-from-android-with-jvisualvm/" title="Viewing hprof from android with&nbsp;jvisualvm">Viewing hprof from android with&nbsp;jvisualvm</a></li>
+				<li><a href="http://karussell.wordpress.com/2011/04/09/3d-rotation-in-gimp/" title="3D Rotation in&nbsp;Gimp">3D Rotation in&nbsp;Gimp</a></li>
+				<li><a href="http://karussell.wordpress.com/2011/04/02/time-traveling-with-twitter/" title="Time Traveling with&nbsp;Twitter">Time Traveling with&nbsp;Twitter</a></li>
+
+				</ul>
+		</div>		<div id="top-posts" class="widget widget_stats_topposts">			<h2 class="widgettitle">Top Posts</h2>
+			<ul><li><a href='http://karussell.wordpress.com/2010/01/24/where-is-uml-for-netbeans-6-8/'>Where is UML for NetBeans 6.8?</a></li><li><a href='http://karussell.wordpress.com/2011/02/07/get-started-with-elasticsearch/'>Get Started with ElasticSearch and Wicket</a></li><li><a href='http://karussell.wordpress.com/2008/09/04/encoding-issues-solutions-for-linux-and-within-java-apps/'>Encoding issues. Solutions for linux and within Java apps.</a></li></ul>		</div><div id="twitter-3" class="widget widget_twitter"><h2 class="widgettitle"><a href='http://twitter.com/timetabling'>Twitter</a></h2>
+<ul class='tweets'>
+<li>Früher galten Selbstgespäche als Krankheit. Heutzutage machen das sogar Präsidenten - auf Twitter.  <a href="http://twitter.com/timetabling/statuses/58512465163583489" class="timesince">45&nbsp;minutes&nbsp;ago</a></li>
+
+<li>Puh, so stressig hat schon lange kein Tag mehr begonnen ...  <a href="http://twitter.com/timetabling/statuses/58511688604975104" class="timesince">48&nbsp;minutes&nbsp;ago</a></li>
+</ul>
+</div><div id="tag_cloud" class="widget widget_tag_cloud"><h2 class="widgettitle">Category Cloud</h2>
+<div style='overflow: hidden'><a href='http://karussell.wordpress.com/category/eclipse/' style='font-size: 91.103448275862%; padding: 1px; margin: 1px;' title='Eclipse (8)'>Eclipse</a> <a href='http://karussell.wordpress.com/category/java/' style='font-size: 250%; padding: 1px; margin: 1px;' title='Java (152)'>Java</a> <a href='http://karussell.wordpress.com/category/javafx/' style='font-size: 101.03448275862%; padding: 1px; margin: 1px;' title='JavaFX (17)'>JavaFX</a> <a href='http://karussell.wordpress.com/category/jetwick/' style='font-size: 94.413793103448%; padding: 1px; margin: 1px;' title='Jetwick (11)'>Jetwick</a> <a href='http://karussell.wordpress.com/category/linux/' style='font-size: 113.1724137931%; padding: 1px; margin: 1px;' title='Linux (28)'>Linux</a> <a href='http://karussell.wordpress.com/category/maven/' style='font-size: 94.413793103448%; padding: 1px; margin: 1px;' title='Maven (11)'>Maven</a> <a href='http://karussell.wordpress.com/category/netbeans/' style='font-size: 118.68965517241%; padding: 1px; margin: 1px;' title='NetBeans (33)'>NetBeans</a> <a href='http://karussell.wordpress.com/category/news/' style='font-size: 172.75862068966%; padding: 1px; margin: 1px;' title='News (82)'>News</a> <a href='http://karussell.wordpress.com/category/news_de/' style='font-size: 95.51724137931%; padding: 1px; margin: 1px;' title='News_de (12)'>News_de</a> <a href='http://karussell.wordpress.com/category/rails/' style='font-size: 90%; padding: 1px; margin: 1px;' title='Rails (7)'>Rails</a> <a href='http://karussell.wordpress.com/category/ruby/' style='font-size: 90%; padding: 1px; margin: 1px;' title='Ruby (7)'>Ruby</a> <a href='http://karussell.wordpress.com/category/solr/' style='font-size: 92.206896551724%; padding: 1px; margin: 1px;' title='Solr (9)'>Solr</a> <a href='http://karussell.wordpress.com/category/spring/' style='font-size: 90%; padding: 1px; margin: 1px;' title='Spring (7)'>Spring</a> <a href='http://karussell.wordpress.com/category/springrc/' style='font-size: 94.413793103448%; padding: 1px; margin: 1px;' title='springrc (11)'>springrc</a> <a href='http://karussell.wordpress.com/category/swing/' style='font-size: 92.206896551724%; padding: 1px; margin: 1px;' title='Swing (9)'>Swing</a> <a href='http://karussell.wordpress.com/category/timetabling/' style='font-size: 91.103448275862%; padding: 1px; margin: 1px;' title='Timetabling (8)'>Timetabling</a> <a href='http://karussell.wordpress.com/category/twitter/' style='font-size: 96.620689655172%; padding: 1px; margin: 1px;' title='Twitter (13)'>Twitter</a> <a href='http://karussell.wordpress.com/category/web20/' style='font-size: 90%; padding: 1px; margin: 1px;' title='Web2.0 (7)'>Web2.0</a> <a href='http://karussell.wordpress.com/category/wicket/' style='font-size: 94.413793103448%; padding: 1px; margin: 1px;' title='Wicket (11)'>Wicket</a> <a href='http://karussell.wordpress.com/category/xml/' style='font-size: 92.206896551724%; padding: 1px; margin: 1px;' title='XML (9)'>XML</a> </div></div><div id="meta-2" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>
+
+			<ul>
+			<li><a href="http://karussell.wordpress.com/wp-admin/">Site Admin</a></li>			<li><a href="/wp-login.php?action=logout&amp;redirect_to=http://karussell.wordpress.com%2F2011%2F03%2F07%2Ftwitter-api-and-me%2F">Log out</a></li>
+			<li><a href="http://karussell.wordpress.com/feed/" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://karussell.wordpress.com/comments/feed/" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.com/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.com</a></li>
+
+						</ul>
+</div>
+</div>
+<div class="clear"></div>
+
+</div> <!-- .content -->
+
+	<div class="clear"></div>
+
+</div> <!-- Close Page -->
+
+<hr />
+
+<p id="footer"><small>
+	Theme: <a href="http://theme.wordpress.com/themes/k2/">K2-lite</a> by <a href="http://getk2.com/" rel="designer">k2 team</a>. <a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.
+	<br /> 
+	<a href="http://karussell.wordpress.com/feed/">RSS Entries</a> and <a href="http://karussell.wordpress.com/comments/feed/">RSS Comments</a></small></p>
+
+	<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+/*	<![CDATA[ */
+		function pressthis(step) {if (step == 1) {if(navigator.userAgent.indexOf('Safari') >= 0) {Q=getSelection();}else {if(window.getSelection)Q=window.getSelection().toString();else if(document.selection)Q=document.selection.createRange().text;else Q=document.getSelection().toString();}} else {location.href='http://karussell.wordpress.com/wp-admin/post-new.php?text='+encodeURIComponent(Q.toString())+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title);}}
+		function toggle_query_list() { var querylist = document.getElementById( 'querylist' );if( querylist.style.display == 'block' ) {querylist.style.display='none';} else {querylist.style.display='block';}}
+
+		jQuery( function() {
+			(function(jq){jq.fn.hoverIntent=function(f,g){var cfg={sensitivity:7,interval:100,timeout:0};cfg=jq.extend(cfg,g?{over:f,out:g}:f);var cX,cY,pX,pY;var track=function(ev){cX=ev.pageX;cY=ev.pageY;};var compare=function(ev,ob){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);if((Math.abs(pX-cX)+Math.abs(pY-cY))<cfg.sensitivity){jq(ob).unbind("mousemove",track);ob.hoverIntent_s=1;return cfg.over.apply(ob,[ev]);}else{pX=cX;pY=cY;ob.hoverIntent_t=setTimeout(function(){compare(ev,ob);},cfg.interval);}};var delay=function(ev,ob){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);ob.hoverIntent_s=0;return cfg.out.apply(ob,[ev]);};var handleHover=function(e){var p=(e.type=="mouseover"?e.fromElement:e.toElement)||e.relatedTarget;while(p&&p!=this){try{p=p.parentNode;}catch(e){p=this;}}if(p==this){return false;}var ev=jQuery.extend({},e);var ob=this;if(ob.hoverIntent_t){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);}if(e.type=="mouseover"){pX=ev.pageX;pY=ev.pageY;jq(ob).bind("mousemove",track);if(ob.hoverIntent_s!=1){ob.hoverIntent_t=setTimeout(function(){compare(ev,ob);},cfg.interval);}}else{jq(ob).unbind("mousemove",track);if(ob.hoverIntent_s==1){ob.hoverIntent_t=setTimeout(function(){delay(ev,ob);},cfg.timeout);}}};return this.mouseover(handleHover).mouseout(handleHover);};})(jQuery);
+			;(function(jq){jq.fn.superfish=function(op){var sf=jq.fn.superfish,c=sf.c,jqarrow=jq([''].join('')),over=function(){var jqjq=jq(this),menu=getMenu(jqjq);clearTimeout(menu.sfTimer);jqjq.showSuperfishUl().siblings().hideSuperfishUl();},out=function(){var jqjq=jq(this),menu=getMenu(jqjq),o=sf.op;clearTimeout(menu.sfTimer);menu.sfTimer=setTimeout(function(){o.retainPath=(jq.inArray(jqjq[0],o.jqpath)>-1);jqjq.hideSuperfishUl();if(o.jqpath.length&&jqjq.parents(['li.',o.hoverClass].join('')).length<1){over.call(o.jqpath);}},o.delay);},getMenu=function(jqmenu){var menu=jqmenu.parents(['ul.',c.menuClass,':first'].join(''))[0];sf.op=sf.o[menu.serial];return menu;},addArrow=function(jqa){jqa.addClass(c.anchorClass).append(jqarrow.clone());};return this.each(function(){var s=this.serial=sf.o.length;var o=jq.extend({},sf.defaults,op);o.jqpath=jq('li.'+o.pathClass,this).slice(0,o.pathLevels).each(function(){jq(this).addClass([o.hoverClass,c.bcClass].join(' ')).filter('li:has(ul)').removeClass(o.pathClass);});sf.o[s]=sf.op=o;jq('li:has(ul)',this)[(jq.fn.hoverIntent&&!o.disableHI)?'hoverIntent':'hover'](over,out).each(function(){if(o.autoArrows)addArrow(jq('>a:first-child',this));}).not('.'+c.bcClass).hideSuperfishUl();var jqa=jq('a',this);jqa.each(function(i){var jqli=jqa.eq(i).parents('li');jqa.eq(i).focus(function(){over.call(jqli);}).blur(function(){out.call(jqli);});});o.onInit.call(this);}).each(function(){var menuClasses=[c.menuClass];if(sf.op.dropShadows&&!(jq.browser.msie&&jq.browser.version<7))menuClasses.push(c.shadowClass);jq(this).addClass(menuClasses.join(' '));});};var sf=jq.fn.superfish;sf.o=[];sf.op={};sf.IE7fix=function(){var o=sf.op;if(jq.browser.msie&&jq.browser.version>6&&o.dropShadows&&o.animation.opacity!=undefined) this.toggleClass(sf.c.shadowClass+'-off');};sf.c={bcClass:'sf-breadcrumb',menuClass:'sf-js-enabled',anchorClass:'sf-with-ul',arrowClass:'sf-sub-indicator',shadowClass:'sf-shadow'};sf.defaults={hoverClass:'sfHover',pathClass:'overideThisToUse',pathLevels:1,delay:600,animation:{opacity:'show'},speed:100,autoArrows:false,dropShadows:false,disableHI:false,onInit:function(){},onBeforeShow:function(){},onShow:function(){},onHide:function(){}};jq.fn.extend({hideSuperfishUl:function(){var o=sf.op,not=(o.retainPath===true)?o.jqpath:'';o.retainPath=false;var jqul=jq(['li.',o.hoverClass].join(''),this).add(this).not(not).removeClass(o.hoverClass).find('>ul').hide().css('visibility','hidden');o.onHide.call(jqul);return this;},showSuperfishUl:function(){var o=sf.op,sh=sf.c.shadowClass+'-off',jqul=this.addClass(o.hoverClass).find('>ul:hidden').css('visibility','visible');sf.IE7fix.call(jqul);o.onBeforeShow.call(jqul);jqul.animate(o.animation,o.speed,function(){sf.IE7fix.call(jqul);o.onShow.call(jqul);});return this;}});})(jQuery);
+
+						if ( jQuery(this).width() < 1100 ) jQuery("#adminbarsearch").hide();
+							
+			jQuery( '#wpcombar li.ab-my-account, #wpcombar li.ab-bloginfo' ).mouseover( function() {
+				if ( jQuery(this).hasClass( 'ab-my-account' ) ) jQuery('#wpcombar li.ab-me > a').addClass('hover');
+				if ( jQuery(this).hasClass( 'ab-bloginfo' ) ) jQuery('#wpcombar li.ab-blog > a').addClass('hover');
+			});
+			
+			jQuery( '#wpcombar li.ab-my-account, #wpcombar li.ab-bloginfo' ).mouseout( function() {
+				if ( jQuery(this).hasClass( 'ab-my-account' ) ) jQuery('#wpcombar li.ab-me > a').removeClass('hover');
+				if ( jQuery(this).hasClass( 'ab-bloginfo' ) ) jQuery('#wpcombar li.ab-blog > a').removeClass('hover');
+			});			
+			
+						jQuery(window).resize( function() {
+				if ( jQuery(this).width() < 1100 )
+					jQuery("#adminbarsearch").hide();
+				
+				if ( jQuery(this).width() > 1100 )
+					jQuery("#adminbarsearch").show();
+			});
+						
+			jQuery( '#wpcombar ul ul li a' ).mouseover( function() {
+				var root = jQuery(this).parents('div.quicklinks ul > li');
+				var par = jQuery(this).parent();
+				var children = par.children('ul');
+				if ( root.hasClass('ab-sadmin') )
+					jQuery(children[0]).css('right',par.parents('ul').width() - 1 +'px' );
+				else
+					jQuery(children[0]).css('left',par.parents('ul').width() +'px' );
+				
+				jQuery(children[0]).css('top', '0' );
+			});
+			
+							if ( window.location.hash ) window.scrollBy(0,-32);
+					
+		});
+
+		jQuery( function() { 
+			jQuery('#wpcombar').appendTo('body'); 
+			jQuery("#wpcombar ul").superfish();
+		});
+
+		/*	]]> */
+	</script>	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery( function() {
+			jQuery('#wpcombar li.ab-wpl-like > a, #wpl-button > a.like').click( function() {
+				var link = jQuery(this);
+				var count = 0;
+				
+				if ( link.parent().hasClass('liked') )
+					return true;
+
+				jQuery('#wpl-likebox #wpl-count').fadeOut(150);
+
+				jQuery('#wpl-likebox #wpl-button a').fadeOut(150, function() {
+					jQuery('#wpl-likebox #wpl-button a').removeClass('like');
+					jQuery('#wpl-likebox #wpl-button a, #wpl-likebox #wpl-button').addClass('liked');
+					
+					if ( 'Be the first to like this post.' == jQuery('#wpl-likebox #wpl-count').html() )
+						jQuery('#wpl-likebox #wpl-count').html('You like this post.');
+					else if ( 'One blogger likes this post.' == jQuery('#wpl-likebox #wpl-count').html() ) {
+						count = 1;
+						jQuery('#wpl-likebox #wpl-count').html('You and one other blogger like this post.');
+					} else {
+						count = jQuery('#wpl-likebox #wpl-count span').html();
+						jQuery('#wpl-likebox #wpl-count').html('You and ' + count + ' other bloggers like this post.');
+					}
+					
+					if ( !jQuery('#wpl-likebox #wpl-avatars').length ) {
+						jQuery('#wpl-likebox #wpl-count').after('<div id="wpl-avatars"><a title="karussell" href="http://gravatar.com/karussell"><img src="http://gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=30&amp;d=wavatar" alt="My Grav" width="30" height="30" /></a></div>').hide();
+						jQuery('#wpl-likebox #wpl-avatars a:first').hide().fadeIn(850);
+					} else {
+						jQuery('#wpl-likebox #wpl-avatars').prepend('<a href="http://gravatar.com/karussell"><img src="http://gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=30&amp;d=wavatar" alt="My Grav" width="30" height="30" style="padding-right: 3px;" /></a>');
+						jQuery('#wpl-likebox #wpl-avatars a:first').hide();
+					}
+					
+					jQuery('#wpl-likebox #wpl-count').fadeIn(150);
+					jQuery('#wpl-likebox #wpl-button a').html('You like this').fadeIn(150, function() {
+						jQuery('#wpl-likebox #wpl-avatars a:first').fadeIn(550);
+					});
+					
+					var timeout = 0;
+					if ( link.parent().hasClass('ab-wpl-like') ) {
+						timeout = 1200;
+						jQuery('#wpcombar li.ab-wpl-like a').addClass('loading');
+					}
+					
+					setTimeout( function() {
+						jQuery('#wpcombar li.ab-wpl-like').removeClass('like').addClass('liked menupop').append( '<ul><li><a href="http://wordpress.com/quickpress/?reblog=2042483,3088">Reblog this post</a></li><li><a href="http://wordpress.com/#likes">View all posts I like</a></li></ul>');
+						jQuery('#wpcombar li.ab-wpl-like > a').removeClass('loading').html('<span>You like this (' + (count*1 + 1) + ')</span>');
+						jQuery('#wpcombar li.ab-wpl-like ul').hide();
+					
+						if ( link.parent().hasClass('ab-wpl-like') ) {
+							jQuery('#wpcombar li.ab-wpl-like ul').slideDown( 200, function() {
+								setTimeout ( function() {
+									jQuery('#wpcombar li.ab-wpl-like ul').slideUp(200);
+								}, 5000 );
+							});
+						}
+					}, timeout );
+				});
+
+				var nonce = link.attr('href').split('_wpnonce=');
+					nonce = nonce[1];
+
+				jQuery.post( 'http://karussell.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'like_it', 
+					'cookie': encodeURIComponent(document.cookie), 
+					'_wpnonce': nonce, 
+					'blog_id': 2042483, 
+					'post_id': 3088				},
+				function(response) {});
+				return false;
+			});
+		});
+	/* ]]> */
+	</script>
+<script type="text/javascript">_qoptions={qacct:'p-18-mFEk4J448M',labels:'language.en,type.wpcom,wp.loggedin'};</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+<noscript><p><img class="robots-nocontent" src="http://pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=language.en%2Ctype.wpcom%2Cwp.loggedin" style="display:none" height="1" width="1" alt="" /></p></noscript>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery(document).ready( function() {
+			jQuery('#wpcombar .ab-subscribe > a').live( 'click', function() {
+				return false;
+			});
+			
+			jQuery('#wpcombar .ab-subscribe-to-blog a').live( 'click', function() {
+				var link = jQuery(this);
+				var parent_li = link.parents('li.ab-subscribe');
+				var parent_a = parent_li.children('a:first');
+				
+				if ( parent_li.hasClass('subscribed') ) return false;
+				link.html('Subscribing...');
+				parent_a.addClass('loading');
+
+				setTimeout( function() {
+					parent_a.removeClass('loading');
+					parent_li.addClass('subscribed');
+					parent_a.children('span').prepend('<strong>[x]</strong>');
+					parent_a.children('strong').hide().fadeIn(200);
+					link.parent().removeClass('ab-subscribe-to-blog');
+					link.parent().addClass('ab-unsubscribe-from-blog');
+					link.html('Unsubscribe from Blog');
+				}, 750 );
+
+				var nonce = link.attr('href').split('_wpnonce=');
+					nonce = nonce[1];
+
+				jQuery.post( 'http://karussell.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'ab_subscribe_to_blog', 
+					'cookie': encodeURIComponent(document.cookie), 
+					'_wpnonce': nonce, 
+					'blog_url': 'karussell.wordpress.com'
+				},
+				function(response) {});
+
+				return false;
+			});
+	
+			jQuery('#wpcombar .ab-unsubscribe-from-blog a').live( 'click', function() {
+				var link = jQuery(this);
+				var parent_li = link.parents('li.ab-subscribe');
+				var parent_a = parent_li.children('a:first');
+				
+				link.html('Unsubscribing...');
+				jQuery('li.ab-subscribe a span strong').remove();
+				parent_a.addClass('loading');
+
+				setTimeout( function() {
+					parent_a.removeClass('loading');
+					parent_li.removeClass('subscribed');
+					link.parent().removeClass('subscribed');
+					link.removeClass('subscribed');
+					link.parent().removeClass('ab-unsubscribe-from-blog');
+					link.parent().addClass('ab-subscribe-to-blog');
+					link.html('Subscribe to Blog');
+				}, 750 );
+
+				var nonce = link.attr('href').split('_wpnonce=');
+					nonce = nonce[1];
+
+				jQuery.post( 'http://karussell.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'ab_unsubscribe_from_blog', 
+					'cookie': encodeURIComponent(document.cookie), 
+					'_wpnonce': nonce, 
+					'blog_url': 'karussell.wordpress.com'
+				},
+				function(response) {});
+
+				return false;
+			});
+		});
+	/* ]]> */
+	</script>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?p&#038;ver=MU'></script>
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {
+	my_hash: "206690a26526f07467ecfd6662f8b152"
+};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1298424233g&amp;ver=MU'></script>
+	<div style="display:none">
+	</div>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/sharing/sharing.js?m=1302515456g&amp;ver=0.2'></script>
+	<div id="sharing_email" style="display: none;">
+		<form action="" method="post">
+			<label for="target_email">Send to Email Address</label>
+
+			<input type="text" name="target_email" id="target_email" value="" />
+			
+							<input type="hidden" name="source_name" value="karussell" />
+				<input type="hidden" name="source_email" value="peathal@yahoo.de" />
+						
+			<div class="recaptcha" id="sharing_recaptcha"></div>
+			<img style="float: right; display: none" class="loading" src="http://karussell.wordpress.com/wp-content/mu-plugins/sharing/images/loading.gif" alt="loading" width="16" height="16" />
+			<input type="submit" value="Send Email" class="sharing_send" />
+			<a href="#cancel" class="sharing_cancel">Cancel</a>
+			
+			<div class="errors errors-1" style="display: none;">
+
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+			
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div>
+
+<script type="text/javascript" src="http://b.scorecardresearch.com/beacon.js"></script><script type="text/javascript">try{COMSCORE.beacon({c1:2,c2:7518284});}catch(e){}</script><noscript><p class="robots-nocontent"><img src="http://b.scorecardresearch.com/p?cj=1c1=2&#038;c2=7518284" alt="" style="display:none" width="1" height="1" /></p></noscript><script src="http://s.stats.wordpress.com/w.js?19" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'2042483','v':'wpcom','user':'1','user_id':'2119107','post':'3088','subd':'karussell'});
+ex_go({'crypt':'UE40eW5QN0p8M2Y/RE1zNDZ8S252Wis9XUQyb3YrcUVIU2R0VH5TcUpqcF9NWi1bMDJfX2JqPURyMXdvXS02czAxMjdyM2UtS3B4d0haaG5pNkUrTiwwR3Ymd2tmcXlSREpkMStbemlicS5SR1dYNEpTNFJrUXRMUnJZbGE9flhdYU8sWVg0W35kUmFyQ04uME93RWg1cTZ0SF0tS2d4Wy5mLTdVVlQ3ZkNmUVMtRHBGcVgvMUQvbmVaQVZaTF1BLnclfi53SG1bRw=='});
+	</script>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+    jQuery(document).ready(function() {
+	jQuery( "#global-search" ).click( function() {
+	    jQuery( "#adminbarsearch" ).attr( "action", "http://en.search.wordpress.com" );
+	    jQuery("#publicsearchform").attr("target", "");
+	    if ( jQuery(".onsearch").length == 0 )
+		jQuery( "#adminbarsearch" ).attr( "target", "_blank" );
+	    jQuery( "#adminbarsearch" ).submit();
+	});
+
+	jQuery("#private-local-search").click( function() {
+	    jQuery( "#q" ).attr( "name", "s" );
+	    jQuery( "#adminbarsearch" ).attr( "action", "/" );
+	    jQuery( "#adminbarsearch" ).attr( "target", "" );
+	    jQuery( "#adminbarsearch" ).submit();
+	});
+
+	jQuery("#public-local-search").click( function() {
+	    if ( jQuery("#publicsearchform").length==0 ){
+		jQuery("#adminbarsearch-publicform").append("<form id='publicsearchform'></form>");
+		jQuery("#publicsearchform").append("<input type='hidden' id='newq' name='q' />");
+	    }
+	    jQuery("#publicsearchform").attr("target", "_blank");
+	    jQuery("#publicsearchform").attr("action", "http://en.search.wordpress.com");
+	    jQuery("#newq").val("site:karussell.wordpress.com "+jQuery("#q").val());
+	    jQuery("#publicsearchform").submit();
+	});
+
+	jQuery("#adminbarsearch #q").keypress(function(event){
+	    if ( event.keyCode == '13' ) {
+		event.preventDefault();
+		if ( jQuery("#private-local-search").length == 0 && jQuery("#public-local-search").length == 0 )
+		    jQuery("#global-search").click();
+		else
+		    jQuery(".localsearch").click();
+	    }
+	});
+    });
+/* ]]> */
+</script>
+		<div id="wpcombar" class="snap_nopreview no-grav">
+			<div class="quicklinks">
+				<ul>
+						
+		<li class="ab-me">
+
+			<a href="http://karussell.wordpress.com/wp-admin/profile.php"><img alt='' src='http://0.gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=16&amp;d=identicon&amp;r=G' class='avatar avatar-16' height='16' width='16' /></a>
+
+			
+					</li>		
+		<li class="menupop ab-my-account">
+			<a href="http://karussell.wordpress.com/wp-admin/profile.php"><span>My Account</span></a>
+
+						<ul>
+											
+		<li class="ab-new-quickpress-post">
+			<a href="http://wordpress.com/quickpress/">New QuickPress Post</a>
+
+			
+					</li>											
+		<li class="ab-edit-my-profile">
+			<a href="http://karussell.wordpress.com/wp-admin/profile.php">Edit My Profile</a>
+
+			
+					</li>											
+		<li class="ab-read-freshly-pressed">
+			<a href="http://wordpress.com/fresh/">Read Freshly Pressed</a>
+
+			
+					</li>											
+		<li class="ab-read-posts-i-like">
+
+			<a href="http://wordpress.com/likes/">Read Posts I Like</a>
+
+			
+					</li>											
+		<li class="ab-read-my-subscriptions">
+			<a href="http://wordpress.com/#subs">Read My Subscriptions</a>
+
+			
+					</li>											
+		<li class="ab-manage-my-subscriptions">
+			<a href="http://wordpress.com/#subs&amp;p=subscriptions.manage.blogs">Manage My Subscriptions</a>
+
+			
+					</li>											
+		<li class="ab-track-my-comments">
+			<a href="http://karussell.wordpress.com/wp-admin/index.php?page=my-comments">Track My Comments</a>
+
+			
+					</li>											
+		<li class="ab-global-dashboard">
+			<a href="http://dashboard.wordpress.com/wp-admin/">Global Dashboard</a>
+
+			
+					</li>											
+		<li class="ab-get-support">
+
+			<a href="http://en.support.wordpress.com/">Get Support</a>
+
+			
+					</li>											
+		<li class="ab-log-out">
+			<a href="http://wordpress.com/wp-login.php?action=logout&amp;redirect_to=http%3A%2F%2Fwordpress.com%2F">Log Out</a>
+
+			
+					</li>							</ul>
+			
+					</li>		
+		<li class="menupop ab-my-blogs">
+
+			<a href="http://karussell.wordpress.com/"><span>My Blogs</span></a>
+
+						<ul>
+											
+		<li class="menupop ab-blog-2042483">
+			<a href="http://karussell.wordpress.com/wp-admin/"><span><img src="http://s1.wp.com/i/wpmini-blue.png?m=1281748025g" alt="Blavatar" width="16" height="16" />Find Time for the Karussell</span></a>
+
+						<ul>
+											
+		<li class="ab-blog-2042483-d">
+			<a href="http://karussell.wordpress.com/wp-admin/">Dashboard</a>
+
+			
+					</li>											
+		<li class="ab-blog-2042483-n">
+			<a href="http://karussell.wordpress.com/wp-admin/post-new.php">New Post</a>
+
+			
+					</li>											
+		<li class="ab-blog-2042483-s">
+			<a href="http://karussell.wordpress.com/wp-admin/index.php?page=stats">Site Stats</a>
+
+			
+					</li>											
+		<li class="ab-blog-2042483-c">
+
+			<a href="http://karussell.wordpress.com/wp-admin/edit-comments.php">Manage Comments</a>
+
+			
+					</li>											
+		<li class="ab-blog-2042483-v">
+			<a href="http://karussell.wordpress.com">Read Blog</a>
+
+			
+					</li>							</ul>
+			
+					</li>											
+		<li class="menupop ab-blog-4834487">
+
+			<a href="http://shirtchen.wordpress.com/wp-admin/"><span><img src="http://s1.wp.com/i/wpmini-blue.png?m=1281748025g" alt="Blavatar" width="16" height="16" />Shirtchen</span></a>
+
+						<ul>
+											
+		<li class="ab-blog-4834487-d">
+			<a href="http://shirtchen.wordpress.com/wp-admin/">Dashboard</a>
+
+			
+					</li>											
+		<li class="ab-blog-4834487-n">
+			<a href="http://shirtchen.wordpress.com/wp-admin/post-new.php">New Post</a>
+
+			
+					</li>											
+		<li class="ab-blog-4834487-s">
+			<a href="http://shirtchen.wordpress.com/wp-admin/index.php?page=stats">Site Stats</a>
+
+			
+					</li>											
+		<li class="ab-blog-4834487-c">
+			<a href="http://shirtchen.wordpress.com/wp-admin/edit-comments.php">Manage Comments</a>
+
+			
+					</li>											
+		<li class="ab-blog-4834487-v">
+
+			<a href="http://shirtchen.wordpress.com">Read Blog</a>
+
+			
+					</li>							</ul>
+			
+					</li>											
+		<li class="menupop ab-blog-8360274">
+			<a href="http://timefinder.wordpress.com/wp-admin/"><span><img src="http://s1.wp.com/i/wpmini-blue.png?m=1281748025g" alt="Blavatar" width="16" height="16" />Timefinder</span></a>
+
+						<ul>
+											
+		<li class="ab-blog-8360274-d">
+
+			<a href="http://timefinder.wordpress.com/wp-admin/">Dashboard</a>
+
+			
+					</li>											
+		<li class="ab-blog-8360274-n">
+			<a href="http://timefinder.wordpress.com/wp-admin/post-new.php">New Post</a>
+
+			
+					</li>											
+		<li class="ab-blog-8360274-s">
+			<a href="http://timefinder.wordpress.com/wp-admin/index.php?page=stats">Site Stats</a>
+
+			
+					</li>											
+		<li class="ab-blog-8360274-c">
+			<a href="http://timefinder.wordpress.com/wp-admin/edit-comments.php">Manage Comments</a>
+
+			
+					</li>											
+		<li class="ab-blog-8360274-v">
+			<a href="http://timefinder.wordpress.com">Read Blog</a>
+
+			
+					</li>							</ul>
+
+			
+					</li>											
+		<li class="menupop ab-blog-12901402">
+			<a href="http://woxcase.wordpress.com/wp-admin/"><span><img src="http://1.gravatar.com/blavatar/fe5d073b169900123c4abf390c44cbfb?s=16&#038;d=http%3A%2F%2Fs1.wp.com%2Fi%2Fwpmini-blue.png" alt="Blavatar" width="16" height="16" />Woxcase Individualmöbel</span></a>
+
+						<ul>
+											
+		<li class="ab-blog-12901402-d">
+			<a href="http://woxcase.wordpress.com/wp-admin/">Dashboard</a>
+
+			
+					</li>											
+		<li class="ab-blog-12901402-n">
+
+			<a href="http://woxcase.wordpress.com/wp-admin/post-new.php">New Post</a>
+
+			
+					</li>											
+		<li class="ab-blog-12901402-s">
+			<a href="http://woxcase.wordpress.com/wp-admin/index.php?page=stats">Site Stats</a>
+
+			
+					</li>											
+		<li class="ab-blog-12901402-c">
+			<a href="http://woxcase.wordpress.com/wp-admin/edit-comments.php">Manage Comments</a>
+
+			
+					</li>											
+		<li class="ab-blog-12901402-v">
+			<a href="http://woxcase.wordpress.com">Read Blog</a>
+
+			
+					</li>							</ul>
+			
+					</li>											
+		<li class="menupop ab-blog-6404596">
+			<a href="http://jfxstudio.wordpress.com/wp-admin/"><span><img src="http://s1.wp.com/i/wpmini-blue.png?m=1281748025g" alt="Blavatar" width="16" height="16" />JFXStudio: sketch, hack, share</span></a>
+
+						<ul>
+											
+		<li class="ab-blog-6404596-d">
+			<a href="http://jfxstudio.wordpress.com/wp-admin/">Dashboard</a>
+
+			
+					</li>											
+		<li class="ab-blog-6404596-n">
+			<a href="http://jfxstudio.wordpress.com/wp-admin/post-new.php">New Post</a>
+
+			
+					</li>											
+		<li class="ab-blog-6404596-s">
+
+			<a href="http://jfxstudio.wordpress.com/wp-admin/index.php?page=stats">Site Stats</a>
+
+			
+					</li>											
+		<li class="ab-blog-6404596-c">
+			<a href="http://jfxstudio.wordpress.com/wp-admin/edit-comments.php">Manage Comments</a>
+
+			
+					</li>											
+		<li class="ab-blog-6404596-v">
+			<a href="http://jfxstudio.wordpress.com">Read Blog</a>
+
+			
+					</li>							</ul>
+			
+					</li>											
+		<li class="ab-manage-blogs">
+			<a href="http://dashboard.wordpress.com/wp-admin/index.php?page=my-blogs">Manage Blogs</a>
+
+			
+					</li>											
+		<li class="ab-register-a-new-blog">
+			<a href="http://wordpress.com/signup/">Register a New Blog</a>
+
+			
+					</li>							</ul>
+			
+					</li>		
+		<li class="ab-blog">
+			<a href="http://karussell.wordpress.com"><img class="avatar" src="http://s1.wp.com/i/wpmini-blue.png?m=1281748025g" alt="Current blog avatar" width="16" height="16" /></a>
+
+			
+					</li>		
+		<li class="menupop ab-bloginfo">
+			<a href=""><span>Blog Info</span></a>
+
+						<ul>
+											
+		<li class="ab-random-post">
+			<a href="/?random">Random Post</a>
+
+			
+					</li>											
+		<li class="ab-get-shortlink">
+			<a href="" onclick="javascript:function wpcomshort() { var url=document.location;var links=document.getElementsByTagName(&#39;link&#39;);var found=0;for(var i = 0, l; l = links[i]; i++){if(l.getAttribute(&#39;rel&#39;)==&#39;shortlink&#39;) {found=l.getAttribute(&#39;href&#39;);break;}}if (!found) {for (var i = 0; l = document.links[i]; i++) {if (l.getAttribute(&#39;rel&#39;) == &#39;shortlink&#39;) {found = l.getAttribute(&#39;href&#39;);break;}}}if (found) {prompt(&#39;URL:&#39;, found);} else {alert(&#39;No shortlink available for this page&#39;); } return false; } wpcomshort();">Get Shortlink</a>
+
+			
+					</li>											
+		<li class="ab-report-as-spam">
+
+			<a href="http://wordpress.com/report-spam/?url=karussell.wordpress.com">Report as spam</a>
+
+			
+					</li>											
+		<li class="ab-report-as-mature">
+			<a href="http://wordpress.com/report-mature/?url=karussell.wordpress.com">Report as mature</a>
+
+			
+					</li>											
+		<li class="ab-theme-k2-lite">
+			<a href="http://theme.wordpress.com/themes/k2/">Theme: K2-lite</a>
+
+			
+					</li>							</ul>
+			
+					</li>		
+		<li class="menupop ab-subscribe">
+			<a href="http://wordpress.com/subs?b=2042483&amp;_wpnonce=47712d5412"><span>Subscribe</span></a>
+
+						<ul>
+											
+		<li class="ab-subscribe-to-blog">
+			<a href="http://wordpress.com/subs?b=2042483&amp;_wpnonce=47712d5412">Subscribe to Blog</a>
+
+			
+					</li>							</ul>
+			
+					</li>		
+		<li class="ab-wpl-like like">
+			<a href="http://karussell.wordpress.com/2011/03/07/twitter-api-and-me/?like=1&amp;_wpnonce=7f557db327">Like</a>
+
+			
+					</li>		
+		<li class="ab-edit">
+			<a href="http://karussell.wordpress.com/wp-admin/post.php?post=3088&amp;action=edit">Edit</a>
+
+			
+					</li>				</ul>
+			</div>
+			<div id='adminbarsearch-wrap'>
+			<div id="adminbarsearch-publicform"></div>
+				<form id='adminbarsearch' name='adminbarsearch'>
+					<input class='adminbar-input' name='q' id='q' type='text' value='Search WordPress.com' maxlength='150' onfocus='this.value=(this.value=="Search WordPress.com") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Search WordPress.com" : this.value;' />
+											<button type='button' id="public-local-search" class='adminbar-button localsearch'><span>This Site</span></button>
+
+						<button type='button' id="global-search" class='adminbar-button'><span>All Sites</span></button>
+									</form>
+			</div>
+		</div>
+
+		</body>
+</html> 

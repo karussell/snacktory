@@ -1,13 +1,12 @@
 package com.jreadability.main;
 
+import java.util.ArrayList;
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.regex.Pattern;
-import java.util.HashMap;
-import java.util.Map;
-import org.jsoup.select.Elements;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +30,6 @@ public class ArticleTextExtractor {
             + "(.*foot.*)|(.*footer.*)|(.*footnote.*)|(.*masthead.*)|(.*media.*)|(.*meta.*)|"
             + "(.*outbrain.*)|(.*promo.*)|(.*related.*)|(.*scroll.*)|(.*shoutbox.*)|"
             + "(.*sidebar.*)|(.*sponsor.*)|(.*shopping.*)|(.*tags.*)|(.*tool.*)|(.*widget.*)");
-    private boolean preferEmptyTextOverGarbageText = false;
 
     /** 
      * @param html extracts article text from given html string. 
@@ -39,83 +37,109 @@ public class ArticleTextExtractor {
      * to handle minor stuff.
      * @returns extracted article, all HTML tags stripped
      */
-    public JResult getArticleText(String html) throws Exception {
+    public JResult extractContent(String html) throws Exception {
         if (html.isEmpty())
             throw new IllegalArgumentException("html string is empty!?");
 
         // http://jsoup.org/cookbook/extracting-data/selector-syntax
         Document doc = Jsoup.parse(html);
-
-//        for(Element e: doc.select("storyContent")) {
-//            print(e);
-//        }
-
         JResult res = new JResult();
 
         // grabbing the title should be easy
-        res.setTitle(doc.select("head title").text());
+        res.setTitle(Helper.innerTrim(doc.select("head title").text()));
 
         if (res.getTitle().isEmpty())
-            res.setTitle(doc.select("head meta[name=title]").attr("content"));
+            res.setTitle(Helper.innerTrim(doc.select("head meta[name=title]").attr("content")));
 
-        res.setDescription(doc.select("head meta[name=description]").attr("content"));
+        res.setDescription(Helper.innerTrim(doc.select("head meta[name=description]").attr("content")));
 
+        List<Element> h1Orh2Nodes = new ArrayList<Element>();
+        for (Element el : doc.select("body").select("h1")) {
+            h1Orh2Nodes.add(el.parent());
+        }
+
+        for (Element el : doc.select("body").select("h2")) {
+            h1Orh2Nodes.add(el.parent());
+        }
         // now remove the clutter
         prepareDocument(doc);
 
         // init elements
-        Map<Element, Integer> scores = new HashMap<Element, Integer>();
+        List<Element> scores = new ArrayList<Element>();
         for (Element el : doc.select("body").select("*")) {
             if (el.tag().getName().equals("p") || el.tag().getName().equals("td") || el.tag().getName().equals("div")) {
-                scores.put(el, 0);
+//                print(el);
+                scores.add(el);
             }
         }
 
-        int maxWeight;
-        if (preferEmptyTextOverGarbageText)
-            maxWeight = 0;
-        else
-            maxWeight = Integer.MIN_VALUE;
-
+        int maxWeight = 0;
         Element bestMatchElement = null;
-        for (Element entry : scores.keySet()) {
-//            print(entry);                
+        for (Element entry : scores) {
             int currentWeight = getWeight(entry);
             if (currentWeight > maxWeight) {
+                currentWeight = getWeight(entry);
                 maxWeight = currentWeight;
                 bestMatchElement = entry;
             }
         }
 
-        if (bestMatchElement != null && !bestMatchElement.text().isEmpty())
-            res.setText(bestMatchElement.text());
+        // determine text with nodes containing h1 or h2
+        if (bestMatchElement == null) {
+            for (Element entry : h1Orh2Nodes) {
+                int currentWeight = getWeight(entry);
+                if (currentWeight > maxWeight) {
+                    maxWeight = currentWeight;
+                    bestMatchElement = entry;
+                }
+            }
+        }
 
         if (bestMatchElement != null) {
             Element imgEl = determineImageSource(bestMatchElement);
             if (imgEl != null) {
-                res.setImageUrl(imgEl.attr("src"));
+                res.setImageUrl(Helper.innerTrim(imgEl.attr("src")));
                 // TODO remove parent container of image if it is contained in bestMatchElement
                 // to avoid image subtitles flooding in
+            }
+
+            String text = Helper.innerTrim(bestMatchElement.text());
+            text = removeTitleFromText(text, res.getTitle());
+            if (text.length() > res.getDescription().length() && text.length() > res.getTitle().length()) {
+                res.setText(text);
+                print("best element:", bestMatchElement);
             }
         }
 
         // use open graph tag to get image
         if (res.getImageUrl().isEmpty())
-            res.setImageUrl(doc.select("head meta[property=og:image]").attr("content"));
+            res.setImageUrl(Helper.innerTrim(doc.select("head meta[property=og:image]").attr("content")));
 
         // prefer link over thumbnail-meta if empty
         if (res.getImageUrl().isEmpty())
-            res.setImageUrl(doc.select("link[rel=image_src]").attr("href"));
+            res.setImageUrl(Helper.innerTrim(doc.select("link[rel=image_src]").attr("href")));
 
         if (res.getImageUrl().isEmpty())
-            res.setImageUrl(doc.select("head meta[name=thumbnail]").attr("content"));
+            res.setImageUrl(Helper.innerTrim(doc.select("head meta[name=thumbnail]").attr("content")));
 
+        res.setVideoUrl(Helper.innerTrim(doc.select("head meta[property=og:video]").attr("content")));
         return res;
     }
 
     public Element determineImageSource(Element el) {
         for (Element e : el.getElementsByTag("img")) {
-            if (!e.attr("src").isEmpty())
+            int height = Integer.MAX_VALUE;
+            try {
+                height = Integer.parseInt(e.attr("height"));
+            } catch (Exception ex) {
+            }
+            int width = Integer.MAX_VALUE;
+            try {
+                width = Integer.parseInt(e.attr("width"));
+            } catch (Exception ex) {
+            }
+            String sourceUrl = e.attr("src");
+            if (!sourceUrl.isEmpty() && !isAdImage(sourceUrl) && height > 30 && width > 30)
                 return e;
         }
 
@@ -136,51 +160,14 @@ public class ArticleTextExtractor {
      */
     protected void stripUnlikelyCandidates(Document doc) {
         for (Element child : doc.select("body").select("*")) {
-            if ("storyContent".equals(child.className()))
-                print(child);
-
             String className = child.className().toLowerCase();
             String id = child.id().toLowerCase();
 
             if (negative.matcher(className).matches()
                     || negative.matcher(id).matches()) {
-
                 child.remove();
             }
         }
-    }
-
-    private static boolean isHighLinkDensity(Element e) {
-        Elements links = e.getElementsByTag("a");
-
-        if (links.size() == 0)
-            return false;
-
-        float score = 0;
-        String text = e.text();
-        String[] words = text.split(" ");
-        float numberOfWords = words.length;
-
-
-        // let's loop through all the links and calculate the number of words that make up the links
-        StringBuilder sb = new StringBuilder();
-        for (Element link : links) {
-            sb.append(link.text());
-        }
-        String linkText = sb.toString();
-        String[] linkWords = linkText.split(" ");
-        float numberOfLinkWords = linkWords.length;
-
-        float numberOfLinks = links.size();
-
-        float linkDivisor = (float) (numberOfLinkWords / numberOfWords);
-        score = (float) linkDivisor * numberOfLinks;
-
-        if (score > 1) {
-            return true;
-        }
-
-        return false;
     }
 
     /** 
@@ -191,21 +178,24 @@ public class ArticleTextExtractor {
     protected int getWeight(Element e) {
         Integer weight = 0;
         if (positive.matcher(e.className()).matches())
-            weight += 25;
+            weight += 20;
 
         if (positive.matcher(e.id()).matches())
-            weight += 25;
+            weight += 20;
 
         if (unlikely.matcher(e.className()).matches())
-            weight -= 20;
+            weight -= 40;
 
         if (unlikely.matcher(e.id()).matches())
-            weight -= 20;
+            weight -= 40;
 
         if (weight >= 0) {
             int childNodesWeight = weightChildNodes(e);
-            if (childNodesWeight == 0 && e.ownText().length() > 100) {
-                weight += Math.round(e.ownText().length() / 100) * 5;
+            if (childNodesWeight == 0) {
+                if (e.ownText().length() > 100)
+                    weight += Math.round(e.ownText().length() / 100) * 5;
+                else
+                    weight = 0;
             } else {
                 weight += childNodesWeight;
             }
@@ -223,20 +213,65 @@ public class ArticleTextExtractor {
     protected int weightChildNodes(Element e) {
         int weight = 0;
         for (Element child : e.children()) {
-            if (child.tag().getName().equals("div") || child.tag().getName().equals("p")) {
-                if (child.ownText().length() > 100) {
-                    if (child.parent() == e) {
-                        weight += Math.round(child.ownText().length() / 100) * 4;
-                    } else if (child.parent().parent() == e) {
-                        weight += Math.round(child.ownText().length() / 100) * 3;
-                    }
-                }
+            if (child.tag().getName().equals("h1") || child.tag().getName().equals("h2")) {
+                weight += 20;
+            } else if (child.tag().getName().equals("div") || child.tag().getName().equals("p")) {
+                weight += calcWeightForChild(child, e);
+            } else if (child.className().isEmpty() && child.id().isEmpty() && child.attr("style").isEmpty()) {
+                if (child.ownText().length() > 0)
+                    weight += calcWeightForChild(child, e);
+                else
+                    // got deeper if a container has no styling attributes like ol, li, strong, ...
+                    weight += weightChildNodes(child);
             }
         }
         return weight;
     }
 
-    private void print(Element child) {
-        logger.info(child.nodeName() + " id=" + child.id() + " class=" + child.className() + " : " + child.text());
+    public int calcWeightForChild(Element child, Element e) {
+        // garbled html:
+        int c = Helper.count(child.ownText(), "&quot;");
+        c += Helper.count(child.ownText(), "&lt;");
+        c += Helper.count(child.ownText(), "&gt;");
+        c += Helper.count(child.ownText(), "px");
+        if (c > 5)
+            return -30;
+
+        if (child.ownText().length() > 100) {
+            if (child.parent() == e) {
+                return Math.round(child.ownText().length() / 100) * 4;
+            } else if (child.parent().parent() == e) {
+                return Math.round(child.ownText().length() / 100) * 3;
+            }
+        }
+        return 0;
     }
+
+    private void print(Element child) {
+        print("", child, "");
+    }
+
+    private void print(String add, Element child) {
+        print(add, child, "");
+    }
+
+    private void print(String add1, Element child, String add2) {
+        logger.info(add1 + " " + child.nodeName() + " id=" + child.id()
+                + " class=" + child.className() + " text=" + child.text() + " " + add2);
+    }
+
+    private boolean isAdImage(String imageUrl) {
+        return Helper.count(imageUrl, "ad") >= 2;
+    }
+
+    /**
+     * TODO improve algo if title has parts which should be removed!
+     */
+    public String removeTitleFromText(String text, String title) {
+        int index1 = text.toLowerCase().indexOf(title.toLowerCase());
+        if (index1 >= 0)
+            text = text.substring(index1 + title.length());
+        return text;
+    }
+
 }
