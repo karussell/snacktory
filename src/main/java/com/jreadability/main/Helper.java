@@ -15,15 +15,20 @@
  */
 package com.jreadability.main;
 
+import java.io.UnsupportedEncodingException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  *
  * @author Peter Karich, jetwick_@_pannous_._info
  */
 public class Helper {
+
+    public static final String UTF8 = "UTF-8";
 
     public static int count(String str, String substring) {
         int c = 0;
@@ -101,8 +106,18 @@ public class Helper {
     }
 
     public static String getDefaultFavicon(String url) {
-        url = extractDomain(url, true);
-        return "http://" + url + "/favicon.ico";
+        return appendToDomainOfFirst(url, "/favicon.ico", true);
+    }
+
+    /**
+     * @param urlForDomain extract the domain from this url
+     * @param path this url does not have a domain
+     * @param includeMobile
+     * @return 
+     */
+    public static String appendToDomainOfFirst(String urlForDomain, String path, boolean includeMobile) {
+        String domain = extractDomain(urlForDomain, includeMobile);
+        return "http://" + domain + path;
     }
 
     public static String extractDomain(String url, boolean includeMobile) {
@@ -145,5 +160,35 @@ public class Helper {
      */
     public static void enableUserAgentOverwrite() {
         System.setProperty("http.agent", "");
+    }
+
+    public static String getUrlFromUglyGoogleRedirect(String url) {
+        if (url.startsWith("http://www.google.com/url?")) {
+            url = url.substring("http://www.google.com/url?".length());
+            String arr[] = urlDecode(url).split("\\&");
+            if (arr != null)
+                for (String str : arr) {
+                    if (str.startsWith("q="))
+                        return str.substring("q=".length());
+                }
+        }
+
+        return null;
+    }
+
+    public static String urlEncode(String str) {
+        try {
+            return URLEncoder.encode(str, UTF8);
+        } catch (UnsupportedEncodingException ex) {
+            return str;
+        }
+    }
+
+    public static String urlDecode(String str) {
+        try {
+            return URLDecoder.decode(str, UTF8);
+        } catch (UnsupportedEncodingException ex) {
+            return str;
+        }
     }
 }

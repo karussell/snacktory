@@ -766,6 +766,12 @@ public class ArticleTextExtractorTest {
         assertEquals("http://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Pristeroognathus_DB.jpg/240px-Pristeroognathus_DB.jpg",
                 article.getImageUrl());
     }
+    
+    @Test
+    public void testGoogleRedirect() {
+        // http://www.google.com/url?sa=x&q=http://www.taz.de/1/politik/asien/artikel/1/anti-atomkraft-nein-danke/&ct=ga&cad=caeqargbiaaoataaoabaltmh7qrialaawabibwrllurf&cd=d5glzns5m_4&usg=afqjcnetx___sph8sjwhjwi-_mmdnhilra&utm_source=twitterfeed&utm_medium=twitter
+        
+    }
 
     /**
      * @param filePath the name of the file to open. Not sure if it can accept URLs 

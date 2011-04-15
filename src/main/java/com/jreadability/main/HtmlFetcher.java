@@ -47,6 +47,7 @@ public class HtmlFetcher {
             String url = line.substring(index1 + 1, index2);
             String domainStr = Helper.extractDomain(url, true);
             String counterStr = "";
+            // TODO more similarities
             if (existing.contains(domainStr))
                 counterStr = "2";
             else
@@ -67,21 +68,28 @@ public class HtmlFetcher {
     }
 
     public static JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
+        String gUrl = Helper.getUrlFromUglyGoogleRedirect(url);
+        if (gUrl != null)
+            url = gUrl;
+
         if (resolve) {
             // TODO remove time taken to resolve from timeout!
             String resUrl = getResolvedUrl(url, timeout);
             // if resolved url is longer: use it!
-            if (resUrl != null && resUrl.trim().length() > url.length())
+            if (resUrl != null && resUrl.trim().length() > url.length()) {
+                if (resUrl.startsWith("/"))
+                    resUrl = Helper.appendToDomainOfFirst(url, resUrl, false);
+
                 url = resUrl;
+            }
         }
 
         JResult result = new ArticleTextExtractor().extractContent(fetchAsString(url, timeout));
         result.setUrl(url);
-        String domain = Helper.extractDomain(url, false);
 
         // some images are relative to root and do not include the url :/
         if (result.getImageUrl().startsWith("/"))
-            result.setImageUrl("http://" + domain + result.getImageUrl());
+            result.setImageUrl(Helper.appendToDomainOfFirst(url, result.getImageUrl(), false));
 
         // some websites do not store favicon links within the page
         if (result.getFaviconUrl().isEmpty())

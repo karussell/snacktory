@@ -1,6 +1,5 @@
 package com.jreadability.main;
 
-import com.sun.org.apache.xml.internal.serializer.ElemDesc;
 import java.util.ArrayList;
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
