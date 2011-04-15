@@ -77,25 +77,30 @@ public class HtmlFetcher {
             String resUrl = getResolvedUrl(url, timeout);
             // if resolved url is longer: use it!
             if (resUrl != null && resUrl.trim().length() > url.length()) {
-                if (resUrl.startsWith("/"))
-                    resUrl = Helper.appendToDomainOfFirst(url, resUrl, false);
+                resUrl = Helper.useDomainOfFirst4Sec(url, resUrl);
 
                 url = resUrl;
             }
         }
 
         JResult result = new ArticleTextExtractor().extractContent(fetchAsString(url, timeout));
+        
+        // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
         result.setUrl(url);
 
-        // some images are relative to root and do not include the url :/
-        if (result.getImageUrl().startsWith("/"))
-            result.setImageUrl(Helper.appendToDomainOfFirst(url, result.getImageUrl(), false));
-
-        // some websites do not store favicon links within the page
         if (result.getFaviconUrl().isEmpty())
             result.setFaviconUrl(Helper.getDefaultFavicon(url));
 
+        // some links are relative to root and do not include the domain of the url :/
+        result.setImageUrl(fixUrl(url, result.getImageUrl()));
+        result.setFaviconUrl(fixUrl(url, result.getFaviconUrl()));
+        result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
+        
         return result;
+    }
+
+    private static String fixUrl(String url, String urlOrPath) {
+        return Helper.useDomainOfFirst4Sec(url, urlOrPath);        
     }
 
     public static String fetchAsString(String urlAsString, int timeout) {

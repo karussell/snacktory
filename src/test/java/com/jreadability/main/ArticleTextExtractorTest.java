@@ -82,7 +82,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("golem.html")));
 //        System.out.println("firefox:" + res.getText());
 //        assertTrue(res.getText(), res.getText().startsWith("Unter dem Namen \"Aurora\" hat Firefox einen"));
-        assertTrue(res.getText(), res.getText().startsWith("Mozilla hat Firefox 5.0a2 veröffentlicht und zugleich eine erste Entwicklerversion von Firefox 6 freigegeben."));        
+        assertTrue(res.getText(), res.getText().startsWith("Mozilla hat Firefox 5.0a2 veröffentlicht und zugleich eine erste Entwicklerversion von Firefox 6 freigegeben."));
         assertEquals("http://scr3.golem.de/screenshots/1104/Firefox-Aurora/thumb480/aurora-nighly-beta-logos.png", res.getImageUrl());
 //        assertEquals("http://www.golem.de/1104/82797-9183-i.png", res.getImageUrl());
         assertEquals("Mozilla: Vorabversionen von Firefox 5 und 6 veröffentlicht - Golem.de", res.getTitle());
@@ -111,6 +111,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("rian.html")));
         assertTrue(res.getText(), res.getText().startsWith("About 15,000 people took to the streets in Tokyo on Sunday to protest against th"));
         assertEquals("Japanese rally against nuclear power industry | World | RIA Novosti", res.getTitle());
+        assertEquals("", res.getFaviconUrl());
     }
 
     @Test
@@ -142,7 +143,7 @@ public class ArticleTextExtractorTest {
 
     @Test
     public void testSpiegel() throws Exception {
-        JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("spiegel.html")));        
+        JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("spiegel.html")));
         assertTrue(res.getText(), res.getText().startsWith("Von Matthias Kremp Da ist er wieder, der C64: Eigentlich längst ein Relikt der Technikgeschichte, soll der "));
     }
 
@@ -200,7 +201,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("engadget.html")));
         assertTrue(res.getText(), res.getText().startsWith("This thought was first given voice by Myriam Joire on last night's Mobile Podcast, and the"));
         assertEquals("http://www.blogcdn.com/www.engadget.com/media/2011/04/11x0409mnbvhg_thumbnail.jpg", res.getImageUrl());
-        assertEquals("Editorial: Android's problem isn't fragmentation, it's contamination -- Engadget", res.getTitle());        
+        assertEquals("Editorial: Android's problem isn't fragmentation, it's contamination -- Engadget", res.getTitle());
     }
 
     @Test
@@ -289,14 +290,23 @@ public class ArticleTextExtractorTest {
     public void testFoxnews() throws Exception {
         //String url = "http://www.foxnews.com/politics/2010/08/14/russias-nuclear-help-iran-stirs-questions-improved-relations/";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("foxnews.html")));
-        assertTrue(article.getText(), article.getText().startsWith("AP Apr. 8: President Obama signs the New START treaty with Russian President Dmitry Medvedev at the Prague Castle. Russia's announcement "));
+        assertTrue("Foxnews:" + article.getText(), article.getText().startsWith("AP Apr. 8: President Obama signs the New START treaty with Russian President Dmitry Medvedev at the Prague Castle. Russia's announcement "));
         assertEquals("http://a57.foxnews.com/static/managed/img/Politics/397/224/startsign.jpg", article.getImageUrl());
+    }
+
+    @Test
+    public void testStackoverflow() throws Exception {
+        //String url = "http://stackoverflow.com/questions/4083803/jsoup-problem-selecting-a-tag";
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("stackoverflow.html")));
+        assertTrue("stackoverflow:" + article.getText(), article.getText().startsWith("Hi, Is there a way to select an element following another one?"));
+        assertEquals("", article.getImageUrl());
     }
 
     @Test
     public void testAolnews() throws Exception {
         //String url = "http://www.aolnews.com/nation/article/the-few-the-proud-the-marines-getting-a-makeover/19592478";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("aolnews.html")));
+        assertEquals("http://o.aolcdn.com/art/ch_news/aol_favicon.ico", article.getFaviconUrl());
         assertTrue(article.getText(), article.getText().startsWith("WASHINGTON (Aug. 13) -- Declaring &quot;the maritime soul of the Marine Corps"));
         assertEquals("http://o.aolcdn.com/photo-hub/news_gallery/6/8/680919/1281734929876.JPEG", article.getImageUrl());
     }
@@ -766,11 +776,10 @@ public class ArticleTextExtractorTest {
         assertEquals("http://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Pristeroognathus_DB.jpg/240px-Pristeroognathus_DB.jpg",
                 article.getImageUrl());
     }
-    
+
     @Test
     public void testGoogleRedirect() {
         // http://www.google.com/url?sa=x&q=http://www.taz.de/1/politik/asien/artikel/1/anti-atomkraft-nein-danke/&ct=ga&cad=caeqargbiaaoataaoabaltmh7qrialaawabibwrllurf&cd=d5glzns5m_4&usg=afqjcnetx___sph8sjwhjwi-_mmdnhilra&utm_source=twitterfeed&utm_medium=twitter
-        
     }
 
     /**

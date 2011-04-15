@@ -68,6 +68,8 @@ public class HelperTest {
         assertFalse(Helper.isVideoLink("irgendwas.com/youtube.com"));
 
         assertEquals("techcrunch.com",
-                Helper.extractDomain("http://techcrunch.com/2010/08/13/gantto-takes-on-microsoft-project-with-web-based-project-management-application/", true));
+                Helper.extractHost("http://techcrunch.com/2010/08/13/gantto-takes-on-microsoft-project-with-web-based-project-management-application/"));
+        
+        Helper.useDomainOfFirst4Sec("http://www.n24.de/news/newsitem_6797232.html", "../../../media/imageimport/images/content/favicon.ico");
     }
 }

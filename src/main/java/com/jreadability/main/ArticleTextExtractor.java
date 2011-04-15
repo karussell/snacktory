@@ -103,9 +103,12 @@ public class ArticleTextExtractor {
         res.setVideoUrl(Helper.innerTrim(doc.select("head meta[property=og:video]").attr("content")));
 
         res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel=icon]").attr("href")));
+        if (res.getFaviconUrl().isEmpty()) {
+            // don't know how to select rel=shortcut icon => select start==shortcut and end==icon
 
-//        if(res.getFaviconUrl().isEmpty())
-//            res.setFaviconUrl(Helper.getDefaultFavicon(url));
+            res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href")));
+        }
+
         return res;
     }
 
@@ -241,10 +244,10 @@ public class ArticleTextExtractor {
             String alt = e.attr("alt");
             if (alt.length() > 50)
                 weight += 20;
-            
+
             String title = e.attr("title");
             if (title.length() > 50)
-                weight += 20;                        
+                weight += 20;
 
             if (weight > maxWeight) {
                 maxWeight = weight;

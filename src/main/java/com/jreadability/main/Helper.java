@@ -106,7 +106,7 @@ public class Helper {
     }
 
     public static String getDefaultFavicon(String url) {
-        return appendToDomainOfFirst(url, "/favicon.ico", true);
+        return useDomainOfFirst4Sec(url, "/favicon.ico");
     }
 
     /**
@@ -115,23 +115,39 @@ public class Helper {
      * @param includeMobile
      * @return 
      */
-    public static String appendToDomainOfFirst(String urlForDomain, String path, boolean includeMobile) {
-        String domain = extractDomain(urlForDomain, includeMobile);
-        return "http://" + domain + path;
+    public static String useDomainOfFirst4Sec(String urlForDomain, String path) {
+        if (path.startsWith("http"))
+            return path;
+        else if (path.startsWith("/"))
+            return "http://" + extractHost(urlForDomain) + path;
+        else if (path.startsWith("../")) {
+            int slashIndex = urlForDomain.lastIndexOf("/");
+            if (slashIndex > 0 && slashIndex + 1 < urlForDomain.length())
+                urlForDomain = urlForDomain.substring(0, slashIndex + 1);
+            
+            return urlForDomain + path;
+        }
+        return path;
     }
 
-    public static String extractDomain(String url, boolean includeMobile) {
+    public static String extractHost(String url) {
+        return extractDomain(url, false);
+    }
+
+    public static String extractDomain(String url, boolean aggressive) {
         if (url.startsWith("http://"))
             url = url.substring("http://".length());
         else if (url.startsWith("https://"))
             url = url.substring("https://".length());
 
-        if (url.startsWith("www."))
-            url = url.substring("www.".length());
+        if (aggressive) {
+            if (url.startsWith("www."))
+                url = url.substring("www.".length());
 
-        // strip mobile from start
-        if (includeMobile && url.startsWith("m."))
-            url = url.substring("m.".length());
+            // strip mobile from start
+            if (url.startsWith("m."))
+                url = url.substring("m.".length());
+        }
 
         int slashIndex = url.indexOf("/");
         if (slashIndex > 0)

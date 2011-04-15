@@ -1,0 +1,660 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<title>java - Jsoup - Problem selecting a tag - Stack Overflow</title>
+<link rel="shortcut icon" href="http://sstatic.net/stackoverflow/img/favicon.ico">
+<link rel="apple-touch-icon" href="http://sstatic.net/stackoverflow/img/apple-touch-icon.png">
+<link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="/opensearch.xml">
+<link rel="stylesheet" type="text/css" href="http://sstatic.net/stackoverflow/all.css?v=21752f127de6">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://sstatic.net/js/master.min.js?v=c7993dfe1bc5"></script>
+    <script type="text/javascript">
+        $(function () {
+            profileLink.init('<img src="http://www.gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=50&amp;d=identicon&amp;r=PG" height="50" width="50" alt="">', false, 'http://stackoverflow.com/users/194609/karussell?tab=activity', 1302897533 - (new Date()).getTime() / 1000);
+        });
+    </script>
+
+
+    <link rel="canonical" href="http://stackoverflow.com/questions/4083803/jsoup-problem-selecting-a-tag">
+    <link rel="alternate" type="application/atom+xml" title="Feed for question 'Jsoup - Problem selecting a tag'" href="/feeds/question/4083803">
+    <script src="http://sstatic.net/js/question.js?v=4e6e0b5b73cd" type="text/javascript"></script>
+    <script type="text/javascript">
+        
+        StackExchange.ready(function () {
+
+            StackExchange.question.init({canOpenBounty:true,votesCast:[],canViewVoteCounts:true,questionId:4083803});
+
+            styleCode();
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        StackExchange.init({"stackAuthUrl":"http://stackauth.com","site":{"name":"Stack Overflow","description":"Q&A for professional and enthusiast programmers"},"user":{"isRegistered":true,"guid":"ffd029b9-fcad-461d-ba87-8ac611e81dd7","fkey":"7f1c1b43e18b3e36fec4f318a40cc4a5","inboxUnviewedCount":0}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.js":"dcf6d862901d","js/moderator.js":"3adc1f43ac02"});
+    </script>
+
+</head>
+<body class="question-page">
+    <noscript><div id="noscript-padding"></div></noscript>
+    <div id="notify-container"></div>
+    <div id="overlay-header"></div>
+    <div id="custom-header"></div>
+    <div class="container">
+        <div id="header">
+            <div id="portalLink">
+
+                <a class="genu" href="http://stackexchange.com">Stack Exchange</a>
+            </div>
+            <div id="topbar">
+                <div id="hlinks">
+                    <span id="hlinks-user">
+                  <span class="profile-triangle">&#9662;</span><a href="/users/194609/karussell" class="profile-link">Karussell</a>&nbsp;<a href="/users/194609/karussell?tab=reputation"><span class="reputation-score" title="your reputation; view reputation changes">2,505</span></a><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="21 bronze badges"><span class="badge3"></span><span class="badgecount">21</span></span>
+
+ <span class="lsep">|</span>
+
+                  </span>
+                  <span id="hlinks-nav">
+                  
+                  </span>
+                  <span id="hlinks-custom">
+                  <a href="http://chat.stackoverflow.com">chat</a>
+ <span class="lsep">|</span>
+
+<a href="http://meta.stackoverflow.com">meta</a>
+ <span class="lsep">|</span>
+<a href="/about">about</a>
+ <span class="lsep">|</span>
+<a href="/faq">faq</a>
+                  </span>
+                </div>
+                <div id="hsearch">
+
+                    <form id="search" action="/search" method="get">
+                    <div>
+                        <input name="q" class="textbox" tabindex="1" onfocus="if (this.value=='search') this.value = ''" type="text" maxlength="140" size="28" value="search">
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <br class="cbt">
+            <div id="hlogo">
+
+                <a href="/">Stack Overflow</a>
+            </div>
+            <div id="hmenus">
+                <div class="nav mainnavs">
+                    <ul>
+                        <li class="youarehere"><a id="nav-questions" href="/questions">Questions</a></li>
+                        <li><a id="nav-tags" href="/tags">Tags</a></li>
+
+                        <li><a id="nav-users" href="/users">Users</a></li>
+                        <li><a id="nav-badges" href="/badges">Badges</a></li>
+                        <li><a id="nav-unanswered" href="/unanswered">Unanswered</a></li>
+                    </ul>
+                </div>
+                <div class="nav askquestion">
+                    <ul>
+
+                        <li>
+                            <a id="nav-askquestion"  href="/questions/ask">Ask Question</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="content">
+
+            
+
+
+
+<div id="question-header">
+    <h1><a href="/questions/4083803/jsoup-problem-selecting-a-tag" class="question-hyperlink">Jsoup - Problem selecting a tag</a></h1>
+</div>
+
+<div id="mainbar">
+
+
+<div id="question">
+
+    <table>
+    <tr>
+    <td class="votecell">
+
+        
+<div class="vote">
+    <input type="hidden" value="4083803">
+    <a class="vote-up-off" title="This question is useful and clear (click again to undo)">up vote</a>
+    <span class="vote-count-post">1</span>
+    <a class="vote-down-off" title="This question is unclear or not useful (click again to undo)">down vote</a>
+
+    <a class="star-off" href="#" title="This is a favorite question (click again to undo)">favorite</a>
+
+    <div class="favoritecount"><b></b></div>    
+
+</div>
+
+    </td>
+    <td class="postcell">
+        <div>          
+            <div class="post-text">
+                <p>Hi, </p>
+
+<p>Is there a way to select an element following another one?</p>
+
+<p>For example if I have :</p>
+
+<pre><code>&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th&gt;&lt;/th&gt;
+        &lt;td&gt;&lt;/td&gt;
+
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        ...
+    &lt;/tr&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>and I want to select the first th I can do :
+<pre><code>
+Elements select = Jsoup.parse(HTML_PAGE).select("th");
+Element element = select.get(0);
+
+</pre></code>
+But how can I do to say : select the td that follow the first th?</p>
+
+<p>Thank you for your help.</p>
+
+            </div>            
+            <div class="post-taglist">
+                <a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="/questions/tagged/jsoup" class="post-tag" title="show questions tagged 'jsoup'" rel="tag">jsoup</a> 
+            </div>
+            <table class="fw">
+
+            <tr>
+            <td class="vt">
+                <div class="post-menu"><a href="/q/4083803/194609" title="short permalink to this question" id="link-post-4083803">link</a><span class="lsep">|</span><a href="/posts/4083803/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-4083803" title="flag this post for serious problems or moderator attention">flag</a></div>
+            </td>
+                        
+
+            <td class="post-signature owner">
+            <div class="user-info"><div class="user-action-time">asked <span title="2010-11-03 02:29:55Z" class="relativetime">Nov 3 '10 at 2:29</span></div><div class="user-gravatar32"><a href="/users/108341/michael"><img src="http://www.gravatar.com/avatar/d0e19a253b555ff5b7633f6e80940325?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/108341/michael">Micha&#235;l </a><br><span class="reputation-score" title="reputation score">514</span><span title="2 gold badges"><span class="badge1"></span><span class="badgecount">2</span></span><span title="4 silver badges"><span class="badge2"></span><span class="badgecount">4</span></span><span title="17 bronze badges"><span class="badge3"></span><span class="badgecount">17</span></span></div></div>
+
+                <br class="cbt">
+                <div class="accept-rate accept-answer-link" title="this user has accepted an answer for 20 of 21 eligible questions">95% accept rate</div>
+            </td>
+            </tr>
+            </table>
+        </div>
+    </td>
+    </tr>
+
+    
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-4083803" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        <tfoot>
+
+            <tr>
+                <td></td>
+                <td class="comment-form"><form id="add-comment-4083803"></form></td>
+            </tr>
+        </tfoot>
+    
+        </table>
+    </div>
+    <a id="comments-link-4083803" class="comments-link" title="add a comment to this post">add comment</a>
+
+</td>
+</tr>
+    
+
+
+<tr id="bounty-notification">
+    
+<td class="votecell"></td>
+<td>
+<div style="margin-top:20px">
+    <a id="bounty-link" class="bounty" title="shows/hides the bounty creation interface" style="padding:0px 3px 2px 3px; color:#000">
+        start a bounty
+    </a>
+    <div id="bounty" class="bounty" style="display:none; padding:10px 5px 10px 5px; line-height:150%; color:#555">
+        <p style="font-size:120%">
+
+            offer <select id="bounty-amount" name="bounty-amount"><option value="50">50</option>
+<option value="100">100</option>
+<option value="150">150</option>
+<option value="200">200</option>
+<option value="250">250</option>
+<option value="300">300</option>
+<option value="350">350</option>
+<option value="400">400</option>
+
+<option value="450">450</option>
+<option value="500">500</option>
+</select> of my own reputation for an answer to this question
+        </p>
+        <input type="button" id="bounty-start" value="Start Bounty" /><a href="/faq#bounty" style="margin-left:20px">What is bounty?</a>
+    </div>
+</div> 
+</td> 
+
+</tr>    </table>    
+</div>
+
+
+
+<div id="answers">
+
+    <a name="tab-top"></a>
+    <div id="answers-header">
+        <div class="subheader answers-subheader">
+            <h2>1 Answer</h2>
+            <div id="tabs">
+                <a class="youarehere" href="/questions/4083803/jsoup-problem-selecting-a-tag?tab=active#tab-top" title="Answers with the latest activity first">active</a>
+
+<a href="/questions/4083803/jsoup-problem-selecting-a-tag?tab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
+<a href="/questions/4083803/jsoup-problem-selecting-a-tag?tab=votes#tab-top" title="Answers with the highest score first">votes</a>
+
+            </div>
+        </div>
+    </div>
+
+
+  
+    <a name="4087694"></a>
+    <div id="answer-4087694" class="answer" >
+
+        <table>
+        <tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input type="hidden" value="4087694">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">2</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+<span class="vote-accepted-on" title="The question owner accepted this as the best answer Nov 3 '10 at 17:15">accepted</span>
+</div>
+
+        </td>
+        <td>
+            <div class="post-text"><p>You can use an combine different <a href="http://jsoup.org/apidocs/org/jsoup/select/Selector.html" rel="nofollow">JSoup Selectors</a>.</p>
+
+<p>For instance, for your question: "select the td that follow the first th"</p>
+
+<ul>
+<li><p>lt pseudo selector:</p>
+
+<ul>
+<li><code>:lt(n)</code> - elements whose sibling index is less than n</li>
+</ul></li>
+<li><p>Sibling selector: you have two options:   </p>
+
+<ul>
+<li><code>E + F</code> - an F element immediately preceded by sibling E</li>
+
+<li><code>E ~ F</code> -  an F element preceded by sibling E </li>
+</ul></li>
+</ul>
+
+<p>So, for selecting the first th it would be <code>th:lt(1)</code>, and for the td that follows it <code>+ td</code>. </p>
+
+<p>The final code:</p>
+
+<pre><code>Elements select = Jsoup.parse(HTML_PAGE).select("th:lt(1) + td");
+Element element = select.get(0);
+</code></pre>
+
+<p>The element returned will be the td tag immediately preceded by the first th tag found.</p>
+</div>
+            <table class="fw">
+            <tr>
+            <td class="vt">
+                <div class="post-menu"><a href="/questions/4083803/jsoup-problem-selecting-a-tag/4087694#4087694" title="permalink to this answer" id="link-post-4087694">link</a><span class="lsep">|</span><a href="/posts/4087694/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-4087694" title="flag this post for serious problems or moderator attention">flag</a></div>
+
+            </td>
+            
+
+            <td align="right" class="post-signature">   
+       
+
+            <div class="user-info"><div class="user-action-time">answered <span title="2010-11-03 13:51:56Z" class="relativetime">Nov 3 '10 at 13:51</span></div><div class="user-gravatar32"><a href="/users/212952/tomas-narros"><img src="http://www.gravatar.com/avatar/c9ca93d5233a833392cd5a2eac860ab3?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/212952/tomas-narros">Tomas Narros</a><br><span class="reputation-score" title="reputation score">2,736</span><span title="4 silver badges"><span class="badge2"></span><span class="badgecount">4</span></span><span title="14 bronze badges"><span class="badge3"></span><span class="badgecount">14</span></span></div></div>
+            </td>
+            </tr>
+            </table>
+
+        </td>
+        </tr>
+
+    
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-4087694" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-4398850" class="comment">
+
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span title="number of 'great comment' votes received" class="cool">1</span>
+</td>
+<td>
+<a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
+</td></tr>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as noise, offensive, or spam">flag</a></td></tr></tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">Thank you very much for your answer!</span> &ndash;&nbsp;<a href="/users/108341/michael" title="514 reputation" class="comment-user owner">Micha&#235;l </a> <span class="comment-date"><span title="2010-11-03 17:15:43Z">Nov 3 '10 at 17:15</span></span></div></td>
+
+    </tr>
+
+        </tbody>
+    
+        <tfoot>
+            <tr>
+                <td></td>
+                <td class="comment-form"><form id="add-comment-4087694"></form></td>
+            </tr>
+        </tfoot>
+
+    
+        </table>
+    </div>
+    <a id="comments-link-4087694" class="comments-link" title="add a comment to this post">add comment</a>
+</td>
+</tr>
+     
+
+
+    </table>
+</div>
+
+
+    
+    <a name='new-answer'></a>
+    <form id="post-form" action="/questions/4083803/answer/submit" method="post" >
+
+        <h2 class="space">Your Answer</h2>
+        <script src="http://sstatic.net/Js/wmd.js?v=8cc0678d8147" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function() {
+     
+        initTagRenderer("".split(" "), "".split(" "));
+
+        lazyEditorReady('answer', true/* confirm navigation after wmd keypress */, "http://sstatic.net/Js/wmd.js?v=8cc0678d8147");
+    });  
+</script>
+
+
+
+
+<div id="post-editor">  
+
+    
+    <div id="wmd-container">
+        <div id="wmd-button-bar"></div>
+        <textarea id="wmd-input" name="post-text" cols="92" rows="15" tabindex="101"></textarea>
+
+    </div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved" class="community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
+
+
+    <div class="community-option">
+        <input id="communitymode" name="communitymode" type="checkbox" >
+        <label for="communitymode" title="Marking an answer community wiki encourages others to edit it by lowering the reputation barrier required to edit. However, you will not gain any upvote reputation from it. This cannot be undone.">community wiki</label>
+
+    </div>
+
+    <div id="wmd-preview"></div>
+
+
+    <div id="edit-block">
+        <input id="fkey" name="fkey" type="hidden" value="7f1c1b43e18b3e36fec4f318a40cc4a5">
+        <input id="author" name="author" type="text">
+    </div>
+</div>
+        
+           
+        
+        
+        <div class="form-submit cbt"><input id="submit-button" type="submit" value="Post Your Answer" tabindex="110"></div>
+
+    </form>
+
+
+    <h2 class="bottom-notice">
+        Not the answer you're looking for? 
+        Browse other questions tagged <a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="/questions/tagged/jsoup" class="post-tag" title="show questions tagged 'jsoup'" rel="tag">jsoup</a> 
+        or <a href="/questions/ask">ask your own question</a>.
+    </h2>
+
+</div>
+</div>
+<div id="sidebar">
+    <div class="module">
+        <p class="label-key">tagged</p>
+        <div class="tagged"><a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a>&nbsp;<span class="item-multiplier">&times;&nbsp;114242</span><br>
+<a href="/questions/tagged/jsoup" class="post-tag" title="show questions tagged 'jsoup'" rel="tag">jsoup</a>&nbsp;<span class="item-multiplier">&times;&nbsp;60</span><br>
+</div> 
+        <p class="label-key">asked</p>
+
+        <p class="label-value" title="2010-11-03 02:29:55Z">5 months ago</p>
+        <p class="label-key">viewed</p>
+        <p class="label-value">220 times</p>
+        <p class="label-key">latest activity</p>
+        <p class="label-value"><a href="?lastactivity" class="lastactivity-link" title="2010-11-03 13:51:56Z">5 months ago</a></p>
+    </div>
+
+    
+    
+        <script type="text/javascript">
+            var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = "http://engine2.adzerk.net/z/8277/adzerk2_2_17_45?keywords=java,jsoup,x-user-registered,x-1500plus-rep"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);
+        </script>
+    
+    <div class="everyonelovesstackoverflow" id="adzerk2">
+    </div>
+
+    
+    <div>
+        <script type="text/javascript">
+            (function(){var q="http://careers.stackoverflow.com/Ad/js",g=location.search=="?golarge",a,d=100,c=location.hash.indexOf("#ninjas")>-1,f="Pretty",h="#adzerk2",b="#adzerk1",i="#herebeninjas";(function(){var b="min-height:220px;margin:15px 0",c=$("<div>").addClass("hireme").attr("style",b),a=$("<div>").html(c);document.write(a.html())})();$(function(){setTimeout(r,2e3);a=setTimeout(e,d)});var e=function(){clearTimeout(a);if(m()&&!k()){a=setTimeout(e,d);return}c=c||n();c&&$(b).css("height",$(b).outerHeight()).attr("id","stop-adzerk");if(l()&&!j()){a=setTimeout(e,d);return}g=g||o();f=g?"Large":f;p()},r=function(){clearTimeout(a);var b=$("div.hireme, "+i);b.each(function(){var a=$(this),d=a.html().replace(/\s+/g,"").length==0;if(d){var c=a,b=a.parents(".everyonelovesstackoverflow").first();if(b.length>0)c=b;c.remove()}})},l=function(){return $(h).length>0},j=function(){var a=$(h);return a.length==0?false:a.html().replace(/\s+/g,"").length>0},o=function(){return $("#careersadsdoublehigh").length>0},m=function(){return $(b).length>0},k=function(){var a=$(b);return a.length==0?false:a.html().replace(/\s+/g,"").length>0},n=function(){return $(i).length>0},p=function(){$.ajax({url:s(),dataType:"script",cache:true})},s=function(){return q+"?style="+f+"&gobanner="+c.toString()}})();
+        </script>
+    </div>
+
+      
+
+
+    <div class="module">
+
+    <h4 id="h-related">Related</h4>
+    <div class="related">
+    <div class="spacer">
+<a href="/questions/3391422/jsoup-image-tag-extraction" class="question-hyperlink">Jsoup image tag extraction ..</a>
+</div>
+<div class="spacer">
+<a href="/questions/3406938/jsoup-tag-extraction" class="question-hyperlink">jsoup tag extraction</a>
+</div>
+<div class="spacer">
+<a href="/questions/3421260/jsoup-tag-extraction-problem" class="question-hyperlink">jsoup tag extraction problem</a>
+
+</div>
+<div class="spacer">
+<a href="/questions/4063263/jsoup-select-all-comments" class="question-hyperlink">JSoup - Select all comments</a>
+</div>
+<div class="spacer">
+<a href="/questions/4144529/how-to-extract-absolute-url-from-relative-html-links-using-jsoup" class="question-hyperlink">How to extract absolute URL from relative HTML links using Jsoup?</a>
+</div>
+<div class="spacer">
+<a href="/questions/4194486/is-there-a-way-to-deep-clone-jsoup-document-object-and-get-back-exactly-same-html" class="question-hyperlink">Is there a way to deep clone JSoup Document object and get back exactly same HTML?</a>
+</div>
+<div class="spacer">
+<a href="/questions/4586890/jsoup-isnt-unescaping-my-html-entities-properly" class="question-hyperlink">jSoup isn&#39;t unescaping my HTML entities properly</a>
+
+</div>
+<div class="spacer">
+<a href="/questions/4875064/jsoup-how-to-get-an-images-absolute-url" class="question-hyperlink">Jsoup: how to get an image&#39;s absolute url?</a>
+</div>
+<div class="spacer">
+<a href="/questions/5178374/error-parsing-with-jsoup" class="question-hyperlink">error parsing with jsoup</a>
+</div>
+<div class="spacer">
+<a href="/questions/5219188/if-jsoup-works-with-android" class="question-hyperlink">If Jsoup works with android?</a>
+</div>
+<div class="spacer">
+<a href="/questions/5234494/extract-url-with-jsoup" class="question-hyperlink">extract URL with jsoup</a>
+
+</div>
+<div class="spacer">
+<a href="/questions/5274475/android-html-jsoup" class="question-hyperlink">Android HTML Jsoup</a>
+</div>
+<div class="spacer">
+<a href="/questions/5282946/extract-data-from-html-code-with-jsoup" class="question-hyperlink">Extract data from html code with Jsoup</a>
+</div>
+<div class="spacer">
+<a href="/questions/5332528/building-basic-program-with-jsoup" class="question-hyperlink">Building basic program with Jsoup</a>
+</div>
+<div class="spacer">
+<a href="/questions/5348455/removing-html-entities-while-preserving-line-breaks-with-jsoup" class="question-hyperlink">Removing HTML entities while preserving line breaks with JSoup</a>
+</div>
+
+<div class="spacer">
+<a href="/questions/5383687/jsoup-optimal-way-of-checking-whether-a-div-has-an-id" class="question-hyperlink">Jsoup: Optimal way of checking whether a &lt;div&gt; has an ID</a>
+</div>
+<div class="spacer">
+<a href="/questions/5396098/how-to-parse-a-table-from-html-using-jsoup" class="question-hyperlink">how to parse a table from HTML using jsoup</a>
+</div>
+<div class="spacer">
+<a href="/questions/5434281/extract-information-from-a-web-page-using-jsoup" class="question-hyperlink">Extract information from a web page using Jsoup</a>
+</div>
+<div class="spacer">
+<a href="/questions/5442527/extract-real-url-in-all-paragraph-from-web-pagejsoup" class="question-hyperlink">extract real url in all paragraph from web page(jsoup)</a>
+
+</div>
+<div class="spacer">
+<a href="/questions/5454172/prevent-jsoup-from-discarding-extra-whitespace" class="question-hyperlink">Prevent Jsoup from discarding extra whitespace</a>
+</div>
+<div class="spacer">
+<a href="/questions/5501156/problem-with-parsing-csv-values-in-java-using-jsoup" class="question-hyperlink">problem with parsing CSV values In java ( using Jsoup) </a>
+</div>
+<div class="spacer">
+<a href="/questions/5576083/jsoup-quotes-and-spaces" class="question-hyperlink">jsoup quotes and spaces</a>
+</div>
+<div class="spacer">
+<a href="/questions/5640334/how-do-i-preserve-line-breaks-when-using-jsoup-to-convert-html-to-plain-text" class="question-hyperlink">How do I preserve line breaks when using jsoup to convert html to plain text?</a>
+</div>
+
+<div class="spacer">
+<a href="/questions/5654295/add-an-attribute-to-html-with-jsoup" class="question-hyperlink">Add an attribute to HTML with Jsoup</a>
+</div>
+<div class="spacer">
+<a href="/questions/5655217/jsoup-element-text-intermittent" class="question-hyperlink">Jsoup Element.text() intermittent?</a>
+</div>
+
+    </div>
+    </div>
+
+</div>
+
+
+<div id="feed-link">
+    <div id="feed-link-text"><a href="/feeds/question/4083803" title="feed of this question and its answers"><span class="feed-icon"></span>question feed</a></div>
+</div>
+
+
+<script type="text/javascript" src="/posts/4083803/ivc/6d96"></script>
+<noscript>
+    <div><img src="/posts/4083803/ivc/6d96" class="dno" alt=""></div>
+</noscript>
+
+<div style="display:none" id="prettify-lang">lang-java</div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div class="footerwrap">
+            <div id="footer-menu">
+                <a href="/about">about</a> |
+                <a href="/faq">faq</a> |
+                <span title="17 hours ago" class="new-blog-post">new</span> <a href="http://blog.stackoverflow.com">blog</a> |
+                    <a href="http://chat.stackoverflow.com">chat</a> |
+                <a href="http://data.stackexchange.com">data</a> |
+                <a href="http://itc.conversationsnetwork.org/series/stackoverflow.html">podcast</a> |
+                <a href="http://stackexchange.com/legal">legal</a> |
+                <a href="http://engine.adzerk.net/redirect/0/2776/2751/0/4de3c60f719c4dfcb1a57531c7050090/0">advertising info</a> |
+                <b><a href="mailto:team@stackoverflow.com">contact us</a></b>
+
+                  | <b><a href="http://meta.stackoverflow.com">feedback always welcome</a></b>
+                <div id="footer-sites">
+                    
+                        <span style="color:#FE7A15;font-size:140%">&#9632;</span>&nbsp;<a href="http://stackoverflow.com">stackoverflow.com</a>&nbsp; 
+                        <span style="color:#FE7A15;font-size:140%">&#9632;</span>&nbsp;<a href="http://stackapps.com">api/apps</a>&nbsp; 
+                        <span style="color:#FE7A15;font-size:140%">&#9632;</span>&nbsp;<a href="http://careers.stackoverflow.com">careers</a>&nbsp; 
+                        <span style="color:#E8272C;font-size:140%">&#9632;</span>&nbsp;<a href="http://serverfault.com">serverfault.com</a>&nbsp; 
+                        <span style="color:#00AFEF;font-size:140%">&#9632;</span>&nbsp;<a href="http://superuser.com">superuser.com</a>&nbsp; 
+                        <span style="color:#969696;font-size:140%">&#9632;</span>&nbsp;<a href="http://meta.stackoverflow.com">meta</a>&nbsp; 
+                        <span style="color:#46937D;font-size:140%">&#9632;</span>&nbsp;<a href="http://area51.stackexchange.com">area&nbsp;51</a>&nbsp; 
+                        <span style="color:#C0D0DC;font-size:140%">&#9632;</span>&nbsp;<a href="http://webapps.stackexchange.com">webapps</a>&nbsp; 
+                        <span style="color:#000000;font-size:140%">&#9632;</span>&nbsp;<a href="http://gaming.stackexchange.com">gaming</a>&nbsp; 
+                        <span style="color:#dd4814;font-size:140%">&#9632;</span>&nbsp;<a href="http://askubuntu.com">ubuntu</a>&nbsp; 
+                        <span style="color:#9ce4fe;font-size:140%">&#9632;</span>&nbsp;<a href="http://webmasters.stackexchange.com">webmasters</a>&nbsp; 
+                        <span style="color:#cf4d3f;font-size:140%">&#9632;</span>&nbsp;<a href="http://cooking.stackexchange.com">cooking</a>&nbsp; 
+                        <span style="color:#f4f28d;font-size:140%">&#9632;</span>&nbsp;<a href="http://gamedev.stackexchange.com">game development</a>&nbsp; 
+                        <span style="color:#0f3559;font-size:140%">&#9632;</span>&nbsp;<a href="http://math.stackexchange.com">math</a>&nbsp; 
+                        <span style="color:#f2f2f2;font-size:140%">&#9632;</span>&nbsp;<a href="http://photo.stackexchange.com">photography</a>&nbsp; 
+                        <span style="color:#037187;font-size:140%">&#9632;</span>&nbsp;<a href="http://stats.stackexchange.com">stats</a>&nbsp; 
+                        <span style="color:#f1e7cc;font-size:140%">&#9632;</span>&nbsp;<a href="http://tex.stackexchange.com">tex</a>&nbsp; 
+                        <span style="color:#e1cdae;font-size:140%">&#9632;</span>&nbsp;<a href="http://english.stackexchange.com">english</a>&nbsp; 
+                        <span style="color:#a2d9f6;font-size:140%">&#9632;</span>&nbsp;<a href="http://cstheory.stackexchange.com">theoretical cs</a>&nbsp; 
+                        <span style="color:#1b3e6c;font-size:140%">&#9632;</span>&nbsp;<a href="http://programmers.stackexchange.com">programmers</a>&nbsp; 
+                        <span style="color:#293a5d;font-size:140%">&#9632;</span>&nbsp;<a href="http://unix.stackexchange.com">unix</a>&nbsp;
+
+                        <span style="color:#bec0cb;font-size:140%">&#9632;</span>&nbsp;<a href="http://apple.stackexchange.com">apple</a>&nbsp;
+                        <span style="color:#939185;font-size:140%">&#9632;</span>&nbsp;<a href="http://wordpress.stackexchange.com">wordpress</a>&nbsp;
+                        <span style="color:#b5cda4;font-size:140%">&#9632;</span>&nbsp;<a href="http://physics.stackexchange.com">physics</a>&nbsp;
+                        <span style="color:#4176ab;font-size:140%">&#9632;</span>&nbsp;<a href="http://diy.stackexchange.com">home&nbsp;improvement</a>&nbsp;
+                        <span style="color:#d1d8d7;font-size:140%">&#9632;</span>&nbsp;<a href="http://gis.stackexchange.com">gis</a>&nbsp;
+                        <span style="color:#e5e2d3;font-size:140%">&#9632;</span>&nbsp;<a href="http://electronics.stackexchange.com">electronics</a>&nbsp;
+
+                        <span style="color:#a4c639;font-size:140%">&#9632;</span>&nbsp;<a href="http://android.stackexchange.com">android</a>&nbsp;
+                </div>
+            </div>
+            <div id="footer-flair">
+                <a class="peer1" href="http://www.peer1.com/stackoverflow"></a>  
+	            <a href="http://creativecommons.org/licenses/by-sa/3.0/" class="cc-wiki-link"></a>
+                <div id="svnrev">rev 2011.4.15.3</div>
+            </div>
+
+            <div id="copyright">
+                site design / logo &copy; 2011 stack exchange inc; 
+                <a href="/questions-all">user contributions</a> licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc-wiki</a> with <a href="http://blog.stackoverflow.com/2009/06/attribution-required/" rel="license">attribution required</a>
+            </div>
+        </div>
+
+    </div>
+    
+    <noscript>
+        <div id="noscript-warning">Stack Overflow works best with JavaScript enabled<img src="http://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"></div>
+    </noscript>
+    
+    <script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-5620270-1']);_gaq.push(['_trackPageview']);(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src='http://www.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);})();_qoptions={qacct:"p-c1rF4kxgLUzNc"};</script>
+    <script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+    
+</body>
+</html>
