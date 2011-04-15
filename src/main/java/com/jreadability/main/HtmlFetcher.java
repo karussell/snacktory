@@ -84,7 +84,7 @@ public class HtmlFetcher {
         }
 
         JResult result = new ArticleTextExtractor().extractContent(fetchAsString(url, timeout));
-        
+
         // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
         result.setUrl(url);
 
@@ -95,12 +95,12 @@ public class HtmlFetcher {
         result.setImageUrl(fixUrl(url, result.getImageUrl()));
         result.setFaviconUrl(fixUrl(url, result.getFaviconUrl()));
         result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
-        
+
         return result;
     }
 
     private static String fixUrl(String url, String urlOrPath) {
-        return Helper.useDomainOfFirst4Sec(url, urlOrPath);        
+        return Helper.useDomainOfFirst4Sec(url, urlOrPath);
     }
 
     public static String fetchAsString(String urlAsString, int timeout) {
@@ -166,11 +166,35 @@ public class HtmlFetcher {
                 return urlAsString;
 
             String loc = hConn.getHeaderField("Location");
-            if (responseCode / 100 == 3 && loc != null)
-                return loc.replaceAll(" ", "+");
+            if (responseCode / 100 == 3 && loc != null) {
+                loc = loc.replaceAll(" ", "+");
+                if (urlAsString.startsWith("http://bit.ly"))
+                    loc = encodeUriFromHeader(loc);
+                return loc;
+            }
 
         } catch (Exception ex) {
         }
         return "";
+    }
+
+    /**
+     * Takes a URI that was decoded as ISO-8859-1 and applies percent-encoding
+     * to non-ASCII characters. Workaround for broken origin servers that send
+     * UTF-8 in the Location: header.
+     */
+    static String encodeUriFromHeader(String badLocation) {
+        StringBuilder sb = new StringBuilder();
+
+        for (char ch : badLocation.toCharArray()) {
+            if (ch < (char) 128) {
+                sb.append(ch);
+            } else {
+                // this is ONLY valid if the uri was decoded using ISO-8859-1
+                sb.append(String.format("%%%02X", (int) ch));
+            }
+        }
+
+        return sb.toString();
     }
 }
