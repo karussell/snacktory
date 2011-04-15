@@ -15,11 +15,16 @@
  */
 package com.jreadability.main;
 
-import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +36,30 @@ import org.slf4j.LoggerFactory;
 public class HtmlFetcher {
 
     private static final Logger logger = LoggerFactory.getLogger(HtmlFetcher.class);
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader("urls.txt"));
+        String line = null;
+        Set<String> existing = new LinkedHashSet<String>();
+        while ((line = reader.readLine()) != null) {
+            int index1 = line.indexOf("\"");
+            int index2 = line.indexOf("\"", index1 + 1);
+            String url = line.substring(index1 + 1, index2);
+            String domainStr = Helper.extractDomain(url, true);
+            String counterStr = "";
+            if (existing.contains(domainStr))
+                counterStr = "2";
+            else
+                existing.add(domainStr);
+
+            String html = HtmlFetcher.fetchAsString(url, 20000);
+            String outFile = domainStr + counterStr + ".html";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
+            writer.write(html);
+            writer.close();
+        }
+        reader.close();
+    }
 
     static {
         Helper.enableCookieMgmt();
@@ -62,14 +91,16 @@ public class HtmlFetcher {
     }
 
     public static String fetchAsString(String urlAsString, int timeout) {
+        return fetchAsString(urlAsString, timeout, true);
+    }
+
+    public static String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions) {
         try {
             URL url = new URL(urlAsString);
             //using proxy may increase latency
             HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
             hConn.setRequestProperty("User-Agent", "Mozilla/5.0 Gecko/20100915 Firefox/3.6.10");
-
-            boolean goose = true;
-            if (goose) {
+            if (includeSomeGooseOptions) {
                 hConn.setRequestProperty("Accept-Language", "en-us");
                 hConn.setRequestProperty("content-charset", "UTF-8");
                 hConn.addRequestProperty("Referer", "http://jetwick.com/s");

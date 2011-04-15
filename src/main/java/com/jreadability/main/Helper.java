@@ -117,6 +117,11 @@ public class Helper {
         // strip mobile from start
         if (includeMobile && url.startsWith("m."))
             url = url.substring("m.".length());
+
+        int slashIndex = url.indexOf("/");
+        if (slashIndex > 0)
+            url = url.substring(0, slashIndex);
+
         return url;
     }
 

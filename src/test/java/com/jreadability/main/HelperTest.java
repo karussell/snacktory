@@ -15,8 +15,6 @@
  */
 package com.jreadability.main;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -61,12 +59,15 @@ public class HelperTest {
         assertTrue(Helper.isVideoLink("m.vimeo.com"));
         assertTrue(Helper.isVideoLink("m.youtube.com"));
         assertTrue(Helper.isVideoLink("www.youtube.com"));
-        assertTrue(Helper.isVideoLink("http://youtube.com"));        
+        assertTrue(Helper.isVideoLink("http://youtube.com"));
         assertTrue(Helper.isVideoLink("http://www.youtube.com"));
-        
+
         assertTrue(Helper.isVideoLink("https://youtube.com"));
-        
+
         assertFalse(Helper.isVideoLink("test.com"));
         assertFalse(Helper.isVideoLink("irgendwas.com/youtube.com"));
+
+        assertEquals("techcrunch.com",
+                Helper.extractDomain("http://techcrunch.com/2010/08/13/gantto-takes-on-microsoft-project-with-web-based-project-management-application/", true));
     }
 }

@@ -37,7 +37,7 @@ public class HtmlFetcherTest {
         JResult res = HtmlFetcher.fetchAndExtract("http://www.tumblr.com/xeb22gs619", 10000, true);
         System.out.println("tumblr:" + res.getUrl());
 
-        res = HtmlFetcher.fetchAndExtract("http://bb.7t.sl.pt/", 10000, true);
-        System.out.println("rian:" + res.getUrl());
+        res = HtmlFetcher.fetchAndExtract("http://bit.ly/e3IRla", 10000, true);
+        System.out.println("taz:" + res.getImageUrl());
     }
 }
