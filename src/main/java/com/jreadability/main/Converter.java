@@ -88,12 +88,13 @@ public class Converter {
         byte[] arr = new byte[K4];
         BufferedInputStream in = null;
         try {
-            in = new BufferedInputStream(is, arr.length);
+            in = new BufferedInputStream(is, K4);
             StringBuilder s = new StringBuilder();
             int bytesRead = K4;
 
             // Grab better encoding from stream
             int n = in.read(arr);
+            
             String res = new String(arr, 0, n, encoding);
             int encIndex = res.indexOf("charset=");
             if (encIndex > 0) {
