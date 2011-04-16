@@ -49,4 +49,10 @@ public class HtmlFetcherTest {
         assertEquals("http://www.obiavi-bg.com/obiava_688245-6|260|262|/%D0%BF%D1%80%D0%BE%D0%BB%D0%B5%D1%82%D0%BD%D0%B0-%D0%BF%D1%80%D0%BE%D0%BC%D0%BE%D1%86%D0%B8%D1%8F-%D0%B4%D0%B0-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%B8%D1%80%D0%B0%D0%BC%D0%B5-%D1%81-java.html?utm_source=twitterfeed&utm_medium=twitter",
                 res.getUrl());
     }
+
+    @Test
+    public void testEncoding() throws Exception {
+        JResult res = HtmlFetcher.fetchAndExtract("http://www.yomiuri.co.jp/science/news/20110415-OYT1T00568.htm", 10000, true);
+        assertEquals("海水汚染には猫トイレの砂…セシウム吸着 : 科学 : YOMIURI ONLINE（読売新聞）", res.getTitle());
+    }
 }

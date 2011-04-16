@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>java - Jsoup - Problem selecting a tag - Stack Overflow</title>
+<title>character encoding - Resolving an URL with Java gives me the wrong encoded chars in URL - Stack Overflow</title>
 <link rel="shortcut icon" href="http://sstatic.net/stackoverflow/img/favicon.ico">
 <link rel="apple-touch-icon" href="http://sstatic.net/stackoverflow/img/apple-touch-icon.png">
 <link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="/opensearch.xml">
@@ -11,19 +11,19 @@
 <script type="text/javascript" src="http://sstatic.net/js/master.min.js?v=c7993dfe1bc5"></script>
     <script type="text/javascript">
         $(function () {
-            profileLink.init('<img src="http://www.gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=50&amp;d=identicon&amp;r=PG" height="50" width="50" alt="">', false, 'http://stackoverflow.com/users/194609/karussell?tab=activity', 1302897533 - (new Date()).getTime() / 1000);
+            profileLink.init('<img src="http://www.gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=50&amp;d=identicon&amp;r=PG" height="50" width="50" alt="">', false, 'http://stackoverflow.com/users/194609/karussell?tab=activity', 1302901489 - (new Date()).getTime() / 1000);
         });
     </script>
 
 
-    <link rel="canonical" href="http://stackoverflow.com/questions/4083803/jsoup-problem-selecting-a-tag">
-    <link rel="alternate" type="application/atom+xml" title="Feed for question 'Jsoup - Problem selecting a tag'" href="/feeds/question/4083803">
+    <link rel="canonical" href="http://stackoverflow.com/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url">
+    <link rel="alternate" type="application/atom+xml" title="Feed for question 'Resolving an URL with Java gives me the wrong encoded chars in URL'" href="/feeds/question/5605219">
     <script src="http://sstatic.net/js/question.js?v=4e6e0b5b73cd" type="text/javascript"></script>
-    <script type="text/javascript">
+<script src="http://sstatic.net/Js/tageditor.js?v=6d34ac5efc56" type="text/javascript"></script>    <script type="text/javascript">
         
         StackExchange.ready(function () {
 
-            StackExchange.question.init({canOpenBounty:true,votesCast:[],canViewVoteCounts:true,questionId:4083803});
+            StackExchange.question.init({canOpenBounty:true,votesCast:[{"PostId":5605824,"VoteTypeId":2}],canViewVoteCounts:true,questionId:5605219});
 
             styleCode();
         });
@@ -111,28 +111,29 @@
 
 
 <div id="question-header">
-    <h1><a href="/questions/4083803/jsoup-problem-selecting-a-tag" class="question-hyperlink">Jsoup - Problem selecting a tag</a></h1>
+    <h1><a href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url" class="question-hyperlink">Resolving an URL with Java gives me the wrong encoded chars in URL</a></h1>
 </div>
 
 <div id="mainbar">
 
 
 <div id="question">
+      <input type="hidden" id="5605219-only-allow-inform-moderator-flagging" value="true">
 
     <table>
     <tr>
-    <td class="votecell">
 
+    <td class="votecell">
         
 <div class="vote">
-    <input type="hidden" value="4083803">
+    <input type="hidden" value="5605219">
     <a class="vote-up-off" title="This question is useful and clear (click again to undo)">up vote</a>
-    <span class="vote-count-post">1</span>
+    <span class="vote-count-post">0</span>
     <a class="vote-down-off" title="This question is unclear or not useful (click again to undo)">down vote</a>
 
     <a class="star-off" href="#" title="This is a favorite question (click again to undo)">favorite</a>
 
-    <div class="favoritecount"><b></b></div>    
+    <div class="favoritecount"><b>1</b></div>    
 
 </div>
 
@@ -140,51 +141,65 @@
     <td class="postcell">
         <div>          
             <div class="post-text">
-                <p>Hi, </p>
+                <p>When I'm doing the following:</p>
 
-<p>Is there a way to select an element following another one?</p>
+<pre><code>try {
+    URL url = new URL(urlAsString);
+    //using proxy may increase latency
+    HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
+    // force no follow
+    hConn.setInstanceFollowRedirects(false);
+    // the program doesn't care what the content actually is       
+    hConn.setRequestMethod("HEAD");
+    // default is 0 =&gt; infinity waiting
+    hConn.setConnectTimeout(timeout);
+    hConn.setReadTimeout(timeout);
+    hConn.connect();
+    int responseCode = hConn.getResponseCode();
+    hConn.getInputStream().close();
+    if (responseCode == HttpURLConnection.HTTP_OK)
+        return urlAsString;
 
-<p>For example if I have :</p>
+    String loc = hConn.getHeaderField("Location");
+    if (responseCode == HttpURLConnection.HTTP_MOVED_PERM &amp;&amp; loc != null)
+        return loc.replaceAll(" ", "+");
 
-<pre><code>&lt;table&gt;
-    &lt;tr&gt;
-        &lt;th&gt;&lt;/th&gt;
-        &lt;td&gt;&lt;/td&gt;
+} catch (Exception ex) {
+}
+return "";
 
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        ...
-    &lt;/tr&gt;
-&lt;/table&gt;
 </code></pre>
 
-<p>and I want to select the first th I can do :
-<pre><code>
-Elements select = Jsoup.parse(HTML_PAGE).select("th");
-Element element = select.get(0);
+<p>for that url: <a href="http://bit.ly/gek1qK" rel="nofollow">http://bit.ly/gek1qK</a> I'm getting</p>
 
-</pre></code>
-But how can I do to say : select the td that follow the first th?</p>
+<p><a href="http://blog.tweetsmarter.com/twitter-downtime/twitter" rel="nofollow">http://blog.tweetsmarter.com/twitter-downtime/twitter</a>-redesignsâthen-everything-breaks/</p>
 
-<p>Thank you for your help.</p>
+<p>which is wrong. Firefox resolves to</p>
+
+<p><a href="http://blog.tweetsmarter.com/twitter-downtime/twitter-redesigns%E2%80%94then-everything-breaks/" rel="nofollow">http://blog.tweetsmarter.com/twitter-downtime/twitter-redesigns%E2%80%94then-everything-breaks/</a></p>
+
+<p>What is wrong in the code?</p>
 
             </div>            
             <div class="post-taglist">
-                <a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="/questions/tagged/jsoup" class="post-tag" title="show questions tagged 'jsoup'" rel="tag">jsoup</a> 
+                <a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="/questions/tagged/character-encoding" class="post-tag" title="show questions tagged 'character-encoding'" rel="tag">character-encoding</a> <a href="/questions/tagged/url-encoding" class="post-tag" title="show questions tagged 'url-encoding'" rel="tag">url-encoding</a> 
             </div>
             <table class="fw">
 
             <tr>
             <td class="vt">
-                <div class="post-menu"><a href="/q/4083803/194609" title="short permalink to this question" id="link-post-4083803">link</a><span class="lsep">|</span><a href="/posts/4083803/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-4083803" title="flag this post for serious problems or moderator attention">flag</a></div>
+                <div class="post-menu"><a href="/q/5605219/194609" title="short permalink to this question" id="link-post-5605219">link</a><span class="lsep">|</span><a href="/posts/5605219/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="close-question-5605219" title="closes/opens question for answering; when closed, no more answers can be added">close</a><span class="lsep">|</span><a id="delete-post-5605219" class="" title="vote to remove this post">delete</a><span class="lsep">|</span><a id="flag-post-5605219" title="flag this post for serious problems or moderator attention">flag</a></div>
             </td>
+
+            <td align="right" class="post-signature">
+<div class="user-info"><div class="user-action-time">edited <a href="/posts/5605219/revisions" title="show all edits to this post"><span title="2011-04-10 07:52:08Z" class="relativetime">Apr 10 at 7:52</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>            </td>
                         
 
             <td class="post-signature owner">
-            <div class="user-info"><div class="user-action-time">asked <span title="2010-11-03 02:29:55Z" class="relativetime">Nov 3 '10 at 2:29</span></div><div class="user-gravatar32"><a href="/users/108341/michael"><img src="http://www.gravatar.com/avatar/d0e19a253b555ff5b7633f6e80940325?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/108341/michael">Micha&#235;l </a><br><span class="reputation-score" title="reputation score">514</span><span title="2 gold badges"><span class="badge1"></span><span class="badgecount">2</span></span><span title="4 silver badges"><span class="badge2"></span><span class="badgecount">4</span></span><span title="17 bronze badges"><span class="badge3"></span><span class="badgecount">17</span></span></div></div>
-
+            <div class="user-info"><div class="user-action-time">asked <span title="2011-04-09 13:13:11Z" class="relativetime">Apr 9 at 13:13</span></div><div class="user-gravatar32"><a href="/users/194609/karussell"><img src="http://www.gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/194609/karussell">Karussell</a><br><span class="reputation-score" title="reputation score">2,505</span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="21 bronze badges"><span class="badge3"></span><span class="badgecount">21</span></span></div></div>
                 <br class="cbt">
-                <div class="accept-rate accept-answer-link" title="this user has accepted an answer for 20 of 21 eligible questions">95% accept rate</div>
+
+                <div class="accept-rate accept-answer-link" title="this user has accepted an answer for 28 of 28 eligible questions">100% accept rate</div>
             </td>
             </tr>
             </table>
@@ -194,10 +209,11 @@ But how can I do to say : select the td that follow the first th?</p>
 
     
 
+
 <tr>
 <td class="votecell"></td>
 <td>
-    <div id="comments-4083803" class="comments dno">
+    <div id="comments-5605219" class="comments dno">
         <table>
         <tbody>
         
@@ -206,19 +222,19 @@ But how can I do to say : select the td that follow the first th?</p>
         </tbody>
     
         <tfoot>
-
             <tr>
+
                 <td></td>
-                <td class="comment-form"><form id="add-comment-4083803"></form></td>
+                <td class="comment-form"><form id="add-comment-5605219"></form></td>
             </tr>
         </tfoot>
     
         </table>
     </div>
-    <a id="comments-link-4083803" class="comments-link" title="add a comment to this post">add comment</a>
-
+    <a id="comments-link-5605219" class="comments-link" title="add a comment to this post">add comment</a>
 </td>
 </tr>
+
     
 
 
@@ -232,8 +248,8 @@ But how can I do to say : select the td that follow the first th?</p>
     </a>
     <div id="bounty" class="bounty" style="display:none; padding:10px 5px 10px 5px; line-height:150%; color:#555">
         <p style="font-size:120%">
-
             offer <select id="bounty-amount" name="bounty-amount"><option value="50">50</option>
+
 <option value="100">100</option>
 <option value="150">150</option>
 <option value="200">200</option>
@@ -241,9 +257,9 @@ But how can I do to say : select the td that follow the first th?</p>
 <option value="300">300</option>
 <option value="350">350</option>
 <option value="400">400</option>
-
 <option value="450">450</option>
 <option value="500">500</option>
+
 </select> of my own reputation for an answer to this question
         </p>
         <input type="button" id="bounty-start" value="Start Bounty" /><a href="/faq#bounty" style="margin-left:20px">What is bounty?</a>
@@ -261,12 +277,12 @@ But how can I do to say : select the td that follow the first th?</p>
     <a name="tab-top"></a>
     <div id="answers-header">
         <div class="subheader answers-subheader">
-            <h2>1 Answer</h2>
+            <h2>2 Answers</h2>
             <div id="tabs">
-                <a class="youarehere" href="/questions/4083803/jsoup-problem-selecting-a-tag?tab=active#tab-top" title="Answers with the latest activity first">active</a>
+                <a class="youarehere" href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url?tab=active#tab-top" title="Answers with the latest activity first">active</a>
+<a href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url?tab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
 
-<a href="/questions/4083803/jsoup-problem-selecting-a-tag?tab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
-<a href="/questions/4083803/jsoup-problem-selecting-a-tag?tab=votes#tab-top" title="Answers with the highest score first">votes</a>
+<a href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url?tab=votes#tab-top" title="Answers with the highest score first">votes</a>
 
             </div>
         </div>
@@ -274,69 +290,74 @@ But how can I do to say : select the td that follow the first th?</p>
 
 
   
-    <a name="4087694"></a>
-    <div id="answer-4087694" class="answer" >
+    <a name="5605824"></a>
+    <div id="answer-5605824" class="answer" >
+                <input type="hidden" id="5605824-only-allow-inform-moderator-flagging" value="true"/>
 
         <table>
         <tr>
         <td class="votecell">
             
 <div class="vote">
-    <input type="hidden" value="4087694">
+    <input type="hidden" value="5605824">
     <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
     <span class="vote-count-post">2</span>
     <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
 
-<span class="vote-accepted-on" title="The question owner accepted this as the best answer Nov 3 '10 at 17:15">accepted</span>
+<a id="vote-accepted-5605824" class="vote-accepted-off vote-accepted-on" title="Click to set this answer as your accepted answer; click again to toggle. Accepted Apr 10 at 7:53">accept</a>
 </div>
 
         </td>
         <td>
-            <div class="post-text"><p>You can use an combine different <a href="http://jsoup.org/apidocs/org/jsoup/select/Selector.html" rel="nofollow">JSoup Selectors</a>.</p>
+            <div class="post-text"><p>As per <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec2.html#sec2.2" rel="nofollow">RFC 2616, section 2.2</a>, HTTP header values should normally be encoded using ISO-8859-1.</p>
 
-<p>For instance, for your question: "select the td that follow the first th"</p>
+<p>Here, bit.ly is sending a bad response - the Location: header is encoded using UTF-8, so the em-dash character is represented by three separate bytes (0xe2, 0x80, 0x94).</p>
 
-<ul>
-<li><p>lt pseudo selector:</p>
+<p><code>HttpURLConnection</code> decodes the bytes using ISO-8859-1 so they become three characters (<code>â</code> and two undefined characters), <s>but it looks as if you re-encode them using UTF-8 (producing 2 bytes per character, since all three have values >= 0x80) before applying URL-encoding</s>.</p>
 
-<ul>
-<li><code>:lt(n)</code> - elements whose sibling index is less than n</li>
-</ul></li>
-<li><p>Sibling selector: you have two options:   </p>
+<p>Firefox most likely treats the data as ISO-8859-1 throughout; the problem then cancels itself out when URL-encoding is applied later on.</p>
 
-<ul>
-<li><code>E + F</code> - an F element immediately preceded by sibling E</li>
+<p>You could do the same by URL-encoding the value returned by <code>getHeaderField()</code>; since the Unicode range U+0080 to U+00FF is identical to the ISO-8859-1 byte range 0x80-0xFF, the non-ASCII characters can be encoded by casting them to <code>int</code> values:</p>
 
-<li><code>E ~ F</code> -  an F element preceded by sibling E </li>
-</ul></li>
-</ul>
+<pre><code>/**
+ * Takes a URI that was decoded as ISO-8859-1 and applies percent-encoding
+ * to non-ASCII characters. Workaround for broken origin servers that send
+ * UTF-8 in the Location: header.
+ */
+static String encodeUriFromHeader(String uri) {
+    StringBuilder sb = new StringBuilder();
 
-<p>So, for selecting the first th it would be <code>th:lt(1)</code>, and for the td that follows it <code>+ td</code>. </p>
+    for(char ch : badLocation.toCharArray()) {
+        if(ch &lt; (char)128) {
+            sb.append(ch);
+        } else {
+            // this is ONLY valid if the uri was decoded using ISO-8859-1
+            sb.append(String.format("%%%02X", (int)ch));
+        }
+    }
 
-<p>The final code:</p>
-
-<pre><code>Elements select = Jsoup.parse(HTML_PAGE).select("th:lt(1) + td");
-Element element = select.get(0);
+    return sb.toString();
+}
 </code></pre>
-
-<p>The element returned will be the td tag immediately preceded by the first th tag found.</p>
 </div>
             <table class="fw">
             <tr>
             <td class="vt">
-                <div class="post-menu"><a href="/questions/4083803/jsoup-problem-selecting-a-tag/4087694#4087694" title="permalink to this answer" id="link-post-4087694">link</a><span class="lsep">|</span><a href="/posts/4087694/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-4087694" title="flag this post for serious problems or moderator attention">flag</a></div>
+                <div class="post-menu"><a href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url/5605824#5605824" title="permalink to this answer" id="link-post-5605824">link</a><span class="lsep">|</span><a href="/posts/5605824/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-5605824" title="flag this post for serious problems or moderator attention">flag</a></div>
 
             </td>
+            <td align="right" class="post-signature">
+<div class="user-info"><div class="user-action-time">edited <a href="/posts/5605824/revisions" title="show all edits to this post"><span title="2011-04-10 12:51:47Z" class="relativetime">Apr 10 at 12:51</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>            </td>
             
 
             <td align="right" class="post-signature">   
        
 
-            <div class="user-info"><div class="user-action-time">answered <span title="2010-11-03 13:51:56Z" class="relativetime">Nov 3 '10 at 13:51</span></div><div class="user-gravatar32"><a href="/users/212952/tomas-narros"><img src="http://www.gravatar.com/avatar/c9ca93d5233a833392cd5a2eac860ab3?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/212952/tomas-narros">Tomas Narros</a><br><span class="reputation-score" title="reputation score">2,736</span><span title="4 silver badges"><span class="badge2"></span><span class="badgecount">4</span></span><span title="14 bronze badges"><span class="badge3"></span><span class="badgecount">14</span></span></div></div>
+            <div class="user-info"><div class="user-action-time">answered <span title="2011-04-09 15:10:04Z" class="relativetime">Apr 9 at 15:10</span></div><div class="user-gravatar32"><a href="/users/211674/simonj"><img src="http://www.gravatar.com/avatar/114d63e6e404c4c3c41f4977a2123e3c?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/211674/simonj">SimonJ</a><br><span class="reputation-score" title="reputation score">3,711</span><span title="3 silver badges"><span class="badge2"></span><span class="badgecount">3</span></span><span title="12 bronze badges"><span class="badge3"></span><span class="badgecount">12</span></span></div></div>
+
             </td>
             </tr>
             </table>
-
         </td>
         </tr>
 
@@ -345,37 +366,187 @@ Element element = select.get(0);
 <tr>
 <td class="votecell"></td>
 <td>
-    <div id="comments-4087694" class="comments">
+    <div id="comments-5605824" class="comments">
+
         <table>
         <tbody>
                     
-    <tr id="comment-4398850" class="comment">
+    <tr id="comment-6390021" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">Do I need to apply url encoding for the location?</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-10 07:49:48Z">Apr 10 at 7:49</span></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
+    </tr>
 
+            
+    <tr id="comment-6390040" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">BTW: I apply encoding by accident. I copied the url into the url bar of firefox and then pasted from there into this question. Firefox applied the encoding ... I fixed this in the post</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-10 07:51:53Z">Apr 10 at 7:51</span></span><span class="edited-yes" title="this comment was edited"></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
+    </tr>
+            
+    <tr id="comment-6390052" class="comment">
+        <td></td>
+
+        <td class="comment-text"><div><span class="comment-copy">@SimonJ so I should file a bug report to bit.ly or can this be fixed differently?</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-10 07:54:12Z">Apr 10 at 7:54</span></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
+    </tr>
+            
+    <tr id="comment-6391890" class="comment">
         <td class="comment-actions"><table><tbody><tr>
 <td class="comment-score">
-<span title="number of 'great comment' votes received" class="cool">1</span>
+<span>&nbsp;</span>
 </td>
 <td>
+
 <a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
 </td></tr>
 <tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as noise, offensive, or spam">flag</a></td></tr></tbody></table></td>
-        <td class="comment-text"><div><span class="comment-copy">Thank you very much for your answer!</span> &ndash;&nbsp;<a href="/users/108341/michael" title="514 reputation" class="comment-user owner">Micha&#235;l </a> <span class="comment-date"><span title="2010-11-03 17:15:43Z">Nov 3 '10 at 17:15</span></span></div></td>
+        <td class="comment-text"><div><span class="comment-copy">You can try :) I&#39;ve updated the answer with a workaround in the mean time.</span> &ndash;&nbsp;<a href="/users/211674/simonj" title="3711 reputation" class="comment-user">SimonJ</a> <span class="comment-date"><span title="2011-04-10 12:53:16Z">Apr 10 at 12:53</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-6395528" class="comment">
 
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">uha!  thanks! I&#39;ll try</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-10 20:09:31Z">Apr 10 at 20:09</span></span><span class="edited-yes" title="this comment was edited"></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
     </tr>
 
         </tbody>
     
         <tfoot>
+
             <tr>
                 <td></td>
-                <td class="comment-form"><form id="add-comment-4087694"></form></td>
+                <td class="comment-form"><form id="add-comment-5605824"></form></td>
             </tr>
         </tfoot>
-
     
         </table>
     </div>
-    <a id="comments-link-4087694" class="comments-link" title="add a comment to this post">add comment</a>
+    <a id="comments-link-5605824" class="comments-link" title="expand to show all comments on this post, or add one of your own">add / show <b>1</b> more comment</a>
+
+</td>
+</tr>
+     
+
+
+    </table>
+</div>
+
+
+
+  
+    <a name="5605344"></a>
+    <div id="answer-5605344" class="answer" >
+        <table>
+        <tr>
+        <td class="votecell">
+
+            
+<div class="vote">
+    <input type="hidden" value="5605344">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">1</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+<a id="vote-accepted-5605344" class="vote-accepted-off" title="Click to set this answer as your accepted answer; click again to toggle.">accept</a>
+</div>
+
+        </td>
+        <td>
+            <div class="post-text"><p>There is nothing wrong. The difference is the m-Dash denoted differently in different encoding. So, If Firefox uses encoding other than what your program does, you will see different character.</p>
+
+<p>Both are correct, in your case. It's just matter of encoding. In Java, you use UTF-8, which is <a href="http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars" rel="nofollow">World Wide Web Consortium Recommendation</a>; while it seems that what you see in FF is ISO-8859.</p>
+
+<p>If you want to generate same result as Firefox in Java, try this:</p>
+
+<pre><code>System.out.print(URLEncoder.encode(loc.replace(" ", "+"), "ISO-8859-1"));
+
+</code></pre>
+
+<p>It will print what you see in Firefox. (obviously, it will encode <code>/</code> and <code>:</code> as well. But just to demonstrate)</p>
+</div>
+            <table class="fw">
+            <tr>
+            <td class="vt">
+
+                <div class="post-menu"><a href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url/5605344#5605344" title="permalink to this answer" id="link-post-5605344">link</a><span class="lsep">|</span><a href="/posts/5605344/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-5605344" title="flag this post for serious problems or moderator attention">flag</a></div>
+            </td>
+            
+
+            <td align="right" class="post-signature">   
+       
+
+            <div class="user-info"><div class="user-action-time">answered <span title="2011-04-09 13:35:50Z" class="relativetime">Apr 9 at 13:35</span></div><div class="user-gravatar32"><a href="/users/298455/nishant"><img src="http://www.gravatar.com/avatar/c468d026f399d60f3cd9429c0964255e?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/298455/nishant">Nishant</a><br><span class="reputation-score" title="reputation score">6,286</span><span title="1 gold badge"><span class="badge1"></span><span class="badgecount">1</span></span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="14 bronze badges"><span class="badge3"></span><span class="badgecount">14</span></span></div></div>
+
+            </td>
+            </tr>
+            </table>
+        </td>
+        </tr>
+
+    
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-5605344" class="comments">
+
+        <table>
+        <tbody>
+                    
+    <tr id="comment-6382900" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span>&nbsp;</span>
+</td>
+<td>
+<a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
+</td></tr>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as noise, offensive, or spam">flag</a></td></tr></tbody></table></td>
+
+        <td class="comment-text"><div><span class="comment-copy">It&#39;s actually the other way round. The incorrect one is encoded in ISO8859-1 (or CP1252) and the correct one is encoded using UTF-8.</span> &ndash;&nbsp;<a href="/users/157882/balusc" title="147863 reputation" class="comment-user">BalusC</a> <span class="comment-date"><span title="2011-04-09 13:38:31Z">Apr 9 at 13:38</span></span><span class="edited-yes" title="this comment was edited"></span></div></td>
+    </tr>
+            
+    <tr id="comment-6382923" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span>&nbsp;</span>
+</td>
+
+<td>
+<a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
+</td></tr>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as noise, offensive, or spam">flag</a></td></tr></tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">@BalusC hmm... I did not get you.what I am saying is UTF-8 is the one recommended -- which is correct. FF might be using platform dependent encoding.</span> &ndash;&nbsp;<a href="/users/298455/nishant" title="6286 reputation" class="comment-user">Nishant</a> <span class="comment-date"><span title="2011-04-09 13:43:56Z">Apr 9 at 13:43</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-6383032" class="comment">
+
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">I yeah, I remeber that ISO-8859-1 is defined somewhere in HTTP1.0 standard ...</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-09 13:59:18Z">Apr 9 at 13:59</span></span><span class="edited-yes" title="this comment was edited"></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
+    </tr>
+            
+    <tr id="comment-6383052" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">Hmmh, but why do I need to encode the url location at all? Isn&#39;t it already encoded?</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-09 14:01:32Z">Apr 9 at 14:01</span></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
+
+    </tr>
+            
+    <tr id="comment-6383075" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">Yes, this additional encoding does not work. But I think I should probably read the header somehow as ISO-8859-1 to get the correct location. How to do this.</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-09 14:04:02Z">Apr 9 at 14:04</span></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
+    </tr>
+
+        </tbody>
+
+    
+        <tfoot>
+            <tr>
+                <td></td>
+                <td class="comment-form"><form id="add-comment-5605344"></form></td>
+            </tr>
+        </tfoot>
+    
+        </table>
+    </div>
+    <a id="comments-link-5605344" class="comments-link" title="expand to show all comments on this post, or add one of your own">add / show <b>2</b> more comments</a>
+
 </td>
 </tr>
      
@@ -387,10 +558,10 @@ Element element = select.get(0);
 
     
     <a name='new-answer'></a>
-    <form id="post-form" action="/questions/4083803/answer/submit" method="post" >
-
+    <form id="post-form" action="/questions/5605219/answer/submit" method="post"  class="dno">
         <h2 class="space">Your Answer</h2>
         <script src="http://sstatic.net/Js/wmd.js?v=8cc0678d8147" type="text/javascript"></script>
+
 <script type="text/javascript">
     $(function() {
      
@@ -409,17 +580,16 @@ Element element = select.get(0);
     <div id="wmd-container">
         <div id="wmd-button-bar"></div>
         <textarea id="wmd-input" name="post-text" cols="92" rows="15" tabindex="101"></textarea>
-
     </div>
 
     <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+
     <div id="draft-saved" class="community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
 
 
     <div class="community-option">
         <input id="communitymode" name="communitymode" type="checkbox" >
         <label for="communitymode" title="Marking an answer community wiki encourages others to edit it by lowering the reputation barrier required to edit. However, you will not gain any upvote reputation from it. This cannot be undone.">community wiki</label>
-
     </div>
 
     <div id="wmd-preview"></div>
@@ -435,13 +605,71 @@ Element element = select.get(0);
         
         
         <div class="form-submit cbt"><input id="submit-button" type="submit" value="Post Your Answer" tabindex="110"></div>
-
     </form>
+        <div id="show-editor-button" class="form-submit" style="margin-bottom:8px">
+
+            <input type="button" value="Answer Your Question" />
+        </div>
+        <script type="text/javascript">
+            var cp1 = "Are you sure you want to answer your own question?\n\nIf you're responding to answers left on your question, enter comments under each answer.\n\nIf you need to add details to your question, use the edit link under your question.";
+            $(function () {
+                $("#show-editor-button").click(function () {
+                    if (confirm(cp1)) {
+                        $("#show-editor-button").hide();
+                        $("#post-form").show();
+                        initPostEditor('answer', true);
+                    }
+                });
+            });
+        </script>        
+<div id="notify-options">
+    <h2>
+        <input type="checkbox" id="notify-email" name="notify-email" > Notify 
+        <input id="notify-email-address" name="notify-email-address" disabled="disabled"  type="text" value="peathal@yahoo.de"> daily of any new answers
+    </h2>
+</div>
+
+<script src="http://sstatic.net/Js/third-party/jquery.typewatch.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function() {
+        initEmailNotification();   
+            $("#notify-email-address").typeWatch({ highlight:false, wait: 500, captureLength: -1, callback:saveEmailNotification });
+    });
+    
+    function initEmailNotification() {
+        var toggle = function() { $("#notify-email-address").attr('disabled', !$("#notify-email").is(":checked")); };
+        toggle();
+        $("#notify-email").click(function() {
+            toggle();
+            saveEmailNotification($('#notify-email-address').val());
+        });
+    }
+    
+    function saveEmailNotification(email) {
+        // only post if the email is valid
+        if (!(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i).test(email)) return;
+        
+        var jCheck = $("#notify-email");   
+		$.ajax ({
+		    type: "POST",
+		    url: "/posts/5605219/update-owner-notification",		    
+		    data: { "fkey": StackExchange.options.user.fkey, "notifyEmailAddress": email, "notifyEmail": jCheck.is(":checked")},
+		    dataType: "json",
+		    success: function(result) {   
+		        if (!result.success) {
+		            var msg = (result.message && result.message.length > 0) ? result.message : "A problem has occurred when changing your notification setttings - please try again";
+		            StackExchange.helpers.showErrorPopup(jCheck.closest('div'), result.message);
+		        }
+		    }
+		});
+	}
+</script>
 
 
     <h2 class="bottom-notice">
         Not the answer you're looking for? 
-        Browse other questions tagged <a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="/questions/tagged/jsoup" class="post-tag" title="show questions tagged 'jsoup'" rel="tag">jsoup</a> 
+        Browse other questions tagged <a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="/questions/tagged/character-encoding" class="post-tag" title="show questions tagged 'character-encoding'" rel="tag">character-encoding</a> <a href="/questions/tagged/url-encoding" class="post-tag" title="show questions tagged 'url-encoding'" rel="tag">url-encoding</a> 
         or <a href="/questions/ask">ask your own question</a>.
     </h2>
 
@@ -450,22 +678,23 @@ Element element = select.get(0);
 <div id="sidebar">
     <div class="module">
         <p class="label-key">tagged</p>
-        <div class="tagged"><a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a>&nbsp;<span class="item-multiplier">&times;&nbsp;114242</span><br>
-<a href="/questions/tagged/jsoup" class="post-tag" title="show questions tagged 'jsoup'" rel="tag">jsoup</a>&nbsp;<span class="item-multiplier">&times;&nbsp;60</span><br>
+        <div class="tagged"><a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a>&nbsp;<span class="item-multiplier">&times;&nbsp;114260</span><br>
+<a href="/questions/tagged/character-encoding" class="post-tag" title="show questions tagged 'character-encoding'" rel="tag">character-encoding</a>&nbsp;<span class="item-multiplier">&times;&nbsp;1598</span><br>
+<a href="/questions/tagged/url-encoding" class="post-tag" title="show questions tagged 'url-encoding'" rel="tag">url-encoding</a>&nbsp;<span class="item-multiplier">&times;&nbsp;119</span><br>
+
 </div> 
         <p class="label-key">asked</p>
-
-        <p class="label-value" title="2010-11-03 02:29:55Z">5 months ago</p>
+        <p class="label-value" title="2011-04-09 13:13:11Z">6 days ago</p>
         <p class="label-key">viewed</p>
-        <p class="label-value">220 times</p>
+        <p class="label-value">54 times</p>
         <p class="label-key">latest activity</p>
-        <p class="label-value"><a href="?lastactivity" class="lastactivity-link" title="2010-11-03 13:51:56Z">5 months ago</a></p>
-    </div>
+        <p class="label-value"><a href="?lastactivity" class="lastactivity-link" title="2011-04-10 12:51:47Z">5 days ago</a></p>
 
+    </div>
     
     
         <script type="text/javascript">
-            var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = "http://engine2.adzerk.net/z/8277/adzerk2_2_17_45?keywords=java,jsoup,x-user-registered,x-1500plus-rep"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);
+            var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = "http://engine2.adzerk.net/z/8277/adzerk2_2_17_45?keywords=java,character-encoding,url-encoding,x-user-registered,x-1500plus-rep"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);
         </script>
     
     <div class="everyonelovesstackoverflow" id="adzerk2">
@@ -482,89 +711,88 @@ Element element = select.get(0);
 
 
     <div class="module">
-
     <h4 id="h-related">Related</h4>
     <div class="related">
     <div class="spacer">
-<a href="/questions/3391422/jsoup-image-tag-extraction" class="question-hyperlink">Jsoup image tag extraction ..</a>
+<a href="/questions/623861/how-do-you-unescape-urls-in-java" class="question-hyperlink">How do you unescape URLs in Java?</a>
 </div>
 <div class="spacer">
-<a href="/questions/3406938/jsoup-tag-extraction" class="question-hyperlink">jsoup tag extraction</a>
-</div>
-<div class="spacer">
-<a href="/questions/3421260/jsoup-tag-extraction-problem" class="question-hyperlink">jsoup tag extraction problem</a>
-
-</div>
-<div class="spacer">
-<a href="/questions/4063263/jsoup-select-all-comments" class="question-hyperlink">JSoup - Select all comments</a>
-</div>
-<div class="spacer">
-<a href="/questions/4144529/how-to-extract-absolute-url-from-relative-html-links-using-jsoup" class="question-hyperlink">How to extract absolute URL from relative HTML links using Jsoup?</a>
-</div>
-<div class="spacer">
-<a href="/questions/4194486/is-there-a-way-to-deep-clone-jsoup-document-object-and-get-back-exactly-same-html" class="question-hyperlink">Is there a way to deep clone JSoup Document object and get back exactly same HTML?</a>
-</div>
-<div class="spacer">
-<a href="/questions/4586890/jsoup-isnt-unescaping-my-html-entities-properly" class="question-hyperlink">jSoup isn&#39;t unescaping my HTML entities properly</a>
-
-</div>
-<div class="spacer">
-<a href="/questions/4875064/jsoup-how-to-get-an-images-absolute-url" class="question-hyperlink">Jsoup: how to get an image&#39;s absolute url?</a>
-</div>
-<div class="spacer">
-<a href="/questions/5178374/error-parsing-with-jsoup" class="question-hyperlink">error parsing with jsoup</a>
-</div>
-<div class="spacer">
-<a href="/questions/5219188/if-jsoup-works-with-android" class="question-hyperlink">If Jsoup works with android?</a>
-</div>
-<div class="spacer">
-<a href="/questions/5234494/extract-url-with-jsoup" class="question-hyperlink">extract URL with jsoup</a>
-
-</div>
-<div class="spacer">
-<a href="/questions/5274475/android-html-jsoup" class="question-hyperlink">Android HTML Jsoup</a>
-</div>
-<div class="spacer">
-<a href="/questions/5282946/extract-data-from-html-code-with-jsoup" class="question-hyperlink">Extract data from html code with Jsoup</a>
-</div>
-<div class="spacer">
-<a href="/questions/5332528/building-basic-program-with-jsoup" class="question-hyperlink">Building basic program with Jsoup</a>
-</div>
-<div class="spacer">
-<a href="/questions/5348455/removing-html-entities-while-preserving-line-breaks-with-jsoup" class="question-hyperlink">Removing HTML entities while preserving line breaks with JSoup</a>
+<a href="/questions/1485812/encoding-decoding-rest-path-parameters" class="question-hyperlink">Encoding/decoding REST path parameters</a>
 </div>
 
 <div class="spacer">
-<a href="/questions/5383687/jsoup-optimal-way-of-checking-whether-a-div-has-an-id" class="question-hyperlink">Jsoup: Optimal way of checking whether a &lt;div&gt; has an ID</a>
+<a href="/questions/1623252/jquery-post-and-encoding" class="question-hyperlink">jQuery.post and encoding</a>
 </div>
 <div class="spacer">
-<a href="/questions/5396098/how-to-parse-a-table-from-html-using-jsoup" class="question-hyperlink">how to parse a table from HTML using jsoup</a>
+<a href="/questions/1637762/test-if-string-is-url-encoded-in-php" class="question-hyperlink">Test if string is URL encoded in PHP</a>
 </div>
 <div class="spacer">
-<a href="/questions/5434281/extract-information-from-a-web-page-using-jsoup" class="question-hyperlink">Extract information from a web page using Jsoup</a>
+<a href="/questions/1782663/how-do-i-parse-an-encoded-uri-in-ruby" class="question-hyperlink">How do I parse an encoded URI in Ruby?</a>
 </div>
 <div class="spacer">
-<a href="/questions/5442527/extract-real-url-in-all-paragraph-from-web-pagejsoup" class="question-hyperlink">extract real url in all paragraph from web page(jsoup)</a>
+<a href="/questions/2295223/how-to-find-out-if-string-has-already-been-url-encoded" class="question-hyperlink">How to find out if string has already been URL encoded?</a>
+</div>
+<div class="spacer">
+
+<a href="/questions/2676969/is-get-query-string-affected-by-content-text-html-charset-gb2312-html-meta-tag" class="question-hyperlink">Is GET Query String affected by content=&#39;text/html; charset=gb2312&#39; html meta tag attribute ?</a>
+</div>
+<div class="spacer">
+<a href="/questions/3063449/basic-authentication-from-url-in-restlet" class="question-hyperlink">Basic Authentication from url in Restlet</a>
+</div>
+<div class="spacer">
+<a href="/questions/3175460/how-to-judge-if-a-url-is-already-encoded-with-encodeuri" class="question-hyperlink">How to judge if a URL is already encoded with encodeURI?</a>
+</div>
+<div class="spacer">
+<a href="/questions/3353203/hex-url-decoder-c" class="question-hyperlink">Hex Url decoder c#</a>
 
 </div>
 <div class="spacer">
-<a href="/questions/5454172/prevent-jsoup-from-discarding-extra-whitespace" class="question-hyperlink">Prevent Jsoup from discarding extra whitespace</a>
+<a href="/questions/3563126/url-encoding-decoding-with-python" class="question-hyperlink">url encoding/decoding with python</a>
 </div>
 <div class="spacer">
-<a href="/questions/5501156/problem-with-parsing-csv-values-in-java-using-jsoup" class="question-hyperlink">problem with parsing CSV values In java ( using Jsoup) </a>
+<a href="/questions/4052312/what-are-the-implications-of-not-doing-url-encoding-when-passing-urls-in-get-requ" class="question-hyperlink">What are the implications of not doing url encoding when passing URLs in GET requests?</a>
 </div>
 <div class="spacer">
-<a href="/questions/5576083/jsoup-quotes-and-spaces" class="question-hyperlink">jsoup quotes and spaces</a>
+<a href="/questions/4168636/asp-net-mvc-does-not-understand-mixed-url-encoding-utf-8-latin-1" class="question-hyperlink">ASP.NET MVC does not understand mixed url encoding (UTF-8/Latin-1)</a>
 </div>
 <div class="spacer">
-<a href="/questions/5640334/how-do-i-preserve-line-breaks-when-using-jsoup-to-convert-html-to-plain-text" class="question-hyperlink">How do I preserve line breaks when using jsoup to convert html to plain text?</a>
+<a href="/questions/4473169/is-it-bad-to-use-special-symbols-in-url" class="question-hyperlink">Is it bad to use special symbols in URL?</a>
 </div>
 
 <div class="spacer">
-<a href="/questions/5654295/add-an-attribute-to-html-with-jsoup" class="question-hyperlink">Add an attribute to HTML with Jsoup</a>
+<a href="/questions/4571346/how-to-encode-url-to-avoid-special-characters-in-java" class="question-hyperlink">how to encode URL to avoid special characters in java</a>
 </div>
 <div class="spacer">
-<a href="/questions/5655217/jsoup-element-text-intermittent" class="question-hyperlink">Jsoup Element.text() intermittent?</a>
+<a href="/questions/4652365/url-decoding-japanese-characters-etc-in-java" class="question-hyperlink">URL decoding Japanese characters etc. in Java</a>
+</div>
+<div class="spacer">
+<a href="/questions/5053975/how-to-encode-a-url-with-jstl" class="question-hyperlink">How to Encode a URL with JSTL</a>
+</div>
+<div class="spacer">
+<a href="/questions/5117071/how-to-hide-an-email-address-as-a-url-parameter" class="question-hyperlink">How to hide an email address as a url parameter</a>
+</div>
+<div class="spacer">
+
+<a href="/questions/5195189/is-it-possible-to-component-encode-a-url-with-a-anchor-in-it-using-houtputlink" class="question-hyperlink">Is it possible to component encode a URL with a # anchor in it using h:outputLink?</a>
+</div>
+<div class="spacer">
+<a href="/questions/5291586/best-way-to-encode-url-in-java" class="question-hyperlink">Best way to encode URL in Java</a>
+</div>
+<div class="spacer">
+<a href="/questions/5449734/url-as-urls-get-parameters-problem-with" class="question-hyperlink">URL as URL&#39;s get parameters - problem with &ldquo;&amp;&rdquo; </a>
+</div>
+<div class="spacer">
+<a href="/questions/5452649/encode-and-redirect-to-a-url-that-has-special-characters-in-java" class="question-hyperlink">Encode (and redirect) to a URL that has special characters in Java</a>
+</div>
+
+<div class="spacer">
+<a href="/questions/5488924/url-encode-decode-mismatch" class="question-hyperlink">URL Encode Decode Mismatch</a>
+</div>
+<div class="spacer">
+<a href="/questions/5610021/what-is-the-encoding-of-chinese-characters-on-wikipedia" class="question-hyperlink">What is the encoding of Chinese characters on Wikipedia?</a>
+</div>
+<div class="spacer">
+<a href="/questions/5634836/escape-fullstop-before-slash-in-url-string" class="question-hyperlink">Escape fullstop before slash in URL string</a>
 </div>
 
     </div>
@@ -574,25 +802,25 @@ Element element = select.get(0);
 
 
 <div id="feed-link">
-    <div id="feed-link-text"><a href="/feeds/question/4083803" title="feed of this question and its answers"><span class="feed-icon"></span>question feed</a></div>
+    <div id="feed-link-text"><a href="/feeds/question/5605219" title="feed of this question and its answers"><span class="feed-icon"></span>question feed</a></div>
 </div>
 
 
-<script type="text/javascript" src="/posts/4083803/ivc/6d96"></script>
+<script type="text/javascript" src="/posts/5605219/ivc/6896"></script>
 <noscript>
-    <div><img src="/posts/4083803/ivc/6d96" class="dno" alt=""></div>
+    <div><img src="/posts/5605219/ivc/6896" class="dno" alt=""></div>
 </noscript>
 
 <div style="display:none" id="prettify-lang">lang-java</div>
+
         </div>
     </div>
-
     <div id="footer">
         <div class="footerwrap">
             <div id="footer-menu">
                 <a href="/about">about</a> |
                 <a href="/faq">faq</a> |
-                <span title="17 hours ago" class="new-blog-post">new</span> <a href="http://blog.stackoverflow.com">blog</a> |
+                <span title="18 hours ago" class="new-blog-post">new</span> <a href="http://blog.stackoverflow.com">blog</a> |
                     <a href="http://chat.stackoverflow.com">chat</a> |
                 <a href="http://data.stackexchange.com">data</a> |
                 <a href="http://itc.conversationsnetwork.org/series/stackoverflow.html">podcast</a> |

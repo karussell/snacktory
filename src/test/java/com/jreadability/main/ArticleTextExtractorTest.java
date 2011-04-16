@@ -102,7 +102,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("faz.html")));
 //        assertTrue(res.getText(), res.getText().startsWith("Im Gespräch: Umweltaktivist Stewart Brand"));
         assertTrue(res.getText(), res.getText().startsWith("09. April 2011 2011-04-09 15:05:38 Deutschland hat vor, ganz auf Atomkraft zu verzichten. Ist das eine gute"));
-        assertEquals("http://www.faz.net/m/%7B5F104CCF-3B5A-4B4C-B83E-4774ECB29889%7Dg225_4.jpg", res.getImageUrl());
+        assertEquals("/m/{5F104CCF-3B5A-4B4C-B83E-4774ECB29889}g225_4.jpg", res.getImageUrl());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("rian.html")));
         assertTrue(res.getText(), res.getText().startsWith("About 15,000 people took to the streets in Tokyo on Sunday to protest against th"));
         assertEquals("Japanese rally against nuclear power industry | World | RIA Novosti", res.getTitle());
-        assertEquals("", res.getFaviconUrl());
+        assertEquals("/favicon.ico", res.getFaviconUrl());
     }
 
     @Test
@@ -296,9 +296,9 @@ public class ArticleTextExtractorTest {
 
     @Test
     public void testStackoverflow() throws Exception {
-        //String url = "http://stackoverflow.com/questions/4083803/jsoup-problem-selecting-a-tag";
+        //String url = "http://stackoverflow.com/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("stackoverflow.html")));
-        assertTrue("stackoverflow:" + article.getText(), article.getText().startsWith("Hi, Is there a way to select an element following another one?"));
+        assertTrue("stackoverflow:" + article.getText(), article.getText().startsWith("When I'm doing the following:"));
         assertEquals("", article.getImageUrl());
     }
 
@@ -316,7 +316,7 @@ public class ArticleTextExtractorTest {
         //String url = "http://online.wsj.com/article/SB10001424052748704532204575397061414483040.html";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("wsj.html")));
         assertTrue(article.getText(), article.getText().startsWith("The Obama administration has paid out less than a third of the nearly $230 billion"));
-        assertEquals("http://si.wsj.net/public/resources/images/OB-JO747_stimul_G_20100814113803.jpg", article.getImageUrl());
+        assertEquals("http://si.wsj.net/public/resources/images/OB-JO747_stimul_D_20100814113803.jpg", article.getImageUrl());
     }
 
     @Test
@@ -445,7 +445,7 @@ public class ArticleTextExtractorTest {
         //String url = "http://news.yahoo.com/s/ap/20110305/ap_on_re_af/af_libya";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("yahoo.html")));
         assertTrue(article.getText(), article.getText().startsWith("TRIPOLI, Libya – Government forces in tanks rolled into the opposition-held city closest "));
-        assertEquals("http://d.yimg.com/a/p/ap/20110305/capt.20433579e6a949189ddb65a8c260183c-20433579e6a949189ddb65a8c260183c-0.jpg?x=213&y=142&xc=1&yc=1&wc=410&hc=273&q=85&sig=i4WKbNKMgqenVsxU3NCbOg--",
+        assertEquals("http://d.yimg.com/a/p/ap/20110305/http://d.yimg.com/a/p/ap/20110305/thumb.23c7d780d8d84bc4a8c77af11ecba277-23c7d780d8d84bc4a8c77af11ecba277-0.jpg?x=130&y=90&xc=1&yc=1&wc=130&hc=90&q=85&sig=LbIZK0rnJlZAcrAWn.brLw--",
                 article.getImageUrl());
     }
 
@@ -612,7 +612,7 @@ public class ArticleTextExtractorTest {
         assertTrue(article.getText(), article.getText().startsWith("ALAMEDA, Calif. — The Oakland Raiders informed coach Tom Cable on Tuesday that they will not bring him back"));
         assertEquals("http://dy.snimg.com/story-image/0/69/174475/14072-650-366.jpg",
                 article.getImageUrl());
-        assertEquals("Raiders cut ties with Cable", article.getTitle());
+        assertEquals("Raiders cut ties with Cable - NFL - Sporting News", article.getTitle());
     }
 
     @Test
@@ -620,7 +620,7 @@ public class ArticleTextExtractorTest {
         //String url = "http://msn.foxsports.com/nfl/story/Tom-Cable-fired-contract-option-Oakland-Raiders-coach-010411";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("foxsports.html")));
         assertTrue(article.getText(), article.getText().startsWith("The Oakland Raiders informed coach Tom Cable"));
-        assertEquals("Oakland Raiders won't bring Tom Cable back as coach - NFL News",
+        assertEquals("Oakland Raiders won't bring Tom Cable back as coach - NFL News | FOX Sports on MSN",
                 article.getTitle());
     }
 
@@ -719,6 +719,14 @@ public class ArticleTextExtractorTest {
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("cracked.html")));
         assertTrue(article.getText(), article.getText().startsWith("Social networking is here to stay"));
         assertEquals("http://i-beta.crackedcdn.com/phpimages/article/2/1/6/45216.jpg?v=1", article.getImageUrl());
+    }
+
+    @Test
+    public void testMidgetmanofsteel() throws Exception {
+        //String url = "http://www.cracked.com/article_19029_6-things-social-networking-sites-need-to-stop-doing.html";
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("midgetmanofsteel.html")));
+        assertTrue(article.getText(), article.getText().startsWith("I've decided to turn my Facebook assholishnessicicity"));
+        assertEquals("http://4.bp.blogspot.com/_F74vJj-Clzk/TPkzP-Y93jI/AAAAAAAALKM/D3w1sfJqE5U/s200/funny-dog-pictures-will-work-for-hot-dogs.jpg", article.getImageUrl());
     }
 
     @Test
