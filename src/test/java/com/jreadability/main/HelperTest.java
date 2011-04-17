@@ -55,6 +55,12 @@ public class HelperTest {
     }
 
     @Test
+    public void testHashbang() {
+        assertEquals("sdfiasduhf+asdsad+sdfsdf#!", Helper.removeHashbang("sdfiasduhf+asdsad#!+sdfsdf#!"));
+        assertEquals("sdfiasduhf+asdsad+sdfsdf#!", Helper.removeHashbang("sdfiasduhf+asdsad#!+sdfsdf#!"));        
+    }
+
+    @Test
     public void testIsVideoLink() {
         assertTrue(Helper.isVideoLink("m.vimeo.com"));
         assertTrue(Helper.isVideoLink("m.youtube.com"));
@@ -69,7 +75,7 @@ public class HelperTest {
 
         assertEquals("techcrunch.com",
                 Helper.extractHost("http://techcrunch.com/2010/08/13/gantto-takes-on-microsoft-project-with-web-based-project-management-application/"));
-        
+
         Helper.useDomainOfFirst4Sec("http://www.n24.de/news/newsitem_6797232.html", "../../../media/imageimport/images/content/favicon.ico");
     }
 }

@@ -1,12 +1,15 @@
 package com.jreadability.main;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.regex.Pattern;
 import java.util.List;
+import java.util.Set;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,8 +51,10 @@ public class ArticleTextExtractor {
         Document doc = Jsoup.parse(html);
 
         JResult res = new JResult();
-        // grabbing the title should be easy or use doc.title()
-        res.setTitle(cleanTitle(doc.select("head title").text()));
+        res.setTitle(cleanTitle(doc.title()));
+
+        if (res.getTitle().isEmpty())
+            res.setTitle(cleanTitle(doc.select("head title").text()));
 
         if (res.getTitle().isEmpty())
             res.setTitle(cleanTitle(doc.select("head meta[name=title]").attr("content")));
@@ -60,10 +65,10 @@ public class ArticleTextExtractor {
         prepareDocument(doc);
 
         // init elements
-        List<Element> nodes = getNodes(doc);
+        Collection<Element> nodes = getNodes(doc);
         int maxWeight = 0;
         Element bestMatchElement = null;
-        for (Element entry : nodes) {
+        for (Element entry : nodes) {            
             int currentWeight = getWeight(entry);
             if (currentWeight > maxWeight) {
                 // TODO REMOVE
@@ -127,11 +132,11 @@ public class ArticleTextExtractor {
 
         if (unlikely.matcher(e.className()).matches() || unlikely.matcher(e.id()).matches())
             return -1;
-
+        
         weight += (int) Math.round(e.ownText().length() / 100.0 * 10);
         weight += weightChildNodes(e);
-        if (weight <= 40)
-            return -1;
+//        if (weight <= 40)
+//            return -1;
 
         return weight;
     }
@@ -388,8 +393,8 @@ public class ArticleTextExtractor {
         return largeText.trim();
     }
 
-    public List<Element> getNodes(Document doc) {
-        List<Element> nodes = new ArrayList<Element>();
+    public Collection<Element> getNodes(Document doc) {
+        Set<Element> nodes = new LinkedHashSet<Element>();
         // make sure the most important elements are captured.
         // sometimes jsoup has problems to get the relevant container
         for (Element el : doc.select("body").select("h1")) {

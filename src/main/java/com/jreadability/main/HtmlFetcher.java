@@ -19,8 +19,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.LinkedHashSet;
@@ -35,6 +37,10 @@ import org.slf4j.LoggerFactory;
  */
 public class HtmlFetcher {
 
+    static {
+        Helper.enableCookieMgmt();
+        Helper.enableUserAgentOverwrite();
+    }
     private static final Logger logger = LoggerFactory.getLogger(HtmlFetcher.class);
 
     public static void main(String[] args) throws Exception {
@@ -62,12 +68,8 @@ public class HtmlFetcher {
         reader.close();
     }
 
-    static {
-        Helper.enableCookieMgmt();
-        Helper.enableUserAgentOverwrite();
-    }
-
     public static JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
+        url = Helper.removeHashbang(url);
         String gUrl = Helper.getUrlFromUglyGoogleRedirect(url);
         if (gUrl != null)
             url = gUrl;
@@ -108,31 +110,15 @@ public class HtmlFetcher {
     }
 
     public static String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions) {
-        try {
-            URL url = new URL(urlAsString);
-            //using proxy may increase latency
-            HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
-            hConn.setRequestProperty("User-Agent", "Mozilla/5.0 Gecko/20100915 Firefox/3.6.10");
-            if (includeSomeGooseOptions) {
-                hConn.setRequestProperty("Accept-Language", "en-us");
-                hConn.setRequestProperty("content-charset", "UTF-8");
-                hConn.addRequestProperty("Referer", "http://jetwick.com/s");
-                // why should we avoid the cache?
-                hConn.setRequestProperty("Cache-Control", "max-age=0");
-            }
-
-            // on android we got problems because of this
-            // so do not allow gzip compression for now
-//            hConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
-            hConn.setConnectTimeout(timeout);
-            hConn.setReadTimeout(timeout);
+        try {            
+            HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
+            hConn.setInstanceFollowRedirects(true);
             InputStream is = hConn.getInputStream();
 
             if ("gzip".equals(hConn.getContentEncoding()))
                 is = new GZIPInputStream(is);
 
             String enc = Converter.extractEncoding(hConn.getContentType());
-//            logger.info("header encoding:" + enc);
             return new Converter().streamToString(is, enc);
         } catch (Exception ex) {
         }
@@ -146,19 +132,13 @@ public class HtmlFetcher {
      * (within the specified time) or the same url if response code is OK
      */
     public static String getResolvedUrl(String urlAsString, int timeout) {
-        try {
-            URL url = new URL(urlAsString);
-            //using proxy may increase latency
-            HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
+        try {            
+            HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, true);
             // force no follow
-
             hConn.setInstanceFollowRedirects(false);
             // the program doesn't care what the content actually is !!
             // http://java.sun.com/developer/JDCTechTips/2003/tt0422.html
-            hConn.setRequestMethod("HEAD");
-            // default is 0 => infinity waiting
-            hConn.setConnectTimeout(timeout);
-            hConn.setReadTimeout(timeout);
+            hConn.setRequestMethod("HEAD");            
             hConn.connect();
             int responseCode = hConn.getResponseCode();
             hConn.getInputStream().close();
@@ -196,5 +176,28 @@ public class HtmlFetcher {
         }
 
         return sb.toString();
+    }
+
+    private static HttpURLConnection createUrlConnection(String urlAsStr, int timeout,
+            boolean includeSomeGooseOptions) throws MalformedURLException, IOException {
+        URL url = new URL(urlAsStr);
+        //using proxy may increase latency
+        HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
+        hConn.setRequestProperty("User-Agent", "Mozilla/5.0 Gecko/20110323 Firefox/3.6.16");
+        hConn.setRequestProperty("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
+
+        if (includeSomeGooseOptions) {
+            hConn.setRequestProperty("Accept-Language", "en-us");
+            hConn.setRequestProperty("content-charset", "UTF-8");
+            hConn.addRequestProperty("Referer", "http://jetwick.com/s");
+            // avoid the cache for testing purposes only?
+            hConn.setRequestProperty("Cache-Control", "max-age=0");
+        }
+
+        // WARNING on android we got problems because of this!!            
+        hConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
+        hConn.setConnectTimeout(timeout);
+        hConn.setReadTimeout(timeout);
+        return hConn;
     }
 }

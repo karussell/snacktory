@@ -35,6 +35,10 @@ public class ConverterTest extends TestCase {
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("yomiuri.html"));
         assertEquals("shift_jis", d.getEncoding());
+        
+        d = new Converter();
+        d.streamToString(getClass().getResourceAsStream("yomiuri2.html"));
+        assertEquals("shift_jis", d.getEncoding());
 
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("spiegel.html"));

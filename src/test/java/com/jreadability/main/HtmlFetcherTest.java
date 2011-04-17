@@ -28,12 +28,6 @@ public class HtmlFetcherTest {
     }
 
     @Test
-    public void testFetchAndExtract() throws Exception {
-        JResult res = HtmlFetcher.fetchAndExtract("http://www.yomiuri.co.jp/e-japan/gifu/news/20110410-OYT8T00124.htm?from=tw", 10000, true);
-        System.out.println("yomiuri:" + res);
-    }
-
-    @Test
     public void testNoException() throws Exception {
         JResult res = HtmlFetcher.fetchAndExtract("http://www.tumblr.com/xeb22gs619", 10000, true);
 //        System.out.println("tumblr:" + res.getUrl());
@@ -51,8 +45,30 @@ public class HtmlFetcherTest {
     }
 
     @Test
+    public void testWithTitle() throws Exception {
+        JResult res = HtmlFetcher.fetchAndExtract("http://www.midgetmanofsteel.com/2011/03/its-only-matter-of-time-before-fox-news.html", 10000, true);
+        assertEquals("It's Only a Matter of Time Before Fox News Takes Out a Restraining Order | Mental Poo", res.getTitle());
+    }
+
+    // do not support this uglyness
+//    @Test
+//    public void doubleRedirect() throws Exception {
+//        JResult res = HtmlFetcher.fetchAndExtract("http://bit.ly/eZPI1c", 10000, true);
+//        assertEquals("12 Minuten Battlefield 3 Gameplay - ohne Facebook-Bedingungen | Spaß und Spiele", res.getTitle());
+//    }
+    @Test
     public void testEncoding() throws Exception {
+        // when doing debug it works!?
         JResult res = HtmlFetcher.fetchAndExtract("http://www.yomiuri.co.jp/science/news/20110415-OYT1T00568.htm", 10000, true);
         assertEquals("海水汚染には猫トイレの砂…セシウム吸着 : 科学 : YOMIURI ONLINE（読売新聞）", res.getTitle());
+    }
+
+    @Test
+    public void testHashbang() throws Exception {        
+        JResult res = HtmlFetcher.fetchAndExtract("http://www.facebook.com/democracynow", 10000, true);
+        assertEquals("Democracy Now! | Facebook", res.getTitle());
+        
+        res = HtmlFetcher.fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
+        assertEquals("Twitter / Tatjana Hoenich: “@AntiAtomPiraten: \"Protes ...", res.getTitle());
     }
 }

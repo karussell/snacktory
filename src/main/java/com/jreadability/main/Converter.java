@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 public class Converter {
 
     private final static Logger logger = Logger.getLogger(Converter.class);
-    public static final int MAX_BYTES = 1000000;
+    public final static int MAX_BYTES = 1000000;
     public final static String UTF8 = "UTF8";
     public final static String ISO = "ISO-8859-1";
     public final static int K4 = 4096;
@@ -94,40 +94,41 @@ public class Converter {
 
             // Grab better encoding from stream
             int n = in.read(arr);
-            
+
             String res = new String(arr, 0, n, encoding);
             int encIndex = res.indexOf("charset=");
+            int clength = "charset=".length();
             if (encIndex > 0) {
-                char startChar = res.charAt(encIndex + 8);
+                char startChar = res.charAt(encIndex + clength);
                 int lastEncIndex;
                 if (startChar == '\'')
                     // if we have charset='something'
-                    lastEncIndex = res.indexOf("'", ++encIndex + 8);
+                    lastEncIndex = res.indexOf("'", ++encIndex + clength);
                 else if (startChar == '\"')
                     // if we have charset="something"
-                    lastEncIndex = res.indexOf("\"", ++encIndex + 8);
+                    lastEncIndex = res.indexOf("\"", ++encIndex + clength);
                 else {
                     // if we have "text/html; charset=utf-8"                    
-                    int first = res.indexOf("\"", encIndex + 8);
+                    int first = res.indexOf("\"", encIndex + clength);
                     if (first < 0)
                         first = Integer.MAX_VALUE;
 
                     // or "text/html; charset=utf-8 "
-                    int sec = res.indexOf(" ", encIndex + 8);
+                    int sec = res.indexOf(" ", encIndex + clength);
                     if (sec < 0)
                         sec = Integer.MAX_VALUE;
                     lastEncIndex = Math.min(first, sec);
 
                     // or "text/html; charset=utf-8 '
-                    int third = res.indexOf("'", encIndex + 8);
+                    int third = res.indexOf("'", encIndex + clength);
                     if (third > 0)
                         lastEncIndex = Math.min(lastEncIndex, third);
                 }
 
                 // re-read byte array with different encoding
                 // assume that the encoding string cannot be greater than 40 chars
-                if (lastEncIndex > encIndex + 8 && lastEncIndex < encIndex + 8 + 40) {
-                    encoding = res.substring(encIndex + 8, lastEncIndex);
+                if (lastEncIndex > encIndex + clength && lastEncIndex < encIndex + clength + 40) {
+                    encoding = res.substring(encIndex + clength, lastEncIndex);
                     try {
                         res = new String(arr, 0, n, encoding);
                     } catch (UnsupportedEncodingException e) {

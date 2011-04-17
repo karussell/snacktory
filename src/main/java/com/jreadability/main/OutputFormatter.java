@@ -19,6 +19,7 @@ public class OutputFormatter {
 
     public OutputFormatter init(Element topNode) {
         this.topNode = topNode;
+        topNode.text();
         removeNodesWithNegativeScores();
         convertLinksToText();
         replaceTagsWithText();
@@ -30,20 +31,24 @@ public class OutputFormatter {
      */
     public String getFormattedText() {
         StringBuilder sb = new StringBuilder();
-        Elements nodes = topNode.getAllElements();
-        for (Element e : nodes) {
-            
-            if (e.tagName().equals("p")) {
-                String text = e.text().trim();
-                if(text.isEmpty())
-                    continue;
-                
-                sb.append(text);
-                sb.append("\n\n");
-            }
+        append(topNode.getAllElements(), sb, "p");
+        String str = Helper.innerTrim(sb.toString());
+
+        // no subelements
+        if (str.length() < 100 && topNode.ownText().length() > 100)
+            return topNode.text();
+
+        if (str.isEmpty()) {
+            append(topNode.getAllElements(), sb, "span");
+            str = Helper.innerTrim(sb.toString());
         }
 
-        return Helper.innerTrim(sb.toString());
+        if (str.isEmpty()) {
+            append(topNode.getAllElements(), sb, "pre");
+            str = Helper.innerTrim(sb.toString());
+        }
+
+        return str;
     }
 
     /**
@@ -94,6 +99,19 @@ public class OutputFormatter {
         for (Element item : italics) {
             TextNode tn = new TextNode(item.text(), topNode.baseUri());
             item.replaceWith(tn);
+        }
+    }
+
+    private void append(Elements nodes, StringBuilder sb, String tagName) {
+        for (Element e : nodes) {
+            if (e.tagName().equals(tagName)) {
+                String text = e.text().trim();
+                if (text.isEmpty())
+                    continue;
+
+                sb.append(text);
+                sb.append("\n\n");
+            }
         }
     }
 }

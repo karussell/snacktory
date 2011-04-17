@@ -207,4 +207,13 @@ public class Helper {
             return str;
         }
     }
+
+    /**
+     * Popular sites uses the #! to indicate the importance of
+     * the following chars. Ugly but true.
+     * Such as: facebook, twitter, gizmodo, ...
+     */
+    public static String removeHashbang(String url) {
+        return url.replaceFirst("#!", "");
+    }
 }
