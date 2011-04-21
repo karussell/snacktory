@@ -14,41 +14,28 @@ import org.slf4j.LoggerFactory;
  */
 public class OutputFormatter {
 
+    public static final int MIN_PARAGRAPH_TEXT = 50;
     private static final Logger logger = LoggerFactory.getLogger(OutputFormatter.class);
     private Element topNode;
-
-    public OutputFormatter init(Element topNode) {
-        this.topNode = topNode;
-        topNode.text();
-        removeNodesWithNegativeScores();
-        convertLinksToText();
-        replaceTagsWithText();
-        return this;
-    }
-
+    
     /**
      * takes an element and turns the P tags into \n\n     
      */
-    public String getFormattedText() {
+    public String getFormattedText(Element topNode) {
+        this.topNode = topNode;
+        removeNodesWithNegativeScores();
+        convertLinksToText();
+        replaceTagsWithText();
+        
         StringBuilder sb = new StringBuilder();
-        append(topNode.getAllElements(), sb, "p");
+        append(topNode, sb, "p");
         String str = Helper.innerTrim(sb.toString());
 
         // no subelements
-        if (str.length() < 100 && topNode.ownText().length() > 100)
-            return topNode.text();
+        if (str.length() > topNode.ownText().length())
+            return str;
 
-        if (str.isEmpty()) {
-            append(topNode.getAllElements(), sb, "span");
-            str = Helper.innerTrim(sb.toString());
-        }
-
-        if (str.isEmpty()) {
-            append(topNode.getAllElements(), sb, "pre");
-            str = Helper.innerTrim(sb.toString());
-        }
-
-        return str;
+        return topNode.text();
     }
 
     /**
@@ -72,9 +59,8 @@ public class OutputFormatter {
         Elements gravityItems = this.topNode.select("*[gravityScore]");
         for (Element item : gravityItems) {
             int score = Integer.parseInt(item.attr("gravityScore"));
-            if (score < 1) {
-                item.remove();
-            }
+            if (score < 0 || item.text().length() < MIN_PARAGRAPH_TEXT)
+                item.remove();                                        
         }
     }
 
@@ -102,11 +88,11 @@ public class OutputFormatter {
         }
     }
 
-    private void append(Elements nodes, StringBuilder sb, String tagName) {
-        for (Element e : nodes) {
+    private void append(Element node, StringBuilder sb, String tagName) {
+        for (Element e : node.getElementsByTag(tagName)) {
             if (e.tagName().equals(tagName)) {
                 String text = e.text().trim();
-                if (text.isEmpty())
+                if (text.isEmpty() || text.length() < 50)
                     continue;
 
                 sb.append(text);

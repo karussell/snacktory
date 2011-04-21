@@ -62,13 +62,20 @@ public class Helper {
         return sb.toString().trim();
     }
 
-    public static String longestSubstring(String str1, String str2) {
-        StringBuilder sb = new StringBuilder();
-        if (str1 == null || str1.isEmpty() || str2 == null || str2.isEmpty())
+    /**
+     * @return the longest substring as str1.substring(result[0], result[1]);
+     */
+    public static String getLongestSubstring(String str1, String str2) {
+        int res[] = longestSubstring(str1, str2);
+        if (res == null || res[0] >= res[1])
             return "";
 
-        str1 = str1.toLowerCase();
-        str2 = str2.toLowerCase();
+        return str1.substring(res[0], res[1]);
+    }
+
+    public static int[] longestSubstring(String str1, String str2) {
+        if (str1 == null || str1.isEmpty() || str2 == null || str2.isEmpty())
+            return null;
 
         // dynamic programming => save already identical length into array
         // to understand this algo simply print identical length in every entry of the array
@@ -76,7 +83,8 @@ public class Helper {
         // java initializes them already with 0
         int[][] num = new int[str1.length()][str2.length()];
         int maxlen = 0;
-        int lastSubsBegin = 0;
+        int lastSubstrBegin = 0;
+        int endIndex = 0;
         for (int i = 0; i < str1.length(); i++) {
             for (int j = 0; j < str2.length(); j++) {
                 if (str1.charAt(i) == str2.charAt(j)) {
@@ -88,21 +96,13 @@ public class Helper {
                     if (num[i][j] > maxlen) {
                         maxlen = num[i][j];
                         // generate substring from str1 => i
-                        int thisSubsBegin = i - num[i][j] + 1;
-                        if (lastSubsBegin == thisSubsBegin) {
-                            //if the current LCS is the same as the last time this block ran
-                            sb.append(str1.charAt(i));
-                        } else {
-                            //this block resets the string builder if a different LCS is found
-                            lastSubsBegin = thisSubsBegin;
-                            sb = new StringBuilder();
-                            sb.append(str1.substring(lastSubsBegin, i + 1));
-                        }
+                        lastSubstrBegin = i - num[i][j] + 1;
+                        endIndex = i + 1;
                     }
                 }
             }
         }
-        return sb.toString();
+        return new int[]{lastSubstrBegin, endIndex};
     }
 
     public static String getDefaultFavicon(String url) {
@@ -116,6 +116,9 @@ public class Helper {
      * @return 
      */
     public static String useDomainOfFirst4Sec(String urlForDomain, String path) {
+        if ("favicon.ico".equals(path))
+            path = "/favicon.ico";
+
         if (path.startsWith("http"))
             return path;
         else if (path.startsWith("/"))
@@ -124,7 +127,7 @@ public class Helper {
             int slashIndex = urlForDomain.lastIndexOf("/");
             if (slashIndex > 0 && slashIndex + 1 < urlForDomain.length())
                 urlForDomain = urlForDomain.substring(0, slashIndex + 1);
-            
+
             return urlForDomain + path;
         }
         return path;

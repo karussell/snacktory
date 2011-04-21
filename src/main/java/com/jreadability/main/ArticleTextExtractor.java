@@ -18,23 +18,23 @@ public class ArticleTextExtractor {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleTextExtractor.class);
     // Unlikely candidates
-    private static final Pattern unlikely =
+    private static final Pattern UNLIKELY =
             Pattern.compile("(combx.*)|(comment.*)|(community.*)|(disqus.*)|(extra.*)|"
             + "(foot.*)|(header.*)|(menu.*)|(remark.*)|(rss.*)|(shoutbox.*)|(sidebar.*)|"
             + "(sponsor.*)|(ad.*)|(agegate.*)|(pagination.*)|(pager.*)|(popup.*)|"
             + "(print.*)|(archive.*)|(comment.*)|(discuss.*)|(e[-]?mail.*)|(share.*)|"
             + "(reply.*)|(all.*)|(login.*)|(sign.*)|(single.*)|(attachment.*)");
     // Most likely positive candidates
-    private static final Pattern positive =
+    private static final Pattern POSITIVE =
             Pattern.compile("(article.*)|(body.*)|(content.*)|(entry.*)|(hentry.*)|(main.*)|"
             + "(page.*)|(pagination.*)|(post.*)|(text.*)|(blog.*)|(story.*)|(haupt.*)|(.*artikel.*)");
     // Most likely negative candidates
-    private static final Pattern negative =
+    private static final Pattern NEGATIVE =
             Pattern.compile("(.*navigation.*)|(.*user.*)|(.*nav)|(.*combx.*)|(.*comment.*)|(com-.*)|(.*contact.*)|"
             + "(.*foot.*)|(.*footer.*)|(.*footnote.*)|(.*masthead.*)|(.*media.*)|(.*meta.*)|"
             + "(.*outbrain.*)|(.*promo.*)|(.*related.*)|(.*scroll.*)|(.*shoutbox.*)|"
             + "(.*sidebar.*)|(.*sponsor.*)|(.*shopping.*)|(.*tags.*)|(.*tool.*)|(.*widget.*)");
-    private static final Pattern imageCaption =
+    private static final Pattern IMAGE_CAPTION =
             Pattern.compile("(.*caption.*)");
 
     /** 
@@ -68,13 +68,13 @@ public class ArticleTextExtractor {
         Collection<Element> nodes = getNodes(doc);
         int maxWeight = 0;
         Element bestMatchElement = null;
-        for (Element entry : nodes) {            
+        for (Element entry : nodes) {
             int currentWeight = getWeight(entry);
             if (currentWeight > maxWeight) {
-                // TODO REMOVE
-//                currentWeight = getWeight(entry);
                 maxWeight = currentWeight;
                 bestMatchElement = entry;
+                if (maxWeight > 200)
+                    break;
             }
         }
 
@@ -86,9 +86,11 @@ public class ArticleTextExtractor {
                 // to avoid image subtitles flooding in
             }
 
-            String text = new OutputFormatter().init(bestMatchElement).getFormattedText();
+            // clean before grabbing text
+            String text = new OutputFormatter().getFormattedText(bestMatchElement);
             text = removeTitleFromText(text, res.getTitle());
-            if (text.length() > res.getDescription().length() && text.length() > res.getTitle().length()) {
+            // this fails for short facebook post and probably tweets: text.length() > res.getDescription().length()
+            if (text.length() > res.getTitle().length()) {
                 res.setText(text);
 //                print("best element:", bestMatchElement);
             }
@@ -124,20 +126,26 @@ public class ArticleTextExtractor {
      */
     protected int getWeight(Element e) {
         Integer weight = 0;
-        if (positive.matcher(e.className()).matches())
+        if (POSITIVE.matcher(e.className()).matches())
             weight += 20;
 
-        if (positive.matcher(e.id()).matches())
+        if (POSITIVE.matcher(e.id()).matches())
             weight += 20;
 
-        if (unlikely.matcher(e.className()).matches() || unlikely.matcher(e.id()).matches())
-            return -1;
-        
+        if (UNLIKELY.matcher(e.className()).matches())
+            weight -= 10;
+
+        if (UNLIKELY.matcher(e.id()).matches())
+            weight -= 10;
+
+        if (NEGATIVE.matcher(e.className()).matches())
+            weight -= 30;
+
+        if (NEGATIVE.matcher(e.id()).matches())
+            weight -= 30;
+
         weight += (int) Math.round(e.ownText().length() / 100.0 * 10);
         weight += weightChildNodes(e);
-//        if (weight <= 40)
-//            return -1;
-
         return weight;
     }
 
@@ -151,14 +159,17 @@ public class ArticleTextExtractor {
     protected int weightChildNodes(Element e) {
         int weight = 0;
         Element caption = null;
+        Element image = null;
         List<Element> headerEls = new ArrayList<Element>();
         List<Element> pEls = new ArrayList<Element>();
+
+        image = determineImageSource(e);
 
         for (Element child : e.children()) {
             if (child.ownText().length() < 10)
                 continue;
 
-            if (imageCaption.matcher(e.id()).matches() || imageCaption.matcher(e.className()).matches())
+            if (IMAGE_CAPTION.matcher(e.id()).matches() || IMAGE_CAPTION.matcher(e.className()).matches())
                 weight += 30;
 
             if (child.tagName().equals("h1") || child.tagName().equals("h2")) {
@@ -179,7 +190,9 @@ public class ArticleTextExtractor {
 //                    weight += weightChildNodes(child);
 //            }
         }
-        if (pEls.size() > 5 && caption != null) {
+        if (pEls.size() >= 2 && (caption != null || image != null)) {
+            // TODO use caption!
+            // TODO use image
             for (Element subEl : e.children()) {
                 if ("h1;h2;h3;h4;h5;h6".contains(subEl.tagName()))
                     headerEls.add(subEl);
@@ -189,7 +202,7 @@ public class ArticleTextExtractor {
             }
             weight += 100;
         }
-        // TODO use headerEls for title?
+        // TODO use headerEls for replacement of title?
 
         return weight;
     }
@@ -205,7 +218,11 @@ public class ArticleTextExtractor {
 
     public void addScore(Element el, int score) {
         int old = getScore(el);
-        el.attr("gravityScore", "" + (score + old));
+        setScore(el, score + old);
+    }
+
+    public void setScore(Element el, int score) {
+        el.attr("gravityScore", "" + score);
     }
 
     public int calcWeightForChild(Element child, Element e) {
@@ -227,6 +244,9 @@ public class ArticleTextExtractor {
     public Element determineImageSource(Element el) {
         int maxWeight = 0;
         Element maxNode = null;
+        if (el.getElementsByTag("img").isEmpty())
+            el = el.parent();
+
         for (Element e : el.getElementsByTag("img")) {
             String sourceUrl = e.attr("src");
             if (sourceUrl.isEmpty() || isAdImage(sourceUrl))
@@ -237,6 +257,8 @@ public class ArticleTextExtractor {
                 int height = Integer.parseInt(e.attr("height"));
                 if (height > 50)
                     weight += 20;
+                else if (height < 50)
+                    weight -= 20;
             } catch (Exception ex) {
             }
 
@@ -244,6 +266,8 @@ public class ArticleTextExtractor {
                 int width = Integer.parseInt(e.attr("width"));
                 if (width > 50)
                     weight += 20;
+                else if (width < 50)
+                    weight -= 20;
             } catch (Exception ex) {
             }
             String alt = e.attr("alt");
@@ -281,8 +305,8 @@ public class ArticleTextExtractor {
             String className = child.className().toLowerCase();
             String id = child.id().toLowerCase();
 
-            if (negative.matcher(className).matches()
-                    || negative.matcher(id).matches()) {
+            if (NEGATIVE.matcher(className).matches()
+                    || NEGATIVE.matcher(id).matches()) {
 //                print("REMOVE:", child);
                 child.remove();
             }
@@ -320,14 +344,22 @@ public class ArticleTextExtractor {
         return Helper.count(imageUrl, "ad") >= 2;
     }
 
-    /**
-     * TODO improve algo if title has parts which should be removed!
+    /**   
+     * Removes title or parts from it from the beginning of the text
      */
     public String removeTitleFromText(String text, String title) {
-        int index1 = text.toLowerCase().indexOf(title.toLowerCase());
-        if (index1 >= 0)
-            text = text.substring(index1 + title.length());
-        return text;
+        // grab the text beginning
+        String tmpText = text;
+        if (title.length() * 2 < text.length())
+            tmpText = text.substring(0, title.length());
+
+        // remove the title
+        int res[] = Helper.longestSubstring(tmpText.toLowerCase(), title.toLowerCase());
+        // make sure we really remove the words not some chars only:
+        if (res != null && res[1] - res[0] > OutputFormatter.MIN_PARAGRAPH_TEXT / 2)
+            text = text.substring(res[1]);
+
+        return text.trim();
     }
 
     public String cleanTitle(String title) {
@@ -397,24 +429,36 @@ public class ArticleTextExtractor {
         Set<Element> nodes = new LinkedHashSet<Element>();
         // make sure the most important elements are captured.
         // sometimes jsoup has problems to get the relevant container
-        for (Element el : doc.select("body").select("h1")) {
-            nodes.add(el.parent());
+
+        int score = 100;
+        for (Element el : doc.select("body").select("*")) {
+            if ("p;div;td;h1;h2".contains(el.tagName())) {
+                nodes.add(el);
+                nodes.add(el.parent());
+                setScore(el, score);
+                score = score / 2;
+            }
         }
-        for (Element el : doc.select("body").select("h2")) {
-            nodes.add(el.parent());
-        }
-        for (Element el : doc.select("body").select("p")) {
-            nodes.add(el);
-            nodes.add(el.parent());
-        }
-        for (Element el : doc.select("body").select("div")) {
-            nodes.add(el);
-            nodes.add(el.parent());
-        }
-        for (Element el : doc.select("body").select("td")) {
-            nodes.add(el);
-            nodes.add(el.parent());
-        }
+
+//        for (Element el : doc.select("body").select("p")) {
+//            nodes.add(el);
+//            nodes.add(el.parent());
+//        }
+//        for (Element el : doc.select("body").select("div")) {
+//            nodes.add(el);
+//            nodes.add(el.parent());
+//        }
+//        for (Element el : doc.select("body").select("td")) {
+//            nodes.add(el);
+//            nodes.add(el.parent());
+//        }
+//        for (Element el : doc.select("body").select("h1")) {
+//            nodes.add(el.parent());
+//        }
+//        for (Element el : doc.select("body").select("h2")) {
+//            nodes.add(el.parent());
+//        }
+
 //        for (Element el : doc.select("body").select("pre")) {
 //            nodes.add(el);
 //            nodes.add(el.parent());

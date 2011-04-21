@@ -48,16 +48,16 @@ public class HelperTest {
     @Test
     public void longestSubstring() {
 //        assertEquals(9, ArticleTextExtractor.longestSubstring("hi hello how are you?", "hello how"));
-        assertEquals("hello how", Helper.longestSubstring("hi hello how are you?", "hello how"));
-        assertEquals(" people if ", Helper.longestSubstring("x now if people if todo?", "I know people if you"));
-        assertEquals("", Helper.longestSubstring("?", "people"));
-        assertEquals("people", Helper.longestSubstring(" people ", "people"));
+        assertEquals("hello how", Helper.getLongestSubstring("hi hello how are you?", "hello how"));
+        assertEquals(" people if ", Helper.getLongestSubstring("x now if people if todo?", "I know people if you"));
+        assertEquals("", Helper.getLongestSubstring("?", "people"));
+        assertEquals("people", Helper.getLongestSubstring(" people ", "people"));
     }
 
     @Test
     public void testHashbang() {
         assertEquals("sdfiasduhf+asdsad+sdfsdf#!", Helper.removeHashbang("sdfiasduhf+asdsad#!+sdfsdf#!"));
-        assertEquals("sdfiasduhf+asdsad+sdfsdf#!", Helper.removeHashbang("sdfiasduhf+asdsad#!+sdfsdf#!"));        
+        assertEquals("sdfiasduhf+asdsad+sdfsdf#!", Helper.removeHashbang("sdfiasduhf+asdsad#!+sdfsdf#!"));
     }
 
     @Test
@@ -72,10 +72,17 @@ public class HelperTest {
 
         assertFalse(Helper.isVideoLink("test.com"));
         assertFalse(Helper.isVideoLink("irgendwas.com/youtube.com"));
+    }
 
+    @Test public void testExctractHost() {
         assertEquals("techcrunch.com",
                 Helper.extractHost("http://techcrunch.com/2010/08/13/gantto-takes-on-microsoft-project-with-web-based-project-management-application/"));
+    }
 
-        Helper.useDomainOfFirst4Sec("http://www.n24.de/news/newsitem_6797232.html", "../../../media/imageimport/images/content/favicon.ico");
+    @Test public void testFavicon() {
+        assertEquals("http://www.n24.de/news/../../../media/imageimport/images/content/favicon.ico",
+                Helper.useDomainOfFirst4Sec("http://www.n24.de/news/newsitem_6797232.html", "../../../media/imageimport/images/content/favicon.ico"));
+        Helper.useDomainOfFirst4Sec("http://www.n24.de/favicon.ico", "/favicon.ico");
+        Helper.useDomainOfFirst4Sec("http://www.n24.de/favicon.ico", "favicon.ico");
     }
 }

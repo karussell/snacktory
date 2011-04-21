@@ -22,8 +22,7 @@ public class ArticleTextExtractorTodoTest {
         // http://blog.traindom.com/places-where-to-submit-your-startup-for-coverage/
         JResult res = extractor.extractContent(readFileAsString("test_data/4.html"));
         assertEquals("36 places where you can submit your startup for some coverage | Traindom Blog", res.getTitle());
-        assertTrue("data4:" + res.getText(), res.getText().startsWith("So you have a new startup company and want some coverage"));
-        assertTrue(res.getText().endsWith("Know of any other good ones? Please add in the comments."));
+        assertTrue("data4:" + res.getText(), res.getText().startsWith("So you have a new startup company and want some coverage"));        
     }
 
     @Test
@@ -55,7 +54,7 @@ public class ArticleTextExtractorTodoTest {
         //String url = "http://www.readwriteweb.com/start/2010/08/pagely-headline.php";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("readwriteweb.html")));
         assertTrue(article.getText(), article.getText().startsWith("In the heart of downtown Chandler, Arizona"));
-        assertEquals("http://rww.readwriteweb.netdna-cdn.com/start/images/pagelyscreen_aug10.jpg", article.getImageUrl());
+        assertEquals("http://rww.readwriteweb.netdna-cdn.com/start/images/logopagely_aug10.jpg", article.getImageUrl());
     }
 
     @Test

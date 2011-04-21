@@ -101,7 +101,7 @@ public class HtmlFetcher {
         return result;
     }
 
-    private static String fixUrl(String url, String urlOrPath) {
+    private static String fixUrl(String url, String urlOrPath) {        
         return Helper.useDomainOfFirst4Sec(url, urlOrPath);
     }
 
@@ -110,7 +110,7 @@ public class HtmlFetcher {
     }
 
     public static String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions) {
-        try {            
+        try {
             HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
             hConn.setInstanceFollowRedirects(true);
             InputStream is = hConn.getInputStream();
@@ -132,13 +132,13 @@ public class HtmlFetcher {
      * (within the specified time) or the same url if response code is OK
      */
     public static String getResolvedUrl(String urlAsString, int timeout) {
-        try {            
+        try {
             HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, true);
             // force no follow
             hConn.setInstanceFollowRedirects(false);
             // the program doesn't care what the content actually is !!
             // http://java.sun.com/developer/JDCTechTips/2003/tt0422.html
-            hConn.setRequestMethod("HEAD");            
+            hConn.setRequestMethod("HEAD");
             hConn.connect();
             int responseCode = hConn.getResponseCode();
             hConn.getInputStream().close();
