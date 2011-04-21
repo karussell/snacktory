@@ -1,5 +1,8 @@
-package com.jreadability.main;
+package de.jetwick.snacktory;
 
+import de.jetwick.snacktory.ArticleTextExtractor;
+import de.jetwick.snacktory.Converter;
+import de.jetwick.snacktory.JResult;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import org.junit.Before;

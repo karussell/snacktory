@@ -1,4 +1,4 @@
-package com.jreadability.main;
+package de.jetwick.snacktory;
 
 import java.util.ArrayList;
 import java.util.Collection;

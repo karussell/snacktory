@@ -13,8 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.jreadability.main;
+package de.jetwick.snacktory;
 
+import de.jetwick.snacktory.Converter;
 import junit.framework.TestCase;
 
 /**

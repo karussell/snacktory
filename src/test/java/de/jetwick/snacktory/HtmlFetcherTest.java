@@ -13,8 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.jreadability.main;
+package de.jetwick.snacktory;
 
+import de.jetwick.snacktory.JResult;
+import de.jetwick.snacktory.HtmlFetcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

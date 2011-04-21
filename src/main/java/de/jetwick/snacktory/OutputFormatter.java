@@ -1,4 +1,4 @@
-package com.jreadability.main;
+package de.jetwick.snacktory;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
