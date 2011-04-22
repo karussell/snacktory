@@ -23,7 +23,9 @@ import java.net.SocketTimeoutException;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * This class is not thread safe. Use one new instance every time due to encoding
+ * variable.
+ * 
  * @author Peter Karich, jetwick_@_pannous_._info
  */
 public class Converter {
@@ -57,11 +59,6 @@ public class Converter {
         if (encoding == null)
             return "";
         return encoding.toLowerCase();
-    }
-
-    public Converter setEncoding(String encoding) {
-        this.encoding = encoding;
-        return this;
     }
 
     public String streamToString(InputStream is) {

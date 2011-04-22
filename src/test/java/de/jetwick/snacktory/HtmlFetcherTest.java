@@ -15,8 +15,6 @@
  */
 package de.jetwick.snacktory;
 
-import de.jetwick.snacktory.JResult;
-import de.jetwick.snacktory.HtmlFetcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -59,17 +57,27 @@ public class HtmlFetcherTest {
 //        assertEquals("12 Minuten Battlefield 3 Gameplay - ohne Facebook-Bedingungen | Spaß und Spiele", res.getTitle());
 //    }
     @Test
-    public void testEncoding() throws Exception {
-        // when doing debug it works!?
+    public void testTwitpicGzipDoesNOTwork() throws Exception {
+        JResult res = HtmlFetcher.fetchAndExtract("http://twitpic.com/4kuem8", 12000, true);
+        assertTrue(res.getText(), res.getText().contains("Microsoft"));
+    }
+
+    @Test
+    public void testTODOEncoding() throws Exception {
+        // when running standalone all is ok but with the other tests before
+        // only 238 bytes are fetched on the first call at "in.read(arr)" which results
+        // in wrong encoding detection. 
+        // Only a few bytes are fetched probably dues to bandwidth limitation
+        //enc:iso-8859-1 url:http://www.yomiuri.co.jp/science/news/20110415-OYT1T00568.htm
         JResult res = HtmlFetcher.fetchAndExtract("http://www.yomiuri.co.jp/science/news/20110415-OYT1T00568.htm", 10000, true);
         assertEquals("海水汚染には猫トイレの砂…セシウム吸着 : 科学 : YOMIURI ONLINE（読売新聞）", res.getTitle());
     }
 
     @Test
-    public void testHashbang() throws Exception {        
+    public void testHashbang() throws Exception {
         JResult res = HtmlFetcher.fetchAndExtract("http://www.facebook.com/democracynow", 10000, true);
         assertEquals("Democracy Now! | Facebook", res.getTitle());
-        
+
         res = HtmlFetcher.fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
         assertEquals("Twitter / Tatjana Hoenich: “@AntiAtomPiraten: \"Protes ...", res.getTitle());
     }

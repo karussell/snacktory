@@ -27,7 +27,6 @@ import java.net.Proxy;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.zip.GZIPInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -115,12 +114,14 @@ public class HtmlFetcher {
             hConn.setInstanceFollowRedirects(true);
             InputStream is = hConn.getInputStream();
 
-            if ("gzip".equals(hConn.getContentEncoding()))
-                is = new GZIPInputStream(is);
+//            if ("gzip".equals(hConn.getContentEncoding()))
+//                is = new GZIPInputStream(is);                        
 
-            String enc = Converter.extractEncoding(hConn.getContentType());
-            return new Converter().streamToString(is, enc);
+            String enc = Converter.extractEncoding(hConn.getContentType());            
+            Converter c = new Converter();            
+            return c.streamToString(is, enc);            
         } catch (Exception ex) {
+            logger.error("Error when fetching url as string", ex);
         }
         return "";
     }
@@ -194,8 +195,9 @@ public class HtmlFetcher {
             hConn.setRequestProperty("Cache-Control", "max-age=0");
         }
 
-        // WARNING on android we got problems because of this!!            
-        hConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
+        // On android we got timeouts because of this!!   
+        // this also results in invalid html for http://twitpic.com/4kuem8
+//        hConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
         hConn.setConnectTimeout(timeout);
         hConn.setReadTimeout(timeout);
         return hConn;
