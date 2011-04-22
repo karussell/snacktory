@@ -118,8 +118,7 @@ public class HtmlFetcher {
 //                is = new GZIPInputStream(is);                        
 
             String enc = Converter.extractEncoding(hConn.getContentType());            
-            Converter c = new Converter();            
-            return c.streamToString(is, enc);            
+            return new Converter().streamToString(is, enc);            
         } catch (Exception ex) {
             logger.error("Error when fetching url as string", ex);
         }

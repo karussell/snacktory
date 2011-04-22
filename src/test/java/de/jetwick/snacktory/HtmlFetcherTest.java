@@ -63,14 +63,15 @@ public class HtmlFetcherTest {
     }
 
     @Test
-    public void testTODOEncoding() throws Exception {
-        // when running standalone all is ok but with the other tests before
-        // only 238 bytes are fetched on the first call at "in.read(arr)" which results
-        // in wrong encoding detection. 
-        // Only a few bytes are fetched probably dues to bandwidth limitation
-        //enc:iso-8859-1 url:http://www.yomiuri.co.jp/science/news/20110415-OYT1T00568.htm
+    public void testEncoding() throws Exception {                
         JResult res = HtmlFetcher.fetchAndExtract("http://www.yomiuri.co.jp/science/news/20110415-OYT1T00568.htm", 10000, true);
         assertEquals("海水汚染には猫トイレの砂…セシウム吸着 : 科学 : YOMIURI ONLINE（読売新聞）", res.getTitle());
+    }
+
+    @Test
+    public void testEncoding2() throws Exception {
+        JResult res = HtmlFetcher.fetchAndExtract("http://hfs.ru/domou/about/", 10000, true);
+        assertEquals("Концепция / Издательский дом Ашет Филипаки Шкулев ( Hachette Filipacchi Shkulev )", res.getTitle());
     }
 
     @Test
