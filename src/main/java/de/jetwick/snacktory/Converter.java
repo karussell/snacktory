@@ -86,69 +86,51 @@ public class Converter {
         BufferedInputStream in = null;
         try {
             in = new BufferedInputStream(is, K4);
-            StringBuilder s = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             int bytesRead = K4;
 
             // Grab better encoding from stream
             int n = in.read(arr);
 
             String res = new String(arr, 0, n, encoding);
-            int encIndex = res.indexOf("charset=");
-            int clength = "charset=".length();
-            if (encIndex > 0) {
-                char startChar = res.charAt(encIndex + clength);
-                int lastEncIndex;
-                if (startChar == '\'')
-                    // if we have charset='something'
-                    lastEncIndex = res.indexOf("'", ++encIndex + clength);
-                else if (startChar == '\"')
-                    // if we have charset="something"
-                    lastEncIndex = res.indexOf("\"", ++encIndex + clength);
-                else {
-                    // if we have "text/html; charset=utf-8"                    
-                    int first = res.indexOf("\"", encIndex + clength);
-                    if (first < 0)
-                        first = Integer.MAX_VALUE;
-
-                    // or "text/html; charset=utf-8 "
-                    int sec = res.indexOf(" ", encIndex + clength);
-                    if (sec < 0)
-                        sec = Integer.MAX_VALUE;
-                    lastEncIndex = Math.min(first, sec);
-
-                    // or "text/html; charset=utf-8 '
-                    int third = res.indexOf("'", encIndex + clength);
-                    if (third > 0)
-                        lastEncIndex = Math.min(lastEncIndex, third);
-                }
-
-                // re-read byte array with different encoding
-                // assume that the encoding string cannot be greater than 40 chars
-                if (lastEncIndex > encIndex + clength && lastEncIndex < encIndex + clength + 40) {
-                    encoding = res.substring(encIndex + clength, lastEncIndex);
-                    try {
-                        res = new String(arr, 0, n, encoding);
-                    } catch (UnsupportedEncodingException e) {
-                        logger.warn("Problem with encoding: " + encoding + " " + e.toString());
-                    }
+            // detect with the help of meta tag
+            String tmpEnc = detectCharset("charset=", res);
+            if (tmpEnc != null) {
+                try {
+                    res = new String(arr, 0, n, tmpEnc);
+                    encoding = tmpEnc;
+                } catch (UnsupportedEncodingException e) {
+                    logger.warn("Problem with charset: " + tmpEnc + " " + e.toString());
                 }
             }
 
-            s.append(res);
+            if (encoding == tmpEnc) {
+                // detect with the help of xml beginning ala encoding="charset"
+                tmpEnc = detectCharset("encoding=", res);
+                if (tmpEnc != null)
+                    try {
+                        res = new String(arr, 0, n, tmpEnc);
+                        encoding = tmpEnc;
+                    } catch (UnsupportedEncodingException e) {
+                        logger.warn("Problem with encoding: " + tmpEnc + " " + e.toString());
+                    }
+            }
+
+            sb.append(res);
 
             if (n > 0)
                 while (true) {
                     if (bytesRead >= maxBytes)
-                        throw new IllegalStateException("Maxbyte exceeds!");
+                        throw new IllegalStateException("Maxbyte of " + MAX_BYTES + " exceeded!");
 
                     n = in.read(arr);
                     bytesRead += K4;
                     if (n < 0)
                         break;
-                    s.append(new String(arr, 0, n, encoding));
+                    sb.append(new String(arr, 0, n, encoding));
                 }
 
-            return s.toString();
+            return sb.toString();
 
         } catch (SocketTimeoutException e) {
             logger.warn(e.toString() + " " + e.getMessage());
@@ -163,5 +145,44 @@ public class Converter {
             }
         }
         return "";
+    }
+
+    public String detectCharset(String key, String res) {
+        int encIndex = res.indexOf(key);
+        int clength = key.length();
+        if (encIndex > 0) {
+            char startChar = res.charAt(encIndex + clength);
+            int lastEncIndex;
+            if (startChar == '\'')
+                // if we have charset='something'
+                lastEncIndex = res.indexOf("'", ++encIndex + clength);
+            else if (startChar == '\"')
+                // if we have charset="something"
+                lastEncIndex = res.indexOf("\"", ++encIndex + clength);
+            else {
+                // if we have "text/html; charset=utf-8"                    
+                int first = res.indexOf("\"", encIndex + clength);
+                if (first < 0)
+                    first = Integer.MAX_VALUE;
+
+                // or "text/html; charset=utf-8 "
+                int sec = res.indexOf(" ", encIndex + clength);
+                if (sec < 0)
+                    sec = Integer.MAX_VALUE;
+                lastEncIndex = Math.min(first, sec);
+
+                // or "text/html; charset=utf-8 '
+                int third = res.indexOf("'", encIndex + clength);
+                if (third > 0)
+                    lastEncIndex = Math.min(lastEncIndex, third);
+            }
+
+            // re-read byte array with different encoding
+            // assume that the encoding string cannot be greater than 40 chars
+            if (lastEncIndex > encIndex + clength && lastEncIndex < encIndex + clength + 40) {
+                return res.substring(encIndex + clength, lastEncIndex);
+            }
+        }
+        return null;
     }
 }
