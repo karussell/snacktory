@@ -63,7 +63,7 @@ public class HtmlFetcherTest {
     }
 
     @Test
-    public void testEncoding() throws Exception {                
+    public void testEncoding() throws Exception {
         JResult res = HtmlFetcher.fetchAndExtract("http://www.yomiuri.co.jp/science/news/20110415-OYT1T00568.htm", 10000, true);
         assertEquals("海水汚染には猫トイレの砂…セシウム吸着 : 科学 : YOMIURI ONLINE（読売新聞）", res.getTitle());
     }

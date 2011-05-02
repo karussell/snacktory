@@ -120,9 +120,11 @@ public class ArticleTextExtractor {
     }
 
     /** 
-     *  Weights current element. By matching it with positive candidates and weighting child nodes. Since it's impossible to predict which
-     *    exactly names, ids or class names will be used in HTML, major role is played by child nodes
-     *  @param e Element to weight, along with child nodes
+     * Weights current element. By matching it with positive candidates and 
+     * weighting child nodes. Since it's impossible to predict which
+     * exactly names, ids or class names will be used in HTML, major
+     * role is played by child nodes
+     * @param e Element to weight, along with child nodes
      */
     protected int getWeight(Element e) {
         Integer weight = 0;
@@ -150,11 +152,15 @@ public class ArticleTextExtractor {
     }
 
     /** 
-     *  Weights a child nodes of given Element. During tests some difficulties were met. For instanance, not every single document has nested 
-     *  paragraph tags inside of the major article tag. Sometimes people are adding one more nesting level. So, we're adding 4 points for every 
-     *  100 symbols contained in tag nested inside of the current weighted element, but only 3 points for every element that's nested 2 levels
-     *  deep. This way we give more chances to extract the element that has less nested levels, increasing probability of the correct extraction.
-     *  @param e Element, who's child nodes will be weighted
+     * Weights a child nodes of given Element. During tests some difficulties
+     * were met. For instanance, not every single document has nested 
+     * paragraph tags inside of the major article tag. Sometimes people 
+     * are adding one more nesting level. So, we're adding 4 points for every 
+     * 100 symbols contained in tag nested inside of the current weighted 
+     * element, but only 3 points for every element that's nested 2 levels
+     * deep. This way we give more chances to extract the element that has 
+     * less nested levels, increasing probability of the correct extraction.
+     * @param e Element, who's child nodes will be weighted
      */
     protected int weightChildNodes(Element e) {
         int weight = 0;
@@ -166,8 +172,8 @@ public class ArticleTextExtractor {
         image = determineImageSource(e);
 
         for (Element child : e.children()) {
-            if (child.ownText().length() < 10)
-                continue;
+            if (child.ownText().length() < 10)                
+                continue;            
 
             if (IMAGE_CAPTION.matcher(e.id()).matches() || IMAGE_CAPTION.matcher(e.className()).matches())
                 weight += 30;
@@ -190,17 +196,23 @@ public class ArticleTextExtractor {
 //                    weight += weightChildNodes(child);
 //            }
         }
-        if (pEls.size() >= 2 && (caption != null || image != null)) {
-            // TODO use caption!
-            // TODO use image
+
+        // TODO use caption!
+        // TODO use image
+        if (image != null || caption != null)
+            weight += 30;
+
+        if (pEls.size() >= 2) {
             for (Element subEl : e.children()) {
-                if ("h1;h2;h3;h4;h5;h6".contains(subEl.tagName()))
+                if ("h1;h2;h3;h4;h5;h6".contains(subEl.tagName())) {
+                    weight += 20;
                     headerEls.add(subEl);
+                }
 
                 if ("p".contains(subEl.tagName()))
                     addScore(subEl, 30);
             }
-            weight += 100;
+            weight += 60;
         }
         // TODO use headerEls for replacement of title?
 
@@ -287,9 +299,12 @@ public class ArticleTextExtractor {
         return maxNode;
     }
 
-    /** Prepares document. Currently only stipping unlikely candidates, since from time to time they're getting more score than good ones 
-     *         especially in cases when major text is short.
-     *  @param doc document to prepare. Passed as reference, and changed inside of function
+    /** 
+     * Prepares document. Currently only stipping unlikely candidates, 
+     * since from time to time they're getting more score than good ones 
+     * especially in cases when major text is short.
+     * 
+     * @param doc document to prepare. Passed as reference, and changed inside of function
      */
     protected void prepareDocument(Document doc) {
 //        stripUnlikelyCandidates(doc);
@@ -345,58 +360,17 @@ public class ArticleTextExtractor {
     }
 
     /**   
-     * Removes title or parts from it from the beginning of the text
+     * Match only exact matching as longestSubstring can be too fuzzy
      */
     public String removeTitleFromText(String text, String title) {
-        // grab the text beginning
-        String tmpText = text;
-        if (title.length() * 2 < text.length())
-            tmpText = text.substring(0, title.length());
-
-        // remove the title
-        int res[] = Helper.longestSubstring(tmpText.toLowerCase(), title.toLowerCase());
-        // make sure we really remove the words not some chars only:
-        if (res != null && res[1] - res[0] > OutputFormatter.MIN_PARAGRAPH_TEXT / 2)
-            text = text.substring(res[1]);
+        int index1 = text.toLowerCase().indexOf(title.toLowerCase());
+        if (index1 >= 0)
+            text = text.substring(index1 + title.length());
 
         return text.trim();
     }
 
     public String cleanTitle(String title) {
-        boolean usedDelimeter = false;
-
-        // THIS PROCESS is a bit unreliable as it sometimes removes information from title
-        // as it is based on length comparison of the title parts
-        // and the title is the most important thing of the article
-//        if (title.contains("|")) {
-//            title = doTitleSplits(title, "\\|");
-//            usedDelimeter = true;
-//        }
-//
-//        if (!usedDelimeter && title.contains("»")) {
-//            title = doTitleSplits(title, "»");
-//            usedDelimeter = true;
-//        }
-//
-//        if (!usedDelimeter && title.contains("«")) {
-//            title = doTitleSplits(title, "«");
-//            usedDelimeter = true;
-//        }
-
-        // removes author in youtube :/
-//        if (!usedDelimeter && title.contains("-")) {
-//            title = doTitleSplits(title, " - ");
-//            usedDelimeter = true;
-//        }
-
-        // do not do this as titles contain colon in rare cases (twitter blog, golem)
-//        if (!usedDelimeter && title.contains(":")) {
-//            title = doTitleSplits(title, ":");
-//            usedDelimeter = true;
-//        }
-
-        // encode unicode charz
-//        title = StringEscapeUtils.escapeHtml(titleText);
         return Helper.innerTrim(title);
     }
 
@@ -425,11 +399,11 @@ public class ArticleTextExtractor {
         return largeText.trim();
     }
 
+    /**
+     * @return a set of all important nodes
+     */
     public Collection<Element> getNodes(Document doc) {
         Set<Element> nodes = new LinkedHashSet<Element>();
-        // make sure the most important elements are captured.
-        // sometimes jsoup has problems to get the relevant container
-
         int score = 100;
         for (Element el : doc.select("body").select("*")) {
             if ("p;div;td;h1;h2".contains(el.tagName())) {
@@ -439,30 +413,6 @@ public class ArticleTextExtractor {
                 score = score / 2;
             }
         }
-
-//        for (Element el : doc.select("body").select("p")) {
-//            nodes.add(el);
-//            nodes.add(el.parent());
-//        }
-//        for (Element el : doc.select("body").select("div")) {
-//            nodes.add(el);
-//            nodes.add(el.parent());
-//        }
-//        for (Element el : doc.select("body").select("td")) {
-//            nodes.add(el);
-//            nodes.add(el.parent());
-//        }
-//        for (Element el : doc.select("body").select("h1")) {
-//            nodes.add(el.parent());
-//        }
-//        for (Element el : doc.select("body").select("h2")) {
-//            nodes.add(el.parent());
-//        }
-
-//        for (Element el : doc.select("body").select("pre")) {
-//            nodes.add(el);
-//            nodes.add(el.parent());
-//        }
         return nodes;
     }
 }

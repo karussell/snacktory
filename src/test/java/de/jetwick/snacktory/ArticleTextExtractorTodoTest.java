@@ -1,8 +1,5 @@
 package de.jetwick.snacktory;
 
-import de.jetwick.snacktory.ArticleTextExtractor;
-import de.jetwick.snacktory.Converter;
-import de.jetwick.snacktory.JResult;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import org.junit.Before;
@@ -162,7 +159,7 @@ public class ArticleTextExtractorTodoTest {
     public void testMsnbc() throws Exception {
         //String url = "http://www.msnbc.msn.com/id/41207891/ns/world_news-europe/";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("msnbc.html")));
-        assertTrue(article.getText(), article.getText().startsWith("Prime Minister Brian Cowen announced Saturday"));
+        assertTrue(article.getText(), article.getText().startsWith("DUBLIM -- Prime Minister Brian Cowen announced Saturday"));
         assertEquals("Irish premier resigns as party leader, stays as PM", article.getTitle());
         assertEquals("http://msnbcmedia3.msn.com/j/ap/ireland government crisis--687575559_v2.grid-6x2.jpg",
                 article.getImageUrl());

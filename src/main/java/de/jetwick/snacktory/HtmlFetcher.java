@@ -100,29 +100,24 @@ public class HtmlFetcher {
         return result;
     }
 
-    private static String fixUrl(String url, String urlOrPath) {        
+    private static String fixUrl(String url, String urlOrPath) {
         return Helper.useDomainOfFirst4Sec(url, urlOrPath);
     }
 
-    public static String fetchAsString(String urlAsString, int timeout) {
+    public static String fetchAsString(String urlAsString, int timeout) throws MalformedURLException, IOException {
         return fetchAsString(urlAsString, timeout, true);
     }
 
-    public static String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions) {
-        try {
-            HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
-            hConn.setInstanceFollowRedirects(true);
-            InputStream is = hConn.getInputStream();
+    public static String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions) throws MalformedURLException, IOException {
+        HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
+        hConn.setInstanceFollowRedirects(true);
+        InputStream is = hConn.getInputStream();
 
 //            if ("gzip".equals(hConn.getContentEncoding()))
 //                is = new GZIPInputStream(is);                        
 
-            String enc = Converter.extractEncoding(hConn.getContentType());            
-            return new Converter().streamToString(is, enc);            
-        } catch (Exception ex) {
-            logger.error("Error when fetching url as string", ex);
-        }
-        return "";
+        String enc = Converter.extractEncoding(hConn.getContentType());
+        return new Converter().streamToString(is, enc);
     }
 
     /**

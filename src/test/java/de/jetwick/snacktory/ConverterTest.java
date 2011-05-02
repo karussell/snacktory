@@ -15,7 +15,6 @@
  */
 package de.jetwick.snacktory;
 
-import de.jetwick.snacktory.Converter;
 import junit.framework.TestCase;
 
 /**
@@ -60,6 +59,10 @@ public class ConverterTest extends TestCase {
 
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("nyt.html"));
+        assertEquals("utf-8", d.getEncoding());
+        
+        d = new Converter();
+        d.streamToString(getClass().getResourceAsStream("badenc.html"));
         assertEquals("utf-8", d.getEncoding());
     }
 }

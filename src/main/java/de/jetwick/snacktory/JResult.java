@@ -38,8 +38,9 @@ public class JResult {
         return url;
     }
 
-    public void setUrl(String url) {
+    public JResult setUrl(String url) {
         this.url = url;
+        return this;
     }
 
     public String getFaviconUrl() {
@@ -48,8 +49,9 @@ public class JResult {
         return faviconUrl;
     }
 
-    public void setFaviconUrl(String faviconUrl) {
+    public JResult setFaviconUrl(String faviconUrl) {
         this.faviconUrl = faviconUrl;
+        return this;
     }
 
     public String getDescription() {
@@ -58,8 +60,9 @@ public class JResult {
         return description;
     }
 
-    public void setDescription(String description) {
+    public JResult setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public String getImageUrl() {
@@ -68,8 +71,9 @@ public class JResult {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public JResult setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+        return this;
     }
 
     public String getText() {
@@ -80,8 +84,9 @@ public class JResult {
         return text;
     }
 
-    public void setText(String text) {
+    public JResult setText(String text) {
         this.text = text;
+        return this;
     }
 
     public String getTitle() {
@@ -90,8 +95,9 @@ public class JResult {
         return title;
     }
 
-    public void setTitle(String title) {
+    public JResult setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getVideoUrl() {
@@ -100,8 +106,9 @@ public class JResult {
         return videoUrl;
     }
 
-    public void setVideoUrl(String videoUrl) {
+    public JResult setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+        return this;
     }
 
     @Override

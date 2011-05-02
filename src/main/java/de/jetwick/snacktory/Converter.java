@@ -114,7 +114,9 @@ public class Converter {
             return sb.toString();
 
         } catch (SocketTimeoutException e) {
-            logger.warn(e.toString() + " " + e.getMessage());
+            logger.info(e.toString() + " " + e.getMessage());
+        } catch (UnsupportedEncodingException e) {
+            logger.info(e.toString() + " " + e.getMessage());
         } catch (IOException e) {
             logger.warn(e.toString() + " " + e.getMessage(), e);
         } finally {
@@ -176,6 +178,10 @@ public class Converter {
                 int third = sb.indexOf("'", encIndex + clength);
                 if (third > 0)
                     lastEncIndex = Math.min(lastEncIndex, third);
+                
+                int forth = sb.indexOf(">", encIndex + clength);
+                if (forth > 0)
+                    lastEncIndex = Math.min(lastEncIndex, forth);
             }
 
             // re-read byte array with different encoding
@@ -187,7 +193,7 @@ public class Converter {
                     sb.setLength(0);
                     return tmpEnc;
                 } catch (UnsupportedEncodingException e) {
-                    logger.warn("Problem with encoding: " + tmpEnc + " " + e.toString());
+                    logger.warn("Problem with encoding: " + tmpEnc + " " + e.toString() + " " + sb);
                 } catch (IOException ex) {
                     logger.warn("Couldn't reset stream to re-read with new encoding " + tmpEnc + " "
                             + ex.toString());

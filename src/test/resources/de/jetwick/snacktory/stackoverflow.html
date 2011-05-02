@@ -2,28 +2,24 @@
 <html>
 <head>
 
-<title>character encoding - Resolving an URL with Java gives me the wrong encoded chars in URL - Stack Overflow</title>
+<title>java - wicket vs Vaadin - Stack Overflow</title>
 <link rel="shortcut icon" href="http://sstatic.net/stackoverflow/img/favicon.ico">
 <link rel="apple-touch-icon" href="http://sstatic.net/stackoverflow/img/apple-touch-icon.png">
 <link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="/opensearch.xml">
-<link rel="stylesheet" type="text/css" href="http://sstatic.net/stackoverflow/all.css?v=21752f127de6">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="http://sstatic.net/js/master.min.js?v=c7993dfe1bc5"></script>
+<script type="text/javascript" src="http://sstatic.net/js/stub.js?v=bd111c675584"></script>
+<link rel="stylesheet" type="text/css" href="http://sstatic.net/stackoverflow/all.css?v=4dbf09ab6b12">
+
+
+    <link rel="canonical" href="http://stackoverflow.com/questions/3553693/wicket-vs-vaadin">
+
+    <link rel="alternate" type="application/atom+xml" title="Feed for question 'wicket vs Vaadin'" href="/feeds/question/3553693">
     <script type="text/javascript">
-        $(function () {
-            profileLink.init('<img src="http://www.gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=50&amp;d=identicon&amp;r=PG" height="50" width="50" alt="">', false, 'http://stackoverflow.com/users/194609/karussell?tab=activity', 1302901489 - (new Date()).getTime() / 1000);
-        });
-    </script>
-
-
-    <link rel="canonical" href="http://stackoverflow.com/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url">
-    <link rel="alternate" type="application/atom+xml" title="Feed for question 'Resolving an URL with Java gives me the wrong encoded chars in URL'" href="/feeds/question/5605219">
-    <script src="http://sstatic.net/js/question.js?v=4e6e0b5b73cd" type="text/javascript"></script>
-<script src="http://sstatic.net/Js/tageditor.js?v=6d34ac5efc56" type="text/javascript"></script>    <script type="text/javascript">
         
         StackExchange.ready(function () {
+                $('#answer-3660938').animate({ backgroundColor:'#FFF' }, 2000, 'linear', function() { $(this).css('background-color', ''); });
 
-            StackExchange.question.init({canOpenBounty:true,votesCast:[{"PostId":5605824,"VoteTypeId":2}],canViewVoteCounts:true,questionId:5605219});
+            StackExchange.question.init({canOpenBounty:true,votesCast:[{"PostId":3622519,"VoteTypeId":2}],canViewVoteCounts:true,questionId:3553693});
 
             styleCode();
         });
@@ -31,32 +27,35 @@
 
 
     <script type="text/javascript">
-        StackExchange.init({"stackAuthUrl":"http://stackauth.com","site":{"name":"Stack Overflow","description":"Q&A for professional and enthusiast programmers"},"user":{"isRegistered":true,"guid":"ffd029b9-fcad-461d-ba87-8ac611e81dd7","fkey":"7f1c1b43e18b3e36fec4f318a40cc4a5","inboxUnviewedCount":0}});
-        StackExchange.using.setCacheBreakers({"js/prettify-full.js":"dcf6d862901d","js/moderator.js":"3adc1f43ac02"});
+        StackExchange.init({"stackAuthUrl":"http://stackauth.com","serverTime":1304107847,"site":{"name":"Stack Overflow","description":"Q&A for professional and enthusiast programmers"},"user":{"isRegistered":true,"guid":"ffd029b9-fcad-461d-ba87-8ac611e81dd7","gravatar":"\u003cimg src=\"http://www.gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=50&amp;d=identicon&amp;r=PG\" height=\"50\" width=\"50\" alt=\"\"\u003e","profileUrl":"http://stackoverflow.com/users/194609/karussell","fkey":"7f1c1b43e18b3e36fec4f318a40cc4a5","inboxUnviewedCount":0}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.js":"dcf6d862901d","js/moderator.js":"990036bcbc2b","js/full-anon.js":"52702afe1b05","js/full.js":"b7ade3e9fb67","js/wmd.js":"1dd18416de92"});
     </script>
 
 </head>
 <body class="question-page">
     <noscript><div id="noscript-padding"></div></noscript>
     <div id="notify-container"></div>
+
     <div id="overlay-header"></div>
     <div id="custom-header"></div>
     <div class="container">
         <div id="header">
             <div id="portalLink">
-
                 <a class="genu" href="http://stackexchange.com">Stack Exchange</a>
             </div>
             <div id="topbar">
+
                 <div id="hlinks">
                     <span id="hlinks-user">
-                  <span class="profile-triangle">&#9662;</span><a href="/users/194609/karussell" class="profile-link">Karussell</a>&nbsp;<a href="/users/194609/karussell?tab=reputation"><span class="reputation-score" title="your reputation; view reputation changes">2,505</span></a><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="21 bronze badges"><span class="badge3"></span><span class="badgecount">21</span></span>
-
+                  <span class="profile-triangle">&#9662;</span><a href="/users/194609/karussell" class="profile-link">Karussell</a>&nbsp;<a href="/users/194609/karussell?tab=reputation"><span class="reputation-score" title="your reputation; view reputation changes">2,515</span></a><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="21 bronze badges"><span class="badge3"></span><span class="badgecount">21</span></span>
  <span class="lsep">|</span>
 
                   </span>
                   <span id="hlinks-nav">
-                  
+
+                  <a href="/review/">review</a>
+ <span class="lsep">|</span>
+
                   </span>
                   <span id="hlinks-custom">
                   <a href="http://chat.stackoverflow.com">chat</a>
@@ -111,29 +110,27 @@
 
 
 <div id="question-header">
-    <h1><a href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url" class="question-hyperlink">Resolving an URL with Java gives me the wrong encoded chars in URL</a></h1>
+    <h1><a href="/questions/3553693/wicket-vs-vaadin" class="question-hyperlink">wicket vs Vaadin</a></h1>
 </div>
-
 <div id="mainbar">
 
 
 <div id="question">
-      <input type="hidden" id="5605219-only-allow-inform-moderator-flagging" value="true">
 
     <table>
     <tr>
-
     <td class="votecell">
+
         
 <div class="vote">
-    <input type="hidden" value="5605219">
+    <input type="hidden" value="3553693">
     <a class="vote-up-off" title="This question is useful and clear (click again to undo)">up vote</a>
-    <span class="vote-count-post">0</span>
+    <span class="vote-count-post">9</span>
     <a class="vote-down-off" title="This question is unclear or not useful (click again to undo)">down vote</a>
 
     <a class="star-off" href="#" title="This is a favorite question (click again to undo)">favorite</a>
 
-    <div class="favoritecount"><b>1</b></div>    
+    <div class="favoritecount"><b>2</b></div>    
 
 </div>
 
@@ -141,65 +138,50 @@
     <td class="postcell">
         <div>          
             <div class="post-text">
-                <p>When I'm doing the following:</p>
+                <p>Hi,
+Am torn between wicket and vaadin. i am starting a micro-isv and need to make a choice of web framework. I have narrowed down my choices to wicket and vaadin. I have used both frameworks and i love them both. however i need to make a choice. </p>
 
-<pre><code>try {
-    URL url = new URL(urlAsString);
-    //using proxy may increase latency
-    HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
-    // force no follow
-    hConn.setInstanceFollowRedirects(false);
-    // the program doesn't care what the content actually is       
-    hConn.setRequestMethod("HEAD");
-    // default is 0 =&gt; infinity waiting
-    hConn.setConnectTimeout(timeout);
-    hConn.setReadTimeout(timeout);
-    hConn.connect();
-    int responseCode = hConn.getResponseCode();
-    hConn.getInputStream().close();
-    if (responseCode == HttpURLConnection.HTTP_OK)
-        return urlAsString;
+<p>If i choose vaadin:</p>
 
-    String loc = hConn.getHeaderField("Location");
-    if (responseCode == HttpURLConnection.HTTP_MOVED_PERM &amp;&amp; loc != null)
-        return loc.replaceAll(" ", "+");
+<ol>
+<li>I wont have to worry much about the look and feel.It comes with nice themes</li>
+<li>I will do all my programming in java which am very good at and wont have to spend time hacking css which am not very good at</li>
+<li>And most of the components that i will need for a business applications are there OUT OF THE BOX including, desktop like layout, tooltips, Keyboard shortcuts, tables with draggable and collapsible columns to name a few.
+How ever , if i go the vaadin way:</li>
+<li>i will loose the ability to create UI declaratively.</li>
+<li>I wont have the fallback feature if the browser doesnt support javascript - e.g most non webkit mobile browsers.
+<ol>
+<li>Vaadin company is selling some components - e.g the JPAContainer so am not sure the company will be committed to offering full opensource framework. Business interests will always come first.</li>
+<li>vaadin applications will be mostly for the intranet. not very suitable for the internet with a web look and feel.</li>
+</ol></li>
 
-} catch (Exception ex) {
-}
-return "";
+</ol>
 
-</code></pre>
+<p>If i go the wicket way:
+I will have to style my applications and i can hardly give them a desktop look and feel. </p>
 
-<p>for that url: <a href="http://bit.ly/gek1qK" rel="nofollow">http://bit.ly/gek1qK</a> I'm getting</p>
-
-<p><a href="http://blog.tweetsmarter.com/twitter-downtime/twitter" rel="nofollow">http://blog.tweetsmarter.com/twitter-downtime/twitter</a>-redesignsâthen-everything-breaks/</p>
-
-<p>which is wrong. Firefox resolves to</p>
-
-<p><a href="http://blog.tweetsmarter.com/twitter-downtime/twitter-redesigns%E2%80%94then-everything-breaks/" rel="nofollow">http://blog.tweetsmarter.com/twitter-downtime/twitter-redesigns%E2%80%94then-everything-breaks/</a></p>
-
-<p>What is wrong in the code?</p>
+<p>Any advice. anyone with experience on either framework kindly tell me the cons and pros and how you made your decision. </p>
 
             </div>            
             <div class="post-taglist">
-                <a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="/questions/tagged/character-encoding" class="post-tag" title="show questions tagged 'character-encoding'" rel="tag">character-encoding</a> <a href="/questions/tagged/url-encoding" class="post-tag" title="show questions tagged 'url-encoding'" rel="tag">url-encoding</a> 
+                <a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="/questions/tagged/wicket" class="post-tag" title="show questions tagged 'wicket'" rel="tag">wicket</a> <a href="/questions/tagged/ria" class="post-tag" title="show questions tagged 'ria'" rel="tag">ria</a> <a href="/questions/tagged/vaadin" class="post-tag" title="show questions tagged 'vaadin'" rel="tag">vaadin</a> 
             </div>
-            <table class="fw">
 
+            <table class="fw">
             <tr>
             <td class="vt">
-                <div class="post-menu"><a href="/q/5605219/194609" title="short permalink to this question" id="link-post-5605219">link</a><span class="lsep">|</span><a href="/posts/5605219/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="close-question-5605219" title="closes/opens question for answering; when closed, no more answers can be added">close</a><span class="lsep">|</span><a id="delete-post-5605219" class="" title="vote to remove this post">delete</a><span class="lsep">|</span><a id="flag-post-5605219" title="flag this post for serious problems or moderator attention">flag</a></div>
+                <div class="post-menu"><a href="/q/3553693/194609" title="short permalink to this question" id="link-post-3553693">link</a><span class="lsep">|</span><a href="/posts/3553693/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-3553693" title="flag this post for serious problems or moderator attention">flag</a></div>
             </td>
-
             <td align="right" class="post-signature">
-<div class="user-info"><div class="user-action-time">edited <a href="/posts/5605219/revisions" title="show all edits to this post"><span title="2011-04-10 07:52:08Z" class="relativetime">Apr 10 at 7:52</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>            </td>
+
+<div class="user-info"><div class="user-action-time">edited <a href="/posts/3553693/revisions" title="show all edits to this post"><span title="2010-08-24 05:04:59Z" class="relativetime">Aug 24 '10 at 5:04</span></a></div><div class="user-gravatar32"><a href="/users/15541/leppie"><img src="http://www.gravatar.com/avatar/515ca9736a9a8ce65e58af764ccddf46?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/15541/leppie">leppie</a><br><span class="reputation-score" title="reputation score 32774">32.8k</span><span title="3 gold badges"><span class="badge1"></span><span class="badgecount">3</span></span><span title="33 silver badges"><span class="badge2"></span><span class="badgecount">33</span></span><span title="77 bronze badges"><span class="badge3"></span><span class="badgecount">77</span></span></div></div>            </td>
                         
 
             <td class="post-signature owner">
-            <div class="user-info"><div class="user-action-time">asked <span title="2011-04-09 13:13:11Z" class="relativetime">Apr 9 at 13:13</span></div><div class="user-gravatar32"><a href="/users/194609/karussell"><img src="http://www.gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/194609/karussell">Karussell</a><br><span class="reputation-score" title="reputation score">2,505</span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="21 bronze badges"><span class="badge3"></span><span class="badgecount">21</span></span></div></div>
-                <br class="cbt">
+            <div class="user-info"><div class="user-action-time">asked <span title="2010-08-24 05:01:23Z" class="relativetime">Aug 24 '10 at 5:01</span></div><div class="user-gravatar32"><a href="/users/276983/joshua"><img src="http://www.gravatar.com/avatar/8f3b9e4af76309929e313be54f5bc1b4?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/276983/joshua">joshua</a><br><span class="reputation-score" title="reputation score">407</span><span title="1 silver badge"><span class="badge2"></span><span class="badgecount">1</span></span><span title="9 bronze badges"><span class="badge3"></span><span class="badgecount">9</span></span></div></div>
 
-                <div class="accept-rate accept-answer-link" title="this user has accepted an answer for 28 of 28 eligible questions">100% accept rate</div>
+                <br class="cbt">
+                <div class="accept-rate accept-answer-link" title="this user has accepted an answer for 27 of 27 eligible questions">100% accept rate</div>
             </td>
             </tr>
             </table>
@@ -209,11 +191,10 @@ return "";
 
     
 
-
 <tr>
 <td class="votecell"></td>
 <td>
-    <div id="comments-5605219" class="comments dno">
+    <div id="comments-3553693" class="comments dno">
         <table>
         <tbody>
         
@@ -222,19 +203,19 @@ return "";
         </tbody>
     
         <tfoot>
-            <tr>
 
+            <tr>
                 <td></td>
-                <td class="comment-form"><form id="add-comment-5605219"></form></td>
+                <td class="comment-form"><form id="add-comment-3553693"></form></td>
             </tr>
         </tfoot>
     
         </table>
     </div>
-    <a id="comments-link-5605219" class="comments-link" title="add a comment to this post">add comment</a>
+    <a id="comments-link-3553693" class="comments-link" title="add a comment to this post">add comment</a>
+
 </td>
 </tr>
-
     
 
 
@@ -248,8 +229,8 @@ return "";
     </a>
     <div id="bounty" class="bounty" style="display:none; padding:10px 5px 10px 5px; line-height:150%; color:#555">
         <p style="font-size:120%">
-            offer <select id="bounty-amount" name="bounty-amount"><option value="50">50</option>
 
+            offer <select id="bounty-amount" name="bounty-amount"><option value="50">50</option>
 <option value="100">100</option>
 <option value="150">150</option>
 <option value="200">200</option>
@@ -257,9 +238,9 @@ return "";
 <option value="300">300</option>
 <option value="350">350</option>
 <option value="400">400</option>
+
 <option value="450">450</option>
 <option value="500">500</option>
-
 </select> of my own reputation for an answer to this question
         </p>
         <input type="button" id="bounty-start" value="Start Bounty" /><a href="/faq#bounty" style="margin-left:20px">What is bounty?</a>
@@ -277,12 +258,12 @@ return "";
     <a name="tab-top"></a>
     <div id="answers-header">
         <div class="subheader answers-subheader">
-            <h2>2 Answers</h2>
+            <h2>5 Answers</h2>
             <div id="tabs">
-                <a class="youarehere" href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url?tab=active#tab-top" title="Answers with the latest activity first">active</a>
-<a href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url?tab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
+                <a class="youarehere" href="/questions/3553693/wicket-vs-vaadin?tab=active#tab-top" title="Answers with the latest activity first">active</a>
 
-<a href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url?tab=votes#tab-top" title="Answers with the highest score first">votes</a>
+<a href="/questions/3553693/wicket-vs-vaadin?tab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
+<a href="/questions/3553693/wicket-vs-vaadin?tab=votes#tab-top" title="Answers with the highest score first">votes</a>
 
             </div>
         </div>
@@ -290,75 +271,92 @@ return "";
 
 
   
-    <a name="5605824"></a>
-    <div id="answer-5605824" class="answer" >
-                <input type="hidden" id="5605824-only-allow-inform-moderator-flagging" value="true"/>
+    <a name="3660938"></a>
+    <div id="answer-3660938" class="answer"  style="background-color:#F4A83D;">
 
         <table>
         <tr>
         <td class="votecell">
             
 <div class="vote">
-    <input type="hidden" value="5605824">
+    <input type="hidden" value="3660938">
     <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
-    <span class="vote-count-post">2</span>
+    <span class="vote-count-post">5</span>
     <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
 
-<a id="vote-accepted-5605824" class="vote-accepted-off vote-accepted-on" title="Click to set this answer as your accepted answer; click again to toggle. Accepted Apr 10 at 7:53">accept</a>
+<span class="vote-accepted-on" title="The question owner accepted this as the best answer Mar 17 at 10:33">accepted</span>
 </div>
 
         </td>
         <td>
-            <div class="post-text"><p>As per <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec2.html#sec2.2" rel="nofollow">RFC 2616, section 2.2</a>, HTTP header values should normally be encoded using ISO-8859-1.</p>
+            <div class="post-text"><p>I think I've invested some time for both frameworks. I really like both because they bring the Swing-alike coding to web development. And I don't know easier ones for me (although there is click but I don't like the velocity templating thing)</p>
 
-<p>Here, bit.ly is sending a bad response - the Location: header is encoded using UTF-8, so the em-dash character is represented by three separate bytes (0xe2, 0x80, 0x94).</p>
+<p>And yes, there are differences.</p>
 
-<p><code>HttpURLConnection</code> decodes the bytes using ISO-8859-1 so they become three characters (<code>â</code> and two undefined characters), <s>but it looks as if you re-encode them using UTF-8 (producing 2 bytes per character, since all three have values >= 0x80) before applying URL-encoding</s>.</p>
+<blockquote>
+  <p>I wont have to worry much about the look and feel.It comes with nice themes</p>
 
-<p>Firefox most likely treats the data as ISO-8859-1 throughout; the problem then cancels itself out when URL-encoding is applied later on.</p>
+</blockquote>
 
-<p>You could do the same by URL-encoding the value returned by <code>getHeaderField()</code>; since the Unicode range U+0080 to U+00FF is identical to the ISO-8859-1 byte range 0x80-0xFF, the non-ASCII characters can be encoded by casting them to <code>int</code> values:</p>
+<p>true, but every serious company will style its app differently (unless you are prototyping)</p>
 
-<pre><code>/**
- * Takes a URI that was decoded as ISO-8859-1 and applies percent-encoding
- * to non-ASCII characters. Workaround for broken origin servers that send
- * UTF-8 in the Location: header.
- */
-static String encodeUriFromHeader(String uri) {
-    StringBuilder sb = new StringBuilder();
+<blockquote>
+  <p>I will do all my programming in java which am very good at and wont have to spend time hacking css which am not very good at</p>
+</blockquote>
 
-    for(char ch : badLocation.toCharArray()) {
-        if(ch &lt; (char)128) {
-            sb.append(ch);
-        } else {
-            // this is ONLY valid if the uri was decoded using ISO-8859-1
-            sb.append(String.format("%%%02X", (int)ch));
-        }
-    }
+<p>Then Vaadin would be 'better'.</p>
 
-    return sb.toString();
-}
-</code></pre>
+<blockquote>
+  <p>i will loose the ability to create UI declaratively.</p>
+
+</blockquote>
+
+<p>What are the advantages of that? (BTW: you could code declarative in groovy ;-)) </p>
+
+<p>But ok. I know what you mean: if you can effort a separate designers than wicket is 'better'.</p>
+
+<blockquote>
+  <p>i can hardly give them a desktop look and feel. </p>
+</blockquote>
+
+<p>Why not? Or what do you mean here? Wicket supports ajax and there are components which supports nice 'desktop-alike' things (ajaxlink, lazycomponent, autocompletion, progressbar, see wicket stuff + extensions). ok, for any more complex component you'll have to code in javascript BUT BTW did you know that you could even <a href="https://cwiki.apache.org/WICKET/google-web-tools-starting-point.html" rel="nofollow">use GWT within wicket</a></p>
+
+<p>Some minor experiences:</p>
+
+<p>Vaadin is surely faster while coding (no css, html stuff). But if you go production keep in mind that the ease of programming can come to the cost of performance on the client side: e.g. if you use the 'wrong' layouts such as Horizontal/VerticalLayout, ... the massive use of javascript could slow down old browser.</p>
+
+<p>But Vaadin is not slow! Use appropriate layouts such as CssLayout or FastLayout and also old browser can serve it. (Although if you would use CssLayout your coding-style is really wicket-alike.)</p>
+
+<p>One issue with Vaadin is that it is a bit harder to profile, because you don't see easily where the client needs all the CPU and the nested divs gets cryptic id-names.</p>
+
+<p>One great thing about Wicket is its <a href="http://www.atomicgamer.com/dev/2009/10/wicket-guice-2-0-warp-persist-2-0/" rel="nofollow">warp persist integration</a></p>
+
+<p>(Guice can be integrated in Vaadin and Wicket)</p>
+
+<p>Testing the UI should be easy with Vaadin (although I didn't found unit testing stuff) and is very easy <a href="http://wicket.apache.org/apidocs/1.4/org/apache/wicket/util/tester/WicketTester.html" rel="nofollow">with wicket</a>.</p>
+
+<p>Last but not least creating lists/tables is VERY easy in Vaadin compared to wicket.</p>
 </div>
             <table class="fw">
             <tr>
             <td class="vt">
-                <div class="post-menu"><a href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url/5605824#5605824" title="permalink to this answer" id="link-post-5605824">link</a><span class="lsep">|</span><a href="/posts/5605824/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-5605824" title="flag this post for serious problems or moderator attention">flag</a></div>
 
+                <div class="post-menu"><a href="/questions/3553693/wicket-vs-vaadin/3660938#3660938" title="permalink to this answer" id="link-post-3660938">link</a><span class="lsep">|</span><a href="/posts/3660938/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="delete-post-3660938" class="" title="vote to remove this post">delete</a><span class="lsep">|</span><a id="flag-post-3660938" title="flag this post for serious problems or moderator attention">flag</a></div>
             </td>
             <td align="right" class="post-signature">
-<div class="user-info"><div class="user-action-time">edited <a href="/posts/5605824/revisions" title="show all edits to this post"><span title="2011-04-10 12:51:47Z" class="relativetime">Apr 10 at 12:51</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>            </td>
+<div class="user-info"><div class="user-action-time">edited <a href="/posts/3660938/revisions" title="show all edits to this post"><span title="2010-09-07 17:17:56Z" class="relativetime">Sep 7 '10 at 17:17</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>            </td>
+
             
 
             <td align="right" class="post-signature">   
        
 
-            <div class="user-info"><div class="user-action-time">answered <span title="2011-04-09 15:10:04Z" class="relativetime">Apr 9 at 15:10</span></div><div class="user-gravatar32"><a href="/users/211674/simonj"><img src="http://www.gravatar.com/avatar/114d63e6e404c4c3c41f4977a2123e3c?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/211674/simonj">SimonJ</a><br><span class="reputation-score" title="reputation score">3,711</span><span title="3 silver badges"><span class="badge2"></span><span class="badgecount">3</span></span><span title="12 bronze badges"><span class="badge3"></span><span class="badgecount">12</span></span></div></div>
-
+            <div class="user-info"><div class="user-action-time">answered <span title="2010-09-07 17:11:06Z" class="relativetime">Sep 7 '10 at 17:11</span></div><div class="user-gravatar32"><a href="/users/194609/karussell"><img src="http://www.gravatar.com/avatar/206690a26526f07467ecfd6662f8b152?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/194609/karussell">Karussell</a><br><span class="reputation-score" title="reputation score">2,515</span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="21 bronze badges"><span class="badge3"></span><span class="badgecount">21</span></span></div></div>
             </td>
             </tr>
             </table>
         </td>
+
         </tr>
 
     
@@ -366,61 +364,50 @@ static String encodeUriFromHeader(String uri) {
 <tr>
 <td class="votecell"></td>
 <td>
-    <div id="comments-5605824" class="comments">
-
+    <div id="comments-3660938" class="comments">
         <table>
         <tbody>
                     
-    <tr id="comment-6390021" class="comment">
-        <td></td>
-        <td class="comment-text"><div><span class="comment-copy">Do I need to apply url encoding for the location?</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-10 07:49:48Z">Apr 10 at 7:49</span></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
+    <tr id="comment-3856777" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+
+<td class="comment-score">
+<span>&nbsp;</span>
+</td>
+<td>
+<a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
+</td></tr>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr></tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">Thanks for your informative response. I ended up starting the project with vaadin. This is because it is helping me come up with a relatively good looking, feature rich application with less effort . I have a better experience with wicket but i always found myself spending hours on non-core things like layout, ui colors and all that. I want the application to have a full desktop look an feel without pages and all that. while it is possible to achieve this with wicket, i find most of the things easier to do with vaadin. I will use wicket for public facing  website like parts of the application.</span> &ndash;&nbsp;<a href="/users/276983/joshua" title="407 reputation" class="comment-user owner">joshua</a> <span class="comment-date"><span title="2010-09-08 06:28:18Z">Sep 8 '10 at 6:28</span></span></div></td>
     </tr>
 
             
-    <tr id="comment-6390040" class="comment">
-        <td></td>
-        <td class="comment-text"><div><span class="comment-copy">BTW: I apply encoding by accident. I copied the url into the url bar of firefox and then pasted from there into this question. Firefox applied the encoding ... I fixed this in the post</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-10 07:51:53Z">Apr 10 at 7:51</span></span><span class="edited-yes" title="this comment was edited"></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
-    </tr>
-            
-    <tr id="comment-6390052" class="comment">
-        <td></td>
-
-        <td class="comment-text"><div><span class="comment-copy">@SimonJ so I should file a bug report to bit.ly or can this be fixed differently?</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-10 07:54:12Z">Apr 10 at 7:54</span></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
-    </tr>
-            
-    <tr id="comment-6391890" class="comment">
+    <tr id="comment-6695480" class="comment">
         <td class="comment-actions"><table><tbody><tr>
 <td class="comment-score">
 <span>&nbsp;</span>
 </td>
 <td>
-
 <a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
 </td></tr>
-<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as noise, offensive, or spam">flag</a></td></tr></tbody></table></td>
-        <td class="comment-text"><div><span class="comment-copy">You can try :) I&#39;ve updated the answer with a workaround in the mean time.</span> &ndash;&nbsp;<a href="/users/211674/simonj" title="3711 reputation" class="comment-user">SimonJ</a> <span class="comment-date"><span title="2011-04-10 12:53:16Z">Apr 10 at 12:53</span></span></div></td>
-    </tr>
-            
-    <tr id="comment-6395528" class="comment">
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr></tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">Follow-up on the above comment: I later switched to wicket and i have never looked back since then. I had a problem with vaadin UI layout. </span> &ndash;&nbsp;<a href="/users/276983/joshua" title="407 reputation" class="comment-user owner">joshua</a> <span class="comment-date"><span title="2011-04-29 12:30:06Z">7 hours ago</span></span></div></td>
 
-        <td></td>
-        <td class="comment-text"><div><span class="comment-copy">uha!  thanks! I&#39;ll try</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-10 20:09:31Z">Apr 10 at 20:09</span></span><span class="edited-yes" title="this comment was edited"></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
     </tr>
 
         </tbody>
     
         <tfoot>
-
             <tr>
                 <td></td>
-                <td class="comment-form"><form id="add-comment-5605824"></form></td>
+                <td class="comment-form"><form id="add-comment-3660938"></form></td>
             </tr>
         </tfoot>
+
     
         </table>
     </div>
-    <a id="comments-link-5605824" class="comments-link" title="expand to show all comments on this post, or add one of your own">add / show <b>1</b> more comment</a>
-
+    <a id="comments-link-3660938" class="comments-link" title="add a comment to this post">add comment</a>
 </td>
 </tr>
      
@@ -432,47 +419,143 @@ static String encodeUriFromHeader(String uri) {
 
 
   
-    <a name="5605344"></a>
-    <div id="answer-5605344" class="answer" >
+    <a name="3622519"></a>
+
+    <div id="answer-3622519" class="answer" >
         <table>
         <tr>
         <td class="votecell">
-
             
 <div class="vote">
-    <input type="hidden" value="5605344">
+    <input type="hidden" value="3622519">
     <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
-    <span class="vote-count-post">1</span>
+    <span class="vote-count-post">6</span>
+
     <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
-<a id="vote-accepted-5605344" class="vote-accepted-off" title="Click to set this answer as your accepted answer; click again to toggle.">accept</a>
+
 </div>
 
         </td>
         <td>
-            <div class="post-text"><p>There is nothing wrong. The difference is the m-Dash denoted differently in different encoding. So, If Firefox uses encoding other than what your program does, you will see different character.</p>
+            <div class="post-text"><p>(continued from the comment in the first Wicket-related answer)</p>
 
-<p>Both are correct, in your case. It's just matter of encoding. In Java, you use UTF-8, which is <a href="http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars" rel="nofollow">World Wide Web Consortium Recommendation</a>; while it seems that what you see in FF is ISO-8859.</p>
+<p>The major difference between Vaadin and Wicket is with how UI composition and client side code is written. With Vaadin you usually compose your UI without any templates or HTML at all and you get a sleek, fully Ajax'ed UI out of the box. However, if you prefer the templating approach just use CustomLayout which does exactly that.</p>
 
-<p>If you want to generate same result as Firefox in Java, try this:</p>
+<p>Client side coding is rarely needed, but when it is you do it with the Java-based GWT which is IMO a lot more nicer than writing Javascript by hand. Besides, with GWT you automatically get cross-browser compliant solution instead of having to deal with those issues yourself.</p>
 
-<pre><code>System.out.print(URLEncoder.encode(loc.replace(" ", "+"), "ISO-8859-1"));
-
-</code></pre>
-
-<p>It will print what you see in Firefox. (obviously, it will encode <code>/</code> and <code>:</code> as well. But just to demonstrate)</p>
+<p>When comparing frameworks you also should take a look at community activity and documentation. With Vaadin both of those are excellent. Also note the Vaadin Directory which currently contains 100+ very useful UI components and other addons.</p>
 </div>
             <table class="fw">
             <tr>
             <td class="vt">
+                <div class="post-menu"><a href="/questions/3553693/wicket-vs-vaadin/3622519#3622519" title="permalink to this answer" id="link-post-3622519">link</a><span class="lsep">|</span><a href="/posts/3622519/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-3622519" title="flag this post for serious problems or moderator attention">flag</a></div>
 
-                <div class="post-menu"><a href="/questions/5605219/resolving-an-url-with-java-gives-me-the-wrong-encoded-chars-in-url/5605344#5605344" title="permalink to this answer" id="link-post-5605344">link</a><span class="lsep">|</span><a href="/posts/5605344/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-5605344" title="flag this post for serious problems or moderator attention">flag</a></div>
             </td>
             
 
             <td align="right" class="post-signature">   
        
 
-            <div class="user-info"><div class="user-action-time">answered <span title="2011-04-09 13:35:50Z" class="relativetime">Apr 9 at 13:35</span></div><div class="user-gravatar32"><a href="/users/298455/nishant"><img src="http://www.gravatar.com/avatar/c468d026f399d60f3cd9429c0964255e?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/298455/nishant">Nishant</a><br><span class="reputation-score" title="reputation score">6,286</span><span title="1 gold badge"><span class="badge1"></span><span class="badgecount">1</span></span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="14 bronze badges"><span class="badge3"></span><span class="badgecount">14</span></span></div></div>
+            <div class="user-info"><div class="user-action-time">answered <span title="2010-09-01 22:17:35Z" class="relativetime">Sep 1 '10 at 22:17</span></div><div class="user-gravatar32"><a href="/users/283077/hezamu"><img src="http://www.gravatar.com/avatar/e0fc24cb1e0088ac136b0baa7e570683?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/283077/hezamu">hezamu</a><br><span class="reputation-score" title="reputation score">262</span><span title="1 silver badge"><span class="badge2"></span><span class="badgecount">1</span></span><span title="3 bronze badges"><span class="badge3"></span><span class="badgecount">3</span></span></div></div>
+            </td>
+            </tr>
+            </table>
+
+        </td>
+        </tr>
+
+    
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-3622519" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-4198264" class="comment">
+
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span>&nbsp;</span>
+</td>
+<td>
+<a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
+</td></tr>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr></tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">When plugging Vaadin, it <i>might</i> be fair to always mention the fact that you work for IT Mill (the company behind Vaadin). :)</span> &ndash;&nbsp;<a href="/users/56285/jonik" title="5044 reputation" class="comment-user">Jonik</a> <span class="comment-date"><span title="2010-10-14 14:25:59Z">Oct 14 '10 at 14:25</span></span></div></td>
+
+    </tr>
+            
+    <tr id="comment-4198280" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span>&nbsp;</span>
+</td>
+<td>
+<a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
+</td></tr>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr></tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">Ah, sorry, you did do that in the comment to the other answer</span> &ndash;&nbsp;<a href="/users/56285/jonik" title="5044 reputation" class="comment-user">Jonik</a> <span class="comment-date"><span title="2010-10-14 14:27:30Z">Oct 14 '10 at 14:27</span></span></div></td>
+
+    </tr>
+
+        </tbody>
+    
+        <tfoot>
+            <tr>
+                <td></td>
+                <td class="comment-form"><form id="add-comment-3622519"></form></td>
+            </tr>
+        </tfoot>
+
+    
+        </table>
+    </div>
+    <a id="comments-link-3622519" class="comments-link" title="add a comment to this post">add comment</a>
+</td>
+</tr>
+     
+
+
+    </table>
+</div>
+
+
+
+  
+    <a name="3582411"></a>
+
+    <div id="answer-3582411" class="answer" >
+        <table>
+        <tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input type="hidden" value="3582411">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">-2</span>
+
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+        <td>
+            <div class="post-text"><p>Java language is not so powerful, as it's wanted. If you choice Wicket, you can use Scala as language (and I think other cool language, clojure, for example). GWT (and Vaadin as is builded on GWT) allow to use only Java.</p>
+</div>
+            <table class="fw">
+            <tr>
+
+            <td class="vt">
+                <div class="post-menu"><a href="/questions/3553693/wicket-vs-vaadin/3582411#3582411" title="permalink to this answer" id="link-post-3582411">link</a><span class="lsep">|</span><a href="/posts/3582411/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-3582411" title="flag this post for serious problems or moderator attention">flag</a></div>
+            </td>
+            
+
+            <td align="right" class="post-signature">   
+       
+
+            <div class="user-info"><div class="user-action-time">answered <span title="2010-08-27 08:19:21Z" class="relativetime">Aug 27 '10 at 8:19</span></div><div class="user-gravatar32"><a href="/users/224222/leonidv"><img src="http://www.gravatar.com/avatar/684ef24b8932fdc0b99c81b0eead48bb?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/224222/leonidv">leonidv</a><br><span class="reputation-score" title="reputation score">315</span><span title="1 silver badge"><span class="badge2"></span><span class="badgecount">1</span></span><span title="4 bronze badges"><span class="badge3"></span><span class="badgecount">4</span></span></div></div>
 
             </td>
             </tr>
@@ -485,12 +568,12 @@ static String encodeUriFromHeader(String uri) {
 <tr>
 <td class="votecell"></td>
 <td>
-    <div id="comments-5605344" class="comments">
+    <div id="comments-3582411" class="comments">
 
         <table>
         <tbody>
                     
-    <tr id="comment-6382900" class="comment">
+    <tr id="comment-3777317" class="comment">
         <td class="comment-actions"><table><tbody><tr>
 <td class="comment-score">
 <span>&nbsp;</span>
@@ -498,12 +581,12 @@ static String encodeUriFromHeader(String uri) {
 <td>
 <a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
 </td></tr>
-<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as noise, offensive, or spam">flag</a></td></tr></tbody></table></td>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr></tbody></table></td>
 
-        <td class="comment-text"><div><span class="comment-copy">It&#39;s actually the other way round. The incorrect one is encoded in ISO8859-1 (or CP1252) and the correct one is encoded using UTF-8.</span> &ndash;&nbsp;<a href="/users/157882/balusc" title="147863 reputation" class="comment-user">BalusC</a> <span class="comment-date"><span title="2011-04-09 13:38:31Z">Apr 9 at 13:38</span></span><span class="edited-yes" title="this comment was edited"></span></div></td>
+        <td class="comment-text"><div><span class="comment-copy">what about using groovy with Vaadin or GWT? <a href="http://wiki.github.com/halls/groovy-vaadin/" rel="nofollow">wiki.github.com/halls/groovy-vaadin</a></span> &ndash;&nbsp;<a href="/users/149956/rochb" title="955 reputation" class="comment-user">rochb</a> <span class="comment-date"><span title="2010-08-30 06:05:31Z">Aug 30 '10 at 6:05</span></span></div></td>
     </tr>
             
-    <tr id="comment-6382923" class="comment">
+    <tr id="comment-3778894" class="comment">
         <td class="comment-actions"><table><tbody><tr>
 <td class="comment-score">
 <span>&nbsp;</span>
@@ -512,41 +595,227 @@ static String encodeUriFromHeader(String uri) {
 <td>
 <a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
 </td></tr>
-<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as noise, offensive, or spam">flag</a></td></tr></tbody></table></td>
-        <td class="comment-text"><div><span class="comment-copy">@BalusC hmm... I did not get you.what I am saying is UTF-8 is the one recommended -- which is correct. FF might be using platform dependent encoding.</span> &ndash;&nbsp;<a href="/users/298455/nishant" title="6286 reputation" class="comment-user">Nishant</a> <span class="comment-date"><span title="2011-04-09 13:43:56Z">Apr 9 at 13:43</span></span></div></td>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr></tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">Nice. It&#39;s interesting.</span> &ndash;&nbsp;<a href="/users/224222/leonidv" title="315 reputation" class="comment-user">leonidv</a> <span class="comment-date"><span title="2010-08-30 10:58:33Z">Aug 30 '10 at 10:58</span></span></div></td>
     </tr>
             
-    <tr id="comment-6383032" class="comment">
+    <tr id="comment-3805236" class="comment">
 
-        <td></td>
-        <td class="comment-text"><div><span class="comment-copy">I yeah, I remeber that ISO-8859-1 is defined somewhere in HTTP1.0 standard ...</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-09 13:59:18Z">Apr 9 at 13:59</span></span><span class="edited-yes" title="this comment was edited"></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
-    </tr>
-            
-    <tr id="comment-6383052" class="comment">
-        <td></td>
-        <td class="comment-text"><div><span class="comment-copy">Hmmh, but why do I need to encode the url location at all? Isn&#39;t it already encoded?</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-09 14:01:32Z">Apr 9 at 14:01</span></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span title="number of 'great comment' votes received" class="cool">3</span>
+</td>
+<td>
+<a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
+</td></tr>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr></tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">Vaadin can be used with any JVM language. There is even a official Vaadin plugin at scala-lang.org. More info with code examples available at our site: <a href="http://vaadin.com/wiki/-/wiki/Main/Using%20Scala%20with%20Dynamic%20Web%20Projects%20and%20Vaadin%20in%20Eclipse" rel="nofollow">vaadin.com/wiki/-/wiki/Main/&hellip;</a></span> &ndash;&nbsp;<a href="/users/283077/hezamu" title="262 reputation" class="comment-user">hezamu</a> <span class="comment-date"><span title="2010-09-01 21:57:28Z">Sep 1 '10 at 21:57</span></span></div></td>
 
-    </tr>
-            
-    <tr id="comment-6383075" class="comment">
-        <td></td>
-        <td class="comment-text"><div><span class="comment-copy">Yes, this additional encoding does not work. But I think I should probably read the header somehow as ISO-8859-1 to get the correct location. How to do this.</span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2505 reputation" class="comment-user owner">Karussell</a> <span class="comment-date"><span title="2011-04-09 14:04:02Z">Apr 9 at 14:04</span></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
     </tr>
 
         </tbody>
-
     
         <tfoot>
             <tr>
                 <td></td>
-                <td class="comment-form"><form id="add-comment-5605344"></form></td>
+                <td class="comment-form"><form id="add-comment-3582411"></form></td>
             </tr>
         </tfoot>
+
     
         </table>
     </div>
-    <a id="comments-link-5605344" class="comments-link" title="expand to show all comments on this post, or add one of your own">add / show <b>2</b> more comments</a>
+    <a id="comments-link-3582411" class="comments-link" title="add a comment to this post">add comment</a>
+</td>
+</tr>
+     
 
+
+    </table>
+</div>
+
+
+
+  
+    <a name="3563602"></a>
+
+    <div id="answer-3563602" class="answer" >
+        <table>
+        <tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input type="hidden" value="3563602">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">4</span>
+
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+        <td>
+            <div class="post-text"><p>I've worked extensively with Wicket but I've not had any experience with Vaadin so this might be (a little) biased.</p>
+
+<p>I'd recommend Wicket for obvious reasons, but what's probably of interest to you is Wickets openness. As Gweebz rightly pointed out, Wicket uses basic HTML markup as its foundation, so any structural or cosmetic changes are often trivial to implement. </p>
+
+<p>Personally one of the things I really enjoy about out wicket work is the flow between front end presentation and the data backend, we've implemented Spring &amp; JPA/Hibernate which means that any changes in the front end can be translated back into the data base with a single line of code thanks to Wickets model based architecture.</p>
+
+<p>Again I can't say much for Vaadin having never worked with it, but if you're looking for architectures to start off with, I'd also recommend you have a look at GWT.</p>
+</div>
+            <table class="fw">
+            <tr>
+            <td class="vt">
+                <div class="post-menu"><a href="/questions/3553693/wicket-vs-vaadin/3563602#3563602" title="permalink to this answer" id="link-post-3563602">link</a><span class="lsep">|</span><a href="/posts/3563602/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-3563602" title="flag this post for serious problems or moderator attention">flag</a></div>
+
+            </td>
+            
+
+            <td align="right" class="post-signature">   
+       
+
+            <div class="user-info"><div class="user-action-time">answered <span title="2010-08-25 07:14:38Z" class="relativetime">Aug 25 '10 at 7:14</span></div><div class="user-gravatar32"><a href="/users/354601/bjorns"><img src="http://www.gravatar.com/avatar/310bc8daab76710c21a71f3aaf479f0a?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/354601/bjorns">BjornS</a><br><span class="reputation-score" title="reputation score">308</span><span title="12 bronze badges"><span class="badge3"></span><span class="badgecount">12</span></span></div></div>
+            </td>
+            </tr>
+            </table>
+        </td>
+
+        </tr>
+
+    
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-3563602" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-3805329" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+
+<td class="comment-score">
+<span>&nbsp;</span>
+</td>
+<td>
+<a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
+</td></tr>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr></tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">Disclaimer: I&#39;m a member of the Vaadin team and I really don&#39;t know enough about Wicket so please correct me if I get anything wrong.
+
+What I&#39;ve gathered Wicket&#39;s programming model is quite similar compared with Vaadin. Spring, JPA etc. backend stuff are readily available for both. I don&#39;t know what Wicket does to support those, but Vaadin includes various ways to integrate them, eg. JPAContainer. Also check out the upcoming Spring Roo plugin for Vaadin.
+
+See the rest of my comment below.</span> &ndash;&nbsp;<a href="/users/283077/hezamu" title="262 reputation" class="comment-user">hezamu</a> <span class="comment-date"><span title="2010-09-01 22:13:27Z">Sep 1 '10 at 22:13</span></span></div></td>
+
+    </tr>
+            
+    <tr id="comment-5700179" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span title="number of 'great comment' votes received" class="cool">1</span>
+</td>
+<td>
+<a class="comment-up comment-up-off" title="this is a great comment">up vote</a>
+</td></tr>
+<tr><td>&nbsp;</td><td><a class="comment-flag flag-off" title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr></tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">&quot;..., JPA etc. backend stuff are readily available for both. I don&#39;t know what Wicket does to support those, but Vaadin includes various ways to integrate them, eg. JPAContainer.&quot;  --  It really puts me off to learn that JPAContainer is not free for commercial use unless you buy a license from the same guys who made vaadin. Isnt it not your goal to make your framework as good and complete as possible? Or is your goal to make your framework good enough to attract developers but also lacking enough to make developers spend some money on some components?  --</span> &ndash;&nbsp;<a href="/users/276983/joshua" title="407 reputation" class="comment-user owner">joshua</a> <span class="comment-date"><span title="2011-02-23 05:11:15Z">Feb 23 at 5:11</span></span></div></td>
+
+    </tr>
+
+        </tbody>
+    
+        <tfoot>
+            <tr>
+                <td></td>
+                <td class="comment-form"><form id="add-comment-3563602"></form></td>
+            </tr>
+        </tfoot>
+
+    
+        </table>
+    </div>
+    <a id="comments-link-3563602" class="comments-link" title="add a comment to this post">add comment</a>
+</td>
+</tr>
+     
+
+
+    </table>
+</div>
+
+
+
+  
+    <a name="3559475"></a>
+
+    <div id="answer-3559475" class="answer" >
+        <table>
+        <tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input type="hidden" value="3559475">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">2</span>
+
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+        <td>
+            <div class="post-text"><p>I have a limited amount of experience with each but I prefer Vaadin. It allowed a richer experience with the web application I was developing. The main benefit that sold us though was how easy it was to write unit tests around our UI classes, ensuring the components functioned correctly when interacted with in the expected ways. This is also possible with Wicket however it was more difficult in my experience.</p>
+
+<p>I will also mention that either framework will require some styling. Wicket starts off as plain old HTML and Vaadin starts off with a MacOSX-like theme by default but almost any web-app you write will require at least SOME customization. With this in mind, customizing the CSS of a Wicket app is SIGNIFICANTLY easier than Vaadin for the simple reason that you control the markup. Vaadin hides the markup from you and generates elements with weird IDs and structures so it is harder to customize the look. Just remember this when making your decision.</p>
+</div>
+
+            <table class="fw">
+            <tr>
+            <td class="vt">
+                <div class="post-menu"><a href="/questions/3553693/wicket-vs-vaadin/3559475#3559475" title="permalink to this answer" id="link-post-3559475">link</a><span class="lsep">|</span><a href="/posts/3559475/edit" title="edit this post, or roll it back to a previous revision">edit</a><span class="lsep">|</span><a id="flag-post-3559475" title="flag this post for serious problems or moderator attention">flag</a></div>
+            </td>
+            
+
+            <td align="right" class="post-signature">   
+       
+
+            <div class="user-info"><div class="user-action-time">answered <span title="2010-08-24 17:57:00Z" class="relativetime">Aug 24 '10 at 17:57</span></div><div class="user-gravatar32"><a href="/users/346561/gweebz"><img src="http://www.gravatar.com/avatar/62e7d47ca49b942923f36eb90c1a31bd?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/346561/gweebz">Gweebz</a><br><span class="reputation-score" title="reputation score">550</span><span title="12 bronze badges"><span class="badge3"></span><span class="badgecount">12</span></span></div></div>
+
+            </td>
+            </tr>
+            </table>
+        </td>
+        </tr>
+
+    
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-3559475" class="comments">
+
+        <table>
+        <tbody>
+                    
+    <tr id="comment-3851129" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">this is a fair comparison although I think that with Vaadin it is relative simple to style components: <a href="http://stackoverflow.com/questions/2827052/what-is-the-method-of-choice-to-adjust-css-changes-in-vaadin" title="what is the method of choice to adjust css changes in vaadin">stackoverflow.com/questions/2827052/&hellip;</a> </span> &ndash;&nbsp;<a href="/users/194609/karussell" title="2515 reputation" class="comment-user">Karussell</a> <span class="comment-date"><span title="2010-09-07 16:46:55Z">Sep 7 '10 at 16:46</span></span><span class="edited-yes" title="this comment was edited"></span>&nbsp;<span class="comment-delete delete-tag" title="delete this comment"></span></div></td>
+
+    </tr>
+
+        </tbody>
+    
+        <tfoot>
+            <tr>
+                <td></td>
+                <td class="comment-form"><form id="add-comment-3559475"></form></td>
+            </tr>
+        </tfoot>
+
+    
+        </table>
+    </div>
+    <a id="comments-link-3559475" class="comments-link" title="add a comment to this post">add comment</a>
 </td>
 </tr>
      
@@ -558,16 +827,23 @@ static String encodeUriFromHeader(String uri) {
 
     
     <a name='new-answer'></a>
-    <form id="post-form" action="/questions/5605219/answer/submit" method="post"  class="dno">
+    <form id="post-form" action="/questions/3553693/answer/submit" method="post"  class="dno">
+
         <h2 class="space">Your Answer</h2>
-        <script src="http://sstatic.net/Js/wmd.js?v=8cc0678d8147" type="text/javascript"></script>
 
 <script type="text/javascript">
-    $(function() {
+    StackExchange.ready(function() {
      
         initTagRenderer("".split(" "), "".split(" "));
 
-        lazyEditorReady('answer', true/* confirm navigation after wmd keypress */, "http://sstatic.net/Js/wmd.js?v=8cc0678d8147");
+        
+            prepareEditor({
+                
+                heartbeatType: 'answer',
+                bindNavPrevention: true,
+                onDemand: false
+            });
+        
     });  
 </script>
 
@@ -580,16 +856,17 @@ static String encodeUriFromHeader(String uri) {
     <div id="wmd-container">
         <div id="wmd-button-bar"></div>
         <textarea id="wmd-input" name="post-text" cols="92" rows="15" tabindex="101"></textarea>
+
     </div>
 
     <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
-
     <div id="draft-saved" class="community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
 
 
     <div class="community-option">
         <input id="communitymode" name="communitymode" type="checkbox" >
         <label for="communitymode" title="Marking an answer community wiki encourages others to edit it by lowering the reputation barrier required to edit. However, you will not gain any upvote reputation from it. This cannot be undone.">community wiki</label>
+
     </div>
 
     <div id="wmd-preview"></div>
@@ -599,77 +876,33 @@ static String encodeUriFromHeader(String uri) {
         <input id="fkey" name="fkey" type="hidden" value="7f1c1b43e18b3e36fec4f318a40cc4a5">
         <input id="author" name="author" type="text">
     </div>
-</div>
-        
-           
-        
-        
+</div>           
         <div class="form-submit cbt"><input id="submit-button" type="submit" value="Post Your Answer" tabindex="110"></div>
+
     </form>
         <div id="show-editor-button" class="form-submit" style="margin-bottom:8px">
-
-            <input type="button" value="Answer Your Question" />
+            <input type="button" value="Add Another Answer" />
         </div>
         <script type="text/javascript">
-            var cp1 = "Are you sure you want to answer your own question?\n\nIf you're responding to answers left on your question, enter comments under each answer.\n\nIf you need to add details to your question, use the edit link under your question.";
-            $(function () {
-                $("#show-editor-button").click(function () {
+            StackExchange.ready(function () {
+                var cp1 = "Are you sure you want to add another answer?\n\nYou could use the edit link to refine and improve your existing answer, instead.";
+                $("#show-editor-button input").click(function () {
                     if (confirm(cp1)) {
                         $("#show-editor-button").hide();
                         $("#post-form").show();
-                        initPostEditor('answer', true);
+ 
+                            StackExchange.editor.init({
+                                heartBeatType: 'answer',
+                                bindNavPrevention: true
+                            });
+                        
                     }
                 });
             });
         </script>        
-<div id="notify-options">
-    <h2>
-        <input type="checkbox" id="notify-email" name="notify-email" > Notify 
-        <input id="notify-email-address" name="notify-email-address" disabled="disabled"  type="text" value="peathal@yahoo.de"> daily of any new answers
-    </h2>
-</div>
-
-<script src="http://sstatic.net/Js/third-party/jquery.typewatch.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-    $(function() {
-        initEmailNotification();   
-            $("#notify-email-address").typeWatch({ highlight:false, wait: 500, captureLength: -1, callback:saveEmailNotification });
-    });
-    
-    function initEmailNotification() {
-        var toggle = function() { $("#notify-email-address").attr('disabled', !$("#notify-email").is(":checked")); };
-        toggle();
-        $("#notify-email").click(function() {
-            toggle();
-            saveEmailNotification($('#notify-email-address').val());
-        });
-    }
-    
-    function saveEmailNotification(email) {
-        // only post if the email is valid
-        if (!(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i).test(email)) return;
-        
-        var jCheck = $("#notify-email");   
-		$.ajax ({
-		    type: "POST",
-		    url: "/posts/5605219/update-owner-notification",		    
-		    data: { "fkey": StackExchange.options.user.fkey, "notifyEmailAddress": email, "notifyEmail": jCheck.is(":checked")},
-		    dataType: "json",
-		    success: function(result) {   
-		        if (!result.success) {
-		            var msg = (result.message && result.message.length > 0) ? result.message : "A problem has occurred when changing your notification setttings - please try again";
-		            StackExchange.helpers.showErrorPopup(jCheck.closest('div'), result.message);
-		        }
-		    }
-		});
-	}
-</script>
-
-
     <h2 class="bottom-notice">
         Not the answer you're looking for? 
-        Browse other questions tagged <a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="/questions/tagged/character-encoding" class="post-tag" title="show questions tagged 'character-encoding'" rel="tag">character-encoding</a> <a href="/questions/tagged/url-encoding" class="post-tag" title="show questions tagged 'url-encoding'" rel="tag">url-encoding</a> 
+        Browse other questions tagged <a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="/questions/tagged/wicket" class="post-tag" title="show questions tagged 'wicket'" rel="tag">wicket</a> <a href="/questions/tagged/ria" class="post-tag" title="show questions tagged 'ria'" rel="tag">ria</a> <a href="/questions/tagged/vaadin" class="post-tag" title="show questions tagged 'vaadin'" rel="tag">vaadin</a> 
         or <a href="/questions/ask">ask your own question</a>.
     </h2>
 
@@ -678,23 +911,20 @@ static String encodeUriFromHeader(String uri) {
 <div id="sidebar">
     <div class="module">
         <p class="label-key">tagged</p>
-        <div class="tagged"><a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a>&nbsp;<span class="item-multiplier">&times;&nbsp;114260</span><br>
-<a href="/questions/tagged/character-encoding" class="post-tag" title="show questions tagged 'character-encoding'" rel="tag">character-encoding</a>&nbsp;<span class="item-multiplier">&times;&nbsp;1598</span><br>
-<a href="/questions/tagged/url-encoding" class="post-tag" title="show questions tagged 'url-encoding'" rel="tag">url-encoding</a>&nbsp;<span class="item-multiplier">&times;&nbsp;119</span><br>
+        <div class="tagged"><a href="/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a>&nbsp;<span class="item-multiplier">&times;&nbsp;118168</span><br>
+<a href="/questions/tagged/wicket" class="post-tag" title="show questions tagged 'wicket'" rel="tag">wicket</a>&nbsp;<span class="item-multiplier">&times;&nbsp;509</span><br>
+<a href="/questions/tagged/ria" class="post-tag" title="show questions tagged 'ria'" rel="tag">ria</a>&nbsp;<span class="item-multiplier">&times;&nbsp;468</span><br>
 
-</div> 
-        <p class="label-key">asked</p>
-        <p class="label-value" title="2011-04-09 13:13:11Z">6 days ago</p>
-        <p class="label-key">viewed</p>
-        <p class="label-value">54 times</p>
-        <p class="label-key">latest activity</p>
-        <p class="label-value"><a href="?lastactivity" class="lastactivity-link" title="2011-04-10 12:51:47Z">5 days ago</a></p>
-
+<a href="/questions/tagged/vaadin" class="post-tag" title="show questions tagged 'vaadin'" rel="tag">vaadin</a>&nbsp;<span class="item-multiplier">&times;&nbsp;139</span><br>
+</div>
+        <p class="label-key"><span>asked&nbsp;&nbsp;&nbsp;</span><b title="2010-08-24 05:01:23Z">8 months ago</b></p>
+        <p class="label-key"><span>viewed&nbsp;</span><b>1,948 times</b></p>
+        <p class="label-key"><span>active&nbsp;&nbsp;&nbsp;</span><b><a href="?lastactivity" class="lastactivity-link" title="2010-09-07 17:17:56Z">7 months ago</a></b></p>        
     </div>
-    
+
     
         <script type="text/javascript">
-            var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = "http://engine2.adzerk.net/z/8277/adzerk2_2_17_45?keywords=java,character-encoding,url-encoding,x-user-registered,x-1500plus-rep"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);
+            var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = "http://engine2.adzerk.net/z/8277/adzerk2_2_17_45?keywords=java,wicket,ria,vaadin,x-user-registered,x-1500plus-rep"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);
         </script>
     
     <div class="everyonelovesstackoverflow" id="adzerk2">
@@ -709,110 +939,115 @@ static String encodeUriFromHeader(String uri) {
 
       
 
-
     <div class="module">
+
+    <h4 id="h-linked">Linked</h4>
+    <div class="linked">
+    <div class="spacer">
+<a href="/questions/2827052/what-is-the-method-of-choice-to-adjust-css-changes-in-vaadin" class="question-hyperlink">What is the method of choice to adjust CSS changes in vaadin?</a>
+</div>
+
+    </div>
+    </div>
+    <div class="module">
+
     <h4 id="h-related">Related</h4>
     <div class="related">
     <div class="spacer">
-<a href="/questions/623861/how-do-you-unescape-urls-in-java" class="question-hyperlink">How do you unescape URLs in Java?</a>
+<a href="/questions/2122542/how-to-change-the-tabbar-color-in-vaadin" class="question-hyperlink">How to change the tabbar color in vaadin?</a>
 </div>
 <div class="spacer">
-<a href="/questions/1485812/encoding-decoding-rest-path-parameters" class="question-hyperlink">Encoding/decoding REST path parameters</a>
-</div>
-
-<div class="spacer">
-<a href="/questions/1623252/jquery-post-and-encoding" class="question-hyperlink">jQuery.post and encoding</a>
+<a href="/questions/2473586/who-is-using-vaadin" class="question-hyperlink">Who is using Vaadin?</a>
 </div>
 <div class="spacer">
-<a href="/questions/1637762/test-if-string-is-url-encoded-in-php" class="question-hyperlink">Test if string is URL encoded in PHP</a>
-</div>
-<div class="spacer">
-<a href="/questions/1782663/how-do-i-parse-an-encoded-uri-in-ruby" class="question-hyperlink">How do I parse an encoded URI in Ruby?</a>
-</div>
-<div class="spacer">
-<a href="/questions/2295223/how-to-find-out-if-string-has-already-been-url-encoded" class="question-hyperlink">How to find out if string has already been URL encoded?</a>
-</div>
-<div class="spacer">
-
-<a href="/questions/2676969/is-get-query-string-affected-by-content-text-html-charset-gb2312-html-meta-tag" class="question-hyperlink">Is GET Query String affected by content=&#39;text/html; charset=gb2312&#39; html meta tag attribute ?</a>
-</div>
-<div class="spacer">
-<a href="/questions/3063449/basic-authentication-from-url-in-restlet" class="question-hyperlink">Basic Authentication from url in Restlet</a>
-</div>
-<div class="spacer">
-<a href="/questions/3175460/how-to-judge-if-a-url-is-already-encoded-with-encodeuri" class="question-hyperlink">How to judge if a URL is already encoded with encodeURI?</a>
-</div>
-<div class="spacer">
-<a href="/questions/3353203/hex-url-decoder-c" class="question-hyperlink">Hex Url decoder c#</a>
+<a href="/questions/2544878/how-to-select-all-row-in-vaadin-table" class="question-hyperlink">How to select all row in vaadin table?</a>
 
 </div>
 <div class="spacer">
-<a href="/questions/3563126/url-encoding-decoding-with-python" class="question-hyperlink">url encoding/decoding with python</a>
+<a href="/questions/2688443/how-to-solve-this-problem-in-vaadin-table" class="question-hyperlink">How to solve this problem in Vaadin Table?</a>
 </div>
 <div class="spacer">
-<a href="/questions/4052312/what-are-the-implications-of-not-doing-url-encoding-when-passing-urls-in-get-requ" class="question-hyperlink">What are the implications of not doing url encoding when passing URLs in GET requests?</a>
+<a href="/questions/3177496/dynamicresports-and-jasperreport-within-vaadin-streamresource" class="question-hyperlink">dynamicresports and jasperreport within vaadin streamresource</a>
 </div>
 <div class="spacer">
-<a href="/questions/4168636/asp-net-mvc-does-not-understand-mixed-url-encoding-utf-8-latin-1" class="question-hyperlink">ASP.NET MVC does not understand mixed url encoding (UTF-8/Latin-1)</a>
+<a href="/questions/3285839/vaadin-tabsheet-tab-size" class="question-hyperlink">Vaadin TabSheet tab size</a>
 </div>
 <div class="spacer">
-<a href="/questions/4473169/is-it-bad-to-use-special-symbols-in-url" class="question-hyperlink">Is it bad to use special symbols in URL?</a>
-</div>
-
-<div class="spacer">
-<a href="/questions/4571346/how-to-encode-url-to-avoid-special-characters-in-java" class="question-hyperlink">how to encode URL to avoid special characters in java</a>
-</div>
-<div class="spacer">
-<a href="/questions/4652365/url-decoding-japanese-characters-etc-in-java" class="question-hyperlink">URL decoding Japanese characters etc. in Java</a>
-</div>
-<div class="spacer">
-<a href="/questions/5053975/how-to-encode-a-url-with-jstl" class="question-hyperlink">How to Encode a URL with JSTL</a>
-</div>
-<div class="spacer">
-<a href="/questions/5117071/how-to-hide-an-email-address-as-a-url-parameter" class="question-hyperlink">How to hide an email address as a url parameter</a>
-</div>
-<div class="spacer">
-
-<a href="/questions/5195189/is-it-possible-to-component-encode-a-url-with-a-anchor-in-it-using-houtputlink" class="question-hyperlink">Is it possible to component encode a URL with a # anchor in it using h:outputLink?</a>
-</div>
-<div class="spacer">
-<a href="/questions/5291586/best-way-to-encode-url-in-java" class="question-hyperlink">Best way to encode URL in Java</a>
-</div>
-<div class="spacer">
-<a href="/questions/5449734/url-as-urls-get-parameters-problem-with" class="question-hyperlink">URL as URL&#39;s get parameters - problem with &ldquo;&amp;&rdquo; </a>
-</div>
-<div class="spacer">
-<a href="/questions/5452649/encode-and-redirect-to-a-url-that-has-special-characters-in-java" class="question-hyperlink">Encode (and redirect) to a URL that has special characters in Java</a>
+<a href="/questions/3888233/cons-related-to-vaadin" class="question-hyperlink">Cons related to Vaadin?</a>
 </div>
 
 <div class="spacer">
-<a href="/questions/5488924/url-encode-decode-mismatch" class="question-hyperlink">URL Encode Decode Mismatch</a>
+<a href="/questions/3904735/how-to-improve-vaadin-startup-speed-in-debug-mode" class="question-hyperlink">How to improve Vaadin startup speed in debug mode?</a>
 </div>
 <div class="spacer">
-<a href="/questions/5610021/what-is-the-encoding-of-chinese-characters-on-wikipedia" class="question-hyperlink">What is the encoding of Chinese characters on Wikipedia?</a>
+<a href="/questions/4155915/feedback-for-vaadin-wanted" class="question-hyperlink">Feedback for Vaadin wanted</a>
 </div>
 <div class="spacer">
-<a href="/questions/5634836/escape-fullstop-before-slash-in-url-string" class="question-hyperlink">Escape fullstop before slash in URL string</a>
+<a href="/questions/4431022/chart-components-for-vaadin" class="question-hyperlink">Chart components for Vaadin</a>
+</div>
+<div class="spacer">
+<a href="/questions/4720861/cache-problem-in-vaadin" class="question-hyperlink">Cache Problem in Vaadin</a>
+</div>
+<div class="spacer">
+
+<a href="/questions/4735611/vaadin-restart-problem-with-struts" class="question-hyperlink">Vaadin Restart Problem with Struts</a>
+</div>
+<div class="spacer">
+<a href="/questions/4757963/vaadin-data-persist-problem-in-the-fields" class="question-hyperlink">Vaadin Data Persist Problem in the Fields</a>
+</div>
+<div class="spacer">
+<a href="/questions/4989557/hide-and-collapse-menu-using-vaadin" class="question-hyperlink">Hide and Collapse menu using Vaadin</a>
+</div>
+<div class="spacer">
+<a href="/questions/5192576/vaadin-popup-window-fur-gwt-components" class="question-hyperlink">Vaadin : popup window f&#252;r gwt components</a>
+</div>
+<div class="spacer">
+
+<a href="/questions/5257761/creating-a-facebook-app-with-vaadin" class="question-hyperlink">Creating a facebook app with Vaadin?</a>
+</div>
+<div class="spacer">
+<a href="/questions/5260220/architecture-question-gwt-or-vaadin-to-create-desktop-application" class="question-hyperlink">Architecture Question: GWT or Vaadin to create Desktop Application?</a>
+</div>
+<div class="spacer">
+<a href="/questions/5395603/wicket-changing-the-text-of-an-ajaxbutton-on-submit" class="question-hyperlink">Wicket: Changing the text of an AjaxButton on submit</a>
+</div>
+<div class="spacer">
+<a href="/questions/5462605/pagination-for-table-in-vaadin" class="question-hyperlink">Pagination for table in vaadin</a>
+</div>
+<div class="spacer">
+<a href="/questions/5529447/upload-not-working-in-vaadin-6-4-8" class="question-hyperlink">Upload not working in vaadin 6.4.8</a>
+
+</div>
+<div class="spacer">
+<a href="/questions/5550399/vaadin-web-xml-setup" class="question-hyperlink">Vaadin web.xml setup</a>
+</div>
+<div class="spacer">
+<a href="/questions/5592389/in-vaadin-what-are-the-advantages-of-using-a-panel-over-a-verticalcontainer" class="question-hyperlink">In Vaadin what are the advantages of using a Panel over a VerticalContainer?</a>
+</div>
+<div class="spacer">
+<a href="/questions/5592402/having-trouble-with-precise-positioning-of-vaadin-components" class="question-hyperlink">Having trouble with precise positioning of Vaadin components</a>
+</div>
+<div class="spacer">
+<a href="/questions/5594721/how-to-set-a-border-on-a-vaadin-component" class="question-hyperlink">How to set a border on a Vaadin component?</a>
+</div>
+
+<div class="spacer">
+<a href="/questions/5594747/where-is-the-css-style-sheet-for-vaadin" class="question-hyperlink">Where is the css style sheet for Vaadin?</a>
 </div>
 
     </div>
     </div>
-
 </div>
-
 
 <div id="feed-link">
-    <div id="feed-link-text"><a href="/feeds/question/5605219" title="feed of this question and its answers"><span class="feed-icon"></span>question feed</a></div>
+    <div id="feed-link-text"><a href="/feeds/question/3553693" title="feed of this question and its answers"><span class="feed-icon"></span>question feed</a></div>
 </div>
+<script type="text/javascript" src="/posts/3553693/ivc/c161"></script>
 
-
-<script type="text/javascript" src="/posts/5605219/ivc/6896"></script>
 <noscript>
-    <div><img src="/posts/5605219/ivc/6896" class="dno" alt=""></div>
+    <div><img src="/posts/3553693/ivc/c161" class="dno" alt=""></div>
 </noscript>
-
 <div style="display:none" id="prettify-lang">lang-java</div>
-
         </div>
     </div>
     <div id="footer">
@@ -820,7 +1055,7 @@ static String encodeUriFromHeader(String uri) {
             <div id="footer-menu">
                 <a href="/about">about</a> |
                 <a href="/faq">faq</a> |
-                <span title="18 hours ago" class="new-blog-post">new</span> <a href="http://blog.stackoverflow.com">blog</a> |
+                <span title="11 hours ago" class="new-blog-post">new</span> <a href="http://blog.stackoverflow.com">blog</a> |
                     <a href="http://chat.stackoverflow.com">chat</a> |
                 <a href="http://data.stackexchange.com">data</a> |
                 <a href="http://itc.conversationsnetwork.org/series/stackoverflow.html">podcast</a> |
@@ -866,7 +1101,7 @@ static String encodeUriFromHeader(String uri) {
             <div id="footer-flair">
                 <a class="peer1" href="http://www.peer1.com/stackoverflow"></a>  
 	            <a href="http://creativecommons.org/licenses/by-sa/3.0/" class="cc-wiki-link"></a>
-                <div id="svnrev">rev 2011.4.15.3</div>
+                <div id="svnrev">rev 2011.4.29.3</div>
             </div>
 
             <div id="copyright">
