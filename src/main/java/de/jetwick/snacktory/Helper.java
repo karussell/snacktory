@@ -21,6 +21,7 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import org.jsoup.nodes.Element;
 
 /**
  *
@@ -229,5 +230,25 @@ public class Helper {
      */
     public static String removeHashbang(String url) {
         return url.replaceFirst("#!", "");
+    }
+
+    public static String printNode(Element root) {
+        return printNode(root, 0);
+    }
+
+    public static String printNode(Element root, int indentation) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < indentation; i++) {
+            sb.append(' ');
+        }
+        sb.append(root.tagName());
+        sb.append(":");
+        sb.append(root.ownText());
+        sb.append("\n");
+        for (Element el : root.children()) {
+            sb.append(printNode(el, indentation + 1));
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

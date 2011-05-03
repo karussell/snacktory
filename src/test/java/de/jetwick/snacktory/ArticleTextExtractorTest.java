@@ -168,6 +168,15 @@ public class ArticleTextExtractorTest {
     }
 
     @Test
+    public void testTwitpic2() throws Exception {
+        // http://www.twitpic.com/4siyme
+        JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("twitpic2.html")));
+        assertEquals("Twitpic - Share photos and videos on Twitter", res.getTitle());
+        assertEquals("Remember! Twitpic Community Guidelines specify that if you post a "
+                + "Twitpic photo or video on an external website, the media must link back to its photo page.", res.getText());
+    }
+
+    @Test
     public void testHeise() throws Exception {
         // http://www.heise.de/newsticker/meldung/Internet-Explorer-9-jetzt-mit-schnellster-JavaScript-Engine-1138062.html
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("heise.html")));

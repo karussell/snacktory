@@ -1,5 +1,6 @@
 package de.jetwick.snacktory;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
@@ -17,7 +18,7 @@ public class OutputFormatter {
     public static final int MIN_PARAGRAPH_TEXT = 50;
     private static final Logger logger = LoggerFactory.getLogger(OutputFormatter.class);
     private Element topNode;
-    
+
     /**
      * takes an element and turns the P tags into \n\n     
      */
@@ -26,16 +27,18 @@ public class OutputFormatter {
         removeNodesWithNegativeScores();
         convertLinksToText();
         replaceTagsWithText();
-        
+
         StringBuilder sb = new StringBuilder();
         append(topNode, sb, "p");
         String str = Helper.innerTrim(sb.toString());
 
         // no subelements
-        if (str.length() > topNode.ownText().length())
-            return str;
-
-        return topNode.text();
+        if (str.isEmpty() || !topNode.text().isEmpty() && str.length() <= topNode.ownText().length())
+            str = topNode.text();
+        
+        // if jsoup failed to parse the whole html now parse this smaller 
+        // snippet again to avoid html tags distrurbing our text:
+        return Jsoup.parse(str).text();
     }
 
     /**
@@ -47,7 +50,8 @@ public class OutputFormatter {
             if (item.getElementsByTag("img").isEmpty()) {
                 TextNode tn = new TextNode(item.text(), topNode.baseUri());
                 item.replaceWith(tn);
-            }
+            } else if (item.text().isEmpty())                
+                item.remove();            
         }
     }
 
@@ -60,7 +64,7 @@ public class OutputFormatter {
         for (Element item : gravityItems) {
             int score = Integer.parseInt(item.attr("gravityScore"));
             if (score < 0 || item.text().length() < MIN_PARAGRAPH_TEXT)
-                item.remove();                                        
+                item.remove();
         }
     }
 

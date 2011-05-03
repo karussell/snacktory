@@ -80,6 +80,6 @@ public class HtmlFetcherTest {
         assertEquals("Democracy Now! | Facebook", res.getTitle());
 
         res = HtmlFetcher.fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
-        assertEquals("Twitter / Tatjana Hoenich: “@AntiAtomPiraten: \"Protes ...", res.getTitle());
+        assertEquals("Twitter / Tatjana Hoenich: “@AntiAtomPiraten: \"Protes ...", res.getTitle());       
     }
 }
