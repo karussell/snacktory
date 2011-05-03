@@ -65,11 +65,17 @@ public class Helper {
 
     public static String encodingCleanup(String str) {
         StringBuilder sb = new StringBuilder();
+        boolean startedWithCorrectString = false;
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
-            if (Character.isDigit(c) || Character.isLetter(c) || c == '-' || c == '_')
-                sb.append(c);
+            if (Character.isDigit(c) || Character.isLetter(c) || c == '-' || c == '_') {
+                startedWithCorrectString = true;
+                sb.append(c);            
+                continue;
+            }
 
+            if (startedWithCorrectString)
+                break;            
         }
         return sb.toString().trim();
     }

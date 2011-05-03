@@ -15,7 +15,6 @@
  */
 package de.jetwick.snacktory;
 
-import de.jetwick.snacktory.Helper;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -85,5 +84,10 @@ public class HelperTest {
                 Helper.useDomainOfFirst4Sec("http://www.n24.de/news/newsitem_6797232.html", "../../../media/imageimport/images/content/favicon.ico"));
         Helper.useDomainOfFirst4Sec("http://www.n24.de/favicon.ico", "/favicon.ico");
         Helper.useDomainOfFirst4Sec("http://www.n24.de/favicon.ico", "favicon.ico");
+    }
+
+    @Test public void testEncodingCleanup() {
+        assertEquals("utf-8", Helper.encodingCleanup("utf-8"));
+        assertEquals("test-8", Helper.encodingCleanup(" test-8 &amp;"));
     }
 }

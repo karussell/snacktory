@@ -15,6 +15,10 @@
  */
 package de.jetwick.snacktory;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import junit.framework.TestCase;
 
 /**
@@ -63,6 +67,6 @@ public class ConverterTest extends TestCase {
         
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("badenc.html"));
-        assertEquals("utf-8", d.getEncoding());
-    }
+        assertEquals("utf-8", d.getEncoding());        
+    }    
 }

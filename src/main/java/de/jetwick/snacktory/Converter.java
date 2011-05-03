@@ -33,7 +33,7 @@ public class Converter {
 
     private final static Logger logger = Logger.getLogger(Converter.class);
     public final static int MAX_BYTES = 1000000;
-    public final static String UTF8 = "UTF8";
+    public final static String UTF8 = "UTF-8";
     public final static String ISO = "ISO-8859-1";
     public final static int K4 = 4096;
     private String encoding;
@@ -81,7 +81,7 @@ public class Converter {
         // Http 1.1. standard is iso-8859-1 not utf8 :(
         // but we force utf-8 as youtube assumes it ;)
         if (encoding == null || encoding.isEmpty())
-            encoding = "utf-8";
+            encoding = UTF8;
 
         BufferedInputStream in = null;
         try {
@@ -90,16 +90,25 @@ public class Converter {
             int bytesRead = K4;
 
             // detect with the help of meta tag
-            String tmpEnc = detectCharset("charset=", sb, in);
-            if (tmpEnc != null) {
-                encoding = tmpEnc;
-                if (encoding == tmpEnc) {
-                    // detect with the help of xml beginning ala encoding="charset"
-                    tmpEnc = detectCharset("encoding=", sb, in);
-                    if (tmpEnc != null)
-                        encoding = tmpEnc;
+            try {
+                String tmpEnc = detectCharset("charset=", sb, in);
+                if (tmpEnc != null) {
+                    encoding = tmpEnc;
+                    if (encoding == tmpEnc) {
+                        // detect with the help of xml beginning ala encoding="charset"
+                        tmpEnc = detectCharset("encoding=", sb, in);
+                        if (tmpEnc != null)
+                            encoding = tmpEnc;
+                    }
                 }
+                // try if detected is valid
+                URLEncoder.encode("test", encoding);
+            } catch (UnsupportedEncodingException e) {
+                logger.info(e.toString() + " Msg:" + e.getMessage() + " now using default encoding:" + UTF8);
+                encoding = UTF8;
             }
+            // IOException: missing CR    => problem on server (probably some xml character thing?)
+            // IOException: Premature EOF => socket unexpectly closed from server
             byte[] arr = new byte[K4];
             while (true) {
                 if (bytesRead >= maxBytes)
@@ -115,9 +124,7 @@ public class Converter {
             return sb.toString();
 
         } catch (SocketTimeoutException e) {
-            logger.info(e.toString() + " " + e.getMessage());
-        } catch (UnsupportedEncodingException e) {
-            logger.info(e.toString() + " " + e.getMessage());
+            logger.info(e.toString() + " " + e.getMessage());        
         } catch (IOException e) {
             logger.warn(e.toString() + " " + e.getMessage(), e);
         } finally {
@@ -178,17 +185,17 @@ public class Converter {
                 // or "text/html; charset=utf-8 '
                 int third = sb.indexOf("'", encIndex + clength);
                 if (third > 0)
-                    lastEncIndex = Math.min(lastEncIndex, third);                
+                    lastEncIndex = Math.min(lastEncIndex, third);
             }
 
             // re-read byte array with different encoding
             // assume that the encoding string cannot be greater than 40 chars
             if (lastEncIndex > encIndex + clength && lastEncIndex < encIndex + clength + 40) {
-                String tmpEnc = Helper.encodingCleanup(sb.substring(encIndex + clength, lastEncIndex));                
+                String tmpEnc = Helper.encodingCleanup(sb.substring(encIndex + clength, lastEncIndex));
                 try {
                     in.reset();
-                    sb.setLength(0);                    
-                    return tmpEnc;                
+                    sb.setLength(0);
+                    return tmpEnc;
                 } catch (IOException ex) {
                     logger.warn("Couldn't reset stream to re-read with new encoding " + tmpEnc + " "
                             + ex.toString());
