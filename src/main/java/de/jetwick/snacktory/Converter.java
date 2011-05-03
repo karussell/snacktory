@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
+import java.net.URLEncoder;
 import org.apache.log4j.Logger;
 
 /**
@@ -177,23 +178,17 @@ public class Converter {
                 // or "text/html; charset=utf-8 '
                 int third = sb.indexOf("'", encIndex + clength);
                 if (third > 0)
-                    lastEncIndex = Math.min(lastEncIndex, third);
-                
-                int forth = sb.indexOf(">", encIndex + clength);
-                if (forth > 0)
-                    lastEncIndex = Math.min(lastEncIndex, forth);
+                    lastEncIndex = Math.min(lastEncIndex, third);                
             }
 
             // re-read byte array with different encoding
             // assume that the encoding string cannot be greater than 40 chars
             if (lastEncIndex > encIndex + clength && lastEncIndex < encIndex + clength + 40) {
-                String tmpEnc = sb.substring(encIndex + clength, lastEncIndex);
+                String tmpEnc = Helper.encodingCleanup(sb.substring(encIndex + clength, lastEncIndex));                
                 try {
                     in.reset();
-                    sb.setLength(0);
-                    return tmpEnc;
-                } catch (UnsupportedEncodingException e) {
-                    logger.warn("Problem with encoding: " + tmpEnc + " " + e.toString() + " " + sb);
+                    sb.setLength(0);                    
+                    return tmpEnc;                
                 } catch (IOException ex) {
                     logger.warn("Couldn't reset stream to re-read with new encoding " + tmpEnc + " "
                             + ex.toString());

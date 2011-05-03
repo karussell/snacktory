@@ -62,6 +62,17 @@ public class Helper {
         return sb.toString().trim();
     }
 
+    public static String encodingCleanup(String str) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (Character.isDigit(c) || Character.isLetter(c) || c == '-' || c == '_')
+                sb.append(c);
+
+        }
+        return sb.toString().trim();
+    }
+
     /**
      * @return the longest substring as str1.substring(result[0], result[1]);
      */
