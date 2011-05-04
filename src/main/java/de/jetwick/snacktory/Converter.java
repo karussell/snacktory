@@ -37,6 +37,14 @@ public class Converter {
     public final static String ISO = "ISO-8859-1";
     public final static int K4 = 4096;
     private String encoding;
+    private String url;
+
+    public Converter(String urlOnlyHint) {
+        url = urlOnlyHint;
+    }
+
+    public Converter() {
+    }
 
     public static String extractEncoding(String contentType) {
         String[] values = contentType.split(";");
@@ -92,21 +100,24 @@ public class Converter {
             // detect with the help of meta tag
             try {
                 String tmpEnc = detectCharset("charset=", sb, in);
-                if (tmpEnc != null) {
+                if (tmpEnc != null)
                     encoding = tmpEnc;
-                    if (encoding == tmpEnc) {
-                        // detect with the help of xml beginning ala encoding="charset"
-                        tmpEnc = detectCharset("encoding=", sb, in);
-                        if (tmpEnc != null)
-                            encoding = tmpEnc;
-                    }
+                else {
+                    // detect with the help of xml beginning ala encoding="charset"
+                    tmpEnc = detectCharset("encoding=", sb, in);
+                    if (tmpEnc != null)
+                        encoding = tmpEnc;
                 }
+
                 // try if detected is valid
                 URLEncoder.encode("test", encoding);
             } catch (UnsupportedEncodingException e) {
-                logger.info(e.toString() + " Msg:" + e.getMessage() + " now using default encoding:" + UTF8);
+                logger.info("Using default encoding:" + UTF8
+                        + " problem:" + e.getMessage() + " encoding:" + encoding + " " + url);
                 encoding = UTF8;
             }
+
+            // SocketException: Connection reset
             // IOException: missing CR    => problem on server (probably some xml character thing?)
             // IOException: Premature EOF => socket unexpectly closed from server
             byte[] arr = new byte[K4];
@@ -124,9 +135,9 @@ public class Converter {
             return sb.toString();
 
         } catch (SocketTimeoutException e) {
-            logger.info(e.toString() + " " + e.getMessage());        
+            logger.info(e.toString() + " url:" + url);
         } catch (IOException e) {
-            logger.warn(e.toString() + " " + e.getMessage(), e);
+            logger.warn(e.toString() + " url:" + url, e);
         } finally {
             if (in != null) {
                 try {

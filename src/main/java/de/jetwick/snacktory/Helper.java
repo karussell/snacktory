@@ -63,6 +63,10 @@ public class Helper {
         return sb.toString().trim();
     }
 
+    /**
+     * Starts reading the encoding from the first valid character until an invalid
+     * encoding character occurs.
+     */
     public static String encodingCleanup(String str) {
         StringBuilder sb = new StringBuilder();
         boolean startedWithCorrectString = false;
@@ -70,12 +74,12 @@ public class Helper {
             char c = str.charAt(i);
             if (Character.isDigit(c) || Character.isLetter(c) || c == '-' || c == '_') {
                 startedWithCorrectString = true;
-                sb.append(c);            
+                sb.append(c);
                 continue;
             }
 
             if (startedWithCorrectString)
-                break;            
+                break;
         }
         return sb.toString().trim();
     }

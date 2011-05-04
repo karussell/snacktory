@@ -67,6 +67,6 @@ public class ConverterTest extends TestCase {
         
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("badenc.html"));
-        assertEquals("utf-8", d.getEncoding());        
+        assertEquals("utf-8", d.getEncoding());                
     }    
 }

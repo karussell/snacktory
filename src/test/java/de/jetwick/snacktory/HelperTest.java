@@ -88,6 +88,8 @@ public class HelperTest {
 
     @Test public void testEncodingCleanup() {
         assertEquals("utf-8", Helper.encodingCleanup("utf-8"));
+        assertEquals("utf-8", Helper.encodingCleanup("utf-8\""));
+        assertEquals("utf-8", Helper.encodingCleanup("utf-8'"));
         assertEquals("test-8", Helper.encodingCleanup(" test-8 &amp;"));
     }
 }
