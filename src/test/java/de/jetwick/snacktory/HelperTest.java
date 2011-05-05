@@ -92,4 +92,9 @@ public class HelperTest {
         assertEquals("utf-8", Helper.encodingCleanup("utf-8'"));
         assertEquals("test-8", Helper.encodingCleanup(" test-8 &amp;"));
     }
+
+    @Test public void testUglyFacebook() {        
+        assertEquals("http://www.bet.com/collegemarketingreps&h=42263",
+                Helper.getUrlFromUglyFacebookRedirect("http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.bet.com%2Fcollegemarketingreps&h=42263"));
+    }
 }

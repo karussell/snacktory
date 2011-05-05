@@ -72,6 +72,11 @@ public class HtmlFetcher {
         String gUrl = Helper.getUrlFromUglyGoogleRedirect(url);
         if (gUrl != null)
             url = gUrl;
+        else {
+            gUrl = Helper.getUrlFromUglyFacebookRedirect(url);
+            if (gUrl != null)
+                url = gUrl;
+        }
 
         if (resolve) {
             // TODO remove time taken to resolve from timeout!

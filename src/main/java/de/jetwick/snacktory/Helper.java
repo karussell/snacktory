@@ -229,6 +229,15 @@ public class Helper {
         return null;
     }
 
+    public static String getUrlFromUglyFacebookRedirect(String url) {
+        if (url.startsWith("http://www.facebook.com/l.php?u=")) {
+            url = url.substring("http://www.facebook.com/l.php?u=".length());            
+            return urlDecode(url);
+        }
+
+        return null;
+    }
+
     public static String urlEncode(String str) {
         try {
             return URLEncoder.encode(str, UTF8);
