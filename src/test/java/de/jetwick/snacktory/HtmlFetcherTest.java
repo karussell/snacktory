@@ -71,7 +71,7 @@ public class HtmlFetcherTest {
     @Test
     public void testEncoding2() throws Exception {
         JResult res = HtmlFetcher.fetchAndExtract("http://hfs.ru/domou/about/", 10000, true);
-        assertEquals("Концепция / Издательский дом Ашет Филипаки Шкулев ( Hachette Filipacchi Shkulev )", res.getTitle());
+        assertEquals("Концепция / Издательский дом Ашет Филипаки Шкулев ( Hachette Filipacchi Shkulev )", res.getTitle());        
     }
 
     @Test
@@ -81,5 +81,9 @@ public class HtmlFetcherTest {
 
         res = HtmlFetcher.fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
         assertEquals("Twitter / Tatjana Hoenich: “@AntiAtomPiraten: \"Protes ...", res.getTitle());       
+        
+        res = HtmlFetcher.fetchAndExtract("http://grfx.cstv.com/schools/okla/graphics/auto/20110505_schedule.jpg", 10000, true);
+        assertTrue(res.getTitle().startsWith("Image:"));
+        assertTrue(res.getText().isEmpty());
     }
 }

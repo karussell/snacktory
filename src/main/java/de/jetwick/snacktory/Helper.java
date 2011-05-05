@@ -187,6 +187,18 @@ public class Helper {
                 || url.startsWith("vimeo.com") || url.startsWith("blip.tv");
     }
 
+    public static boolean isVideo(String url) {
+        url = url.toLowerCase();
+        return url.endsWith(".mpeg") || url.endsWith(".avi")
+                || url.endsWith(".mpg4") || url.endsWith(".flv");
+    }
+
+    public static boolean isImage(String url) {
+        url = url.toLowerCase();
+        return url.endsWith(".png") || url.endsWith(".jpeg")
+                || url.endsWith(".jpg") || url.endsWith(".bmp") || url.endsWith(".ico");
+    }
+
     /**
      * @see http://blogs.sun.com/CoreJavaTechTips/entry/cookie_handling_in_java_se
      */

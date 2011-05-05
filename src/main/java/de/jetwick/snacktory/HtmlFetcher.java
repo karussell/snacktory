@@ -84,7 +84,17 @@ public class HtmlFetcher {
             }
         }
 
-        JResult result = new ArticleTextExtractor().extractContent(fetchAsString(url, timeout));
+        JResult result = new JResult();
+        if (Helper.isVideo(url)) {
+            result.setVideoUrl(url);
+            result.setTitle("Video:" + url);
+            return result;
+        } else if (Helper.isImage(url)) {
+            result.setImageUrl(url);
+            result.setTitle("Image:" + url);
+            return result;
+        } else
+            result = new ArticleTextExtractor().extractContent(fetchAsString(url, timeout));
 
         // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
         result.setUrl(url);
@@ -96,7 +106,6 @@ public class HtmlFetcher {
         result.setImageUrl(fixUrl(url, result.getImageUrl()));
         result.setFaviconUrl(fixUrl(url, result.getFaviconUrl()));
         result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
-
         return result;
     }
 

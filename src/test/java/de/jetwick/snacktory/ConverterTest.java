@@ -39,7 +39,7 @@ public class ConverterTest extends TestCase {
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("yomiuri.html"));
         assertEquals("shift_jis", d.getEncoding());
-        
+
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("yomiuri2.html"));
         assertEquals("shift_jis", d.getEncoding());
@@ -64,9 +64,9 @@ public class ConverterTest extends TestCase {
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("nyt.html"));
         assertEquals("utf-8", d.getEncoding());
-        
+
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("badenc.html"));
-        assertEquals("utf-8", d.getEncoding());                
-    }    
+        assertEquals("utf-8", d.getEncoding());
+    }
 }
