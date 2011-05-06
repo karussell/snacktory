@@ -137,7 +137,7 @@ public class Converter {
         } catch (SocketTimeoutException e) {
             logger.info(e.toString() + " url:" + url);
         } catch (IOException e) {
-            logger.warn(e.toString() + " url:" + url, e);
+            logger.warn(e.toString() + " url:" + url);
         } finally {
             if (in != null) {
                 try {
