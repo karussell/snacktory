@@ -76,10 +76,9 @@ public class JResult {
         return this;
     }
 
-    public String getText() {
-        // fall back to description which can be better determined
-        if (text == null || text.isEmpty())
-            return getDescription();
+    public String getText() {        
+        if (text == null)
+            return "";
 
         return text;
     }

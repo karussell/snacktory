@@ -51,13 +51,13 @@ public class ArticleTextExtractor {
         Document doc = Jsoup.parse(html);
 
         JResult res = new JResult();
-        res.setTitle(cleanTitle(doc.title()));
+        res.setTitle(Helper.innerTrim(doc.title()));
 
         if (res.getTitle().isEmpty())
-            res.setTitle(cleanTitle(doc.select("head title").text()));
+            res.setTitle(Helper.innerTrim(doc.select("head title").text()));
 
         if (res.getTitle().isEmpty())
-            res.setTitle(cleanTitle(doc.select("head meta[name=title]").attr("content")));
+            res.setTitle(Helper.innerTrim(doc.select("head meta[name=title]").attr("content")));
 
         res.setDescription(Helper.innerTrim(doc.select("head meta[name=description]").attr("content")));
 
@@ -368,10 +368,6 @@ public class ArticleTextExtractor {
             text = text.substring(index1 + title.length());
 
         return text.trim();
-    }
-
-    public String cleanTitle(String title) {
-        return Helper.innerTrim(title);
     }
 
     /**
