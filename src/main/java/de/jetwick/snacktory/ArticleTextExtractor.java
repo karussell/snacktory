@@ -110,11 +110,15 @@ public class ArticleTextExtractor {
         res.setVideoUrl(Helper.innerTrim(doc.select("head meta[property=og:video]").attr("content")));
 
         res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel=icon]").attr("href")));
-        if (res.getFaviconUrl().isEmpty()) {
-            // don't know how to select rel=shortcut icon => select start==shortcut and end==icon
-
-            res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href")));
-        }
+        if(res.getFaviconUrl().contains(" "))
+            res.setFaviconUrl("");
+        
+        if (res.getFaviconUrl().isEmpty())
+            // I don't know how to select rel=shortcut icon => select start==shortcut and end==icon
+            res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href")));        
+        
+        if(res.getFaviconUrl().contains(" "))
+            res.setFaviconUrl("");        
 
         return res;
     }
