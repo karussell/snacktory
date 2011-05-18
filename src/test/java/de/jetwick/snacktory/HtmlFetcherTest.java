@@ -86,4 +86,11 @@ public class HtmlFetcherTest {
         assertTrue(res.getTitle().startsWith("Image:"));
         assertTrue(res.getText().isEmpty());
     }
+    
+    
+    @Test
+    public void testFurther() throws Exception {
+//        JResult res = HtmlFetcher.fetchAndExtract("http://feeds.feedburner.com/~r/GoogleNewsJapanAtom/~3/XCNbSKt2vNU/url?utm_source=feedburner&utm_medium=twitter&utm_campaign=japan_gau", 10000, true);
+//        assertEquals("Democracy Now! | Facebook", res.getText());
+    }
 }

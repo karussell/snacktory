@@ -90,7 +90,10 @@ public class HtmlFetcher {
         }
 
         JResult result = new JResult();
-        if (Helper.isVideo(url)) {
+        if (Helper.isDoc(url)) {
+            result.setTitle("Document:" + url);
+            return result;
+        } if (Helper.isVideo(url)) {
             result.setVideoUrl(url);
             result.setTitle("Video:" + url);
             return result;
@@ -157,7 +160,7 @@ public class HtmlFetcher {
             String loc = hConn.getHeaderField("Location");
             if (responseCode / 100 == 3 && loc != null) {
                 loc = loc.replaceAll(" ", "+");
-                if (urlAsString.startsWith("http://bit.ly"))
+                if (urlAsString.startsWith("http://bit.ly") || urlAsString.startsWith("http://is.gd"))
                     loc = encodeUriFromHeader(loc);
                 return loc;
             }

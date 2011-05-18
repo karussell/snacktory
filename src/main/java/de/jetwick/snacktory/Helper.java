@@ -192,6 +192,11 @@ public class Helper {
         return url.endsWith(".mpeg") || url.endsWith(".avi")
                 || url.endsWith(".mpg4") || url.endsWith(".flv");
     }
+    
+    public static boolean isDoc(String url) {
+        url = url.toLowerCase();
+        return url.endsWith(".pdf") || url.endsWith(".ppt") || url.endsWith(".doc");
+    }
 
     public static boolean isImage(String url) {
         url = url.toLowerCase();
