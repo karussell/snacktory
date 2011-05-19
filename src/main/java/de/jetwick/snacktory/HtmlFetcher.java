@@ -31,7 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Class to fetch articles.
+ * Multithreading able.
+ * 
  * @author Peter Karich, jetwick_@_pannous_._info
  */
 public class HtmlFetcher {
@@ -58,7 +60,7 @@ public class HtmlFetcher {
             else
                 existing.add(domainStr);
 
-            String html = HtmlFetcher.fetchAsString(url, 20000);
+            String html = new HtmlFetcher().fetchAsString(url, 20000);
             String outFile = domainStr + counterStr + ".html";
             BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
             writer.write(html);
@@ -66,8 +68,65 @@ public class HtmlFetcher {
         }
         reader.close();
     }
+    private String referrer = "http://jetwick.com/s";
+    private String userAgent = "Mozilla/5.0 (compatible; Jetslide; +" + referrer + ")";
+    private String cacheControl = "max-age=0";
+    private String language = "en-us";
+    private String accept = "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
+    private String charset = "UTF-8";
 
-    public static JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
+    public HtmlFetcher() {
+    }
+
+    public void setAccept(String accept) {
+        this.accept = accept;
+    }
+
+    public void setCharset(String charset) {
+        this.charset = charset;
+    }
+
+    public void setCacheControl(String cacheControl) {
+        this.cacheControl = cacheControl;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getReferrer() {
+        return referrer;
+    }
+
+    public void setReferrer(String referrer) {
+        this.referrer = referrer;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+    }
+
+    public String getAccept() {
+        return accept;
+    }
+
+    public String getCacheControl() {
+        return cacheControl;
+    }
+
+    public String getCharset() {
+        return charset;
+    }
+
+    public JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
         url = Helper.removeHashbang(url);
         String gUrl = Helper.getUrlFromUglyGoogleRedirect(url);
         if (gUrl != null)
@@ -93,7 +152,8 @@ public class HtmlFetcher {
         if (Helper.isDoc(url)) {
             result.setTitle("Document:" + url);
             return result;
-        } if (Helper.isVideo(url)) {
+        }
+        if (Helper.isVideo(url)) {
             result.setVideoUrl(url);
             result.setTitle("Video:" + url);
             return result;
@@ -121,11 +181,11 @@ public class HtmlFetcher {
         return Helper.useDomainOfFirst4Sec(url, urlOrPath);
     }
 
-    public static String fetchAsString(String urlAsString, int timeout) throws MalformedURLException, IOException {
+    public String fetchAsString(String urlAsString, int timeout) throws MalformedURLException, IOException {
         return fetchAsString(urlAsString, timeout, true);
     }
 
-    public static String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions) throws MalformedURLException, IOException {
+    public String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions) throws MalformedURLException, IOException {
         HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
         hConn.setInstanceFollowRedirects(true);
         InputStream is = hConn.getInputStream();
@@ -143,7 +203,7 @@ public class HtmlFetcher {
      * @return the resolved url if any. Or null if it couldn't resolve the url
      * (within the specified time) or the same url if response code is OK
      */
-    public static String getResolvedUrl(String urlAsString, int timeout) {
+    public String getResolvedUrl(String urlAsString, int timeout) {
         try {
             HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, true);
             // force no follow
@@ -190,20 +250,20 @@ public class HtmlFetcher {
         return sb.toString();
     }
 
-    private static HttpURLConnection createUrlConnection(String urlAsStr, int timeout,
+    private HttpURLConnection createUrlConnection(String urlAsStr, int timeout,
             boolean includeSomeGooseOptions) throws MalformedURLException, IOException {
         URL url = new URL(urlAsStr);
         //using proxy may increase latency
         HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
-        hConn.setRequestProperty("User-Agent", "Mozilla/5.0 Gecko/20110323 Firefox/3.6.16");
-        hConn.setRequestProperty("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
+        hConn.setRequestProperty("User-Agent", userAgent);
+        hConn.setRequestProperty("Accept", accept);
 
         if (includeSomeGooseOptions) {
-            hConn.setRequestProperty("Accept-Language", "en-us");
-            hConn.setRequestProperty("content-charset", "UTF-8");
-            hConn.addRequestProperty("Referer", "http://jetwick.com/s");
+            hConn.setRequestProperty("Accept-Language", language);
+            hConn.setRequestProperty("content-charset", charset);
+            hConn.addRequestProperty("Referer", referrer);
             // avoid the cache for testing purposes only?
-            hConn.setRequestProperty("Cache-Control", "max-age=0");
+            hConn.setRequestProperty("Cache-Control", cacheControl);
         }
 
         // On android we got timeouts because of this!!   
