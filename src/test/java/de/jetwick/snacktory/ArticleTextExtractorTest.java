@@ -101,7 +101,7 @@ public class ArticleTextExtractorTest {
         // http://en.rian.ru/world/20110410/163458489.html
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("rian.html")));
         assertTrue(res.getText(), res.getText().startsWith("About 15,000 people took to the streets in Tokyo on Sunday to protest against th"));
-        assertEquals("Japanese rally against nuclear power industry | World | RIA Novosti", res.getTitle());
+        assertEquals("Japanese rally against nuclear power industry | World", res.getTitle());
         assertEquals("/favicon.ico", res.getFaviconUrl());
     }
 
@@ -144,8 +144,8 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("github.html")));
 //        System.out.println("github:" + res.getText());
         assertTrue(res.getText().isEmpty());
-        assertTrue(res.getDescription(), res.getDescription().startsWith("Article text extractor from given HTML text"));        
-        
+        assertTrue(res.getDescription(), res.getDescription().startsWith("Article text extractor from given HTML text"));
+
         // this would be awsome:
 //        assertTrue(res.getText(), res.getText().startsWith("= jReadability This is a small helper utility (only 130 lines of code) for pepole"));
         // this would be not good:
@@ -231,7 +231,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("facebook.html")));
         assertTrue(res.getText(), res.getText().startsWith("In my column tomorrow, I urge President Obama to end the spectacle of"));
         assertEquals("", res.getImageUrl());
-        assertEquals("In my column... | Facebook", res.getTitle());
+        assertEquals("In my column...", res.getTitle());
     }
 
     @Test
@@ -240,7 +240,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("facebook2.html")));
         assertTrue(res.getText(), res.getText().startsWith("Sommer is the best time to wear Jetwick T-Shirts!"));
         assertEquals("", res.getImageUrl());
-        assertEquals("Sommer is the best... | Facebook", res.getTitle());
+        assertEquals("Sommer is the best...", res.getTitle());
     }
 
     @Test
@@ -386,7 +386,7 @@ public class ArticleTextExtractorTest {
         //String url = "http://www.wired.com/playbook/2010/08/stress-hormones-boxing/";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("wired.html")));
         assertTrue(article.getText(), article.getText().startsWith("On November 25, 1980, professional boxing"));
-        assertEquals("Stress Hormones Could Predict Boxing Dominance | Playbook", article.getTitle());
+        assertEquals("Stress Hormones Could Predict Boxing Dominance", article.getTitle());
         assertEquals("http://www.wired.com/playbook/wp-content/uploads/2010/08/fight_f-660x441.jpg", article.getImageUrl());
     }
 
@@ -503,7 +503,7 @@ public class ArticleTextExtractorTest {
         //String url = "http://msn.foxsports.com/nfl/story/Tom-Cable-fired-contract-option-Oakland-Raiders-coach-010411";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("foxsports.html")));
         assertTrue(article.getText(), article.getText().startsWith("The Oakland Raiders informed coach Tom Cable"));
-        assertEquals("Oakland Raiders won't bring Tom Cable back as coach - NFL News | FOX Sports on MSN",
+        assertEquals("Oakland Raiders won't bring Tom Cable back as coach - NFL News",
                 article.getTitle());
     }
 
@@ -541,6 +541,17 @@ public class ArticleTextExtractorTest {
         assertTrue(article.getText(), article.getText().startsWith("Therapsida is a group of synapsids that includes mammals and their immediate evolutionary ancestors. The earliest fossil attributed to Therapsida is b"));
         assertEquals("http://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Pristeroognathus_DB.jpg/240px-Pristeroognathus_DB.jpg",
                 article.getImageUrl());
+    }
+
+    @Test
+    public void cleanTitle() {
+        String title = "Hacker News | Ask HN: Apart from Hacker News, what else you read?";
+        assertEquals("Ask HN: Apart from Hacker News, what else you read?", extractor.cleanTitle(title));
+        assertEquals("mytitle irgendwas", extractor.cleanTitle("mytitle irgendwas | Facebook"));
+        assertEquals("mytitle irgendwas", extractor.cleanTitle("mytitle irgendwas | Irgendwas"));
+
+        // this should fail as most sites do store their name after the post
+        assertEquals("Irgendwas | mytitle irgendwas", extractor.cleanTitle("Irgendwas | mytitle irgendwas"));
     }
 
     /**

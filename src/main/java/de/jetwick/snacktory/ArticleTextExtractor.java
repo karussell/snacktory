@@ -51,7 +51,7 @@ public class ArticleTextExtractor {
         Document doc = Jsoup.parse(html);
 
         JResult res = new JResult();
-        res.setTitle(Helper.innerTrim(doc.title()));
+        res.setTitle(cleanTitle(doc.title()));
 
         if (res.getTitle().isEmpty())
             res.setTitle(Helper.innerTrim(doc.select("head title").text()));
@@ -110,15 +110,15 @@ public class ArticleTextExtractor {
         res.setVideoUrl(Helper.innerTrim(doc.select("head meta[property=og:video]").attr("content")));
 
         res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel=icon]").attr("href")));
-        if(res.getFaviconUrl().contains(" "))
+        if (res.getFaviconUrl().contains(" "))
             res.setFaviconUrl("");
-        
+
         if (res.getFaviconUrl().isEmpty())
             // I don't know how to select rel=shortcut icon => select start==shortcut and end==icon
-            res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href")));        
-        
-        if(res.getFaviconUrl().contains(" "))
-            res.setFaviconUrl("");        
+            res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href")));
+
+        if (res.getFaviconUrl().contains(" "))
+            res.setFaviconUrl("");
 
         return res;
     }
@@ -176,8 +176,8 @@ public class ArticleTextExtractor {
         image = determineImageSource(e);
 
         for (Element child : e.children()) {
-            if (child.ownText().length() < 10)                
-                continue;            
+            if (child.ownText().length() < 10)
+                continue;
 
             if (IMAGE_CAPTION.matcher(e.id()).matches() || IMAGE_CAPTION.matcher(e.className()).matches())
                 weight += 30;
@@ -414,5 +414,37 @@ public class ArticleTextExtractor {
             }
         }
         return nodes;
+    }
+    private Set<String> set = new LinkedHashSet<String>() {
+
+        {
+            add("hacker news");
+            add("facebook");
+        }
+    };
+
+    public String cleanTitle(String title) {
+        StringBuilder res = new StringBuilder();
+//        int index = title.lastIndexOf("|");
+//        if (index > 0 && title.length() / 2 < index)
+//            title = title.substring(0, index + 1);
+
+        int counter = 0;
+        String[] strs = title.split("\\|");
+        for (String part : strs) {
+            if (set.contains(part.toLowerCase().trim()))
+                continue;
+
+            if (counter == strs.length - 1 && res.length() > part.length())
+                continue;
+            
+            if(counter > 0)
+                res.append("|");
+
+            res.append(part);
+            counter++;
+        }
+
+        return Helper.innerTrim(res.toString());
     }
 }

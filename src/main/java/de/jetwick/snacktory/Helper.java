@@ -61,7 +61,7 @@ public class Helper {
             sb.append(c);
         }
         return sb.toString().trim();
-    }
+    }    
 
     /**
      * Starts reading the encoding from the first valid character until an invalid
