@@ -155,16 +155,16 @@ public class HtmlFetcher {
 
         JResult result = new JResult();
         if (Helper.isDoc(url)) {
-            result.setTitle("Document:" + url);
+            result.setUrl(url);            
             return result;
         }
         if (Helper.isVideo(url)) {
-            result.setVideoUrl(url);
-            result.setTitle("Video:" + url);
+            result.setUrl(url);
+            result.setVideoUrl(url);            
             return result;
         } else if (Helper.isImage(url)) {
-            result.setImageUrl(url);
-            result.setTitle("Image:" + url);
+            result.setUrl(url);
+            result.setImageUrl(url);            
             return result;
         } else
             result = extractor.extractContent(fetchAsString(url, timeout));
