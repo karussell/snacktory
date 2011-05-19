@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Class to fetch articles.
- * Multithreading able.
+ * This class is thread safe.
  * 
  * @author Peter Karich, jetwick_@_pannous_._info
  */
@@ -74,10 +74,15 @@ public class HtmlFetcher {
     private String language = "en-us";
     private String accept = "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
     private String charset = "UTF-8";
+    private ArticleTextExtractor extractor = new ArticleTextExtractor();
 
     public HtmlFetcher() {
     }
 
+    public void setExtractor(ArticleTextExtractor extractor) {
+        this.extractor = extractor;
+    }
+    
     public void setAccept(String accept) {
         this.accept = accept;
     }
@@ -162,7 +167,7 @@ public class HtmlFetcher {
             result.setTitle("Image:" + url);
             return result;
         } else
-            result = new ArticleTextExtractor().extractContent(fetchAsString(url, timeout));
+            result = extractor.extractContent(fetchAsString(url, timeout));
 
         // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
         result.setUrl(url);

@@ -14,6 +14,11 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This class is thread safe.
+ * 
+ * @author Peter Karich, jetwick_@_pannous_._info
+ */
 public class ArticleTextExtractor {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleTextExtractor.class);
@@ -36,6 +41,13 @@ public class ArticleTextExtractor {
             + "(.*sidebar.*)|(.*sponsor.*)|(.*shopping.*)|(.*tags.*)|(.*tool.*)|(.*widget.*)");
     private static final Pattern IMAGE_CAPTION =
             Pattern.compile("(.*caption.*)");
+    private static final Set<String> set = new LinkedHashSet<String>() {
+
+        {
+            add("hacker news");
+            add("facebook");
+        }
+    };
 
     /** 
      * @param html extracts article text from given html string. 
@@ -415,13 +427,6 @@ public class ArticleTextExtractor {
         }
         return nodes;
     }
-    private Set<String> set = new LinkedHashSet<String>() {
-
-        {
-            add("hacker news");
-            add("facebook");
-        }
-    };
 
     public String cleanTitle(String title) {
         StringBuilder res = new StringBuilder();
@@ -437,8 +442,8 @@ public class ArticleTextExtractor {
 
             if (counter == strs.length - 1 && res.length() > part.length())
                 continue;
-            
-            if(counter > 0)
+
+            if (counter > 0)
                 res.append("|");
 
             res.append(part);
