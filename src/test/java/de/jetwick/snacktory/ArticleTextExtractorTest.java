@@ -143,8 +143,9 @@ public class ArticleTextExtractorTest {
         // https://github.com/ifesdjeen/jReadability
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("github.html")));
 //        System.out.println("github:" + res.getText());
-        // better than nothing:
-        assertTrue(res.getText(), res.getText().startsWith("Article text extractor from given HTML text"));
+        assertTrue(res.getText().isEmpty());
+        assertTrue(res.getDescription(), res.getDescription().startsWith("Article text extractor from given HTML text"));        
+        
         // this would be awsome:
 //        assertTrue(res.getText(), res.getText().startsWith("= jReadability This is a small helper utility (only 130 lines of code) for pepole"));
         // this would be not good:
@@ -155,7 +156,8 @@ public class ArticleTextExtractorTest {
     public void testITunes() throws Exception {
         // http://itunes.apple.com/us/album/songs-for-japan/id428401715
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("itunes.html")));
-        assertTrue("itunes:" + res.getText(), res.getText().startsWith("Preview and download songs from Songs for Japan by Various Artists"));
+        assertTrue(res.getText().isEmpty());
+        assertTrue("itunes:" + res.getDescription(), res.getDescription().startsWith("Preview and download songs from Songs for Japan by Various Artists"));
     }
 
     @Test
