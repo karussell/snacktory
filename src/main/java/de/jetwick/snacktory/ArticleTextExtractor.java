@@ -379,11 +379,12 @@ public class ArticleTextExtractor {
      * Match only exact matching as longestSubstring can be too fuzzy
      */
     public String removeTitleFromText(String text, String title) {
-        int index1 = text.toLowerCase().indexOf(title.toLowerCase());
-        if (index1 >= 0)
-            text = text.substring(index1 + title.length());
-
-        return text.trim();
+        // don't do this as its terrible to read
+//        int index1 = text.toLowerCase().indexOf(title.toLowerCase());
+//        if (index1 >= 0)
+//            text = text.substring(index1 + title.length());
+//        return text.trim();
+        return text;
     }
 
     /**

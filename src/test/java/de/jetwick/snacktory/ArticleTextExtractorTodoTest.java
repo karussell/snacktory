@@ -21,7 +21,7 @@ public class ArticleTextExtractorTodoTest {
     public void testData4() throws Exception {
         // http://blog.traindom.com/places-where-to-submit-your-startup-for-coverage/
         JResult res = extractor.extractContent(readFileAsString("test_data/4.html"));
-        assertEquals("36 places where you can submit your startup for some coverage | Traindom Blog", res.getTitle());
+        assertEquals("36 places where you can submit your startup for some coverage", res.getTitle());
         assertTrue("data4:" + res.getText(), res.getText().startsWith("So you have a new startup company and want some coverage"));        
     }
 

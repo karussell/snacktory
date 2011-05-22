@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 /**
  *
  * @author Peter Karich, jetwick_@_pannous_._info
- */ 
+ */
 public class HtmlFetcherTest {
 
     public HtmlFetcherTest() {
@@ -47,7 +47,7 @@ public class HtmlFetcherTest {
     @Test
     public void testWithTitle() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://www.midgetmanofsteel.com/2011/03/its-only-matter-of-time-before-fox-news.html", 10000, true);
-        assertEquals("It's Only a Matter of Time Before Fox News Takes Out a Restraining Order | Mental Poo", res.getTitle());
+        assertEquals("It's Only a Matter of Time Before Fox News Takes Out a Restraining Order", res.getTitle());
     }
 
     // do not support this uglyness
@@ -77,17 +77,19 @@ public class HtmlFetcherTest {
     @Test
     public void testHashbang() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://www.facebook.com/democracynow", 10000, true);
-        assertEquals("Democracy Now! | Facebook", res.getTitle());
+        assertEquals("Democracy Now!", res.getTitle());
 
         res = new HtmlFetcher().fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
         assertEquals("Twitter / Tatjana Hoenich: “@AntiAtomPiraten: \"Protes ...", res.getTitle());
+    }
 
-        res = new HtmlFetcher().fetchAndExtract("http://grfx.cstv.com/schools/okla/graphics/auto/20110505_schedule.jpg", 10000, true);
-        assertTrue(res.getTitle().startsWith("Image:"));
+    public void testImage() throws Exception {
+        JResult res = new HtmlFetcher().fetchAndExtract("http://grfx.cstv.com/schools/okla/graphics/auto/20110505_schedule.jpg", 10000, true);
+        assertEquals("http://grfx.cstv.com/schools/okla/graphics/auto/20110505_schedule.jpg", res.getImageUrl());
+        assertTrue(res.getTitle().isEmpty());
         assertTrue(res.getText().isEmpty());
     }
-    
-    
+
     @Test
     public void testFurther() throws Exception {
 //        JResult res = new HtmlFetcher().fetchAndExtract("http://feeds.feedburner.com/~r/GoogleNewsJapanAtom/~3/XCNbSKt2vNU/url?utm_source=feedburner&utm_medium=twitter&utm_campaign=japan_gau", 10000, true);
