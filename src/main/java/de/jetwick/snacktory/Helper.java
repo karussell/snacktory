@@ -200,7 +200,7 @@ public class Helper {
 
     public static boolean isImage(String url) {
         url = url.toLowerCase();
-        return url.endsWith(".png") || url.endsWith(".jpeg")
+        return url.endsWith(".png") || url.endsWith(".jpeg") || url.endsWith(".gif")
                 || url.endsWith(".jpg") || url.endsWith(".bmp") || url.endsWith(".ico");
     }
 
