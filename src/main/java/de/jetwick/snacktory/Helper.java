@@ -61,7 +61,7 @@ public class Helper {
             sb.append(c);
         }
         return sb.toString().trim();
-    }    
+    }
 
     /**
      * Starts reading the encoding from the first valid character until an invalid
@@ -192,10 +192,26 @@ public class Helper {
         return url.endsWith(".mpeg") || url.endsWith(".avi")
                 || url.endsWith(".mpg4") || url.endsWith(".flv");
     }
-    
+
+    public static boolean isAudio(String url) {
+        url = url.toLowerCase();
+        return url.endsWith(".mp3") || url.endsWith(".ogg");
+    }
+
     public static boolean isDoc(String url) {
         url = url.toLowerCase();
         return url.endsWith(".pdf") || url.endsWith(".ppt") || url.endsWith(".doc");
+    }
+
+    public static boolean isPackage(String url) {
+        url = url.toLowerCase();
+        return url.endsWith(".gz") || url.endsWith(".tgz") || url.endsWith(".zip")
+                || url.endsWith(".rar") || url.endsWith(".deb");
+    }
+
+    public static boolean isApp(String url) {
+        url = url.toLowerCase();
+        return url.endsWith(".exe") || url.endsWith(".bin") || url.endsWith(".bat") || url.endsWith(".dmg");
     }
 
     public static boolean isImage(String url) {
@@ -236,7 +252,7 @@ public class Helper {
 
     public static String getUrlFromUglyFacebookRedirect(String url) {
         if (url.startsWith("http://www.facebook.com/l.php?u=")) {
-            url = url.substring("http://www.facebook.com/l.php?u=".length());            
+            url = url.substring("http://www.facebook.com/l.php?u=".length());
             return urlDecode(url);
         }
 

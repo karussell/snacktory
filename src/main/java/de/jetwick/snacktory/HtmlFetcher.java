@@ -154,11 +154,10 @@ public class HtmlFetcher {
         }
 
         JResult result = new JResult();
-        if (Helper.isDoc(url)) {
+        if (Helper.isDoc(url) || Helper.isApp(url) || Helper.isPackage(url)) {
             result.setUrl(url);            
             return result;
-        }
-        if (Helper.isVideo(url)) {
+        } else if (Helper.isVideo(url) || Helper.isAudio(url)) {
             result.setUrl(url);
             result.setVideoUrl(url);            
             return result;
