@@ -91,8 +91,13 @@ public class HtmlFetcherTest {
     }
 
     @Test
-    public void testFurther() throws Exception {
-//        JResult res = new HtmlFetcher().fetchAndExtract("http://feeds.feedburner.com/~r/GoogleNewsJapanAtom/~3/XCNbSKt2vNU/url?utm_source=feedburner&utm_medium=twitter&utm_campaign=japan_gau", 10000, true);
-//        assertEquals("Democracy Now! | Facebook", res.getText());
+    public void testFurther() throws Exception {       
+//        JResult res = new HtmlFetcher().fetchAndExtract("http://www.reddit.com/r/reddit.com/comments/hnuk6/hey_google_maps/", 10000, true);
+//        System.out.println("T1:" + res.getUrl());
+//        System.out.println("T1:" + res.getText());
+        
+        JResult res = new HtmlFetcher().fetchAndExtract("http://www.reddit.com/r/pics/comments/hoc3x/when_my_laptop_battery_is_about_to_run_out/", 10000, true);
+        System.out.println("T2:" + res.getUrl());
+        System.out.println("T2:" + res.getText());
     }
 }

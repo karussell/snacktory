@@ -200,7 +200,7 @@ public class Helper {
 
     public static boolean isDoc(String url) {
         url = url.toLowerCase();
-        return url.endsWith(".pdf") || url.endsWith(".ppt") || url.endsWith(".doc");
+        return url.endsWith(".pdf") || url.endsWith(".ppt") || url.endsWith(".doc") || url.endsWith(".swf");
     }
 
     public static boolean isPackage(String url) {

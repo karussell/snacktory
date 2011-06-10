@@ -16,6 +16,7 @@
 package de.jetwick.snacktory;
 
 import junit.framework.TestCase;
+import org.jsoup.Jsoup;
 
 /**
  *
@@ -64,5 +65,14 @@ public class ConverterTest extends TestCase {
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("badenc.html"));
         assertEquals("utf-8", d.getEncoding());
+    }
+
+    public void testMaxBytesExceedingButGetTitleNevertheless() throws Exception {
+        Converter d = new Converter();
+        d.setMaxBytes(10000);
+        String str = d.streamToString(getClass().getResourceAsStream("faz.html"));
+        assertEquals("utf-8", d.getEncoding());
+        assertEquals("Im Gespräch: Umweltaktivist Stewart Brand: Ihr Deutschen steht allein da "
+                + "- Atomdebatte - FAZ.NET", Jsoup.parse(str).select("title").text());
     }
 }

@@ -31,11 +31,11 @@ import org.apache.log4j.Logger;
  */
 public class Converter {
 
-    private final static Logger logger = Logger.getLogger(Converter.class);
-    public final static int MAX_BYTES = 1000000;
+    private final static Logger logger = Logger.getLogger(Converter.class);    
     public final static String UTF8 = "UTF-8";
     public final static String ISO = "ISO-8859-1";
     public final static int K4 = 4096;
+    private int maxBytes = 1000000;
     private String encoding;
     private String url;
 
@@ -45,6 +45,10 @@ public class Converter {
 
     public Converter() {
     }
+
+    public void setMaxBytes(int maxBytes) {
+        this.maxBytes = maxBytes;
+    }        
 
     public static String extractEncoding(String contentType) {
         String[] values = contentType.split(";");
@@ -71,11 +75,11 @@ public class Converter {
     }
 
     public String streamToString(InputStream is) {
-        return streamToString(is, MAX_BYTES, encoding);
+        return streamToString(is, maxBytes, encoding);
     }
 
     public String streamToString(InputStream is, String enc) {
-        return streamToString(is, MAX_BYTES, enc);
+        return streamToString(is, maxBytes, enc);
     }
 
     /**
@@ -122,8 +126,10 @@ public class Converter {
             // IOException: Premature EOF => socket unexpectly closed from server
             byte[] arr = new byte[K4];
             while (true) {
-                if (bytesRead >= maxBytes)
-                    throw new IllegalStateException("Maxbyte of " + MAX_BYTES + " exceeded!");
+                if (bytesRead >= maxBytes) {
+                    logger.warn("Maxbyte of " + maxBytes + " exceeded! Maybe html is now broken but try it nevertheless " + url);
+                    break;
+                }
 
                 int n = in.read(arr);
                 bytesRead += K4;
