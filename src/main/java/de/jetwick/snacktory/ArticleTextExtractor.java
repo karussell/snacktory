@@ -182,8 +182,8 @@ public class ArticleTextExtractor {
         int weight = 0;
         Element caption = null;
         Element image = null;
-        List<Element> headerEls = new ArrayList<Element>();
-        List<Element> pEls = new ArrayList<Element>();
+        List<Element> headerEls = new ArrayList<Element>(5);
+        List<Element> pEls = new ArrayList<Element>(5);
 
         image = determineImageSource(e);
 
@@ -412,7 +412,7 @@ public class ArticleTextExtractor {
      * @return a set of all important nodes
      */
     public Collection<Element> getNodes(Document doc) {
-        Set<Element> nodes = new LinkedHashSet<Element>();
+        Set<Element> nodes = new LinkedHashSet<Element>(32);
         int score = 100;
         for (Element el : doc.select("body").select("*")) {
             if ("p;div;td;h1;h2".contains(el.tagName())) {
