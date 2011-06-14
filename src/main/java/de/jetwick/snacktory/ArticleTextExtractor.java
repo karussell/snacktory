@@ -188,7 +188,8 @@ public class ArticleTextExtractor {
         image = determineImageSource(e);
 
         for (Element child : e.children()) {
-            if (child.ownText().length() < 10)
+            int ownTextLength = child.ownText().length();
+            if (ownTextLength < 10)
                 continue;
 
             if (IMAGE_CAPTION.matcher(e.id()).matches() || IMAGE_CAPTION.matcher(e.className()).matches())
@@ -198,19 +199,12 @@ public class ArticleTextExtractor {
                 weight += 30;
             } else if (child.tagName().equals("div") || child.tagName().equals("p")) {
                 weight += calcWeightForChild(child, e);
-                if (child.tagName().equals("p") && child.ownText().length() > 50)
+                if (child.tagName().equals("p") && ownTextLength > 50)
                     pEls.add(child);
 
                 if (child.className().toLowerCase().equals("caption"))
                     caption = child;
             }
-//            else if (child.className().isEmpty() && child.id().isEmpty() && child.attr("style").isEmpty()) {
-//                if (child.ownText().length() > 0)
-//                    weight += calcWeightForChild(child, e);
-//                else
-//                    // got deeper if a container has no styling attributes like ol, li, strong, ...
-//                    weight += weightChildNodes(child);
-//            }
         }
 
         // TODO use caption!
@@ -255,15 +249,16 @@ public class ArticleTextExtractor {
 
     public int calcWeightForChild(Element child, Element e) {
         // garbled html:
-        int c = Helper.count(child.ownText(), "&quot;");
-        c += Helper.count(child.ownText(), "&lt;");
-        c += Helper.count(child.ownText(), "&gt;");
-        c += Helper.count(child.ownText(), "px");
+        String str = child.ownText();
+        int c = Helper.count(str, "&quot;");
+        c += Helper.count(str, "&lt;");
+        c += Helper.count(str, "&gt;");
+        c += Helper.count(str, "px");
         int val;
         if (c > 5)
             val = -30;
         else
-            val = (int) Math.round(child.ownText().length() / 100.0 * 4);
+            val = (int) Math.round(str.length() / 100.0 * 4);
 
         addScore(child, val);
         return val;
@@ -272,10 +267,11 @@ public class ArticleTextExtractor {
     public Element determineImageSource(Element el) {
         int maxWeight = 0;
         Element maxNode = null;
-        if (el.getElementsByTag("img").isEmpty())
-            el = el.parent();
+        Elements els = el.select("img");
+        if (els.isEmpty())            
+            els = el.parent().select("img");        
 
-        for (Element e : el.getElementsByTag("img")) {
+        for (Element e : els) {
             String sourceUrl = e.attr("src");
             if (sourceUrl.isEmpty() || isAdImage(sourceUrl))
                 continue;

@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
  */
 public class Converter {
 
-    private final static Logger logger = Logger.getLogger(Converter.class);    
+    private final static Logger logger = Logger.getLogger(Converter.class);
     public final static String UTF8 = "UTF-8";
     public final static String ISO = "ISO-8859-1";
     public final static int K4 = 4096;
@@ -48,7 +48,7 @@ public class Converter {
 
     public void setMaxBytes(int maxBytes) {
         this.maxBytes = maxBytes;
-    }        
+    }
 
     public static String extractEncoding(String contentType) {
         String[] values = contentType.split(";");
@@ -98,8 +98,7 @@ public class Converter {
         BufferedInputStream in = null;
         try {
             in = new BufferedInputStream(is, K4);
-            StringBuilder sb = new StringBuilder();
-            int bytesRead = K4;
+            StringBuilder sb = new StringBuilder();            
 
             // detect with the help of meta tag
             try {
@@ -124,6 +123,7 @@ public class Converter {
             // SocketException: Connection reset
             // IOException: missing CR    => problem on server (probably some xml character thing?)
             // IOException: Premature EOF => socket unexpectly closed from server
+            int bytesRead = K4;
             byte[] arr = new byte[K4];
             while (true) {
                 if (bytesRead >= maxBytes) {
@@ -131,10 +131,10 @@ public class Converter {
                     break;
                 }
 
-                int n = in.read(arr);
-                bytesRead += K4;
+                int n = in.read(arr);                
                 if (n < 0)
                     break;
+                bytesRead += K4;
                 sb.append(new String(arr, 0, n, encoding));
             }
 
@@ -164,15 +164,15 @@ public class Converter {
      */
     public String detectCharset(String key, StringBuilder sb, BufferedInputStream in) throws IOException {
         in.mark(K4 * 2);
-        // Grab better encoding from stream
+        // Grab better encoding from stream        
         byte[] arr = new byte[K4];
         int nSum = 0;
-        while (nSum < K4) {
-            int n = in.read(arr);
-            nSum += n;
+        while (nSum < K4) {            
+            int n = in.read(arr);                        
             if (n < 0)
                 break;
-
+            
+            nSum += n;
             sb.append(new String(arr, 0, n, encoding));
         }
 
