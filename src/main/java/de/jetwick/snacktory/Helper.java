@@ -185,39 +185,34 @@ public class Helper {
         url = extractDomain(url, true);
         return url.startsWith("youtube.com") || url.startsWith("video.yahoo.com")
                 || url.startsWith("vimeo.com") || url.startsWith("blip.tv");
+    }       
+
+    public static boolean isVideo(String url) {        
+        return url.endsWith(".mpeg") || url.endsWith(".mpg")|| url.endsWith(".avi") || url.endsWith(".mov")
+                || url.endsWith(".mpg4") || url.endsWith(".mp4") || url.endsWith(".flv") || url.endsWith(".wmv");
     }
 
-    public static boolean isVideo(String url) {
-        url = url.toLowerCase();
-        return url.endsWith(".mpeg") || url.endsWith(".avi")
-                || url.endsWith(".mpg4") || url.endsWith(".flv");
+    public static boolean isAudio(String url) {        
+        return url.endsWith(".mp3") || url.endsWith(".ogg") || url.endsWith(".m3u") || url.endsWith(".wav") ;
     }
 
-    public static boolean isAudio(String url) {
-        url = url.toLowerCase();
-        return url.endsWith(".mp3") || url.endsWith(".ogg");
+    public static boolean isDoc(String url) {        
+        return url.endsWith(".pdf") || url.endsWith(".ppt") || url.endsWith(".doc") || 
+                url.endsWith(".swf") || url.endsWith(".rtf") || url.endsWith(".xls");
     }
 
-    public static boolean isDoc(String url) {
-        url = url.toLowerCase();
-        return url.endsWith(".pdf") || url.endsWith(".ppt") || url.endsWith(".doc") || url.endsWith(".swf");
-    }
-
-    public static boolean isPackage(String url) {
-        url = url.toLowerCase();
+    public static boolean isPackage(String url) {        
         return url.endsWith(".gz") || url.endsWith(".tgz") || url.endsWith(".zip")
-                || url.endsWith(".rar") || url.endsWith(".deb");
+                || url.endsWith(".rar") || url.endsWith(".deb") || url.endsWith(".rpm");
     }
 
-    public static boolean isApp(String url) {
-        url = url.toLowerCase();
+    public static boolean isApp(String url) {        
         return url.endsWith(".exe") || url.endsWith(".bin") || url.endsWith(".bat") || url.endsWith(".dmg");
     }
 
-    public static boolean isImage(String url) {
-        url = url.toLowerCase();
+    public static boolean isImage(String url) {        
         return url.endsWith(".png") || url.endsWith(".jpeg") || url.endsWith(".gif")
-                || url.endsWith(".jpg") || url.endsWith(".bmp") || url.endsWith(".ico");
+                || url.endsWith(".jpg") || url.endsWith(".bmp") || url.endsWith(".ico") || url.endsWith(".eps");
     }
 
     /**

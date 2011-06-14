@@ -68,7 +68,7 @@ public class HtmlFetcher {
         }
         reader.close();
     }
-    private String referrer = "http://jetwick.com/s";
+    private String referrer = "http://jetsli.de";
     private String userAgent = "Mozilla/5.0 (compatible; Jetslide; +" + referrer + ")";
     private String cacheControl = "max-age=0";
     private String language = "en-us";
@@ -154,14 +154,15 @@ public class HtmlFetcher {
         }
 
         JResult result = new JResult();
-        if (Helper.isDoc(url) || Helper.isApp(url) || Helper.isPackage(url)) {
+        String lowerUrl = url.toLowerCase();
+        if (Helper.isDoc(lowerUrl) || Helper.isApp(lowerUrl) || Helper.isPackage(lowerUrl)) {
             result.setUrl(url);            
             return result;
-        } else if (Helper.isVideo(url) || Helper.isAudio(url)) {
+        } else if (Helper.isVideo(lowerUrl) || Helper.isAudio(lowerUrl)) {
             result.setUrl(url);
             result.setVideoUrl(url);            
             return result;
-        } else if (Helper.isImage(url)) {
+        } else if (Helper.isImage(lowerUrl)) {
             result.setUrl(url);
             result.setImageUrl(url);            
             return result;
