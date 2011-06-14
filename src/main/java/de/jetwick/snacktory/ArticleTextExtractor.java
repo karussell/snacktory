@@ -244,7 +244,7 @@ public class ArticleTextExtractor {
     }
 
     public void setScore(Element el, int score) {
-        el.attr("gravityScore", "" + score);
+        el.attr("gravityScore", Integer.toString(score));
     }
 
     public int calcWeightForChild(Element child, Element e) {

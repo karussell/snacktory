@@ -1,0 +1,1 @@
+scp target/snacktory*jar root@pannous.info:/root/install/tomcat/webapps/jetwick/WEB-INF/lib/
