@@ -127,7 +127,7 @@ public class Converter {
             byte[] arr = new byte[K4];
             while (true) {
                 if (bytesRead >= maxBytes) {
-                    logger.warn("Maxbyte of " + maxBytes + " exceeded! Maybe html is now broken but try it nevertheless " + url);
+                    logger.info("Maxbyte of " + maxBytes + " exceeded! Maybe html is now broken but try it nevertheless " + url);
                     break;
                 }
 

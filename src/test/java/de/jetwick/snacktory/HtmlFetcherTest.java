@@ -96,8 +96,8 @@ public class HtmlFetcherTest {
 //        System.out.println("T1:" + res.getUrl());
 //        System.out.println("T1:" + res.getText());
         
-        JResult res = new HtmlFetcher().fetchAndExtract("http://www.reddit.com/r/pics/comments/hoc3x/when_my_laptop_battery_is_about_to_run_out/", 10000, true);
-        System.out.println("T2:" + res.getUrl());
-        System.out.println("T2:" + res.getText());
+        JResult res = new HtmlFetcher().fetchAndExtract("http://linksunten.indymedia.org/de/node/41619?utm_source=twitterfeed&utm_medium=twitter", 10000, true);
+        System.out.println("url2:" + res.getUrl());
+        System.out.println("text2:" + res.getText());
     }
 }
