@@ -21,6 +21,7 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Date;
 import org.jsoup.nodes.Element;
 
 /**
@@ -300,5 +301,77 @@ public class Helper {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public static String estimateDate(String url) {
+        int index = url.indexOf("://");
+        if (index > 0)
+            url = url.substring(index + 3);
+
+        int year = -1;
+        int yearCounter = -1;
+        int month = -1;
+        int monthCounter = -1;
+        int day = -1;
+        String strs[] = url.split("/");
+        for (int counter = 0; counter < strs.length; counter++) {
+            String str = strs[counter];
+            if (str.length() == 4) {
+                try {
+                    year = Integer.parseInt(str);
+                } catch (Exception ex) {
+                    continue;
+                }
+                if (year < 1970 || year > 3000) {
+                    year = -1;
+                    continue;
+                }
+                yearCounter = counter;
+            } else if (str.length() == 2) {
+                if (monthCounter < 0 && counter == yearCounter + 1) {
+                    try {
+                        month = Integer.parseInt(str);
+                    } catch (Exception ex) {
+                        continue;
+                    }
+                    if (month < 1 || month > 12) {
+                        month = -1;
+                        continue;
+                    }
+                    monthCounter = counter;
+                } else if (counter == monthCounter + 1) {
+                    try {
+                        day = Integer.parseInt(str);
+                    } catch (Exception ex) {
+                    }
+                    if (day < 1 || day > 31) {
+                        day = -1;
+                        continue;
+                    }
+                    break;
+                }
+            }
+        }
+
+        if (year < 0)
+            return null;
+
+        StringBuilder str = new StringBuilder();
+        str.append(year);        
+        if(month < 1)
+            return str.toString();
+        
+        str.append('/');        
+        if (month < 10)
+            str.append('0');
+        str.append(month);
+        if(day < 1)
+            return str.toString();
+        
+        str.append('/');                
+        if (day < 10)
+            str.append('0');        
+        str.append(day);
+        return str.toString();
     }
 }

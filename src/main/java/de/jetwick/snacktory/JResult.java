@@ -16,7 +16,8 @@
 package de.jetwick.snacktory;
 
 /**
- *
+ * Parsed result from web page containing important title, text and image.
+ * 
  * @author Peter Karich, jetwick_@_pannous_._info
  */
 public class JResult {
@@ -28,6 +29,7 @@ public class JResult {
     private String text;
     private String faviconUrl;
     private String description;
+    private String dateString;
 
     public JResult() {
     }
@@ -110,6 +112,18 @@ public class JResult {
         return this;
     }
 
+    public JResult setDate(String date) {
+        this.dateString = date;
+        return this;
+    }
+
+    /**
+     * @return get date from url or guessed from text
+     */
+    public String getDate() {
+        return dateString;
+    }
+    
     @Override
     public String toString() {
         return "title:" + getTitle() + " imageUrl:" + getImageUrl() + " text:" + text;

@@ -25,6 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -154,6 +155,7 @@ public class HtmlFetcher {
         }
 
         JResult result = new JResult();
+        result.setDate(Helper.estimateDate(url));result.getDate();
         String lowerUrl = url.toLowerCase();
         if (Helper.isDoc(lowerUrl) || Helper.isApp(lowerUrl) || Helper.isPackage(lowerUrl)) {
             result.setUrl(url);            
@@ -166,8 +168,10 @@ public class HtmlFetcher {
             result.setUrl(url);
             result.setImageUrl(url);            
             return result;
-        } else
-            result = extractor.extractContent(fetchAsString(url, timeout));
+        } else {
+            JResult tmp = extractor.extractContent(fetchAsString(url, timeout));
+            result = tmp.setDate(result.getDate());            
+        }
 
         // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
         result.setUrl(url);

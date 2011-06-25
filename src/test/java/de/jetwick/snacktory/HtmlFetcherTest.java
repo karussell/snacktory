@@ -15,6 +15,7 @@
  */
 package de.jetwick.snacktory;
 
+import java.text.SimpleDateFormat;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -48,6 +49,7 @@ public class HtmlFetcherTest {
     public void testWithTitle() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://www.midgetmanofsteel.com/2011/03/its-only-matter-of-time-before-fox-news.html", 10000, true);
         assertEquals("It's Only a Matter of Time Before Fox News Takes Out a Restraining Order", res.getTitle());
+        assertEquals("2011/03", res.getDate());
     }
 
     // do not support this uglyness
