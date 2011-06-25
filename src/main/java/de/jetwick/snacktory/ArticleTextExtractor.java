@@ -185,8 +185,8 @@ public class ArticleTextExtractor {
         List<Element> headerEls = new ArrayList<Element>(5);
         List<Element> pEls = new ArrayList<Element>(5);
 
-        image = determineImageSource(e);
-
+        // method is memory intensive and not really useful as for now
+//        image = determineImageSource(e);
         for (Element child : e.children()) {
             int ownTextLength = child.ownText().length();
             if (ownTextLength < 10)
