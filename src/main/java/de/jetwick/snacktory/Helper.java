@@ -21,7 +21,8 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import org.jsoup.nodes.Element;
 
 /**
@@ -357,21 +358,44 @@ public class Helper {
             return null;
 
         StringBuilder str = new StringBuilder();
-        str.append(year);        
-        if(month < 1)
+        str.append(year);
+        if (month < 1)
             return str.toString();
-        
-        str.append('/');        
+
+        str.append('/');
         if (month < 10)
             str.append('0');
         str.append(month);
-        if(day < 1)
+        if (day < 1)
             return str.toString();
-        
-        str.append('/');                
+
+        str.append('/');
         if (day < 10)
-            str.append('0');        
+            str.append('0');
         str.append(day);
         return str.toString();
+    }
+
+    public static String completeDate(String dateStr) {
+        if (dateStr == null)
+            return null;
+
+        int index = dateStr.indexOf('/');
+        if (index > 0) {
+            index = dateStr.indexOf('/', index + 1);
+            if (index > 0)
+                return dateStr;
+            else
+                return dateStr + "/01";
+        }
+        return dateStr + "/01/01";
+    }
+
+    /**
+     * keep in mind: simpleDateFormatter is not thread safe!
+     * call completeDate before applying this formatter.     
+     */
+    public static SimpleDateFormat createDateFormatter() {
+        return new SimpleDateFormat("yyyy/MM/dd");
     }
 }

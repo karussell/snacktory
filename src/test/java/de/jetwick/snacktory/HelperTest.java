@@ -97,7 +97,7 @@ public class HelperTest {
         assertEquals("http://www.bet.com/collegemarketingreps&h=42263",
                 Helper.getUrlFromUglyFacebookRedirect("http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.bet.com%2Fcollegemarketingreps&h=42263"));
     }
-    
+        
     @Test public void testEstimateDate() {        
         assertNull(Helper.estimateDate("http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.bet.com%2Fcollegemarketin"));
         assertEquals("2010/02/15", Helper.estimateDate("http://www.vogella.de/blog/2010/02/15/twitter-android/"));
@@ -107,5 +107,12 @@ public class HelperTest {
         assertEquals("2011/06", Helper.estimateDate("http://bdoughan.blogspot.com/2011/06/using-jaxbs-xmlaccessortype-to.html"));
         assertEquals("2011", Helper.estimateDate("http://bdoughan.blogspot.com/2011/13/using-jaxbs-xmlaccessortype-to.html"));
         
+    }
+    
+    @Test public void testCompleteDate() {        
+        assertNull(Helper.completeDate(null));
+        assertEquals("2001/01/01", Helper.completeDate("2001"));
+        assertEquals("2001/11/01", Helper.completeDate("2001/11"));
+        assertEquals("2001/11/02", Helper.completeDate("2001/11/02"));
     }
 }
