@@ -25,7 +25,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -155,7 +154,7 @@ public class HtmlFetcher {
         }
 
         JResult result = new JResult();
-        result.setDate(Helper.estimateDate(url));result.getDate();
+        result.setDate(Helper.estimateDate(url));
         String lowerUrl = url.toLowerCase();
         if (Helper.isDoc(lowerUrl) || Helper.isApp(lowerUrl) || Helper.isPackage(lowerUrl)) {
             result.setUrl(url);            
