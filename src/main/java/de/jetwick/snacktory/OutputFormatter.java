@@ -30,7 +30,7 @@ public class OutputFormatter {
 
         StringBuilder sb = new StringBuilder();
         append(topNode, sb, "p");
-        String str = Helper.innerTrim(sb.toString());
+        String str = SHelper.innerTrim(sb.toString());
 
         // no subelements
         if (str.isEmpty() || !topNode.text().isEmpty() && str.length() <= topNode.ownText().length())

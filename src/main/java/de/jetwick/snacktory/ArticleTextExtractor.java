@@ -66,12 +66,12 @@ public class ArticleTextExtractor {
         res.setTitle(cleanTitle(doc.title()));
 
         if (res.getTitle().isEmpty())
-            res.setTitle(Helper.innerTrim(doc.select("head title").text()));
+            res.setTitle(SHelper.innerTrim(doc.select("head title").text()));
 
         if (res.getTitle().isEmpty())
-            res.setTitle(Helper.innerTrim(doc.select("head meta[name=title]").attr("content")));
+            res.setTitle(SHelper.innerTrim(doc.select("head meta[name=title]").attr("content")));
 
-        res.setDescription(Helper.innerTrim(doc.select("head meta[name=description]").attr("content")));
+        res.setDescription(SHelper.innerTrim(doc.select("head meta[name=description]").attr("content")));
 
         // now remove the clutter
         prepareDocument(doc);
@@ -93,7 +93,7 @@ public class ArticleTextExtractor {
         if (bestMatchElement != null) {
             Element imgEl = determineImageSource(bestMatchElement);
             if (imgEl != null) {
-                res.setImageUrl(Helper.innerTrim(imgEl.attr("src")));
+                res.setImageUrl(SHelper.innerTrim(imgEl.attr("src")));
                 // TODO remove parent container of image if it is contained in bestMatchElement
                 // to avoid image subtitles flooding in
             }
@@ -110,24 +110,24 @@ public class ArticleTextExtractor {
 
         // use open graph tag to get image
         if (res.getImageUrl().isEmpty())
-            res.setImageUrl(Helper.innerTrim(doc.select("head meta[property=og:image]").attr("content")));
+            res.setImageUrl(SHelper.innerTrim(doc.select("head meta[property=og:image]").attr("content")));
 
         // prefer link over thumbnail-meta if empty
         if (res.getImageUrl().isEmpty())
-            res.setImageUrl(Helper.innerTrim(doc.select("link[rel=image_src]").attr("href")));
+            res.setImageUrl(SHelper.innerTrim(doc.select("link[rel=image_src]").attr("href")));
 
         if (res.getImageUrl().isEmpty())
-            res.setImageUrl(Helper.innerTrim(doc.select("head meta[name=thumbnail]").attr("content")));
+            res.setImageUrl(SHelper.innerTrim(doc.select("head meta[name=thumbnail]").attr("content")));
 
-        res.setVideoUrl(Helper.innerTrim(doc.select("head meta[property=og:video]").attr("content")));
+        res.setVideoUrl(SHelper.innerTrim(doc.select("head meta[property=og:video]").attr("content")));
 
-        res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel=icon]").attr("href")));
+        res.setFaviconUrl(SHelper.innerTrim(doc.select("head link[rel=icon]").attr("href")));
         if (res.getFaviconUrl().contains(" "))
             res.setFaviconUrl("");
 
         if (res.getFaviconUrl().isEmpty())
             // I don't know how to select rel=shortcut icon => select start==shortcut and end==icon
-            res.setFaviconUrl(Helper.innerTrim(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href")));
+            res.setFaviconUrl(SHelper.innerTrim(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href")));
 
         if (res.getFaviconUrl().contains(" "))
             res.setFaviconUrl("");
@@ -250,10 +250,10 @@ public class ArticleTextExtractor {
     public int calcWeightForChild(Element child, Element e) {
         // garbled html:
         String str = child.ownText();
-        int c = Helper.count(str, "&quot;");
-        c += Helper.count(str, "&lt;");
-        c += Helper.count(str, "&gt;");
-        c += Helper.count(str, "px");
+        int c = SHelper.count(str, "&quot;");
+        c += SHelper.count(str, "&lt;");
+        c += SHelper.count(str, "&gt;");
+        c += SHelper.count(str, "px");
         int val;
         if (c > 5)
             val = -30;
@@ -368,7 +368,7 @@ public class ArticleTextExtractor {
     }
 
     private boolean isAdImage(String imageUrl) {
-        return Helper.count(imageUrl, "ad") >= 2;
+        return SHelper.count(imageUrl, "ad") >= 2;
     }
 
     /**   
@@ -447,6 +447,6 @@ public class ArticleTextExtractor {
             counter++;
         }
 
-        return Helper.innerTrim(res.toString());
+        return SHelper.innerTrim(res.toString());
     }
 }

@@ -21,7 +21,6 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import org.jsoup.nodes.Element;
 
@@ -29,7 +28,7 @@ import org.jsoup.nodes.Element;
  *
  * @author Peter Karich, jetwick_@_pannous_._info
  */
-public class Helper {
+public class SHelper {
 
     public static final String UTF8 = "UTF-8";
 

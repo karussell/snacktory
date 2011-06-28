@@ -39,8 +39,8 @@ import org.slf4j.LoggerFactory;
 public class HtmlFetcher {
 
     static {
-        Helper.enableCookieMgmt();
-        Helper.enableUserAgentOverwrite();
+        SHelper.enableCookieMgmt();
+        SHelper.enableUserAgentOverwrite();
     }
     private static final Logger logger = LoggerFactory.getLogger(HtmlFetcher.class);
 
@@ -52,7 +52,7 @@ public class HtmlFetcher {
             int index1 = line.indexOf("\"");
             int index2 = line.indexOf("\"", index1 + 1);
             String url = line.substring(index1 + 1, index2);
-            String domainStr = Helper.extractDomain(url, true);
+            String domainStr = SHelper.extractDomain(url, true);
             String counterStr = "";
             // TODO more similarities
             if (existing.contains(domainStr))
@@ -132,12 +132,12 @@ public class HtmlFetcher {
     }
 
     public JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
-        url = Helper.removeHashbang(url);
-        String gUrl = Helper.getUrlFromUglyGoogleRedirect(url);
+        url = SHelper.removeHashbang(url);
+        String gUrl = SHelper.getUrlFromUglyGoogleRedirect(url);
         if (gUrl != null)
             url = gUrl;
         else {
-            gUrl = Helper.getUrlFromUglyFacebookRedirect(url);
+            gUrl = SHelper.getUrlFromUglyFacebookRedirect(url);
             if (gUrl != null)
                 url = gUrl;
         }
@@ -147,23 +147,23 @@ public class HtmlFetcher {
             String resUrl = getResolvedUrl(url, timeout);
             // if resolved url is longer: use it!
             if (resUrl != null && resUrl.trim().length() > url.length()) {
-                resUrl = Helper.useDomainOfFirst4Sec(url, resUrl);
+                resUrl = SHelper.useDomainOfFirst4Sec(url, resUrl);
 
                 url = resUrl;
             }
         }
 
         JResult result = new JResult();
-        result.setDate(Helper.estimateDate(url));
+        result.setDate(SHelper.estimateDate(url));
         String lowerUrl = url.toLowerCase();
-        if (Helper.isDoc(lowerUrl) || Helper.isApp(lowerUrl) || Helper.isPackage(lowerUrl)) {
+        if (SHelper.isDoc(lowerUrl) || SHelper.isApp(lowerUrl) || SHelper.isPackage(lowerUrl)) {
             result.setUrl(url);            
             return result;
-        } else if (Helper.isVideo(lowerUrl) || Helper.isAudio(lowerUrl)) {
+        } else if (SHelper.isVideo(lowerUrl) || SHelper.isAudio(lowerUrl)) {
             result.setUrl(url);
             result.setVideoUrl(url);            
             return result;
-        } else if (Helper.isImage(lowerUrl)) {
+        } else if (SHelper.isImage(lowerUrl)) {
             result.setUrl(url);
             result.setImageUrl(url);            
             return result;
@@ -176,7 +176,7 @@ public class HtmlFetcher {
         result.setUrl(url);
 
         if (result.getFaviconUrl().isEmpty())
-            result.setFaviconUrl(Helper.getDefaultFavicon(url));
+            result.setFaviconUrl(SHelper.getDefaultFavicon(url));
 
         // some links are relative to root and do not include the domain of the url :/
         result.setImageUrl(fixUrl(url, result.getImageUrl()));
@@ -186,7 +186,7 @@ public class HtmlFetcher {
     }
 
     private static String fixUrl(String url, String urlOrPath) {
-        return Helper.useDomainOfFirst4Sec(url, urlOrPath);
+        return SHelper.useDomainOfFirst4Sec(url, urlOrPath);
     }
 
     public String fetchAsString(String urlAsString, int timeout) throws MalformedURLException, IOException {
