@@ -27,6 +27,7 @@ import java.net.Proxy;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +75,9 @@ public class HtmlFetcher {
     private String language = "en-us";
     private String accept = "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
     private String charset = "UTF-8";
+    private SCache cache;
+    private AtomicInteger cacheCounter = new AtomicInteger(0);;
+    private int maxTextLength = -1;
     private ArticleTextExtractor extractor = new ArticleTextExtractor();
 
     public HtmlFetcher() {
@@ -82,7 +86,34 @@ public class HtmlFetcher {
     public void setExtractor(ArticleTextExtractor extractor) {
         this.extractor = extractor;
     }
+
+    public HtmlFetcher setCache(SCache cache) {
+        this.cache = cache;
+        return this;
+    }
+
+    public SCache getCache() {
+        return cache;
+    }
+
+    public int getCacheCounter() {
+        return cacheCounter.get();
+    }
     
+    public HtmlFetcher clearCacheCounter() {
+        cacheCounter.set(0);
+        return this;
+    }
+
+    public HtmlFetcher setMaxTextLength(int maxTextLength) {
+        this.maxTextLength = maxTextLength;
+        return this;
+    }
+
+    public int getMaxTextLength() {
+        return maxTextLength;
+    }
+
     public void setAccept(String accept) {
         this.accept = accept;
     }
@@ -107,8 +138,9 @@ public class HtmlFetcher {
         return referrer;
     }
 
-    public void setReferrer(String referrer) {
+    public HtmlFetcher setReferrer(String referrer) {
         this.referrer = referrer;
+        return this;
     }
 
     public String getUserAgent() {
@@ -143,13 +175,21 @@ public class HtmlFetcher {
         }
 
         if (resolve) {
-            // TODO remove time taken to resolve from timeout!
+            // TODO remove the time (from timeout) it has taken to call getResolveUrl!
             String resUrl = getResolvedUrl(url, timeout);
             // if resolved url is longer: use it!
             if (resUrl != null && resUrl.trim().length() > url.length()) {
-                resUrl = SHelper.useDomainOfFirst4Sec(url, resUrl);
+                // this is necessary e.g. for some homebaken url resolvers which returl 
+                // the resolved url relative to url!
+                url = SHelper.useDomainOfFirst4Second(url, resUrl);
+            }
 
-                url = resUrl;
+            if (cache != null) {
+                JResult res = cache.get(url);
+                if (res != null) {
+                    cacheCounter.addAndGet(1);
+                    return res;
+                }
             }
         }
 
@@ -157,20 +197,20 @@ public class HtmlFetcher {
         result.setDate(SHelper.estimateDate(url));
         String lowerUrl = url.toLowerCase();
         if (SHelper.isDoc(lowerUrl) || SHelper.isApp(lowerUrl) || SHelper.isPackage(lowerUrl)) {
-            result.setUrl(url);            
-            return result;
+            result.setUrl(url);
+            return save(result);
         } else if (SHelper.isVideo(lowerUrl) || SHelper.isAudio(lowerUrl)) {
             result.setUrl(url);
-            result.setVideoUrl(url);            
-            return result;
+            result.setVideoUrl(url);
+            return save(result);
         } else if (SHelper.isImage(lowerUrl)) {
             result.setUrl(url);
-            result.setImageUrl(url);            
-            return result;
-        } else {
-            JResult tmp = extractor.extractContent(fetchAsString(url, timeout));
-            result = tmp.setDate(result.getDate());            
+            result.setImageUrl(url);
+            return save(result);
         }
+
+        JResult tmp = extractor.extractContent(fetchAsString(url, timeout));
+        result = tmp.setDate(result.getDate());
 
         // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
         result.setUrl(url);
@@ -182,11 +222,28 @@ public class HtmlFetcher {
         result.setImageUrl(fixUrl(url, result.getImageUrl()));
         result.setFaviconUrl(fixUrl(url, result.getFaviconUrl()));
         result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
-        return result;
+        return save(result);
+    }
+
+    protected JResult save(JResult res) {
+        res.setText(lessText(res.getText()));
+        if (cache != null)
+            cache.put(res.getUrl(), res);
+        return res;
+    }
+
+    public String lessText(String text) {
+        if (text == null)
+            return "";
+
+        if (maxTextLength >= 0 && text.length() > maxTextLength)
+            return text.substring(0, maxTextLength);
+
+        return text;
     }
 
     private static String fixUrl(String url, String urlOrPath) {
-        return SHelper.useDomainOfFirst4Sec(url, urlOrPath);
+        return SHelper.useDomainOfFirst4Second(url, urlOrPath);
     }
 
     public String fetchAsString(String urlAsString, int timeout) throws MalformedURLException, IOException {
