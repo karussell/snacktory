@@ -69,14 +69,14 @@ public class HtmlFetcher {
         }
         reader.close();
     }
-    private String referrer = "http://jetsli.de";
+    private String referrer = "http://jetsli.de/crawler";
     private String userAgent = "Mozilla/5.0 (compatible; Jetslide; +" + referrer + ")";
     private String cacheControl = "max-age=0";
     private String language = "en-us";
     private String accept = "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
     private String charset = "UTF-8";
     private SCache cache;
-    private AtomicInteger cacheCounter = new AtomicInteger(0);;
+    private AtomicInteger cacheCounter = new AtomicInteger(0);    
     private int maxTextLength = -1;
     private ArticleTextExtractor extractor = new ArticleTextExtractor();
 
@@ -99,7 +99,7 @@ public class HtmlFetcher {
     public int getCacheCounter() {
         return cacheCounter.get();
     }
-    
+
     public HtmlFetcher clearCacheCounter() {
         cacheCounter.set(0);
         return this;
@@ -164,6 +164,7 @@ public class HtmlFetcher {
     }
 
     public JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
+        String originalUrl = url;
         url = SHelper.removeHashbang(url);
         String gUrl = SHelper.getUrlFromUglyGoogleRedirect(url);
         if (gUrl != null)
@@ -194,34 +195,28 @@ public class HtmlFetcher {
         }
 
         JResult result = new JResult();
-        result.setDate(SHelper.estimateDate(url));
         String lowerUrl = url.toLowerCase();
         if (SHelper.isDoc(lowerUrl) || SHelper.isApp(lowerUrl) || SHelper.isPackage(lowerUrl)) {
-            result.setUrl(url);
-            return save(result);
-        } else if (SHelper.isVideo(lowerUrl) || SHelper.isAudio(lowerUrl)) {
-            result.setUrl(url);
-            result.setVideoUrl(url);
-            return save(result);
-        } else if (SHelper.isImage(lowerUrl)) {
-            result.setUrl(url);
-            result.setImageUrl(url);
-            return save(result);
+            // skip
+        } else if (SHelper.isVideo(lowerUrl) || SHelper.isAudio(lowerUrl)) {            
+            result.setVideoUrl(url);            
+        } else if (SHelper.isImage(lowerUrl)) {            
+            result.setImageUrl(url);            
+        } else {
+            result = extractor.extractContent(fetchAsString(url, timeout));                        
+            if (result.getFaviconUrl().isEmpty())
+                result.setFaviconUrl(SHelper.getDefaultFavicon(url));
+
+            // some links are relative to root and do not include the domain of the url :/
+            result.setFaviconUrl(fixUrl(url, result.getFaviconUrl()));
+            result.setImageUrl(fixUrl(url, result.getImageUrl()));            
+            result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
         }
-
-        JResult tmp = extractor.extractContent(fetchAsString(url, timeout));
-        result = tmp.setDate(result.getDate());
-
+        
         // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
         result.setUrl(url);
-
-        if (result.getFaviconUrl().isEmpty())
-            result.setFaviconUrl(SHelper.getDefaultFavicon(url));
-
-        // some links are relative to root and do not include the domain of the url :/
-        result.setImageUrl(fixUrl(url, result.getImageUrl()));
-        result.setFaviconUrl(fixUrl(url, result.getFaviconUrl()));
-        result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
+        result.setOriginalUrl(originalUrl);
+        result.setDate(SHelper.estimateDate(url));
         return save(result);
     }
 

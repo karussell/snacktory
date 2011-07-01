@@ -24,6 +24,7 @@ public class JResult {
 
     private String title;
     private String url;
+    private String originalUrl;
     private String imageUrl;
     private String videoUrl;
     private String text;
@@ -45,6 +46,15 @@ public class JResult {
         return this;
     }
 
+    public JResult setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
+        return this;
+    }
+
+    public String getOriginalUrl() {
+        return originalUrl;
+    }
+    
     public String getFaviconUrl() {
         if (faviconUrl == null)
             return "";

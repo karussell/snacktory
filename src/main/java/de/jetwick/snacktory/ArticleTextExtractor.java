@@ -129,6 +129,7 @@ public class ArticleTextExtractor {
             // I don't know how to select rel=shortcut icon => select start==shortcut and end==icon
             res.setFaviconUrl(SHelper.innerTrim(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href")));
 
+        // again
         if (res.getFaviconUrl().contains(" "))
             res.setFaviconUrl("");
 
