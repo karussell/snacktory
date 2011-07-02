@@ -38,7 +38,7 @@ public class ArticleTextExtractorTest {
     @Test
     public void testData3() throws Exception {
         JResult res = extractor.extractContent(readFileAsString("test_data/3.html"));
-        assertTrue("data3:" + res.getText(), res.getText().startsWith("October 2010Silicon Valley proper is mostly suburban sprawl. At first glance it "));
+        assertTrue("data3:" + res.getText(), res.getText().startsWith("October 2010 Silicon Valley proper is mostly suburban sprawl. At first glance it "));
         assertTrue(res.getText().endsWith(" and Jessica Livingston for reading drafts of this."));
     }
 

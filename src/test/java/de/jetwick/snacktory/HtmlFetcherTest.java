@@ -15,7 +15,10 @@
  */
 package de.jetwick.snacktory;
 
-import java.text.SimpleDateFormat;
+import java.net.URL;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Document;
+import org.jsoup.Jsoup;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -93,13 +96,18 @@ public class HtmlFetcherTest {
     }
 
     @Test
-    public void testFurther() throws Exception {       
-//        JResult res = new HtmlFetcher().fetchAndExtract("http://www.reddit.com/r/reddit.com/comments/hnuk6/hey_google_maps/", 10000, true);
-//        System.out.println("T1:" + res.getUrl());
-//        System.out.println("T1:" + res.getText());
-        
+    public void testFurther() throws Exception {        
         JResult res = new HtmlFetcher().fetchAndExtract("http://linksunten.indymedia.org/de/node/41619?utm_source=twitterfeed&utm_medium=twitter", 10000, true);
-        System.out.println("url2:" + res.getUrl());
-        System.out.println("text2:" + res.getText());
+        System.out.println("url1:" + res.getUrl());
+        System.out.println("text1:" + res.getText());                       
+        
+//        res = new HtmlFetcher().fetchAndExtract("http://www.paulgraham.com/seesv.html", 10000, true);
+//        System.out.println("url2:" + res.getUrl());
+//        System.out.println("text2:" + res.getText());                               
+//        
+//        Document doc = Jsoup.parse(new URL("http://www.paulgraham.com/seesv.html"), 10000);
+//        for(Element el : doc.select("p")) {
+//            System.out.println(el.className() + ":" + el.ownText());
+//        }
     }
 }
