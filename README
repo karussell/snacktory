@@ -1,31 +1,47 @@
-= jReadability
+= Snacktory
 
-This is a small helper utility (only 130 lines of code) for pepole, who're working with Natural Language Processing, 
-Data Mining, Topic Extraction and other things realted to scrobbling text from HTML pages.
+This is a small helper utility for pepole don't want to write yet another java clone of Readability.
 
-In most cases, this is applied to articles, although, should work for any website to find its major area and extract
-its text.
+In most cases, this is applied to articles, although it should work for any website to find its 
+major area and extract its text and its important picture.
 
-Usage is as easy as 
+Have a look into http://jetsli.de where Snacktory is used. Jetslide is a new way to consume news,
+it does not only display the Websites' title but it displays a small preview of the site ('a snack') 
+and the important image if available.
 
-  % ArticleTextExtractor extractor = new ArticleTextExtractor();
-  % String articleText = extractor.getArticleText(readFileAsString("<html><body>Your fancy HTML comes here</body></html>");
+= License 
 
-== Installation
+The software stands under Apache 2 License and comes with NO WARRANTY
 
-  * Set up Ant
-    * http://ant.apache.org/
-  * Set up Ivy
-    * http://ant.apache.org/ivy
-  * Go to the project dir and run
-    % ant resolve
+= Features
 
-== Building
+Snacktory borrows some ideas from jReadability 
 
-  * Run 
-    % ant build
+https://github.com/ifesdjeen/jReadability
 
-== Running 5 lame tests
+and goose (ideas + a lot test cases):
 
-  * Run 
-    % ant test
+https://github.com/jiminoc/goose
+
+The advantages over jReadability are
+    * better article text detection than jReadability 
+    * only Java deps
+    * more tests
+
+The advantages over Goose are
+    * similar article text detection although better detection for none-english sites (German, Japanese, ...)
+    * snacktory does not depend on the word count in its text detection to support CJK languages
+    * no external Services required to run the core tests => faster tests
+    * better charset detection
+    * with url resolving, but caching is still possible after resolving
+    * skipping some known filetypes
+
+The disadvantages to Goose are
+    * only top image and top text supported at the moment
+    * some articles which passed do not pass. 
+      But added a bunch of other useful sites (stackoverflow, facebook, other languages ...)
+
+= Build
+
+via Maven. Maven will automatically resolve dependencies to jsoup, log4j and slf4j-api
+
