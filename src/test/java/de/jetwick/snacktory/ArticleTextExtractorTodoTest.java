@@ -16,15 +16,7 @@ public class ArticleTextExtractorTodoTest {
         c = new Converter();
         extractor = new ArticleTextExtractor();
     }
-
-    @Test
-    public void testData4() throws Exception {
-        // http://blog.traindom.com/places-where-to-submit-your-startup-for-coverage/
-        JResult res = extractor.extractContent(readFileAsString("test_data/4.html"));
-        assertEquals("36 places where you can submit your startup for some coverage", res.getTitle());
-        assertTrue("data4:" + res.getText(), res.getText().startsWith("So you have a new startup company and want some coverage"));        
-    }
-
+    
     @Test
     public void testEspn2() throws Exception {
         //String url = "http://sports.espn.go.com/golf/pgachampionship10/news/story?id=5463456";
@@ -56,23 +48,7 @@ public class ArticleTextExtractorTodoTest {
         assertTrue(article.getText(), article.getText().startsWith("In the heart of downtown Chandler, Arizona"));
         assertEquals("http://rww.readwriteweb.netdna-cdn.com/start/images/logopagely_aug10.jpg", article.getImageUrl());
     }
-
-    @Test
-    public void testTimemagazine() throws Exception {
-        //String url = "http://www.time.com/time/health/article/0,8599,2011497,00.html";
-        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("time.html")));
-        assertTrue(article.getText(), article.getText().startsWith("This month, the federal government released"));
-        assertEquals("http://img.timeinc.net/time/daily/2010/1008/bp_oil_spill_0817.jpg", article.getImageUrl());
-    }
-
-    @Test
-    public void testCnet() throws Exception {
-        //String url = "http://news.cnet.com/8301-30686_3-20014053-266.html?tag=topStories1";
-        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("cnet.html")));
-        assertTrue(article.getText(), article.getText().startsWith("NEW YORK--Verizon Communications is prepping a new"));
-        assertEquals("http://i.i.com.com/cnwk.1d/i/tim//2010/08/18/Verizon_iPad_and_live_TV_610x458.JPG", article.getImageUrl());
-    }
-
+    
     @Test
     public void testYahooNewsEvenThoughTheyFuckedUpDeliciousWeWillTestThemAnyway() throws Exception {
         //String url = "http://news.yahoo.com/s/ap/20110305/ap_on_re_af/af_libya";
@@ -107,15 +83,7 @@ public class ArticleTextExtractorTodoTest {
         assertEquals("http://imgs.sfgate.com/c/pictures/2010/10/26/ba-foreclosures2_SFCG1288130091.jpg",
                 article.getImageUrl());
     }
-
-    @Test
-    public void testBloomberg() throws Exception {
-        //String url = "http://www.bloomberg.com/news/2010-11-01/china-becomes-boss-in-peru-on-50-billion-mountain-bought-for-810-million.html";
-        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("bloomberg.html")));
-        assertTrue(article.getText(), article.getText().startsWith("The Chinese entrepreneur and the Peruvian shopkeeper"));
-        assertEquals("http://www.bloomberg.com/apps/data?pid=avimage&iid=iimODmqjtcQU", article.getImageUrl());
-    }
-
+    
     @Test
     public void testScientificdaily() throws Exception {
         //String url = "http://www.scientificamerican.com/article.cfm?id=bpa-semen-quality";
@@ -123,16 +91,6 @@ public class ArticleTextExtractorTodoTest {
         assertTrue(article.getText(), article.getText().startsWith("The common industrial chemical bisphenol A (BPA) "));
         assertEquals("http://www.scientificamerican.com/media/inline/bpa-semen-quality_1.jpg", article.getImageUrl());
         assertEquals("Everyday BPA Exposure Decreases Human Semen Quality", article.getTitle());
-    }
-
-    @Test
-    public void testTheFrisky() throws Exception {
-        //String url = "http://www.thefrisky.com/post/246-rachel-dratch-met-her-baby-daddy-in-a-bar/?eref=RSS";
-        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("thefrisky.html")));
-        assertTrue(article.getText(), article.getText().startsWith("Rachel Dratch had been keeping the identity of her baby daddy "));
-        assertEquals("http://cdn.thefrisky.com/images/uploads/rachel_dratch_102810_m.jpg",
-                article.getImageUrl());
-        assertEquals("Rachel Dratch Met Her Baby Daddy At A Bar", article.getTitle());
     }
 
     @Test
@@ -265,7 +223,35 @@ public class ArticleTextExtractorTodoTest {
         assertEquals("http://cdn-www.golflink.com/Cms/images/GlobalPhoto/Articles/2011/2/17/1496/fotolia4152707XS-main_Full.jpg",
                 article.getImageUrl());
     }
+    
+    @Test
+    public void testNewsweek() throws Exception {
+        //String url = "http://www.newsweek.com/2010/10/09/how-moscow-s-war-on-islamist-rebels-is-backfiring.html";
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("newsweek.html")));
+        assertTrue(article.getText(), article.getText().startsWith("At first glance, Kadyrov might seem"));
+//        assertEquals("http://www.newsweek.com/content/newsweek/2010/10/09/how-moscow-s-war-on-islamist-rebels-is-backfiring.scaled.small.1309768214891.jpg",
+//                article.getImageUrl());
+        assertEquals("http://www.newsweek.com/content/newsweek/2010/10/09/how-moscow-s-war-on-islamist-rebels-is-backfiring.scaled.small.1302869450444.jpg",
+                article.getImageUrl());
+    }
 
+    @Test
+    public void testBusinessweek() throws Exception {
+        // String url = "http://www.businessweek.com/magazine/content/10_34/b4192066630779.htm";
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("businessweek.html")));
+        assertEquals("Olivia Munn: Queen of the Uncool - BusinessWeek", article.getTitle());
+        assertTrue(article.getText(), article.getText().startsWith("Six years ago, Olivia Munn arrived in Hollywood with fading ambitions of making it "));
+        assertEquals("http://images.businessweek.com/mz/10/34/370/1034_mz_66popmunnessa.jpg", article.getImageUrl());
+    }
+
+    @Test
+    public void testNature() throws Exception {
+        //String url = "http://www.nature.com/news/2011/110411/full/472146a.html";
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("nature.html")));
+        assertTrue(article.getText(), article.getText().startsWith("As the immediate threat from Fukushima "
+                + "Daiichi's damaged nuclear reactors recedes, engineers and scientists are"));
+    }
+    
     /**
      * @param filePath the name of the file to open. Not sure if it can accept URLs 
      * or just filenames. Path handling could be better, and buffer sizes are hardcoded

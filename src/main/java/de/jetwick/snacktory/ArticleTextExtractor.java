@@ -31,14 +31,14 @@ public class ArticleTextExtractor {
             + "(reply.*)|(all.*)|(login.*)|(sign.*)|(single.*)|(attachment.*)");
     // Most likely positive candidates
     private static final Pattern POSITIVE =
-            Pattern.compile("(article.*)|(body.*)|(content.*)|(entry.*)|(hentry.*)|(main.*)|"
-            + "(page.*)|(pagination.*)|(post.*)|(text.*)|(blog.*)|(story.*)|(haupt.*)|(.*artikel.*)");
+            Pattern.compile("(.*article.*)|(body.*)|(content.*)|(entry.*)|(hentry.*)|(main.*)|"
+            + "(page.*)|(post.*)|(text.*)|(blog.*)|(story.*)|(.*instapaper_body.*)|(haupt.*)|(.*artikel.*)");
     // Most likely negative candidates
     private static final Pattern NEGATIVE =
             Pattern.compile("(.*navigation.*)|(.*user.*)|(.*nav)|(.*combx.*)|(.*comment.*)|(com-.*)|(.*contact.*)|"
             + "(.*foot.*)|(.*footer.*)|(.*footnote.*)|(.*masthead.*)|(.*media.*)|(.*meta.*)|"
             + "(.*outbrain.*)|(.*promo.*)|(.*related.*)|(.*scroll.*)|(.*shoutbox.*)|"
-            + "(.*sidebar.*)|(.*sponsor.*)|(.*shopping.*)|(.*tags.*)|(.*tool.*)|(.*widget.*)");
+            + "(.*sidebar.*)|(.*sponsor.*)|(.*shopping.*)|(.*tags.*)|(.*tool.*)|(.*widget.*)|(related.*)");
     private static final Pattern IMAGE_CAPTION =
             Pattern.compile("(.*caption.*)");
     private static final Set<String> set = new LinkedHashSet<String>() {
@@ -146,22 +146,22 @@ public class ArticleTextExtractor {
     protected int getWeight(Element e) {
         Integer weight = 0;
         if (POSITIVE.matcher(e.className()).matches())
-            weight += 20;
+            weight += 35;
 
         if (POSITIVE.matcher(e.id()).matches())
-            weight += 20;
+            weight += 40;
 
         if (UNLIKELY.matcher(e.className()).matches())
-            weight -= 10;
+            weight -= 20;
 
         if (UNLIKELY.matcher(e.id()).matches())
-            weight -= 10;
+            weight -= 20;
 
         if (NEGATIVE.matcher(e.className()).matches())
-            weight -= 30;
+            weight -= 50;
 
         if (NEGATIVE.matcher(e.id()).matches())
-            weight -= 30;
+            weight -= 50;
 
         weight += (int) Math.round(e.ownText().length() / 100.0 * 10);
         weight += weightChildNodes(e);
@@ -182,16 +182,17 @@ public class ArticleTextExtractor {
     protected int weightChildNodes(Element e) {
         int weight = 0;
         Element caption = null;
-        Element image = null;
         List<Element> headerEls = new ArrayList<Element>(5);
         List<Element> pEls = new ArrayList<Element>(5);
 
-        // method is memory intensive and not really useful as for now
-//        image = determineImageSource(e);
         for (Element child : e.children()) {
-            int ownTextLength = child.ownText().length();
-            if (ownTextLength < 10)
+            String ownText = child.ownText();
+            int ownTextLength = ownText.length();
+            if (ownTextLength < 20)
                 continue;
+
+            if (ownTextLength > 200)
+                weight += Math.max(50, ownTextLength / 10);
 
             if (IMAGE_CAPTION.matcher(e.id()).matches() || IMAGE_CAPTION.matcher(e.className()).matches())
                 weight += 30;
@@ -199,7 +200,7 @@ public class ArticleTextExtractor {
             if (child.tagName().equals("h1") || child.tagName().equals("h2")) {
                 weight += 30;
             } else if (child.tagName().equals("div") || child.tagName().equals("p")) {
-                weight += calcWeightForChild(child, e);
+                weight += calcWeightForChild(child, e, ownText);
                 if (child.tagName().equals("p") && ownTextLength > 50)
                     pEls.add(child);
 
@@ -208,9 +209,8 @@ public class ArticleTextExtractor {
             }
         }
 
-        // TODO use caption!
-        // TODO use image
-        if (image != null || caption != null)
+        // use caption and image
+        if (caption != null)
             weight += 30;
 
         if (pEls.size() >= 2) {
@@ -225,8 +225,6 @@ public class ArticleTextExtractor {
             }
             weight += 60;
         }
-        // TODO use headerEls for replacement of title?
-
         return weight;
     }
 
@@ -248,18 +246,16 @@ public class ArticleTextExtractor {
         el.attr("gravityScore", Integer.toString(score));
     }
 
-    public int calcWeightForChild(Element child, Element e) {
-        // garbled html:
-        String str = child.ownText();
-        int c = SHelper.count(str, "&quot;");
-        c += SHelper.count(str, "&lt;");
-        c += SHelper.count(str, "&gt;");
-        c += SHelper.count(str, "px");
+    public int calcWeightForChild(Element child, Element e, String ownText) {
+        int c = SHelper.count(ownText, "&quot;");
+        c += SHelper.count(ownText, "&lt;");
+        c += SHelper.count(ownText, "&gt;");
+        c += SHelper.count(ownText, "px");
         int val;
         if (c > 5)
             val = -30;
         else
-            val = (int) Math.round(str.length() / 100.0 * 4);
+            val = (int) Math.round(ownText.length() / 25.0);
 
         addScore(child, val);
         return val;
@@ -269,9 +265,10 @@ public class ArticleTextExtractor {
         int maxWeight = 0;
         Element maxNode = null;
         Elements els = el.select("img");
-        if (els.isEmpty())            
-            els = el.parent().select("img");        
+        if (els.isEmpty())
+            els = el.parent().select("img");
 
+        double score = 1;
         for (Element e : els) {
             String sourceUrl = e.attr("src");
             if (sourceUrl.isEmpty() || isAdImage(sourceUrl))
@@ -296,16 +293,24 @@ public class ArticleTextExtractor {
             } catch (Exception ex) {
             }
             String alt = e.attr("alt");
-            if (alt.length() > 50)
+            if (alt.length() > 35)
                 weight += 20;
 
             String title = e.attr("title");
-            if (title.length() > 50)
+            if (title.length() > 35)
                 weight += 20;
 
+            if (e.parent() != null) {                
+                String rel = e.parent().attr("rel");
+                if (rel != null &&  rel.contains("nofollow"))
+                    weight -= 40;
+            }
+
+            weight = (int) (weight * score);
             if (weight > maxWeight) {
                 maxWeight = weight;
                 maxNode = e;
+                score = score / 2;
             }
         }
 
@@ -420,6 +425,7 @@ public class ArticleTextExtractor {
                 nodes.add(el);
                 nodes.add(el.parent());
                 setScore(el, score);
+//                TODO setScore(el.parent(), score);
                 score = score / 2;
             }
         }

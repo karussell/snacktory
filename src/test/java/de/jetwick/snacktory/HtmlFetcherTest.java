@@ -64,7 +64,7 @@ public class HtmlFetcherTest {
     @Test
     public void testTwitpicGzipDoesNOTwork() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://twitpic.com/4kuem8", 12000, true);
-        assertTrue(res.getText(), res.getText().contains("Microsoft"));
+        assertTrue(res.getText(), res.getText().contains("Remember"));
     }
 
     @Test
@@ -109,5 +109,5 @@ public class HtmlFetcherTest {
 //        for(Element el : doc.select("p")) {
 //            System.out.println(el.className() + ":" + el.ownText());
 //        }
-    }
+    }        
 }

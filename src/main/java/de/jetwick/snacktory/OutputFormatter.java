@@ -31,11 +31,13 @@ public class OutputFormatter {
         StringBuilder sb = new StringBuilder();
         append(topNode, sb, "p");
         String str = SHelper.innerTrim(sb.toString());
+        if (str.length() > 100)
+            return str;
 
         // no subelements
         if (str.isEmpty() || !topNode.text().isEmpty() && str.length() <= topNode.ownText().length())
             str = topNode.text();
-        
+
         // if jsoup failed to parse the whole html now parse this smaller 
         // snippet again to avoid html tags disturbing our text:
         return Jsoup.parse(str).text();
@@ -50,8 +52,8 @@ public class OutputFormatter {
             if (item.getElementsByTag("img").isEmpty()) {
                 TextNode tn = new TextNode(item.text(), topNode.baseUri());
                 item.replaceWith(tn);
-            } else if (item.text().isEmpty())                
-                item.remove();            
+            } else if (item.text().isEmpty())
+                item.remove();
         }
     }
 
@@ -94,14 +96,15 @@ public class OutputFormatter {
 
     private void append(Element node, StringBuilder sb, String tagName) {
         for (Element e : node.getElementsByTag(tagName)) {
-            if (e.tagName().equals(tagName)) {
-                String text = e.text().trim();
-                if (text.isEmpty() || text.length() < 50)
-                    continue;
+            if(e.attr("class") != null && e.attr("class").contains("caption"))
+                continue;
+            
+            String text = e.text().trim();
+            if (text.isEmpty() || text.length() < 50)
+                continue;
 
-                sb.append(text);
-                sb.append("\n\n");
-            }
+            sb.append(text);
+            sb.append("\n\n");
         }
     }
 }
