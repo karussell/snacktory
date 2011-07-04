@@ -207,7 +207,7 @@ public class SHelper {
 
     public static boolean isPackage(String url) {
         return url.endsWith(".gz") || url.endsWith(".tgz") || url.endsWith(".zip")
-                || url.endsWith(".rar") || url.endsWith(".deb") || url.endsWith(".rpm");
+                || url.endsWith(".rar") || url.endsWith(".deb") || url.endsWith(".rpm") || url.endsWith(".7z");
     }
 
     public static boolean isApp(String url) {
