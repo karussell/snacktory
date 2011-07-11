@@ -45,3 +45,13 @@ The disadvantages to Goose are
 
 via Maven. Maven will automatically resolve dependencies to jsoup, log4j and slf4j-api
 
+= Usage
+ HtmlFetcher fetcher = new HtmlFetcher();
+ // set cache. e.g. take the map implementation from google collections:
+ // fetcher.setCache(new MapMaker().concurrencyLevel(20).
+ //               maximumSize(count).expireAfterWrite(minutes,
+ // TimeUnit.MINUTES).makeMap();
+ JResult res = fetcher.fetchAndExtract(url, resolveTimeout, true);
+ String text = res.getText(); 
+ String title = res.getTitle(); 
+ String imageUrl = res.getImageUrl();
