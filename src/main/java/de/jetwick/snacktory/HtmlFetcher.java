@@ -205,6 +205,11 @@ public class HtmlFetcher {
         }
 
         JResult result = new JResult();
+
+        // Immediately put the url into the cache as extracting content takes time.
+        if (cache != null)
+            cache.put(url, result);
+
         String lowerUrl = url.toLowerCase();
         if (SHelper.isDoc(lowerUrl) || SHelper.isApp(lowerUrl) || SHelper.isPackage(lowerUrl)) {
             // skip
@@ -214,6 +219,10 @@ public class HtmlFetcher {
             result.setImageUrl(url);
         } else {
             result = extractor.extractContent(fetchAsString(url, timeout));
+            // new JResult object so overwrite exising
+            if (cache != null)
+                cache.put(url, result);
+
             if (result.getFaviconUrl().isEmpty())
                 result.setFaviconUrl(SHelper.getDefaultFavicon(url));
 
@@ -227,14 +236,8 @@ public class HtmlFetcher {
         result.setUrl(url);
         result.setOriginalUrl(originalUrl);
         result.setDate(SHelper.estimateDate(url));
-        return save(result);
-    }
-
-    protected JResult save(JResult res) {
-        res.setText(lessText(res.getText()));
-        if (cache != null)
-            cache.put(res.getUrl(), res);
-        return res;
+        result.setText(lessText(result.getText()));
+        return result;
     }
 
     public String lessText(String text) {
