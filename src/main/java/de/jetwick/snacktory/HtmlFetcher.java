@@ -76,7 +76,7 @@ public class HtmlFetcher {
     private String accept = "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
     private String charset = "UTF-8";
     private SCache cache;
-    private AtomicInteger cacheCounter = new AtomicInteger(0);    
+    private AtomicInteger cacheCounter = new AtomicInteger(0);
     private int maxTextLength = -1;
     private ArticleTextExtractor extractor = new ArticleTextExtractor();
 
@@ -176,6 +176,15 @@ public class HtmlFetcher {
         }
 
         if (resolve) {
+            // check if we can avoid resolving the URL (which hits the website!)
+            if (cache != null) {
+                JResult res = cache.get(url);
+                if (res != null) {
+                    cacheCounter.addAndGet(1);
+                    return res;
+                }
+            }
+
             // TODO remove the time (from timeout) it has taken to call getResolveUrl!
             String resUrl = getResolvedUrl(url, timeout);
             // if resolved url is longer: use it!
@@ -184,13 +193,14 @@ public class HtmlFetcher {
                 // the resolved url relative to url!
                 url = SHelper.useDomainOfFirst4Second(url, resUrl);
             }
+        }
 
-            if (cache != null) {
-                JResult res = cache.get(url);
-                if (res != null) {
-                    cacheCounter.addAndGet(1);
-                    return res;
-                }
+        // check if we have the (resolved) URL in cache
+        if (cache != null) {
+            JResult res = cache.get(url);
+            if (res != null) {
+                cacheCounter.addAndGet(1);
+                return res;
             }
         }
 
@@ -198,21 +208,21 @@ public class HtmlFetcher {
         String lowerUrl = url.toLowerCase();
         if (SHelper.isDoc(lowerUrl) || SHelper.isApp(lowerUrl) || SHelper.isPackage(lowerUrl)) {
             // skip
-        } else if (SHelper.isVideo(lowerUrl) || SHelper.isAudio(lowerUrl)) {            
-            result.setVideoUrl(url);            
-        } else if (SHelper.isImage(lowerUrl)) {            
-            result.setImageUrl(url);            
+        } else if (SHelper.isVideo(lowerUrl) || SHelper.isAudio(lowerUrl)) {
+            result.setVideoUrl(url);
+        } else if (SHelper.isImage(lowerUrl)) {
+            result.setImageUrl(url);
         } else {
-            result = extractor.extractContent(fetchAsString(url, timeout));                        
+            result = extractor.extractContent(fetchAsString(url, timeout));
             if (result.getFaviconUrl().isEmpty())
                 result.setFaviconUrl(SHelper.getDefaultFavicon(url));
 
             // some links are relative to root and do not include the domain of the url :/
             result.setFaviconUrl(fixUrl(url, result.getFaviconUrl()));
-            result.setImageUrl(fixUrl(url, result.getImageUrl()));            
+            result.setImageUrl(fixUrl(url, result.getImageUrl()));
             result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
         }
-        
+
         // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
         result.setUrl(url);
         result.setOriginalUrl(originalUrl);
@@ -246,6 +256,7 @@ public class HtmlFetcher {
     }
 
     public String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions) throws MalformedURLException, IOException {
+        logger.debug("FetchAsString:" + urlAsString);
         HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
         hConn.setInstanceFollowRedirects(true);
         InputStream is = hConn.getInputStream();
@@ -265,6 +276,7 @@ public class HtmlFetcher {
      */
     public String getResolvedUrl(String urlAsString, int timeout) {
         try {
+            logger.debug("getResolvedUrl:" + urlAsString);
             HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, true);
             // force no follow
             hConn.setInstanceFollowRedirects(false);
