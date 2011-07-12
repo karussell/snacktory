@@ -354,6 +354,8 @@ public class HtmlFetcher {
                     }
                     logger.debug("isReady" + no + ":" + res.isReady() + " waited:" + (System.currentTimeMillis() - start) / 1000f + "sec " + url);
                 }
+                // this leads to problems where a site is not reachable
+                // if(!res.isReady()) return null;
                 return res;
             }
         }
