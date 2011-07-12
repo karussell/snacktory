@@ -174,16 +174,14 @@ public class HtmlFetcher {
             if (gUrl != null)
                 url = gUrl;
         }
+        
+        // TODO put the unresolved url into the cache too => avoids multiple calls of getResolvedUrl!
 
         if (resolve) {
             // check if we can avoid resolving the URL (which hits the website!)
-            if (cache != null) {
-                JResult res = cache.get(url);
-                if (res != null) {
-                    cacheCounter.addAndGet(1);
-                    return res;
-                }
-            }
+            JResult res = getFromCache(url, 1, timeout);
+            if (res != null)
+                return res;
 
             // TODO remove the time (from timeout) it has taken to call getResolveUrl!
             String resUrl = getResolvedUrl(url, timeout);
@@ -196,15 +194,15 @@ public class HtmlFetcher {
         }
 
         // check if we have the (resolved) URL in cache
-        if (cache != null) {
-            JResult res = cache.get(url);
-            if (res != null) {
-                cacheCounter.addAndGet(1);
-                return res;
-            }
-        }
+        JResult res = getFromCache(url, 2, timeout);
+        if (res != null)
+            return res;
 
         JResult result = new JResult();
+        // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
+        result.setUrl(url);
+        result.setOriginalUrl(originalUrl);
+        result.setDate(SHelper.estimateDate(url));
 
         // Immediately put the url into the cache as extracting content takes time.
         if (cache != null)
@@ -218,11 +216,7 @@ public class HtmlFetcher {
         } else if (SHelper.isImage(lowerUrl)) {
             result.setImageUrl(url);
         } else {
-            result = extractor.extractContent(fetchAsString(url, timeout));
-            // new JResult object so overwrite exising
-            if (cache != null)
-                cache.put(url, result);
-
+            extractor.extractContent(result, fetchAsString(url, timeout));
             if (result.getFaviconUrl().isEmpty())
                 result.setFaviconUrl(SHelper.getDefaultFavicon(url));
 
@@ -231,12 +225,11 @@ public class HtmlFetcher {
             result.setImageUrl(fixUrl(url, result.getImageUrl()));
             result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
         }
-
-        // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
-        result.setUrl(url);
-        result.setOriginalUrl(originalUrl);
-        result.setDate(SHelper.estimateDate(url));
         result.setText(lessText(result.getText()));
+        result.setReady(true);
+        synchronized (result) {
+            result.notifyAll();
+        }
         return result;
     }
 
@@ -347,5 +340,23 @@ public class HtmlFetcher {
         hConn.setConnectTimeout(timeout);
         hConn.setReadTimeout(timeout);
         return hConn;
+    }
+
+    private JResult getFromCache(String url, int no, long timeout) throws Exception {
+        if (cache != null) {
+            JResult res = cache.get(url);
+            if (res != null) {
+                cacheCounter.addAndGet(1);
+                if (!res.isReady()) {
+                    long start = System.currentTimeMillis();
+                    synchronized (res) {
+                        res.wait((long) (1.5 * timeout));
+                    }
+                    logger.debug("isReady" + no + ":" + res.isReady() + " waited:" + (System.currentTimeMillis() - start) / 1000f + "sec " + url);
+                }
+                return res;
+            }
+        }
+        return null;
     }
 }

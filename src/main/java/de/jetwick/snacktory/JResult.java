@@ -30,11 +30,24 @@ public class JResult {
     private String text;
     private String faviconUrl;
     private String description;
-    private String dateString;
+    private String dateString;    
+    private boolean ready = false;
 
     public JResult() {
     }
 
+    /**
+     * @return true if result is ready to be used (text extraction finished)
+     */
+    public boolean isReady() {
+        return ready;
+    }
+
+    public JResult setReady(boolean ready) {
+        this.ready = ready;
+        return this;
+    }
+    
     public String getUrl() {
         if (url == null)
             return "";

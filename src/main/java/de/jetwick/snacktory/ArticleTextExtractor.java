@@ -56,13 +56,15 @@ public class ArticleTextExtractor {
      * @returns extracted article, all HTML tags stripped
      */
     public JResult extractContent(String html) throws Exception {
+        return extractContent(new JResult(), html);
+    }
+
+    public JResult extractContent(JResult res, String html) throws Exception {
         if (html.isEmpty())
             throw new IllegalArgumentException("html string is empty!?");
 
         // http://jsoup.org/cookbook/extracting-data/selector-syntax
         Document doc = Jsoup.parse(html);
-
-        JResult res = new JResult();
         res.setTitle(cleanTitle(doc.title()));
 
         if (res.getTitle().isEmpty())
@@ -132,8 +134,8 @@ public class ArticleTextExtractor {
         // again
         if (res.getFaviconUrl().contains(" "))
             res.setFaviconUrl("");
-
-        return res;
+        
+        return res.setReady(true);
     }
 
     /** 
@@ -300,9 +302,9 @@ public class ArticleTextExtractor {
             if (title.length() > 35)
                 weight += 20;
 
-            if (e.parent() != null) {                
+            if (e.parent() != null) {
                 String rel = e.parent().attr("rel");
-                if (rel != null &&  rel.contains("nofollow"))
+                if (rel != null && rel.contains("nofollow"))
                     weight -= 40;
             }
 
