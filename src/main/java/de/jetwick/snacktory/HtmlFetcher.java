@@ -42,6 +42,7 @@ public class HtmlFetcher {
     static {
         SHelper.enableCookieMgmt();
         SHelper.enableUserAgentOverwrite();
+        SHelper.enableAnySSL();
     }
     private static final Logger logger = LoggerFactory.getLogger(HtmlFetcher.class);
 

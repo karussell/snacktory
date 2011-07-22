@@ -21,7 +21,14 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import org.jsoup.nodes.Element;
 
 /**
@@ -396,5 +403,32 @@ public class SHelper {
      */
     public static SimpleDateFormat createDateFormatter() {
         return new SimpleDateFormat("yyyy/MM/dd");
+    }
+
+    // with the help of http://stackoverflow.com/questions/1828775/httpclient-and-ssl
+    public static void enableAnySSL() {
+        try {
+            SSLContext ctx = SSLContext.getInstance("TLS");
+            ctx.init(new KeyManager[0], new TrustManager[]{new DefaultTrustManager()}, new SecureRandom());
+            SSLContext.setDefault(ctx);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static class DefaultTrustManager implements X509TrustManager {
+
+        @Override
+        public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+        }
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
     }
 }
