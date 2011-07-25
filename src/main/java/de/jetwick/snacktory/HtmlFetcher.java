@@ -62,7 +62,7 @@ public class HtmlFetcher {
             else
                 existing.add(domainStr);
 
-            String html = new HtmlFetcher().fetchAsString(url, 20000);
+            String html = new HtmlFetcher().fetchAsString(url, 20000, "");
             String outFile = domainStr + counterStr + ".html";
             BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
             writer.write(html);
@@ -165,6 +165,11 @@ public class HtmlFetcher {
     }
 
     public JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
+        return fetchAndExtract(url, timeout, resolve, "");
+    }
+
+    public JResult fetchAndExtract(String url, int timeout, boolean resolve, String sourceHint) throws Exception {
+//    public JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
         String originalUrl = url;
         url = SHelper.removeHashbang(url);
         String gUrl = SHelper.getUrlFromUglyGoogleRedirect(url);
@@ -175,7 +180,7 @@ public class HtmlFetcher {
             if (gUrl != null)
                 url = gUrl;
         }
-        
+
         // TODO put the unresolved url into the cache too => avoids multiple calls of getResolvedUrl!
 
         if (resolve) {
@@ -185,7 +190,7 @@ public class HtmlFetcher {
                 return res;
 
             // TODO remove the time (from timeout) it has taken to call getResolveUrl!
-            String resUrl = getResolvedUrl(url, timeout);
+            String resUrl = getResolvedUrl(url, timeout, sourceHint);
             // if resolved url is longer: use it!
             if (resUrl != null && resUrl.trim().length() > url.length()) {
                 // this is necessary e.g. for some homebaken url resolvers which returl 
@@ -217,7 +222,7 @@ public class HtmlFetcher {
         } else if (SHelper.isImage(lowerUrl)) {
             result.setImageUrl(url);
         } else {
-            extractor.extractContent(result, fetchAsString(url, timeout));
+            extractor.extractContent(result, fetchAsString(url, timeout, sourceHint));
             if (result.getFaviconUrl().isEmpty())
                 result.setFaviconUrl(SHelper.getDefaultFavicon(url));
 
@@ -248,12 +253,16 @@ public class HtmlFetcher {
         return SHelper.useDomainOfFirst4Second(url, urlOrPath);
     }
 
-    public String fetchAsString(String urlAsString, int timeout) throws MalformedURLException, IOException {
-        return fetchAsString(urlAsString, timeout, true);
+    public String fetchAsString(String urlAsString, int timeout, String source)
+            throws MalformedURLException, IOException {
+        return fetchAsString(urlAsString, timeout, true, source);
     }
 
-    public String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions) throws MalformedURLException, IOException {
-        logger.debug("FetchAsString:" + urlAsString);
+    public String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions,
+            String sourceHint) throws MalformedURLException, IOException {
+        if (logger.isDebugEnabled())
+            logger.debug("FetchAsString:" + urlAsString + " source:" + sourceHint);
+
         HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
         hConn.setInstanceFollowRedirects(true);
         InputStream is = hConn.getInputStream();
@@ -271,9 +280,10 @@ public class HtmlFetcher {
      * @return the resolved url if any. Or null if it couldn't resolve the url
      * (within the specified time) or the same url if response code is OK
      */
-    public String getResolvedUrl(String urlAsString, int timeout) {
+    public String getResolvedUrl(String urlAsString, int timeout, String sourceHint) {
         try {
-            logger.debug("getResolvedUrl:" + urlAsString);
+            if (logger.isDebugEnabled())
+                logger.debug("getResolvedUrl:" + urlAsString + " source:" + sourceHint);
             HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, true);
             // force no follow
             hConn.setInstanceFollowRedirects(false);
@@ -353,7 +363,9 @@ public class HtmlFetcher {
                     synchronized (res) {
                         res.wait((long) (1.5 * timeout));
                     }
-                    logger.debug("isReady" + no + ":" + res.isReady() + " waited:" + (System.currentTimeMillis() - start) / 1000f + "sec " + url);
+                    if (logger.isDebugEnabled())
+                        logger.debug("isReady" + no + ":" + res.isReady() + " waited:"
+                                + (System.currentTimeMillis() - start) / 1000f + "sec " + url);
                 }
                 // this leads to problems where a site is not reachable
                 // if(!res.isReady()) return null;
