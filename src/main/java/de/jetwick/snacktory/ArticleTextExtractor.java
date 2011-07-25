@@ -121,6 +121,8 @@ public class ArticleTextExtractor {
         if (res.getImageUrl().isEmpty())
             res.setImageUrl(SHelper.innerTrim(doc.select("head meta[name=thumbnail]").attr("content")));
 
+        res.setRssUrl(SHelper.innerTrim(doc.select("link[rel=alternate]").select("link[type=application/rss+xml]").attr("href")));        
+        
         res.setVideoUrl(SHelper.innerTrim(doc.select("head meta[property=og:video]").attr("content")));
 
         res.setFaviconUrl(SHelper.innerTrim(doc.select("head link[rel=icon]").attr("href")));

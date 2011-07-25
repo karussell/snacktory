@@ -252,6 +252,7 @@ public class ArticleTextExtractorTest {
 //        assertTrue(res.getText(), res.getText().startsWith("Gavin King of Red Hat/Hibernate/Seam fame recently unveiled the top secret project that"));
         assertEquals("http://3.bp.blogspot.com/-cyMzveP3IvQ/TaR7f3qkYmI/AAAAAAAAAIk/mrChE-G0b5c/s200/Java.png", res.getImageUrl());
         assertEquals("The Brain Dump: Gavin King unveils Red Hat's Java killer successor: The Ceylon Project", res.getTitle());
+        assertEquals("http://blog.talawah.net/feeds/posts/default?alt=rss", res.getRssUrl());
     }
 
     @Test

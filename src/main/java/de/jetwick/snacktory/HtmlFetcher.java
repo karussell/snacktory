@@ -230,6 +230,7 @@ public class HtmlFetcher {
             result.setFaviconUrl(fixUrl(url, result.getFaviconUrl()));
             result.setImageUrl(fixUrl(url, result.getImageUrl()));
             result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
+            result.setRssUrl(fixUrl(url, result.getRssUrl()));
         }
         result.setText(lessText(result.getText()));
         result.setReady(true);

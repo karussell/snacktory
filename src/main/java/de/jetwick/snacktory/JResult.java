@@ -27,6 +27,7 @@ public class JResult {
     private String originalUrl;
     private String imageUrl;
     private String videoUrl;
+    private String rssUrl;
     private String text;
     private String faviconUrl;
     private String description;
@@ -78,6 +79,17 @@ public class JResult {
         this.faviconUrl = faviconUrl;
         return this;
     }
+
+    public JResult setRssUrl(String rssUrl) {        
+        this.rssUrl = rssUrl;
+        return this;
+    }
+
+    public String getRssUrl() {
+        if(rssUrl == null)
+            return "";
+        return rssUrl;
+    }        
 
     public String getDescription() {
         if (description == null)
