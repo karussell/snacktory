@@ -185,7 +185,7 @@ public class HtmlFetcher {
 
         if (resolve) {
             // check if we can avoid resolving the URL (which hits the website!)
-            JResult res = getFromCache(url, 1, timeout);
+            JResult res = getFromCache(url, originalUrl, 1, timeout);
             if (res != null)
                 return res;
 
@@ -210,9 +210,9 @@ public class HtmlFetcher {
         }
 
         // check if we have the (resolved) URL in cache
-        JResult res = getFromCache(url, 2, timeout);
-        if (res != null)
-            return res;
+        JResult res = getFromCache(url, originalUrl, 2, timeout);
+        if (res != null)            
+            return res;        
 
         JResult result = new JResult();
         // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
@@ -366,10 +366,16 @@ public class HtmlFetcher {
         return hConn;
     }
 
-    private JResult getFromCache(String url, int no, long timeout) throws Exception {
+    private JResult getFromCache(String url, String originalUrl, int no, long timeout) throws Exception {
         if (cache != null) {
             JResult res = cache.get(url);
-            if (res != null) {
+            if (res != null) {                
+                // e.g. the cache returned a shortened url as original url now we want to store the
+                // current original url! Also it can be that the cache response to url but the JResult
+                // does not contain it so overwrite it:
+                res.setUrl(url);
+                res.setOriginalUrl(originalUrl);
+                
                 cacheCounter.addAndGet(1);
                 if (!res.isReady()) {
                     long start = System.currentTimeMillis();
