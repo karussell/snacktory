@@ -115,7 +115,7 @@ public class Converter {
                 // try if detected is valid
                 URLEncoder.encode("test", encoding);
             } catch (UnsupportedEncodingException e) {
-                logger.info("Using default encoding:" + UTF8
+                logger.warn("Using default encoding:" + UTF8
                         + " problem:" + e.getMessage() + " encoding:" + encoding + " " + url);
                 encoding = UTF8;
             }
@@ -127,7 +127,7 @@ public class Converter {
             byte[] arr = new byte[K4];
             while (true) {
                 if (bytesRead >= maxBytes) {
-                    logger.info("Maxbyte of " + maxBytes + " exceeded! Maybe html is now broken but try it nevertheless " + url);
+                    logger.warn("Maxbyte of " + maxBytes + " exceeded! Maybe html is now broken but try it nevertheless. Url: " + url);
                     break;
                 }
 

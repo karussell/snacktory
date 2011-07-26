@@ -191,11 +191,21 @@ public class HtmlFetcher {
 
             // TODO remove the time (from timeout) it has taken to call getResolveUrl!
             String resUrl = getResolvedUrl(url, timeout, sourceHint);
+            if (resUrl.isEmpty()) {
+                if (logger.isDebugEnabled())
+                    logger.warn("resolved url is empty. Url is: " + url);
+
+                JResult result = new JResult();
+                if (cache != null)
+                    cache.put(url, result);
+                return result.setUrl(url).setReady(true);
+            }
+
             // if resolved url is longer: use it!
             if (resUrl != null && resUrl.trim().length() > url.length()) {
                 // this is necessary e.g. for some homebaken url resolvers which returl 
                 // the resolved url relative to url!
-                url = SHelper.useDomainOfFirst4Second(url, resUrl);
+                url = SHelper.useDomainOfFirstArg4Second(url, resUrl);
             }
         }
 
@@ -211,8 +221,8 @@ public class HtmlFetcher {
         result.setDate(SHelper.estimateDate(url));
 
         // Immediately put the url into the cache as extracting content takes time.
-        if (cache != null)
-            cache.put(url, result);
+        if (cache != null)           
+            cache.put(url, result);        
 
         String lowerUrl = url.toLowerCase();
         if (SHelper.isDoc(lowerUrl) || SHelper.isApp(lowerUrl) || SHelper.isPackage(lowerUrl)) {
@@ -251,7 +261,7 @@ public class HtmlFetcher {
     }
 
     private static String fixUrl(String url, String urlOrPath) {
-        return SHelper.useDomainOfFirst4Second(url, urlOrPath);
+        return SHelper.useDomainOfFirstArg4Second(url, urlOrPath);
     }
 
     public String fetchAsString(String urlAsString, int timeout, String source)
@@ -303,9 +313,11 @@ public class HtmlFetcher {
                 if (urlAsString.startsWith("http://bit.ly") || urlAsString.startsWith("http://is.gd"))
                     loc = encodeUriFromHeader(loc);
                 return loc;
-            }
+            } else
+                return urlAsString;
 
         } catch (Exception ex) {
+            logger.error("getResolvedUrl:" + urlAsString + " source:" + sourceHint + " Error:" + ex.getMessage());
         }
         return "";
     }

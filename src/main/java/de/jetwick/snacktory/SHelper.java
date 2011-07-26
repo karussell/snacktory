@@ -139,7 +139,7 @@ public class SHelper {
     }
 
     public static String getDefaultFavicon(String url) {
-        return useDomainOfFirst4Second(url, "/favicon.ico");
+        return useDomainOfFirstArg4Second(url, "/favicon.ico");
     }
 
     /**
@@ -148,7 +148,7 @@ public class SHelper {
      * @param includeMobile
      * @return 
      */
-    public static String useDomainOfFirst4Second(String urlForDomain, String path) {
+    public static String useDomainOfFirstArg4Second(String urlForDomain, String path) {
         if ("favicon.ico".equals(path))
             path = "/favicon.ico";
 
