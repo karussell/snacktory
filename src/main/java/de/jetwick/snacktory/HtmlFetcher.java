@@ -181,8 +181,6 @@ public class HtmlFetcher {
                 url = gUrl;
         }
 
-        // TODO put the unresolved url into the cache too => avoids multiple calls of getResolvedUrl!
-
         if (resolve) {
             // check if we can avoid resolving the URL (which hits the website!)
             JResult res = getFromCache(url, originalUrl, 1, timeout);
@@ -221,8 +219,10 @@ public class HtmlFetcher {
         result.setDate(SHelper.estimateDate(url));
 
         // Immediately put the url into the cache as extracting content takes time.
-        if (cache != null)           
+        if (cache != null) {
+            cache.put(originalUrl, result);
             cache.put(url, result);        
+        }
 
         String lowerUrl = url.toLowerCase();
         if (SHelper.isDoc(lowerUrl) || SHelper.isApp(lowerUrl) || SHelper.isPackage(lowerUrl)) {
