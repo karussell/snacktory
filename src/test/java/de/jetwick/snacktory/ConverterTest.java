@@ -65,6 +65,10 @@ public class ConverterTest extends TestCase {
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("badenc.html"));
         assertEquals("utf-8", d.getEncoding());
+        
+        d = new Converter();
+        d.streamToString(getClass().getResourceAsStream("br-online.html"));
+        assertEquals("iso-8859-15", d.getEncoding());
     }
 
     public void testMaxBytesExceedingButGetTitleNevertheless() throws Exception {

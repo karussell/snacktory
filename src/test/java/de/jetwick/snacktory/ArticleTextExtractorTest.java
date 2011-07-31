@@ -562,6 +562,20 @@ public class ArticleTextExtractorTest {
                 article.getImageUrl());
         assertEquals("Rachel Dratch Met Her Baby Daddy At A Bar", article.getTitle());
     }
+    
+    @Test
+    public void testBrOnline() throws Exception {
+        // TODO charset for opera was removed:
+        // <![endif]-->
+        // <link rel="stylesheet" type="text/x-opera-css;charset=utf-8" href="/css/opera.css" />
+        
+        //String url = "http://www.br-online.de/br-klassik/programmtipps/highlight-bayreuth-tannhaeuser-festspielzeit-2011-ID1309895438808.xml";
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("br-online.html")));
+        assertTrue(article.getText(), article.getText().startsWith("Wenn ein Dirigent, der Alte Musik liebt, erstmals eine "
+                + "Neuproduktion bei den Bayreuther Richard-Wagner-Festspielen übernimmt,"));                                                      
+        assertEquals("Eröffnung der 100. Bayreuther Festspiele: Alles neu beim \"Tannhäuser\" | Programmtipps | BR-KLASSIK", 
+                article.getTitle());
+    }
 
     @Test
     public void cleanTitle() {

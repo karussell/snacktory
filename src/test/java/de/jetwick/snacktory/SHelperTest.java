@@ -33,7 +33,8 @@ public class SHelperTest {
         assertEquals("t", SHelper.innerTrim("  t "));
         assertEquals("t t t", SHelper.innerTrim("t t t "));
         assertEquals("t t", SHelper.innerTrim("t    \nt "));
-        assertEquals("t peter", SHelper.innerTrim("t  peter "));
+        assertEquals("t peter", SHelper.innerTrim("t  peter "));        
+        assertEquals("t t", SHelper.innerTrim("t    \n     t "));
     }
 
     @Test

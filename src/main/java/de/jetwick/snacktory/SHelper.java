@@ -60,7 +60,7 @@ public class SHelper {
         boolean previousSpace = false;
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
-            if (c == ' ' || c == '\n') {
+            if (c == ' ' || (int) c == 9 || c == '\n') {
                 previousSpace = true;
                 continue;
             }

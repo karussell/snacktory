@@ -117,6 +117,12 @@ public class HtmlFetcherTest {
         res = new HtmlFetcher().fetchAndExtract("http://www.flickr.com/photos/artetextilmerlina/5958866593/in/pool-54743695@N00?utm_source=twitterfeed&utm_medium=twitter", 10000, true);
         System.out.println("url4:" + res.getUrl());
         System.out.println("text4:" + res.getText());        
-        assertTrue(res.isReady());       
+        assertTrue(res.isReady()); 
+        
+        res = new HtmlFetcher().fetchAndExtract("http://www.br-online.de/br-klassik/programmtipps/highlight-bayreuth-tannhaeuser-festspielzeit-2011-ID1309895438808.xml", 10000, true);
+        System.out.println("title5:" + res.getTitle());
+        System.out.println("url5:" + res.getUrl());
+        System.out.println("text5:" + res.getText());        
+        assertTrue(res.isReady());        
     }
 }
