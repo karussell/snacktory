@@ -62,7 +62,7 @@ public class HtmlFetcher {
             else
                 existing.add(domainStr);
 
-            String html = new HtmlFetcher().fetchAsString(url, 20000, "");
+            String html = new HtmlFetcher().fetchAsString(url, 20000);
             String outFile = domainStr + counterStr + ".html";
             BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
             writer.write(html);
@@ -165,11 +165,6 @@ public class HtmlFetcher {
     }
 
     public JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
-        return fetchAndExtract(url, timeout, resolve, "");
-    }
-
-    public JResult fetchAndExtract(String url, int timeout, boolean resolve, String sourceHint) throws Exception {
-//    public JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
         String originalUrl = url;
         url = SHelper.removeHashbang(url);
         String gUrl = SHelper.getUrlFromUglyGoogleRedirect(url);
@@ -183,12 +178,11 @@ public class HtmlFetcher {
 
         if (resolve) {
             // check if we can avoid resolving the URL (which hits the website!)
-            JResult res = getFromCache(url, originalUrl, 1, timeout);
+            JResult res = getFromCache(url, originalUrl);
             if (res != null)
                 return res;
 
-            // TODO remove the time (from timeout) it has taken to call getResolveUrl!
-            String resUrl = getResolvedUrl(url, timeout, sourceHint);
+            String resUrl = getResolvedUrl(url, timeout);
             if (resUrl.isEmpty()) {
                 if (logger.isDebugEnabled())
                     logger.warn("resolved url is empty. Url is: " + url);
@@ -196,10 +190,10 @@ public class HtmlFetcher {
                 JResult result = new JResult();
                 if (cache != null)
                     cache.put(url, result);
-                return result.setUrl(url).setReady(true);
+                return result.setUrl(url);
             }
 
-            // if resolved url is longer: use it!
+            // if resolved url is longer then use it!
             if (resUrl != null && resUrl.trim().length() > url.length()) {
                 // this is necessary e.g. for some homebaken url resolvers which returl 
                 // the resolved url relative to url!
@@ -208,7 +202,7 @@ public class HtmlFetcher {
         }
 
         // check if we have the (resolved) URL in cache
-        JResult res = getFromCache(url, originalUrl, 2, timeout);
+        JResult res = getFromCache(url, originalUrl);
         if (res != null)            
             return res;        
 
@@ -232,7 +226,7 @@ public class HtmlFetcher {
         } else if (SHelper.isImage(lowerUrl)) {
             result.setImageUrl(url);
         } else {
-            extractor.extractContent(result, fetchAsString(url, timeout, sourceHint));
+            extractor.extractContent(result, fetchAsString(url, timeout));
             if (result.getFaviconUrl().isEmpty())
                 result.setFaviconUrl(SHelper.getDefaultFavicon(url));
 
@@ -242,8 +236,7 @@ public class HtmlFetcher {
             result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
             result.setRssUrl(fixUrl(url, result.getRssUrl()));
         }
-        result.setText(lessText(result.getText()));
-        result.setReady(true);
+        result.setText(lessText(result.getText()));        
         synchronized (result) {
             result.notifyAll();
         }
@@ -264,15 +257,15 @@ public class HtmlFetcher {
         return SHelper.useDomainOfFirstArg4Second(url, urlOrPath);
     }
 
-    public String fetchAsString(String urlAsString, int timeout, String source)
+    public String fetchAsString(String urlAsString, int timeout)
             throws MalformedURLException, IOException {
-        return fetchAsString(urlAsString, timeout, true, source);
+        return fetchAsString(urlAsString, timeout, true);
     }
 
-    public String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions,
-            String sourceHint) throws MalformedURLException, IOException {
+    public String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions)
+            throws MalformedURLException, IOException {
         if (logger.isDebugEnabled())
-            logger.debug("FetchAsString:" + urlAsString + " source:" + sourceHint);
+            logger.debug("FetchAsString:" + urlAsString);
 
         HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
         hConn.setInstanceFollowRedirects(true);
@@ -291,10 +284,10 @@ public class HtmlFetcher {
      * @return the resolved url if any. Or null if it couldn't resolve the url
      * (within the specified time) or the same url if response code is OK
      */
-    public String getResolvedUrl(String urlAsString, int timeout, String sourceHint) {
+    public String getResolvedUrl(String urlAsString, int timeout) {
         try {
             if (logger.isDebugEnabled())
-                logger.debug("getResolvedUrl:" + urlAsString + " source:" + sourceHint);
+                logger.debug("getResolvedUrl:" + urlAsString);
             HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, true);
             // force no follow
             hConn.setInstanceFollowRedirects(false);
@@ -317,7 +310,7 @@ public class HtmlFetcher {
                 return urlAsString;
 
         } catch (Exception ex) {
-            logger.error("getResolvedUrl:" + urlAsString + " source:" + sourceHint + " Error:" + ex.getMessage());
+            logger.error("getResolvedUrl:" + urlAsString + " Error:" + ex.getMessage());
         }
         return "";
     }
@@ -359,14 +352,14 @@ public class HtmlFetcher {
         }
 
         // On android we got timeouts because of this!!   
-        // this also results in invalid html for http://twitpic.com/4kuem8
+        // and here this also results in invalid html for e.g. http://twitpic.com/4kuem8
 //        hConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
         hConn.setConnectTimeout(timeout);
         hConn.setReadTimeout(timeout);
         return hConn;
     }
 
-    private JResult getFromCache(String url, String originalUrl, int no, long timeout) throws Exception {
+    private JResult getFromCache(String url, String originalUrl) throws Exception {
         if (cache != null) {
             JResult res = cache.get(url);
             if (res != null) {                
@@ -374,20 +367,8 @@ public class HtmlFetcher {
                 // current original url! Also it can be that the cache response to url but the JResult
                 // does not contain it so overwrite it:
                 res.setUrl(url);
-                res.setOriginalUrl(originalUrl);
-                
+                res.setOriginalUrl(originalUrl);                
                 cacheCounter.addAndGet(1);
-                if (!res.isReady()) {
-                    long start = System.currentTimeMillis();
-                    synchronized (res) {
-                        res.wait((long) (1.5 * timeout));
-                    }
-                    if (logger.isDebugEnabled())
-                        logger.debug("isReady" + no + ":" + res.isReady() + " waited:"
-                                + (System.currentTimeMillis() - start) / 1000f + "sec " + url);
-                }
-                // this leads to problems where a site is not reachable
-                // if(!res.isReady()) return null;
                 return res;
             }
         }

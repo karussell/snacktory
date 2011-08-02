@@ -137,7 +137,7 @@ public class ArticleTextExtractor {
         if (res.getFaviconUrl().contains(" "))
             res.setFaviconUrl("");
         
-        return res.setReady(true);
+        return res;
     }
 
     /** 

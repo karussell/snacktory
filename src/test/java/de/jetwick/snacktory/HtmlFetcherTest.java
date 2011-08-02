@@ -15,10 +15,6 @@
  */
 package de.jetwick.snacktory;
 
-import java.net.URL;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Document;
-import org.jsoup.Jsoup;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -113,16 +109,14 @@ public class HtmlFetcherTest {
         res = new HtmlFetcher().fetchAndExtract("https://forum.bitcoin.org/index.php?topic=28923.0", 10000, true);
         System.out.println("url3:" + res.getUrl());
         System.out.println("text3:" + res.getText());
-        
+
         res = new HtmlFetcher().fetchAndExtract("http://www.flickr.com/photos/artetextilmerlina/5958866593/in/pool-54743695@N00?utm_source=twitterfeed&utm_medium=twitter", 10000, true);
         System.out.println("url4:" + res.getUrl());
-        System.out.println("text4:" + res.getText());        
-        assertTrue(res.isReady()); 
-        
+        System.out.println("text4:" + res.getText());
+
         res = new HtmlFetcher().fetchAndExtract("http://www.br-online.de/br-klassik/programmtipps/highlight-bayreuth-tannhaeuser-festspielzeit-2011-ID1309895438808.xml", 10000, true);
         System.out.println("title5:" + res.getTitle());
         System.out.println("url5:" + res.getUrl());
-        System.out.println("text5:" + res.getText());        
-        assertTrue(res.isReady());        
+        System.out.println("text5:" + res.getText());
     }
 }
