@@ -102,6 +102,7 @@ public class Converter {
 
             // detect with the help of meta tag
             try {
+                in.mark(K4 * 2);
                 String tmpEnc = detectCharset("charset=", sb, in);
                 if (tmpEnc != null)
                     encoding = tmpEnc;
@@ -162,8 +163,7 @@ public class Converter {
      * 
      * @throws IOException 
      */
-    public String detectCharset(String key, StringBuilder sb, BufferedInputStream in) throws IOException {
-        in.mark(K4 * 2);
+    public String detectCharset(String key, StringBuilder sb, BufferedInputStream in) throws IOException {        
         // Grab better encoding from stream        
         byte[] arr = new byte[K4];
         int nSum = 0;

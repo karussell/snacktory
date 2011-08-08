@@ -119,4 +119,10 @@ public class HtmlFetcherTest {
         System.out.println("url5:" + res.getUrl());
         System.out.println("text5:" + res.getText());
     }
+
+    @Test
+    public void testXml() throws Exception {
+        String str = new HtmlFetcher().fetchAsString("http://karussell.wordpress.com/feed/", 10000);
+        assertTrue(str, str.startsWith("<?xml version="));
+    }
 }
