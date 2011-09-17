@@ -80,6 +80,27 @@ public class HtmlFetcher {
     private AtomicInteger cacheCounter = new AtomicInteger(0);
     private int maxTextLength = -1;
     private ArticleTextExtractor extractor = new ArticleTextExtractor();
+    private Set<String> shortServices = new LinkedHashSet<String>() {
+
+        {
+            add("bit.ly");
+            add("t.co");
+            add("ow.ly");
+            add("is.gd");
+            add("tr.im");
+            add("cli.gs");
+            add("tinyurl.com");
+            add("goo.gl");
+            add("deck.ly");
+            add("su.pr");
+            add("ink.co");
+            add("fur.ly");
+            add("tiny.cc");
+            add("plurl.us");
+            add("snurl.com");
+            add("twurl.nl");
+        }
+    };
 
     public HtmlFetcher() {
     }
@@ -203,8 +224,8 @@ public class HtmlFetcher {
 
         // check if we have the (resolved) URL in cache
         JResult res = getFromCache(url, originalUrl);
-        if (res != null)            
-            return res;        
+        if (res != null)
+            return res;
 
         JResult result = new JResult();
         // or should we use? <link rel="canonical" href="http://www.N24.de/news/newsitem_6797232.html"/>
@@ -215,7 +236,7 @@ public class HtmlFetcher {
         // Immediately put the url into the cache as extracting content takes time.
         if (cache != null) {
             cache.put(originalUrl, result);
-            cache.put(url, result);        
+            cache.put(url, result);
         }
 
         String lowerUrl = url.toLowerCase();
@@ -236,7 +257,7 @@ public class HtmlFetcher {
             result.setVideoUrl(fixUrl(url, result.getVideoUrl()));
             result.setRssUrl(fixUrl(url, result.getRssUrl()));
         }
-        result.setText(lessText(result.getText()));        
+        result.setText(lessText(result.getText()));
         synchronized (result) {
             result.notifyAll();
         }
@@ -300,12 +321,17 @@ public class HtmlFetcher {
             if (responseCode == HttpURLConnection.HTTP_OK)
                 return urlAsString;
 
-            String loc = hConn.getHeaderField("Location");
-            if (responseCode / 100 == 3 && loc != null) {
-                loc = loc.replaceAll(" ", "+");
+            String newUrl = hConn.getHeaderField("Location");
+            if (responseCode / 100 == 3 && newUrl != null) {
+                newUrl = newUrl.replaceAll(" ", "+");
                 if (urlAsString.startsWith("http://bit.ly") || urlAsString.startsWith("http://is.gd"))
-                    loc = encodeUriFromHeader(loc);
-                return loc;
+                    newUrl = encodeUriFromHeader(newUrl);
+                                
+                // fix problems if shortened twice. as it is often the case after twitters' t.co bullshit
+                if (shortServices.contains(SHelper.extractDomain(newUrl, true)))                    
+                    newUrl = getResolvedUrl(newUrl, timeout);
+                
+                return newUrl;
             } else
                 return urlAsString;
 
@@ -362,12 +388,12 @@ public class HtmlFetcher {
     private JResult getFromCache(String url, String originalUrl) throws Exception {
         if (cache != null) {
             JResult res = cache.get(url);
-            if (res != null) {                
+            if (res != null) {
                 // e.g. the cache returned a shortened url as original url now we want to store the
                 // current original url! Also it can be that the cache response to url but the JResult
                 // does not contain it so overwrite it:
                 res.setUrl(url);
-                res.setOriginalUrl(originalUrl);                
+                res.setOriginalUrl(originalUrl);
                 cacheCounter.addAndGet(1);
                 return res;
             }
