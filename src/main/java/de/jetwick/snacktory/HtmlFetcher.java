@@ -80,24 +80,33 @@ public class HtmlFetcher {
     private AtomicInteger cacheCounter = new AtomicInteger(0);
     private int maxTextLength = -1;
     private ArticleTextExtractor extractor = new ArticleTextExtractor();
-    private Set<String> shortServices = new LinkedHashSet<String>() {
+    private Set<String> furtherResolveNecessary = new LinkedHashSet<String>() {
 
         {
             add("bit.ly");
-            add("t.co");
-            add("ow.ly");
-            add("is.gd");
-            add("tr.im");
             add("cli.gs");
-            add("tinyurl.com");
-            add("goo.gl");
             add("deck.ly");
-            add("su.pr");
-            add("ink.co");
+            add("fb.me");
+            add("feedproxy.google.com");
+            add("flic.kr");
             add("fur.ly");
-            add("tiny.cc");
+            add("goo.gl");
+            add("is.gd");
+            add("ink.co");
+            add("j.mp");
+            add("on.fb.me");
+            add("ow.ly");
             add("plurl.us");
+            add("sns.mx");
             add("snurl.com");
+            add("su.pr");
+            add("t.co");
+            add("tcrn.ch");
+            add("tl.gd");
+            add("tiny.cc");
+            add("tinyurl.com");
+            add("tmi.me");
+            add("tr.im");
             add("twurl.nl");
         }
     };
@@ -285,9 +294,6 @@ public class HtmlFetcher {
 
     public String fetchAsString(String urlAsString, int timeout, boolean includeSomeGooseOptions)
             throws MalformedURLException, IOException {
-        if (logger.isDebugEnabled())
-            logger.debug("FetchAsString:" + urlAsString);
-
         HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
         hConn.setInstanceFollowRedirects(true);
         InputStream is = hConn.getInputStream();
@@ -296,7 +302,10 @@ public class HtmlFetcher {
 //                is = new GZIPInputStream(is);                        
 
         String enc = Converter.extractEncoding(hConn.getContentType());
-        return new Converter(urlAsString).streamToString(is, enc);
+        String res = new Converter(urlAsString).streamToString(is, enc);
+        if (logger.isDebugEnabled())
+            logger.debug(res.length() + " FetchAsString:" + urlAsString);
+        return res;
     }
 
     /**
@@ -324,11 +333,12 @@ public class HtmlFetcher {
             newUrl = hConn.getHeaderField("Location");
             if (responseCode / 100 == 3 && newUrl != null) {
                 newUrl = newUrl.replaceAll(" ", "+");
+                // some services use (none-standard) utf8 in their location header
                 if (urlAsString.startsWith("http://bit.ly") || urlAsString.startsWith("http://is.gd"))
                     newUrl = encodeUriFromHeader(newUrl);
 
                 // fix problems if shortened twice. as it is often the case after twitters' t.co bullshit
-                if (shortServices.contains(SHelper.extractDomain(newUrl, true)))
+                if (furtherResolveNecessary.contains(SHelper.extractDomain(newUrl, true)))
                     newUrl = getResolvedUrl(newUrl, timeout);
 
                 return newUrl;
@@ -337,11 +347,11 @@ public class HtmlFetcher {
 
         } catch (Exception ex) {
             logger.error("getResolvedUrl:" + urlAsString + " Error:" + ex.getMessage());
+            return "";
         } finally {
             if (logger.isDebugEnabled())
                 logger.debug(responseCode + " url:" + urlAsString + " resolved:" + newUrl);
         }
-        return "";
     }
 
     /**
