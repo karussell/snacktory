@@ -118,12 +118,12 @@ public class HtmlFetcherTest {
         System.out.println("title5:" + res.getTitle());
         System.out.println("url5:" + res.getUrl());
         System.out.println("text5:" + res.getText());
-    }   
-     
+    }
+
     @Test
     public void testDoubleResolve() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://t.co/eZRKcEYI", 10000, true);
-        assertEquals("teleject/Responsive-Web-Design-Artboards - GitHub", res.getTitle());        
+        assertEquals("teleject/Responsive-Web-Design-Artboards - GitHub", res.getTitle());
     }
 
     @Test

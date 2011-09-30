@@ -306,9 +306,9 @@ public class HtmlFetcher {
      * (within the specified time) or the same url if response code is OK
      */
     public String getResolvedUrl(String urlAsString, int timeout) {
+        String newUrl = null;
+        int responseCode = -1;
         try {
-            if (logger.isDebugEnabled())
-                logger.debug("getResolvedUrl:" + urlAsString);
             HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, true);
             // force no follow
             hConn.setInstanceFollowRedirects(false);
@@ -316,27 +316,30 @@ public class HtmlFetcher {
             // http://java.sun.com/developer/JDCTechTips/2003/tt0422.html
             hConn.setRequestMethod("HEAD");
             hConn.connect();
-            int responseCode = hConn.getResponseCode();
+            responseCode = hConn.getResponseCode();
             hConn.getInputStream().close();
             if (responseCode == HttpURLConnection.HTTP_OK)
                 return urlAsString;
 
-            String newUrl = hConn.getHeaderField("Location");
+            newUrl = hConn.getHeaderField("Location");
             if (responseCode / 100 == 3 && newUrl != null) {
                 newUrl = newUrl.replaceAll(" ", "+");
                 if (urlAsString.startsWith("http://bit.ly") || urlAsString.startsWith("http://is.gd"))
                     newUrl = encodeUriFromHeader(newUrl);
-                                
+
                 // fix problems if shortened twice. as it is often the case after twitters' t.co bullshit
-                if (shortServices.contains(SHelper.extractDomain(newUrl, true)))                    
+                if (shortServices.contains(SHelper.extractDomain(newUrl, true)))
                     newUrl = getResolvedUrl(newUrl, timeout);
-                
+
                 return newUrl;
             } else
                 return urlAsString;
 
         } catch (Exception ex) {
             logger.error("getResolvedUrl:" + urlAsString + " Error:" + ex.getMessage());
+        } finally {
+            if (logger.isDebugEnabled())
+                logger.debug(responseCode + " url:" + urlAsString + " resolved:" + newUrl);
         }
         return "";
     }
