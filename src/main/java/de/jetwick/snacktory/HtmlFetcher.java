@@ -94,6 +94,7 @@ public class HtmlFetcher {
             add("is.gd");
             add("ink.co");
             add("j.mp");
+            add("lnkd.in");
             add("on.fb.me");
             add("ow.ly");
             add("plurl.us");
