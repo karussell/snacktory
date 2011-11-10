@@ -91,13 +91,13 @@ public class SHelperTest {
 
     @Test
     public void testFaviconProtocolRelative() throws Exception {
-        assertEquals("//de.wikipedia.org/apple-touch-icon.png",
+        assertEquals("http://de.wikipedia.org/apple-touch-icon.png",
                 SHelper.useDomainOfFirstArg4Second("http://de.wikipedia.org/favicon", "//de.wikipedia.org/apple-touch-icon.png"));
     }
 
     @Test
     public void testImageProtocolRelative() throws Exception {
-        assertEquals("//upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/150px-Flag_of_Greece.svg.png",
+        assertEquals("http://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/150px-Flag_of_Greece.svg.png",
                 SHelper.useDomainOfFirstArg4Second("http://de.wikipedia.org/wiki/Griechenland", "//upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/150px-Flag_of_Greece.svg.png"));
     }
 
