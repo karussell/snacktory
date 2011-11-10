@@ -145,14 +145,15 @@ public class SHelper {
     /**
      * @param urlForDomain extract the domain from this url
      * @param path this url does not have a domain
-     * @param includeMobile
      * @return 
      */
     public static String useDomainOfFirstArg4Second(String urlForDomain, String path) {
         if ("favicon.ico".equals(path))
             path = "/favicon.ico";
 
-        if (path.startsWith("http"))
+        if (path.startsWith("//"))
+            return path;
+        else if (path.startsWith("http"))
             return path;
         else if (path.startsWith("/"))
             return "http://" + extractHost(urlForDomain) + path;

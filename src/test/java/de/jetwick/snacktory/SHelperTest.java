@@ -75,31 +75,49 @@ public class SHelperTest {
         assertFalse(SHelper.isVideoLink("irgendwas.com/youtube.com"));
     }
 
-    @Test public void testExctractHost() {
+    @Test
+    public void testExctractHost() {
         assertEquals("techcrunch.com",
                 SHelper.extractHost("http://techcrunch.com/2010/08/13/gantto-takes-on-microsoft-project-with-web-based-project-management-application/"));
     }
 
-    @Test public void testFavicon() {
+    @Test
+    public void testFavicon() {
         assertEquals("http://www.n24.de/news/../../../media/imageimport/images/content/favicon.ico",
                 SHelper.useDomainOfFirstArg4Second("http://www.n24.de/news/newsitem_6797232.html", "../../../media/imageimport/images/content/favicon.ico"));
         SHelper.useDomainOfFirstArg4Second("http://www.n24.de/favicon.ico", "/favicon.ico");
         SHelper.useDomainOfFirstArg4Second("http://www.n24.de/favicon.ico", "favicon.ico");
     }
 
-    @Test public void testEncodingCleanup() {
+    @Test
+    public void testFaviconProtocolRelative() throws Exception {
+        assertEquals("//de.wikipedia.org/apple-touch-icon.png",
+                SHelper.useDomainOfFirstArg4Second("http://de.wikipedia.org/favicon", "//de.wikipedia.org/apple-touch-icon.png"));
+    }
+
+    @Test
+    public void testImageProtocolRelative() throws Exception {
+        assertEquals("//upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/150px-Flag_of_Greece.svg.png",
+                SHelper.useDomainOfFirstArg4Second("http://de.wikipedia.org/wiki/Griechenland", "//upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/150px-Flag_of_Greece.svg.png"));
+    }
+
+
+    @Test
+    public void testEncodingCleanup() {
         assertEquals("utf-8", SHelper.encodingCleanup("utf-8"));
         assertEquals("utf-8", SHelper.encodingCleanup("utf-8\""));
         assertEquals("utf-8", SHelper.encodingCleanup("utf-8'"));
         assertEquals("test-8", SHelper.encodingCleanup(" test-8 &amp;"));
     }
 
-    @Test public void testUglyFacebook() {        
+    @Test
+    public void testUglyFacebook() {
         assertEquals("http://www.bet.com/collegemarketingreps&h=42263",
                 SHelper.getUrlFromUglyFacebookRedirect("http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.bet.com%2Fcollegemarketingreps&h=42263"));
     }
         
-    @Test public void testEstimateDate() {        
+    @Test
+    public void testEstimateDate() {
         assertNull(SHelper.estimateDate("http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.bet.com%2Fcollegemarketin"));
         assertEquals("2010/02/15", SHelper.estimateDate("http://www.vogella.de/blog/2010/02/15/twitter-android/"));
         assertEquals("2010/02", SHelper.estimateDate("http://www.vogella.de/blog/2010/02/twitter-android/12"));
@@ -107,10 +125,10 @@ public class SHelperTest {
         assertEquals("2009", SHelper.estimateDate("http://cagataycivici.wordpress.com/2009/sf/12/1/"));        
         assertEquals("2011/06", SHelper.estimateDate("http://bdoughan.blogspot.com/2011/06/using-jaxbs-xmlaccessortype-to.html"));
         assertEquals("2011", SHelper.estimateDate("http://bdoughan.blogspot.com/2011/13/using-jaxbs-xmlaccessortype-to.html"));
-        
     }
     
-    @Test public void testCompleteDate() {        
+    @Test
+    public void testCompleteDate() {
         assertNull(SHelper.completeDate(null));
         assertEquals("2001/01/01", SHelper.completeDate("2001"));
         assertEquals("2001/11/01", SHelper.completeDate("2001/11"));
