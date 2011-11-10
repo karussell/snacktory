@@ -1,10 +1,13 @@
 package de.jetwick.snacktory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ArticleTextExtractorTest {
 
@@ -514,10 +517,13 @@ public class ArticleTextExtractorTest {
     @Test
     public void testWikipedia() throws Exception {
         // String url = "http://en.wikipedia.org/wiki/Therapsids";
+        // Wikipedia has the advantage of also testing protocol relative URL extraction for Favicon and Images.
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("wikipedia.html")));
-        assertTrue(article.getText(), article.getText().startsWith("Therapsida is a group of synapsids that includes mammals and their immediate evolutionary ancestors. The earliest fossil attributed to Therapsida is b"));
-        assertEquals("http://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Pristeroognathus_DB.jpg/240px-Pristeroognathus_DB.jpg",
+        assertTrue(article.getText(), article.getText().startsWith("Therapsida is a group of the most advanced reptile-grade synapsids, and the ancestors of mammals"));
+        assertEquals("//upload.wikimedia.org/wikipedia/commons/thumb/4/42/Pristeroognathus_DB.jpg/240px-Pristeroognathus_DB.jpg",
                 article.getImageUrl());
+        assertEquals("//en.wikipedia.org/apple-touch-icon.png",
+                article.getFaviconUrl());
     }
 
     @Test
