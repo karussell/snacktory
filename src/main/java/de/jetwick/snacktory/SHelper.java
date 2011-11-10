@@ -151,10 +151,13 @@ public class SHelper {
         if ("favicon.ico".equals(path))
             path = "/favicon.ico";
 
-        if (path.startsWith("//"))
+        if (path.startsWith("//")) {
             // wikipedia special case, see tests
-            return "http:" + path;
-        else if (path.startsWith("http"))
+            if (urlForDomain.startsWith("https:"))
+                return "https:" + path;
+            else
+                return "http:" + path;
+        } else if (path.startsWith("http"))
             return path;
         else if (path.startsWith("/"))
             return "http://" + extractHost(urlForDomain) + path;
