@@ -46,8 +46,9 @@ public class Converter {
     public Converter() {
     }
 
-    public void setMaxBytes(int maxBytes) {
+    public Converter setMaxBytes(int maxBytes) {
         this.maxBytes = maxBytes;
+        return this;
     }
 
     public static String extractEncoding(String contentType) {

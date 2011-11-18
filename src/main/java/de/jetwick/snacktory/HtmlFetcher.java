@@ -303,15 +303,20 @@ public class HtmlFetcher {
 //                is = new GZIPInputStream(is);                        
 
         String enc = Converter.extractEncoding(hConn.getContentType());
-        String res = new Converter(urlAsString).streamToString(is, enc);
+        String res = createConverter(urlAsString).streamToString(is, enc);
         if (logger.isDebugEnabled())
             logger.debug(res.length() + " FetchAsString:" + urlAsString);
         return res;
+    }
+    
+    public Converter createConverter(String url) {
+        return new Converter(url);
     }
 
     /**
      * On some devices we have to hack:
      * http://developers.sun.com/mobility/reference/techart/design_guidelines/http_redirection.html
+     * @param timeout Sets a specified timeout value, in milliseconds
      * @return the resolved url if any. Or null if it couldn't resolve the url
      * (within the specified time) or the same url if response code is OK
      */
