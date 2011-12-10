@@ -99,7 +99,7 @@ public class OutputFormatter {
             if(e.attr("class") != null && e.attr("class").contains("caption"))
                 continue;
             
-            String text = e.text().trim();
+            String text = e.text();
             if (text.isEmpty() || text.length() < 50)
                 continue;
 
