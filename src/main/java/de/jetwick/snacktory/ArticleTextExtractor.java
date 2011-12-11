@@ -45,6 +45,7 @@ public class ArticleTextExtractor {
             add("facebook");
         }
     };
+    private static final OutputFormatter DEFAULT_FORMATTER = new OutputFormatter();
 
     /** 
      * @param html extracts article text from given html string. 
@@ -57,20 +58,18 @@ public class ArticleTextExtractor {
     }
 
     public JResult extractContent(JResult res, String html) throws Exception {
+        return extractContent(res, html, DEFAULT_FORMATTER);
+    }
+
+    public JResult extractContent(JResult res, String html, OutputFormatter formatter) throws Exception {
         if (html.isEmpty())
             throw new IllegalArgumentException("html string is empty!?");
 
         // http://jsoup.org/cookbook/extracting-data/selector-syntax
         Document doc = Jsoup.parse(html);
-        res.setTitle(cleanTitle(doc.title()));
+        res.setTitle(extractTitle(doc));
 
-        if (res.getTitle().isEmpty())
-            res.setTitle(SHelper.innerTrim(doc.select("head title").text()));
-
-        if (res.getTitle().isEmpty())
-            res.setTitle(SHelper.innerTrim(doc.select("head meta[name=title]").attr("content")));
-
-        res.setDescription(SHelper.innerTrim(doc.select("head meta[name=description]").attr("content")));
+        res.setDescription(extractDescription(doc));
 
         // now remove the clutter
         prepareDocument(doc);
@@ -98,7 +97,7 @@ public class ArticleTextExtractor {
             }
 
             // clean before grabbing text
-            String text = new OutputFormatter().getFormattedText(bestMatchElement);
+            String text = formatter.getFormattedText(bestMatchElement);
             text = removeTitleFromText(text, res.getTitle());
             // this fails for short facebook post and probably tweets: text.length() > res.getDescription().length()
             if (text.length() > res.getTitle().length()) {
@@ -107,34 +106,69 @@ public class ArticleTextExtractor {
             }
         }
 
-        String imageUrl = res.getImageUrl();
-        if(imageUrl.isEmpty()){
-            // use open graph tag to get image
-            imageUrl = SHelper.replaceSpaces(doc.select("head meta[property=og:image]").attr("content"));
-            if(imageUrl.isEmpty()){
-                // prefer link over thumbnail-meta if empty
-                imageUrl = SHelper.replaceSpaces(doc.select("link[rel=image_src]").attr("href"));
-                if(imageUrl.isEmpty()){
-                    imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=thumbnail]").attr("content"));
-                }
-            }
-            res.setImageUrl(imageUrl);
+        if(res.getImageUrl().isEmpty()){
+            res.setImageUrl(extractImageUrl(doc));
         }
 
-        res.setRssUrl(SHelper.replaceSpaces(doc.select("link[rel=alternate]").select("link[type=application/rss+xml]").attr("href")));
-        
-        res.setVideoUrl(SHelper.replaceSpaces(doc.select("head meta[property=og:video]").attr("content")));
+        res.setRssUrl(extractRssUrl(doc));
 
+        res.setVideoUrl(extractVideoUrl(doc));
+
+        res.setFaviconUrl(extractFaviconUrl(doc));
+
+        return res;
+    }
+
+    protected String extractTitle(Document doc){
+        String title = cleanTitle(doc.title());
+        if(title.isEmpty()){
+            title = SHelper.innerTrim(doc.select("head title").text());
+            if(title.isEmpty()){
+                title = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
+            }
+        }
+        return title;
+    }
+
+    protected String extractDescription(Document doc){
+        return SHelper.innerTrim(doc.select("head meta[name=description]").attr("content"));
+    }
+
+    /***
+     *  Tries to extract an image url from metadata if determineImageSource failed
+     * @param doc
+     * @return image url or empty str
+     */
+    protected String extractImageUrl(Document doc){
+        // use open graph tag to get image
+        String imageUrl = SHelper.replaceSpaces(doc.select("head meta[property=og:image]").attr("content"));
+        if(imageUrl.isEmpty()){
+            // prefer link over thumbnail-meta if empty
+            imageUrl = SHelper.replaceSpaces(doc.select("link[rel=image_src]").attr("href"));
+            if(imageUrl.isEmpty()){
+                imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=thumbnail]").attr("content"));
+            }
+        }
+        return imageUrl;
+    }
+
+    protected String extractRssUrl(Document doc){
+        return SHelper.replaceSpaces(doc.select("link[rel=alternate]").select("link[type=application/rss+xml]").attr("href"));
+    }
+
+    protected String extractVideoUrl(Document doc){
+        return SHelper.replaceSpaces(doc.select("head meta[property=og:video]").attr("content"));
+    }
+
+    protected String extractFaviconUrl(Document doc){
         String faviconUrl = SHelper.replaceSpaces(doc.select("head link[rel=icon]").attr("href"));
         if(faviconUrl.isEmpty()){
             faviconUrl = SHelper.replaceSpaces(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href"));
         }
-        res.setFaviconUrl(faviconUrl);
-        
-        return res;
+        return faviconUrl;
     }
 
-    /** 
+    /**
      * Weights current element. By matching it with positive candidates and 
      * weighting child nodes. Since it's impossible to predict which
      * exactly names, ids or class names will be used in HTML, major
