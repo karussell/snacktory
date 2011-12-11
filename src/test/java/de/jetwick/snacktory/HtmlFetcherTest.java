@@ -70,15 +70,9 @@ public class HtmlFetcherTest {
     }
 
     @Test
-    public void testEncoding2() throws Exception {
-        JResult res = new HtmlFetcher().fetchAndExtract("http://hfs.ru/domou/about/", 10000, true);
-        assertEquals("Концепция / Издательский дом Ашет Филипаки Шкулев ( Hachette Filipacchi Shkulev )", res.getTitle());
-    }
-
-    @Test
     public void testHashbang() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://www.facebook.com/democracynow", 10000, true);
-        assertEquals("Democracy Now!", res.getTitle());
+        assertEquals("Democracy Now! - Media/News/Publishing - New York, NY", res.getTitle());
 
         res = new HtmlFetcher().fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
         assertEquals("Twitter / Tatjana Hoenich: “@AntiAtomPiraten: \"Protes ...", res.getTitle());
@@ -93,9 +87,8 @@ public class HtmlFetcherTest {
 
     @Test
     public void testFurther() throws Exception {
-        JResult res = new HtmlFetcher().fetchAndExtract("http://linksunten.indymedia.org/de/node/41619?utm_source=twitterfeed&utm_medium=twitter", 10000, true);
-        System.out.println("url1:" + res.getUrl());
-        System.out.println("text1:" + res.getText());
+        JResult res = new HtmlFetcher().fetchAndExtract("http://linksunten.indymedia.org/de/node/41619?utm_source=twitterfeed&utm_medium=twitter", 10000, true);        
+        assertTrue(res.getText(), res.getText().startsWith("Es gibt kein ruhiges Hinterland! Schon wieder den "));
 
 //        res = new HtmlFetcher().fetchAndExtract("http://www.paulgraham.com/seesv.html", 10000, true);
 //        System.out.println("url2:" + res.getUrl());
@@ -106,18 +99,9 @@ public class HtmlFetcherTest {
 //            System.out.println(el.className() + ":" + el.ownText());
 //        }
 
-        res = new HtmlFetcher().fetchAndExtract("https://forum.bitcoin.org/index.php?topic=28923.0", 10000, true);
-        System.out.println("url3:" + res.getUrl());
-        System.out.println("text3:" + res.getText());
-
-        res = new HtmlFetcher().fetchAndExtract("http://www.flickr.com/photos/artetextilmerlina/5958866593/in/pool-54743695@N00?utm_source=twitterfeed&utm_medium=twitter", 10000, true);
-        System.out.println("url4:" + res.getUrl());
-        System.out.println("text4:" + res.getText());
-
-        res = new HtmlFetcher().fetchAndExtract("http://www.br-online.de/br-klassik/programmtipps/highlight-bayreuth-tannhaeuser-festspielzeit-2011-ID1309895438808.xml", 10000, true);
-        System.out.println("title5:" + res.getTitle());
-        System.out.println("url5:" + res.getUrl());
-        System.out.println("text5:" + res.getText());
+        res = new HtmlFetcher().fetchAndExtract("http://www.flickr.com/photos/artetextilmerlina/5958866593/in/pool-54743695@N00?utm_source=twitterfeed&utm_medium=twitter", 10000, true);        
+        assertTrue(res.getText(), res.getText().
+                startsWith("One pill makes you larger And one pill makes you small And the ones that mother gives you Don't do anything at all Go ask Alice When she's ten feet tall And "));
     }
 
     @Test
