@@ -7,6 +7,9 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author goose | jim
  * 
@@ -14,19 +17,32 @@ import org.slf4j.LoggerFactory;
  * and getting it ready for how we want it presented to the user
  */
 public class OutputFormatter {
-
-    public static final int MIN_PARAGRAPH_TEXT = 50;
     private static final Logger logger = LoggerFactory.getLogger(OutputFormatter.class);
-    private Element topNode;
+    public static final int MIN_PARAGRAPH_TEXT = 50;
+    private static final List<String> NODES_TO_REPLACE = Arrays.asList("strong", "b", "i");
+    protected final int minParagraphText;
+    protected final List<String> nodesToReplace;
+
+    public OutputFormatter() {
+        this(MIN_PARAGRAPH_TEXT, NODES_TO_REPLACE);
+    }
+
+    public OutputFormatter(int minParagraphText) {
+        this(minParagraphText, NODES_TO_REPLACE);
+    }
+
+    public OutputFormatter(int minParagraphText, List<String> nodesToReplace) {
+        this.minParagraphText = minParagraphText;
+        this.nodesToReplace = nodesToReplace;
+    }
 
     /**
      * takes an element and turns the P tags into \n\n     
      */
     public String getFormattedText(Element topNode) {
-        this.topNode = topNode;
-        removeNodesWithNegativeScores();
-        convertLinksToText();
-        replaceTagsWithText();
+        removeNodesWithNegativeScores(topNode);
+        convertLinksToText(topNode);
+        replaceTagsWithText(topNode);
 
         StringBuilder sb = new StringBuilder();
         append(topNode, sb, "p");
@@ -45,8 +61,9 @@ public class OutputFormatter {
 
     /**
      * cleans up and converts any nodes that should be considered text into text
+     * @param topNode
      */
-    private void convertLinksToText() {
+    protected void convertLinksToText(Element topNode) {
         Elements links = topNode.getElementsByTag("a");
         for (Element item : links) {
             if (item.getElementsByTag("img").isEmpty()) {
@@ -60,12 +77,13 @@ public class OutputFormatter {
     /**
      * if there are elements inside our top node that have a negative gravity score, let's
      * give em the boot
+     * @param topNode
      */
-    private void removeNodesWithNegativeScores() {
-        Elements gravityItems = this.topNode.select("*[gravityScore]");
+    protected void removeNodesWithNegativeScores(Element topNode) {
+        Elements gravityItems = topNode.select("*[gravityScore]");
         for (Element item : gravityItems) {
             int score = Integer.parseInt(item.attr("gravityScore"));
-            if (score < 0 || item.text().length() < MIN_PARAGRAPH_TEXT)
+            if (score < 0 || item.text().length() < minParagraphText)
                 item.remove();
         }
     }
@@ -73,34 +91,25 @@ public class OutputFormatter {
     /**
      * replace common tags with just text so we don't have any crazy formatting issues
      * so replace <br>, <i>, <strong>, etc.... with whatever text is inside them
+     * @param topNode
      */
-    private void replaceTagsWithText() {
-        Elements strongs = topNode.getElementsByTag("strong");
-        for (Element item : strongs) {
-            TextNode tn = new TextNode(item.text(), topNode.baseUri());
-            item.replaceWith(tn);
-        }
-
-        Elements bolds = topNode.getElementsByTag("b");
-        for (Element item : bolds) {
-            TextNode tn = new TextNode(item.text(), topNode.baseUri());
-            item.replaceWith(tn);
-        }
-
-        Elements italics = topNode.getElementsByTag("i");
-        for (Element item : italics) {
-            TextNode tn = new TextNode(item.text(), topNode.baseUri());
-            item.replaceWith(tn);
+    protected void replaceTagsWithText(Element topNode) {
+        for (String tag : nodesToReplace) {
+            Elements elems = topNode.getElementsByTag(tag);
+            for (Element item : elems) {
+                TextNode tn = new TextNode(item.text(), topNode.baseUri());
+                item.replaceWith(tn);
+            }
         }
     }
 
-    private void append(Element node, StringBuilder sb, String tagName) {
+    protected void append(Element node, StringBuilder sb, String tagName) {
         for (Element e : node.getElementsByTag(tagName)) {
             if(e.attr("class") != null && e.attr("class").contains("caption"))
                 continue;
             
-            String text = e.text().trim();
-            if (text.isEmpty() || text.length() < 50)
+            String text = e.text();
+            if (text.isEmpty() || text.length() < minParagraphText)
                 continue;
 
             sb.append(text);

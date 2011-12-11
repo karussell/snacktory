@@ -24,30 +24,28 @@ public class ArticleTextExtractor {
     private static final Logger logger = LoggerFactory.getLogger(ArticleTextExtractor.class);
     // Unlikely candidates
     private static final Pattern UNLIKELY =
-            Pattern.compile("(combx.*)|(comment.*)|(community.*)|(disqus.*)|(extra.*)|"
-            + "(foot.*)|(header.*)|(menu.*)|(remark.*)|(rss.*)|(shoutbox.*)|(sidebar.*)|"
-            + "(sponsor.*)|(ad.*)|(agegate.*)|(pagination.*)|(pager.*)|(popup.*)|"
-            + "(print.*)|(archive.*)|(comment.*)|(discuss.*)|(e[-]?mail.*)|(share.*)|"
-            + "(reply.*)|(all.*)|(login.*)|(sign.*)|(single.*)|(attachment.*)");
+            Pattern.compile("^(com(bx|ment|munity)|dis(qus|cuss)|e(xtra|[-]?mail)|foot|"
+            + "header|menu|re(mark|ply)|rss|sh(are|outbox)|sponsor"
+            + "a(d|ll|gegate|rchive|ttachment)|(pag(er|ination))|popup|print|"
+            + "login|si(debar|gn|ngle))");
     // Most likely positive candidates
     private static final Pattern POSITIVE =
-            Pattern.compile("(.*article.*)|(body.*)|(content.*)|(entry.*)|(hentry.*)|(main.*)|"
-            + "(page.*)|(post.*)|(text.*)|(blog.*)|(story.*)|(.*instapaper_body.*)|(haupt.*)|(.*artikel.*)");
+            Pattern.compile("(^(body|content|h?entry|main|page|post|text|blog|story|haupt))"
+            + "|arti(cle|kel)|instapaper_body");
     // Most likely negative candidates
     private static final Pattern NEGATIVE =
-            Pattern.compile("(.*navigation.*)|(.*user.*)|(.*nav)|(.*combx.*)|(.*comment.*)|(com-.*)|(.*contact.*)|"
-            + "(.*foot.*)|(.*footer.*)|(.*footnote.*)|(.*masthead.*)|(.*media.*)|(.*meta.*)|"
-            + "(.*outbrain.*)|(.*promo.*)|(.*related.*)|(.*scroll.*)|(.*shoutbox.*)|"
-            + "(.*sidebar.*)|(.*sponsor.*)|(.*shopping.*)|(.*tags.*)|(.*tool.*)|(.*widget.*)|(related.*)");
-    private static final Pattern IMAGE_CAPTION =
-            Pattern.compile("(.*caption.*)");
-    private static final Set<String> set = new LinkedHashSet<String>() {
+            Pattern.compile("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
+            + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
+            + "sidebar|sponsor|tags|tool|widget");
+    private static final String IMAGE_CAPTION = "caption";
+    private static final Set<String> IGNORED_TITLE_PARTS = new LinkedHashSet<String>() {
 
         {
             add("hacker news");
             add("facebook");
         }
     };
+    private static final OutputFormatter DEFAULT_FORMATTER = new OutputFormatter();
 
     /** 
      * @param html extracts article text from given html string. 
@@ -60,20 +58,18 @@ public class ArticleTextExtractor {
     }
 
     public JResult extractContent(JResult res, String html) throws Exception {
+        return extractContent(res, html, DEFAULT_FORMATTER);
+    }
+
+    public JResult extractContent(JResult res, String html, OutputFormatter formatter) throws Exception {
         if (html.isEmpty())
             throw new IllegalArgumentException("html string is empty!?");
 
         // http://jsoup.org/cookbook/extracting-data/selector-syntax
         Document doc = Jsoup.parse(html);
-        res.setTitle(cleanTitle(doc.title()));
+        res.setTitle(extractTitle(doc));
 
-        if (res.getTitle().isEmpty())
-            res.setTitle(SHelper.innerTrim(doc.select("head title").text()));
-
-        if (res.getTitle().isEmpty())
-            res.setTitle(SHelper.innerTrim(doc.select("head meta[name=title]").attr("content")));
-
-        res.setDescription(SHelper.innerTrim(doc.select("head meta[name=description]").attr("content")));
+        res.setDescription(extractDescription(doc));
 
         // now remove the clutter
         prepareDocument(doc);
@@ -95,13 +91,13 @@ public class ArticleTextExtractor {
         if (bestMatchElement != null) {
             Element imgEl = determineImageSource(bestMatchElement);
             if (imgEl != null) {
-                res.setImageUrl(SHelper.innerTrim(imgEl.attr("src")));
+                res.setImageUrl(SHelper.replaceSpaces(imgEl.attr("src")));
                 // TODO remove parent container of image if it is contained in bestMatchElement
                 // to avoid image subtitles flooding in
             }
 
             // clean before grabbing text
-            String text = new OutputFormatter().getFormattedText(bestMatchElement);
+            String text = formatter.getFormattedText(bestMatchElement);
             text = removeTitleFromText(text, res.getTitle());
             // this fails for short facebook post and probably tweets: text.length() > res.getDescription().length()
             if (text.length() > res.getTitle().length()) {
@@ -110,37 +106,69 @@ public class ArticleTextExtractor {
             }
         }
 
-        // use open graph tag to get image
-        if (res.getImageUrl().isEmpty())
-            res.setImageUrl(SHelper.innerTrim(doc.select("head meta[property=og:image]").attr("content")));
+        if(res.getImageUrl().isEmpty()){
+            res.setImageUrl(extractImageUrl(doc));
+        }
 
-        // prefer link over thumbnail-meta if empty
-        if (res.getImageUrl().isEmpty())
-            res.setImageUrl(SHelper.innerTrim(doc.select("link[rel=image_src]").attr("href")));
+        res.setRssUrl(extractRssUrl(doc));
 
-        if (res.getImageUrl().isEmpty())
-            res.setImageUrl(SHelper.innerTrim(doc.select("head meta[name=thumbnail]").attr("content")));
+        res.setVideoUrl(extractVideoUrl(doc));
 
-        res.setRssUrl(SHelper.innerTrim(doc.select("link[rel=alternate]").select("link[type=application/rss+xml]").attr("href")));        
-        
-        res.setVideoUrl(SHelper.innerTrim(doc.select("head meta[property=og:video]").attr("content")));
+        res.setFaviconUrl(extractFaviconUrl(doc));
 
-        res.setFaviconUrl(SHelper.innerTrim(doc.select("head link[rel=icon]").attr("href")));
-        if (res.getFaviconUrl().contains(" "))
-            res.setFaviconUrl("");
-
-        if (res.getFaviconUrl().isEmpty())
-            // I don't know how to select rel=shortcut icon => select start==shortcut and end==icon
-            res.setFaviconUrl(SHelper.innerTrim(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href")));
-
-        // again
-        if (res.getFaviconUrl().contains(" "))
-            res.setFaviconUrl("");
-        
         return res;
     }
 
-    /** 
+    protected String extractTitle(Document doc){
+        String title = cleanTitle(doc.title());
+        if(title.isEmpty()){
+            title = SHelper.innerTrim(doc.select("head title").text());
+            if(title.isEmpty()){
+                title = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
+            }
+        }
+        return title;
+    }
+
+    protected String extractDescription(Document doc){
+        return SHelper.innerTrim(doc.select("head meta[name=description]").attr("content"));
+    }
+
+    /***
+     *  Tries to extract an image url from metadata if determineImageSource failed
+     * @param doc
+     * @return image url or empty str
+     */
+    protected String extractImageUrl(Document doc){
+        // use open graph tag to get image
+        String imageUrl = SHelper.replaceSpaces(doc.select("head meta[property=og:image]").attr("content"));
+        if(imageUrl.isEmpty()){
+            // prefer link over thumbnail-meta if empty
+            imageUrl = SHelper.replaceSpaces(doc.select("link[rel=image_src]").attr("href"));
+            if(imageUrl.isEmpty()){
+                imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=thumbnail]").attr("content"));
+            }
+        }
+        return imageUrl;
+    }
+
+    protected String extractRssUrl(Document doc){
+        return SHelper.replaceSpaces(doc.select("link[rel=alternate]").select("link[type=application/rss+xml]").attr("href"));
+    }
+
+    protected String extractVideoUrl(Document doc){
+        return SHelper.replaceSpaces(doc.select("head meta[property=og:video]").attr("content"));
+    }
+
+    protected String extractFaviconUrl(Document doc){
+        String faviconUrl = SHelper.replaceSpaces(doc.select("head link[rel=icon]").attr("href"));
+        if(faviconUrl.isEmpty()){
+            faviconUrl = SHelper.replaceSpaces(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href"));
+        }
+        return faviconUrl;
+    }
+
+    /**
      * Weights current element. By matching it with positive candidates and 
      * weighting child nodes. Since it's impossible to predict which
      * exactly names, ids or class names will be used in HTML, major
@@ -149,22 +177,22 @@ public class ArticleTextExtractor {
      */
     protected int getWeight(Element e) {
         Integer weight = 0;
-        if (POSITIVE.matcher(e.className()).matches())
+        if (POSITIVE.matcher(e.className()).find())
             weight += 35;
 
-        if (POSITIVE.matcher(e.id()).matches())
+        if (POSITIVE.matcher(e.id()).find())
             weight += 40;
 
-        if (UNLIKELY.matcher(e.className()).matches())
+        if (UNLIKELY.matcher(e.className()).find())
             weight -= 20;
 
-        if (UNLIKELY.matcher(e.id()).matches())
+        if (UNLIKELY.matcher(e.id()).find())
             weight -= 20;
 
-        if (NEGATIVE.matcher(e.className()).matches())
+        if (NEGATIVE.matcher(e.className()).find())
             weight -= 50;
 
-        if (NEGATIVE.matcher(e.id()).matches())
+        if (NEGATIVE.matcher(e.id()).find())
             weight -= 50;
 
         weight += (int) Math.round(e.ownText().length() / 100.0 * 10);
@@ -198,7 +226,7 @@ public class ArticleTextExtractor {
             if (ownTextLength > 200)
                 weight += Math.max(50, ownTextLength / 10);
 
-            if (IMAGE_CAPTION.matcher(e.id()).matches() || IMAGE_CAPTION.matcher(e.className()).matches())
+            if (e.id().contains(IMAGE_CAPTION) || e.className().contains(IMAGE_CAPTION))
                 weight += 30;
 
             if (child.tagName().equals("h1") || child.tagName().equals("h2")) {
@@ -342,8 +370,8 @@ public class ArticleTextExtractor {
             String className = child.className().toLowerCase();
             String id = child.id().toLowerCase();
 
-            if (NEGATIVE.matcher(className).matches()
-                    || NEGATIVE.matcher(id).matches()) {
+            if (NEGATIVE.matcher(className).find()
+                    || NEGATIVE.matcher(id).find()) {
 //                print("REMOVE:", child);
                 child.remove();
             }
@@ -445,7 +473,7 @@ public class ArticleTextExtractor {
         int counter = 0;
         String[] strs = title.split("\\|");
         for (String part : strs) {
-            if (set.contains(part.toLowerCase().trim()))
+            if (IGNORED_TITLE_PARTS.contains(part.toLowerCase().trim()))
                 continue;
 
             if (counter == strs.length - 1 && res.length() > part.length())
