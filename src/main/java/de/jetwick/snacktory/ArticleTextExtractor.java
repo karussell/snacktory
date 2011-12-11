@@ -92,7 +92,7 @@ public class ArticleTextExtractor {
         if (bestMatchElement != null) {
             Element imgEl = determineImageSource(bestMatchElement);
             if (imgEl != null) {
-                res.setImageUrl(SHelper.innerTrim(imgEl.attr("src")));
+                res.setImageUrl(SHelper.replaceSpaces(imgEl.attr("src")));
                 // TODO remove parent container of image if it is contained in bestMatchElement
                 // to avoid image subtitles flooding in
             }
@@ -107,32 +107,29 @@ public class ArticleTextExtractor {
             }
         }
 
-        // use open graph tag to get image
-        if (res.getImageUrl().isEmpty())
-            res.setImageUrl(SHelper.innerTrim(doc.select("head meta[property=og:image]").attr("content")));
+        String imageUrl = res.getImageUrl();
+        if(imageUrl.isEmpty()){
+            // use open graph tag to get image
+            imageUrl = SHelper.replaceSpaces(doc.select("head meta[property=og:image]").attr("content"));
+            if(imageUrl.isEmpty()){
+                // prefer link over thumbnail-meta if empty
+                imageUrl = SHelper.replaceSpaces(doc.select("link[rel=image_src]").attr("href"));
+                if(imageUrl.isEmpty()){
+                    imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=thumbnail]").attr("content"));
+                }
+            }
+            res.setImageUrl(imageUrl);
+        }
 
-        // prefer link over thumbnail-meta if empty
-        if (res.getImageUrl().isEmpty())
-            res.setImageUrl(SHelper.innerTrim(doc.select("link[rel=image_src]").attr("href")));
-
-        if (res.getImageUrl().isEmpty())
-            res.setImageUrl(SHelper.innerTrim(doc.select("head meta[name=thumbnail]").attr("content")));
-
-        res.setRssUrl(SHelper.innerTrim(doc.select("link[rel=alternate]").select("link[type=application/rss+xml]").attr("href")));        
+        res.setRssUrl(SHelper.replaceSpaces(doc.select("link[rel=alternate]").select("link[type=application/rss+xml]").attr("href")));
         
-        res.setVideoUrl(SHelper.innerTrim(doc.select("head meta[property=og:video]").attr("content")));
+        res.setVideoUrl(SHelper.replaceSpaces(doc.select("head meta[property=og:video]").attr("content")));
 
-        res.setFaviconUrl(SHelper.innerTrim(doc.select("head link[rel=icon]").attr("href")));
-        if (res.getFaviconUrl().contains(" "))
-            res.setFaviconUrl("");
-
-        if (res.getFaviconUrl().isEmpty())
-            // I don't know how to select rel=shortcut icon => select start==shortcut and end==icon
-            res.setFaviconUrl(SHelper.innerTrim(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href")));
-
-        // again
-        if (res.getFaviconUrl().contains(" "))
-            res.setFaviconUrl("");
+        String faviconUrl = SHelper.replaceSpaces(doc.select("head link[rel=icon]").attr("href"));
+        if(faviconUrl.isEmpty()){
+            faviconUrl = SHelper.replaceSpaces(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href"));
+        }
+        res.setFaviconUrl(faviconUrl);
         
         return res;
     }
