@@ -5,7 +5,7 @@
 
     <groupId>de.jetwick</groupId>
     <artifactId>snacktory</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>Snacktory</name>
@@ -16,8 +16,7 @@
         <slf4j.version>1.6.1</slf4j.version>
     </properties>
     
-    <dependencies>
-        
+    <dependencies>        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -50,24 +49,6 @@
             <version>1.2.14</version>
             <scope>compile</scope>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.0.3</version>
-        </dependency>
-         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.4</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>-->
     </dependencies>
     <build>
         <plugins>
