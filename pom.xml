@@ -74,8 +74,12 @@
     </build>
     <distributionManagement>
         <snapshotRepository>
-            <id>karussell_snapshot</id>
+            <id>karussell_snapshots</id>
             <url>https://github.com/karussell/mvnrepo/raw/master/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>karussell_releases</id>
+            <url>https://github.com/karussell/mvnrepo/raw/master/releases/</url>
+        </repository>
     </distributionManagement>
 </project>

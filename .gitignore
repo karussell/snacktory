@@ -2,4 +2,4 @@ target/
 nb-configuration.xml
 nbactions.xml
 *~
-deploy-jar-to-mvnrepo-at-github.sh
+deploy-*.sh
