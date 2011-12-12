@@ -593,6 +593,13 @@ public class ArticleTextExtractorTest {
         // this should fail as most sites do store their name after the post
         assertEquals("Irgendwas | mytitle irgendwas", extractor.cleanTitle("Irgendwas | mytitle irgendwas"));
     }
+    
+    @Test
+    public void testGaltimeWhereUrlContainsSpaces() throws Exception {
+        //String url = "http://galtime.com/article/entertainment/37/22938/kris-humphries-avoids-kim-talk-gma";
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("galtime.com.html")));
+        assertEquals("http://vnetcdn.dtsph.com/files/vnet3/imagecache/opengraph_ogimage/story-images/Kris%20Humphries%20Top%20Bar.JPG", article.getImageUrl());
+    }
 
     /**
      * @param filePath the name of the file to open. Not sure if it can accept URLs 
