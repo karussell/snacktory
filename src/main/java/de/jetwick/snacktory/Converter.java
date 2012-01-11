@@ -20,8 +20,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
-import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 /**
  * This class is not thread safe. Use one new instance every time due to encoding
@@ -34,7 +35,7 @@ public class Converter {
     private final static Logger logger = Logger.getLogger(Converter.class);
     public final static String UTF8 = "UTF-8";
     public final static String ISO = "ISO-8859-1";
-    public final static int K4 = 4096;
+    public final static int K2 = 2048;
     private int maxBytes = 1000000 / 2;
     private String encoding;
     private String url;
@@ -98,24 +99,27 @@ public class Converter {
 
         BufferedInputStream in = null;
         try {
-            in = new BufferedInputStream(is, K4);
-            StringBuilder sb = new StringBuilder();            
+            in = new BufferedInputStream(is, K2);
+            StringBuilder sb = new StringBuilder();
 
-            // detect with the help of meta tag
+            // detect encoding with the help of meta tag
             try {
-                in.mark(K4 * 2);
+                in.mark(K2 * 2);
                 String tmpEnc = detectCharset("charset=", sb, in);
                 if (tmpEnc != null)
                     encoding = tmpEnc;
                 else {
+                    logger.debug("no charset found in first stage");
                     // detect with the help of xml beginning ala encoding="charset"
                     tmpEnc = detectCharset("encoding=", sb, in);
-                    if (tmpEnc != null)
+                    if (tmpEnc != null)                        
                         encoding = tmpEnc;
+                    else
+                        logger.debug("no charset found in second stage");
                 }
 
-                // try if detected is valid
-                URLEncoder.encode("test", encoding);
+                if (!Charset.isSupported(encoding))
+                    throw new UnsupportedEncodingException(encoding);
             } catch (UnsupportedEncodingException e) {
                 logger.warn("Using default encoding:" + UTF8
                         + " problem:" + e.getMessage() + " encoding:" + encoding + " " + url);
@@ -125,18 +129,18 @@ public class Converter {
             // SocketException: Connection reset
             // IOException: missing CR    => problem on server (probably some xml character thing?)
             // IOException: Premature EOF => socket unexpectly closed from server
-            int bytesRead = K4;
-            byte[] arr = new byte[K4];
+            int bytesRead = K2;
+            byte[] arr = new byte[K2];
             while (true) {
                 if (bytesRead >= maxBytes) {
                     logger.warn("Maxbyte of " + maxBytes + " exceeded! Maybe html is now broken but try it nevertheless. Url: " + url);
                     break;
                 }
 
-                int n = in.read(arr);                
+                int n = in.read(arr);
                 if (n < 0)
                     break;
-                bytesRead += K4;
+                bytesRead += K2;
                 sb.append(new String(arr, 0, n, encoding));
             }
 
@@ -164,15 +168,15 @@ public class Converter {
      * 
      * @throws IOException 
      */
-    public String detectCharset(String key, StringBuilder sb, BufferedInputStream in) throws IOException {        
+    public String detectCharset(String key, StringBuilder sb, BufferedInputStream in) throws IOException {
         // Grab better encoding from stream        
-        byte[] arr = new byte[K4];
+        byte[] arr = new byte[K2];
         int nSum = 0;
-        while (nSum < K4) {            
-            int n = in.read(arr);                        
+        while (nSum < K2) {
+            int n = in.read(arr);
             if (n < 0)
                 break;
-            
+
             nSum += n;
             sb.append(new String(arr, 0, n, encoding));
         }

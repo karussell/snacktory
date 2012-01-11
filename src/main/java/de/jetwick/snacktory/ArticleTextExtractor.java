@@ -2,6 +2,7 @@ package de.jetwick.snacktory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
@@ -9,6 +10,7 @@ import org.jsoup.nodes.Element;
 
 import java.util.regex.Pattern;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
@@ -449,19 +451,20 @@ public class ArticleTextExtractor {
     /**
      * @return a set of all important nodes
      */
-    public Collection<Element> getNodes(Document doc) {
-        Set<Element> nodes = new LinkedHashSet<Element>(32);
+    public Collection<Element> getNodes(Document doc) {        
+        Map<Integer, Element> nodes = new LinkedHashMap<Integer, Element>(32);
         int score = 100;
         for (Element el : doc.select("body").select("*")) {
             if ("p;div;td;h1;h2".contains(el.tagName())) {
-                nodes.add(el);
-                nodes.add(el.parent());
+                // TODO reduce calculation of hashcode!
+                nodes.put(el.hashCode(), el);
+                Element p = el.parent();
+                nodes.put(p.hashCode(), p);
                 setScore(el, score);
-//                TODO setScore(el.parent(), score);
                 score = score / 2;
             }
         }
-        return nodes;
+        return nodes.values();
     }
 
     public String cleanTitle(String title) {

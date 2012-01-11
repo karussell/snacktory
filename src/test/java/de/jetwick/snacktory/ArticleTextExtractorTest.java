@@ -159,10 +159,10 @@ public class ArticleTextExtractorTest {
 
     @Test
     public void testITunes() throws Exception {
-        // http://itunes.apple.com/us/album/songs-for-japan/id428401715
+        // http://itunes.apple.com/us/album/21/id420075073
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("itunes.html")));
-        assertTrue(res.getText().isEmpty());
-        assertTrue("itunes:" + res.getDescription(), res.getDescription().startsWith("Preview and download songs from Songs for Japan by Various Artists"));
+        assertTrue(res.getText(), res.getText().startsWith("What else can be said of this album other than that it is simply amazing? Adele's voice is powerful, vulnerable, assured, and heartbreaking all in one fell swoop."));
+        assertTrue("itunes:" + res.getDescription(), res.getDescription().startsWith("Preview songs from 21 by ADELE"));
     }
 
     @Test
