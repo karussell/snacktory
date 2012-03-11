@@ -22,7 +22,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 
 /**
  * This class is not thread safe. Use one new instance every time due to encoding
@@ -52,8 +51,13 @@ public class Converter {
         return this;
     }
 
-    public static String extractEncoding(String contentType) {
-        String[] values = contentType.split(";");
+    public static String extractEncoding(String contentType) {        
+        String[] values;
+        if(contentType != null)
+            values = contentType.split(";");
+        else            
+            values = new String[0];
+        
         String charset = "";
 
         for (String value : values) {

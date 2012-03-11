@@ -60,7 +60,7 @@ public class HtmlFetcherTest {
     @Test
     public void testTwitpicGzipDoesNOTwork() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://twitpic.com/4kuem8", 12000, true);
-        assertTrue(res.getText(), res.getText().contains("Remember"));
+        assertTrue(res.getText(), res.getText().contains("*Not* what you want to see"));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class HtmlFetcherTest {
     @Test
     public void testHashbang() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://www.facebook.com/democracynow", 10000, true);
-        assertEquals("Democracy Now! - Media/News/Publishing - New York, NY", res.getTitle());
+        assertTrue(res.getTitle(), res.getTitle().startsWith("Democracy Now! "));
 
         res = new HtmlFetcher().fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
         assertEquals("Twitter / Tatjana Hoenich: “@AntiAtomPiraten: \"Protes ...", res.getTitle());
@@ -107,7 +107,7 @@ public class HtmlFetcherTest {
     @Test
     public void testDoubleResolve() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://t.co/eZRKcEYI", 10000, true);
-        assertEquals("teleject/Responsive-Web-Design-Artboards - GitHub", res.getTitle());
+        assertTrue(res.getTitle(), res.getTitle().startsWith("teleject/Responsive-Web-Design-Artboards "));
     }
 
     @Test
