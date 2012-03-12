@@ -15,7 +15,6 @@
  */
 package de.jetwick.snacktory;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import java.io.*;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
