@@ -27,7 +27,7 @@ public class ConverterTest extends TestCase {
     public ConverterTest(String testName) {
         super(testName);
     }
-
+    
     public void testDetermineEncoding() throws Exception {
         Converter d = new Converter();
         d.streamToString(getClass().getResourceAsStream("faz.html"));

@@ -15,10 +15,8 @@
  */
 package de.jetwick.snacktory;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+import java.io.*;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import org.apache.log4j.Logger;
@@ -104,18 +102,18 @@ public class Converter {
         BufferedInputStream in = null;
         try {
             in = new BufferedInputStream(is, K2);
-            StringBuilder sb = new StringBuilder();
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
 
             // detect encoding with the help of meta tag
             try {
                 in.mark(K2 * 2);
-                String tmpEnc = detectCharset("charset=", sb, in);
+                String tmpEnc = detectCharset("charset=", output, in, encoding);
                 if (tmpEnc != null)
                     encoding = tmpEnc;
                 else {
                     logger.debug("no charset found in first stage");
                     // detect with the help of xml beginning ala encoding="charset"
-                    tmpEnc = detectCharset("encoding=", sb, in);
+                    tmpEnc = detectCharset("encoding=", output, in, encoding);
                     if (tmpEnc != null)                        
                         encoding = tmpEnc;
                     else
@@ -133,8 +131,8 @@ public class Converter {
             // SocketException: Connection reset
             // IOException: missing CR    => problem on server (probably some xml character thing?)
             // IOException: Premature EOF => socket unexpectly closed from server
-            int bytesRead = K2;
-            byte[] arr = new byte[K2];
+            int bytesRead = output.size();
+            byte[] arr = new byte[K2];            
             while (true) {
                 if (bytesRead >= maxBytes) {
                     logger.warn("Maxbyte of " + maxBytes + " exceeded! Maybe html is now broken but try it nevertheless. Url: " + url);
@@ -144,12 +142,11 @@ public class Converter {
                 int n = in.read(arr);
                 if (n < 0)
                     break;
-                bytesRead += K2;
-                sb.append(new String(arr, 0, n, encoding));
+                bytesRead += n;
+                output.write(arr, 0, n);
             }
 
-            return sb.toString();
-
+            return output.toString(encoding);
         } catch (SocketTimeoutException e) {
             logger.info(e.toString() + " url:" + url);
         } catch (IOException e) {
@@ -172,7 +169,9 @@ public class Converter {
      * 
      * @throws IOException 
      */
-    public String detectCharset(String key, StringBuilder sb, BufferedInputStream in) throws IOException {
+    protected String detectCharset(String key, ByteArrayOutputStream bos, BufferedInputStream in, 
+            String enc) throws IOException {
+        
         // Grab better encoding from stream        
         byte[] arr = new byte[K2];
         int nSum = 0;
@@ -182,34 +181,35 @@ public class Converter {
                 break;
 
             nSum += n;
-            sb.append(new String(arr, 0, n, encoding));
+            bos.write(arr, 0, n);
         }
 
-        int encIndex = sb.indexOf(key);
+        String str = bos.toString(enc);
+        int encIndex = str.indexOf(key);
         int clength = key.length();
         if (encIndex > 0) {
-            char startChar = sb.charAt(encIndex + clength);
+            char startChar = str.charAt(encIndex + clength);
             int lastEncIndex;
             if (startChar == '\'')
                 // if we have charset='something'
-                lastEncIndex = sb.indexOf("'", ++encIndex + clength);
+                lastEncIndex = str.indexOf("'", ++encIndex + clength);
             else if (startChar == '\"')
                 // if we have charset="something"
-                lastEncIndex = sb.indexOf("\"", ++encIndex + clength);
+                lastEncIndex = str.indexOf("\"", ++encIndex + clength);
             else {
                 // if we have "text/html; charset=utf-8"                    
-                int first = sb.indexOf("\"", encIndex + clength);
+                int first = str.indexOf("\"", encIndex + clength);
                 if (first < 0)
                     first = Integer.MAX_VALUE;
 
                 // or "text/html; charset=utf-8 "
-                int sec = sb.indexOf(" ", encIndex + clength);
+                int sec = str.indexOf(" ", encIndex + clength);
                 if (sec < 0)
                     sec = Integer.MAX_VALUE;
                 lastEncIndex = Math.min(first, sec);
 
                 // or "text/html; charset=utf-8 '
-                int third = sb.indexOf("'", encIndex + clength);
+                int third = str.indexOf("'", encIndex + clength);
                 if (third > 0)
                     lastEncIndex = Math.min(lastEncIndex, third);
             }
@@ -217,10 +217,10 @@ public class Converter {
             // re-read byte array with different encoding
             // assume that the encoding string cannot be greater than 40 chars
             if (lastEncIndex > encIndex + clength && lastEncIndex < encIndex + clength + 40) {
-                String tmpEnc = SHelper.encodingCleanup(sb.substring(encIndex + clength, lastEncIndex));
+                String tmpEnc = SHelper.encodingCleanup(str.substring(encIndex + clength, lastEncIndex));
                 try {
                     in.reset();
-                    sb.setLength(0);
+                    bos.reset();
                     return tmpEnc;
                 } catch (IOException ex) {
                     logger.warn("Couldn't reset stream to re-read with new encoding " + tmpEnc + " "
