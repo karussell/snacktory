@@ -97,7 +97,8 @@ public class OutputFormatter {
         for (String tag : nodesToReplace) {
             Elements elems = topNode.getElementsByTag(tag);
             for (Element item : elems) {
-                TextNode tn = new TextNode(item.text(), topNode.baseUri());
+                // jsoup calls trim although not appropriate. see tests
+                TextNode tn = new TextNode(" " + item.text() + " ", topNode.baseUri());
                 item.replaceWith(tn);
             }
         }
