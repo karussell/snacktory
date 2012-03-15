@@ -49,4 +49,27 @@ public class OutputFormatterTest {
         new OutputFormatter().replaceTagsWithText(el);        
         assertEquals("aaaa bbbb cccc", el.text());
     }        
+    
+    @Test
+    public void testConvertLinksToText() {
+        Element el = Jsoup.parse("<html><body>aaaa <a>bbbb</a> cccc</body></html>").body();
+        new OutputFormatter().convertLinksToText(el);
+        assertEquals("aaaa bbbb cccc", el.text());                
+        
+        el = Jsoup.parse("<html><body>aaaa <a><b>test </b></a> cccc</body></html>").body();
+        new OutputFormatter().convertLinksToText(el);        
+        assertEquals("aaaa test cccc", el.text());
+        
+        el = Jsoup.parse("<html><body>aaaa <a>bbbb </a>cccc</body></html>").body();
+        new OutputFormatter().convertLinksToText(el);        
+        assertEquals("aaaa bbbb cccc", el.text());
+        
+        el = Jsoup.parse("<html><body>aaaa<a> bbbb </a>cccc</body></html>").body();
+        new OutputFormatter().convertLinksToText(el);        
+        assertEquals("aaaa bbbb cccc", el.text());
+        
+        el = Jsoup.parse("<html><body>aaaa <a> bbbb </a> cccc</body></html>").body();
+        new OutputFormatter().convertLinksToText(el);        
+        assertEquals("aaaa bbbb cccc", el.text());
+    }        
 }

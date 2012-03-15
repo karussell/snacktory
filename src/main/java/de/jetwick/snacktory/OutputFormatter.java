@@ -67,7 +67,7 @@ public class OutputFormatter {
         Elements links = topNode.getElementsByTag("a");
         for (Element item : links) {
             if (item.getElementsByTag("img").isEmpty()) {
-                TextNode tn = new TextNode(item.text(), topNode.baseUri());
+                TextNode tn = new TextNode(" " + item.text() + " ", topNode.baseUri());
                 item.replaceWith(tn);
             } else if (item.text().isEmpty())
                 item.remove();
