@@ -44,5 +44,9 @@ public class OutputFormatterTest {
         el = Jsoup.parse("<html><body>aaaa<strong> bbbb </strong>cccc</body></html>").body();
         new OutputFormatter().replaceTagsWithText(el);        
         assertEquals("aaaa bbbb cccc", el.text());
+        
+        el = Jsoup.parse("<html><body>aaaa <strong> bbbb </strong> cccc</body></html>").body();
+        new OutputFormatter().replaceTagsWithText(el);        
+        assertEquals("aaaa bbbb cccc", el.text());
     }        
 }
