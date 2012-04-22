@@ -27,49 +27,4 @@ import static org.junit.Assert.*;
  */
 public class OutputFormatterTest {
     
-    @Test
-    public void testReplaceTagsWithText() {
-        Element el = Jsoup.parse("<html><body>aaaa <strong>bbbb</strong> cccc</body></html>").body();
-        new OutputFormatter().replaceTagsWithText(el);
-        assertEquals("aaaa bbbb cccc", el.text());                
-        
-        el = Jsoup.parse("<html><body>aaaa <strong><a href=\"xy\">test</a></strong> cccc</body></html>").body();
-        new OutputFormatter().replaceTagsWithText(el);        
-        assertEquals("aaaa test cccc", el.text());
-        
-        el = Jsoup.parse("<html><body>aaaa <strong>bbbb </strong>cccc</body></html>").body();
-        new OutputFormatter().replaceTagsWithText(el);        
-        assertEquals("aaaa bbbb cccc", el.text());
-        
-        el = Jsoup.parse("<html><body>aaaa<strong> bbbb </strong>cccc</body></html>").body();
-        new OutputFormatter().replaceTagsWithText(el);        
-        assertEquals("aaaa bbbb cccc", el.text());
-        
-        el = Jsoup.parse("<html><body>aaaa <strong> bbbb </strong> cccc</body></html>").body();
-        new OutputFormatter().replaceTagsWithText(el);        
-        assertEquals("aaaa bbbb cccc", el.text());
-    }        
-    
-    @Test
-    public void testConvertLinksToText() {
-        Element el = Jsoup.parse("<html><body>aaaa <a>bbbb</a> cccc</body></html>").body();
-        new OutputFormatter().convertLinksToText(el);
-        assertEquals("aaaa bbbb cccc", el.text());                
-        
-        el = Jsoup.parse("<html><body>aaaa <a><b>test </b></a> cccc</body></html>").body();
-        new OutputFormatter().convertLinksToText(el);        
-        assertEquals("aaaa test cccc", el.text());
-        
-        el = Jsoup.parse("<html><body>aaaa <a>bbbb </a>cccc</body></html>").body();
-        new OutputFormatter().convertLinksToText(el);        
-        assertEquals("aaaa bbbb cccc", el.text());
-        
-        el = Jsoup.parse("<html><body>aaaa<a> bbbb </a>cccc</body></html>").body();
-        new OutputFormatter().convertLinksToText(el);        
-        assertEquals("aaaa bbbb cccc", el.text());
-        
-        el = Jsoup.parse("<html><body>aaaa <a> bbbb </a> cccc</body></html>").body();
-        new OutputFormatter().convertLinksToText(el);        
-        assertEquals("aaaa bbbb cccc", el.text());
-    }        
 }

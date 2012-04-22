@@ -32,7 +32,7 @@ public class ArticleTextExtractor {
     private static final Pattern NEGATIVE =
             Pattern.compile("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
             + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
-            + "sidebar|sponsor|tags|tool|widget");
+            + "sidebar|sponsor|tags|tool|widget|player");
     private static final String IMAGE_CAPTION = "caption";
     private static final Set<String> IGNORED_TITLE_PARTS = new LinkedHashSet<String>() {
 

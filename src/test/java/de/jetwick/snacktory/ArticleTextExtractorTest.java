@@ -26,7 +26,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(readFileAsString("test_data/1.html"));
         assertEquals("How Fake Money Saved Brazil : Planet Money : NPR", res.getTitle());
         assertTrue(res.getText(), res.getText().startsWith("This is a story about how an economist and his buddies tricked the people of Brazil into saving the country from rampant inflation. They had a crazy, unlikely plan, and it worked. Twenty years ago, Brazil's"));
-        assertTrue(res.getText().endsWith("\"How Four Drinking Buddies Saved Brazil.\""));
+        assertTrue(res.getText(), res.getText().endsWith("\"How Four Drinking Buddies Saved Brazil.\""));
         assertEquals("http://media.npr.org/assets/img/2010/10/04/real_wide.jpg?t=1286218782&s=3", res.getImageUrl());
     }
 
@@ -87,7 +87,7 @@ public class ArticleTextExtractorTest {
         // http://www.yomiuri.co.jp/e-japan/gifu/news/20110410-OYT8T00124.htm
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("yomiuri.html")));
         assertEquals("色とりどりのチューリップ : 岐阜 : 地域 : YOMIURI ONLINE（読売新聞）", res.getTitle());
-        assertTrue("yomiuri:" + res.getText(), res.getText().startsWith("海津市海津町の国営木曽三川公園で、チューリップが見頃を迎えている。２０日までは「チューリップ祭」が開かれており、大勢の人たちが多彩な色"));
+        assertTrue("yomiuri:" + res.getText(), res.getText().startsWith("　海津市海津町の国営木曽三川公園で、チューリップが見頃を迎えている。２０日までは「チューリップ祭」が開かれており、大勢の人たちが多彩な色や形を鑑賞している＝写真＝"));
     }
 
     @Test
