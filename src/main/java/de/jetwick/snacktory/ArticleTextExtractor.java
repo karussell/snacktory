@@ -33,6 +33,8 @@ public class ArticleTextExtractor {
             Pattern.compile("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
             + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
             + "sidebar|sponsor|tags|tool|widget|player");
+    
+    private static final Pattern NEGATIVE_STYLE = Pattern.compile("hidden|display: ?none");
     private static final String IMAGE_CAPTION = "caption";
     private static final Set<String> IGNORED_TITLE_PARTS = new LinkedHashSet<String>() {
 
@@ -189,6 +191,10 @@ public class ArticleTextExtractor {
             weight -= 50;
 
         if (NEGATIVE.matcher(e.id()).find())
+            weight -= 50;
+        
+        String style = e.attr("style");
+        if(style != null && !style.isEmpty() && NEGATIVE_STYLE.matcher(style).find())
             weight -= 50;
 
         weight += (int) Math.round(e.ownText().length() / 100.0 * 10);

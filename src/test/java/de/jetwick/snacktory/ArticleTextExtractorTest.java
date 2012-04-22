@@ -562,24 +562,24 @@ public class ArticleTextExtractorTest {
     public void testTheFrisky() throws Exception {
         //String url = "http://www.thefrisky.com/post/246-rachel-dratch-met-her-baby-daddy-in-a-bar/";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("thefrisky.html")));
-        assertTrue(article.getText(), article.getText().startsWith("Rachel Dratch had been keeping the identity of her baby daddy "));                        
-                      
+        assertTrue(article.getText(), article.getText().startsWith("Rachel Dratch had been keeping the identity of her baby daddy "));
+
         assertEquals("http://cdn.thefrisky.com/images/uploads/rachel_dratch_102810_m.jpg",
                 article.getImageUrl());
         assertEquals("Rachel Dratch Met Her Baby Daddy At A Bar", article.getTitle());
     }
-    
+
     @Test
     public void testBrOnline() throws Exception {
         // TODO charset for opera was removed:
         // <![endif]-->
         // <link rel="stylesheet" type="text/x-opera-css;charset=utf-8" href="/css/opera.css" />
-        
+
         //String url = "http://www.br-online.de/br-klassik/programmtipps/highlight-bayreuth-tannhaeuser-festspielzeit-2011-ID1309895438808.xml";
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("br-online.html")));
         assertTrue(article.getText(), article.getText().startsWith("Wenn ein Dirigent, der Alte Musik liebt, erstmals eine "
-                + "Neuproduktion bei den Bayreuther Richard-Wagner-Festspielen übernimmt,"));                                                      
-        assertEquals("Eröffnung der 100. Bayreuther Festspiele: Alles neu beim \"Tannhäuser\" | Programmtipps | BR-KLASSIK", 
+                + "Neuproduktion bei den Bayreuther Richard-Wagner-Festspielen übernimmt,"));
+        assertEquals("Eröffnung der 100. Bayreuther Festspiele: Alles neu beim \"Tannhäuser\" | Programmtipps | BR-KLASSIK",
                 article.getTitle());
     }
 
@@ -593,7 +593,7 @@ public class ArticleTextExtractorTest {
         // this should fail as most sites do store their name after the post
         assertEquals("Irgendwas | mytitle irgendwas", extractor.cleanTitle("Irgendwas | mytitle irgendwas"));
     }
-    
+
     @Test
     public void testGaltimeWhereUrlContainsSpaces() throws Exception {
         //String url = "http://galtime.com/article/entertainment/37/22938/kris-humphries-avoids-kim-talk-gma";
@@ -601,9 +601,21 @@ public class ArticleTextExtractorTest {
         assertEquals("http://vnetcdn.dtsph.com/files/vnet3/imagecache/opengraph_ogimage/story-images/Kris%20Humphries%20Top%20Bar.JPG", article.getImageUrl());
     }
 
+    @Test
+    public void testIssue8() throws Exception {
+        JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("no-hidden.html")));
+        assertEquals("This is the text which is shorter but visible", res.getText());
+    }
+
+    @Test
+    public void testIssue8False() throws Exception {
+        JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("no-hidden2.html")));
+        assertEquals("This is the NONE-HIDDEN text which shouldn't be shown and it is a bit longer so normally prefered", res.getText());
+    }
+
     /**
-     * @param filePath the name of the file to open. Not sure if it can accept URLs 
-     * or just filenames. Path handling could be better, and buffer sizes are hardcoded
+     * @param filePath the name of the file to open. Not sure if it can accept URLs or just
+     * filenames. Path handling could be better, and buffer sizes are hardcoded
      */
     public static String readFileAsString(String filePath)
             throws java.io.IOException {
