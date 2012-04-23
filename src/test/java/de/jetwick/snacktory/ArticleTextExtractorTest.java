@@ -613,6 +613,18 @@ public class ArticleTextExtractorTest {
         assertEquals("This is the NONE-HIDDEN text which shouldn't be shown and it is a bit longer so normally prefered", res.getText());
     }
 
+    @Test
+    public void testIssue4() throws Exception {
+        JResult res = extractor.extractContent("<html><body><div> aaa<a> bbb </a>ccc</div></body></html>");
+        assertEquals("aaa bbb ccc", res.getText());
+
+        res = extractor.extractContent("<html><body><div> aaa <strong>bbb </strong>ccc</div></body></html>");
+        assertEquals("aaa bbb ccc", res.getText());
+
+        res = extractor.extractContent("<html><body><div> aaa <strong> bbb </strong>ccc</div></body></html>");
+        assertEquals("aaa bbb ccc", res.getText());
+    }
+
     /**
      * @param filePath the name of the file to open. Not sure if it can accept URLs or just
      * filenames. Path handling could be better, and buffer sizes are hardcoded
