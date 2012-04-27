@@ -1,13 +1,13 @@
 package de.jetwick.snacktory;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ArticleTextExtractorTest {
 
@@ -28,6 +28,7 @@ public class ArticleTextExtractorTest {
         assertTrue(res.getText(), res.getText().startsWith("This is a story about how an economist and his buddies tricked the people of Brazil into saving the country from rampant inflation. They had a crazy, unlikely plan, and it worked. Twenty years ago, Brazil's"));
         assertTrue(res.getText(), res.getText().endsWith("\"How Four Drinking Buddies Saved Brazil.\""));
         assertEquals("http://media.npr.org/assets/img/2010/10/04/real_wide.jpg?t=1286218782&s=3", res.getImageUrl());
+        assertTrue(res.getKeywords().isEmpty());
     }
 
     @Test
@@ -36,6 +37,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(readFileAsString("test_data/2.html"));
         assertEquals("BenjaminSte.in - Hey guys, whatcha doing?", res.getTitle());
         assertTrue(res.getText(), res.getText().startsWith("This month is the 15th anniversary of my last CD."));
+        assertTrue(res.getKeywords().isEmpty());
     }
 
     @Test
@@ -43,6 +45,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(readFileAsString("test_data/3.html"));
         assertTrue("data3:" + res.getText(), res.getText().startsWith("October 2010 Silicon Valley proper is mostly suburban sprawl. At first glance it "));
         assertTrue(res.getText().endsWith(" and Jessica Livingston for reading drafts of this."));
+        assertTrue(res.getKeywords().isEmpty());
     }
 
     @Test
@@ -50,6 +53,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(readFileAsString("test_data/5.html"));
         assertTrue("data5:" + res.getText(), res.getText().startsWith("Hackers unite in Stanford"));
 //        assertTrue(res.getText().endsWith("have beats and bevvies a-plenty. RSVP here.    "));
+        assertTrue(res.getKeywords().isEmpty());
     }
 
     @Test
@@ -88,6 +92,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("yomiuri.html")));
         assertEquals("色とりどりのチューリップ : 岐阜 : 地域 : YOMIURI ONLINE（読売新聞）", res.getTitle());
         assertTrue("yomiuri:" + res.getText(), res.getText().startsWith("　海津市海津町の国営木曽三川公園で、チューリップが見頃を迎えている。２０日までは「チューリップ祭」が開かれており、大勢の人たちが多彩な色や形を鑑賞している＝写真＝"));
+        assertEquals(Arrays.asList("読売新聞", "地域"), res.getKeywords());
     }
 
     @Test
@@ -97,6 +102,12 @@ public class ArticleTextExtractorTest {
 //        assertTrue(res.getText(), res.getText().startsWith("Im Gespräch: Umweltaktivist Stewart Brand"));
         assertTrue(res.getText(), res.getText().startsWith("Deutschland hat vor, ganz auf Atomkraft zu verzichten. Ist das eine gute"));
         assertEquals("/m/{5F104CCF-3B5A-4B4C-B83E-4774ECB29889}g225_4.jpg", res.getImageUrl());
+
+        assertEquals(Arrays.asList("Atomkraft", "Deutschland", "Jahren", "Atommüll", "Fukushima", "Problem", "Brand", "Kohle", "2011", "11", 
+                                   "Stewart", "Atomdebatte", "Jahre", "Boden", "Treibhausgase", "April", "Welt", "Müll", "Radioaktivität", 
+                                   "Gesamtbild", "Klimawandel", "Reaktoren", "Verzicht", "Scheinheiligkeit", "Leute", "Risiken", "Löcher", 
+                                   "Fusion", "Gefahren", "Land"),
+                   res.getKeywords());
     }
 
     @Test
@@ -106,6 +117,7 @@ public class ArticleTextExtractorTest {
         assertTrue(res.getText(), res.getText().startsWith("About 15,000 people took to the streets in Tokyo on Sunday to protest against th"));
         assertEquals("Japanese rally against nuclear power industry | World", res.getTitle());
         assertEquals("/favicon.ico", res.getFaviconUrl());
+        assertTrue(res.getKeywords().isEmpty());
     }
 
     @Test
@@ -114,6 +126,7 @@ public class ArticleTextExtractorTest {
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("jetwick.html")));
 //        assertTrue(res.getText(), res.getText().startsWith("Search twitter without noise"));
 //        assertEquals("img/yourkit.png", res.getImageUrl());
+        assertEquals(Arrays.asList("news", "twitter", "search", "jetwick"), res.getKeywords());
     }
 
     @Test
@@ -124,6 +137,10 @@ public class ArticleTextExtractorTest {
         assertTrue(res.getTitle(), res.getTitle().startsWith("finn. & Dirk von Lowtzow \"CRYING IN THE RAIN\""));
 //        assertEquals("http://b.vimeocdn.com/ts/134/104/134104048_200.jpg", res.getImageUrl());
         assertEquals("", res.getVideoUrl());
+        assertEquals(Arrays.asList("finn", "finn.", "Dirk von Lowtzow", "crying in the rain", "I wish I was someone else", "Tocotronic", 
+                                   "Sunday Service", "Indigo", "Patrick Zimmer", "Patrick Zimmer aka finn.", "video", "video sharing", 
+                                   "digital cameras", "videoblog", "vidblog", "video blogging", "home video", "home movie"),
+                     res.getKeywords());
     }
 
     @Test
@@ -327,6 +344,9 @@ public class ArticleTextExtractorTest {
         assertEquals("http://o.aolcdn.com/art/ch_news/aol_favicon.ico", article.getFaviconUrl());
         assertTrue(article.getText(), article.getText().startsWith("WASHINGTON (Aug. 13) -- Declaring \"the maritime soul of the Marine Corps"));
         assertEquals("http://o.aolcdn.com/photo-hub/news_gallery/6/8/680919/1281734929876.JPEG", article.getImageUrl());
+        assertEquals(Arrays.asList("news", "update", "breaking", "nation", "U.S.", "elections", "world", "entertainment", "sports", "business", 
+                                   "weird news", "health", "science", "latest news articles", "breaking news", "current news", "top news"), 
+                     article.getKeywords());
     }
 
     @Test
@@ -531,6 +551,7 @@ public class ArticleTextExtractorTest {
         // http://blog.traindom.com/places-where-to-submit-your-startup-for-coverage/
         JResult res = extractor.extractContent(readFileAsString("test_data/4.html"));
         assertEquals("36 places where you can submit your startup for some coverage", res.getTitle());
+        assertEquals(Arrays.asList("blog coverage", "get coverage", "startup review", "startups", "submit startup"), res.getKeywords());
         assertTrue("data4:" + res.getText(), res.getText().startsWith("So you have a new startup company and want some coverage"));
     }
 
