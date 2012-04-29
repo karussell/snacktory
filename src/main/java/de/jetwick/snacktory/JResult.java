@@ -15,6 +15,8 @@
  */
 package de.jetwick.snacktory;
 
+import java.util.Collection;
+
 /**
  * Parsed result from web page containing important title, text and image.
  * 
@@ -32,7 +34,8 @@ public class JResult {
     private String faviconUrl;
     private String description;
     private String dateString;
-
+    private Collection<String> keywords;
+    
     public JResult() {
     }
     
@@ -137,6 +140,14 @@ public class JResult {
     public JResult setDate(String date) {
         this.dateString = date;
         return this;
+    }
+
+    public Collection<String> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(Collection<String> keywords) {
+        this.keywords = keywords;
     }
 
     /**

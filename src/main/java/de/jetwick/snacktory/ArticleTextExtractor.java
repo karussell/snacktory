@@ -1,11 +1,19 @@
 package de.jetwick.snacktory;
 
-import java.util.*;
-import org.jsoup.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
+
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
-import java.util.regex.Pattern;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +72,13 @@ public class ArticleTextExtractor {
             throw new IllegalArgumentException("html string is empty!?");
 
         // http://jsoup.org/cookbook/extracting-data/selector-syntax
-        Document doc = Jsoup.parse(html);
+        return extractContent(res, Jsoup.parse(html), formatter);
+    }
+    
+    public JResult extractContent(JResult res, Document doc, OutputFormatter formatter) throws Exception {
+        if (doc == null)
+            throw new NullPointerException("missing document");
+
         res.setTitle(extractTitle(doc));
 
         res.setDescription(extractDescription(doc));
@@ -114,6 +128,8 @@ public class ArticleTextExtractor {
 
         res.setFaviconUrl(extractFaviconUrl(doc));
 
+        res.setKeywords(extractKeywords(doc));
+        
         return res;
     }
 
@@ -132,6 +148,22 @@ public class ArticleTextExtractor {
         return SHelper.innerTrim(doc.select("head meta[name=description]").attr("content"));
     }
 
+    protected Collection<String> extractKeywords(Document doc){
+        String content = SHelper.innerTrim(doc.select("head meta[name=keywords]").attr("content"));
+        
+        if(content != null) {
+            if(content.startsWith("[") && content.endsWith("]"))
+                content = content.substring(1, content.length() - 1);
+            
+            String[] split = content.split("\\s*,\\s*");
+
+            if(split.length > 1 || !split[0].equals(""))
+                return Arrays.asList(split);
+        }
+        
+        return Collections.emptyList();
+    }
+    
     /***
      *  Tries to extract an image url from metadata if determineImageSource failed
      * @param doc
