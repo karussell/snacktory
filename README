@@ -2,12 +2,10 @@
 
 This is a small helper utility for pepole don't want to write yet another java clone of Readability.
 
-In most cases, this is applied to articles, although it should work for any website to find its 
-major area and extract its text and its important picture.
+In most cases, this is applied to articles, although it should work for any website to find its major
+area, extract its text, keywords, its main picture and more.
 
-Have a look into http://jetsli.de where Snacktory is used. Jetslide is a new way to consume news,
-it does not only display the Websites' title but it displays a small preview of the site ('a snack') 
-and the important image if available.
+Have a look into http://jetsli.de where Snacktory is used. Jetslide is a new way to consume news, it does not only display the Websites' title but it displays a small preview of the site ('a snack') and the important image if available.
 
 = License 
 
@@ -15,18 +13,8 @@ The software stands under Apache 2 License and comes with NO WARRANTY
 
 = Features
 
-Snacktory borrows some ideas from jReadability 
-
-https://github.com/ifesdjeen/jReadability
-
-and goose (ideas + a lot test cases):
-
+Snacktory borrows some ideas and a lot of test cases from goose:
 https://github.com/jiminoc/goose
-
-The advantages over jReadability are
-    * better article text detection than jReadability 
-    * only Java deps
-    * more tests
 
 The advantages over Goose are
     * similar article text detection although better detection for none-english sites (German, Japanese, ...)
@@ -48,7 +36,7 @@ The disadvantages to Goose are
  <dependency>
     <groupId>de.jetwick</groupId>
     <artifactId>snacktory</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
  </dependency>
  
  Now you can use it as follows:
