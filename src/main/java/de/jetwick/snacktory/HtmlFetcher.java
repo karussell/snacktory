@@ -119,6 +119,10 @@ public class HtmlFetcher {
         this.extractor = extractor;
     }
 
+    public ArticleTextExtractor getExtractor() {
+        return extractor;
+    }
+    
     public HtmlFetcher setCache(SCache cache) {
         this.cache = cache;
         return this;

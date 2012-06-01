@@ -15,6 +15,7 @@
  */
 package de.jetwick.snacktory;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -22,7 +23,7 @@ import java.util.Collection;
  * 
  * @author Peter Karich, jetwick_@_pannous_._info
  */
-public class JResult {
+public class JResult implements Serializable {
 
     private String title;
     private String url;
