@@ -22,9 +22,9 @@ import static org.junit.Assert.*;
  *
  * @author Peter Karich, jetwick_@_pannous_._info
  */
-public class HtmlFetcherTest {
+public class HtmlFetcherIntegrationTest {
 
-    public HtmlFetcherTest() {
+    public HtmlFetcherIntegrationTest() {
     }
 
     @Test
@@ -75,7 +75,7 @@ public class HtmlFetcherTest {
         assertTrue(res.getTitle(), res.getTitle().startsWith("Democracy Now! "));
 
         res = new HtmlFetcher().fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
-        assertEquals("Twitter / Tatjana Hoenich: “@AntiAtomPiraten: \"Protes ...", res.getTitle());
+        assertEquals("Twitter / TH61: “@AntiAtomPiraten: \"Prot", res.getTitle());
     }
 
     public void testImage() throws Exception {
