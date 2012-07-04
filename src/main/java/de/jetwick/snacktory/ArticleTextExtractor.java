@@ -487,7 +487,7 @@ public class ArticleTextExtractor {
         Map<Element, Object> nodes = new LinkedHashMap<Element, Object>(64);
         int score = 100;
         for (Element el : doc.select("body").select("*")) {
-            if ("p;div;td;h1;h2".contains(el.tagName())) {
+            if ("p;div;td;h1;h2;span".contains(el.tagName())) {
                 nodes.put(el, null);
                 setScore(el, score);
                 score = score / 2;
