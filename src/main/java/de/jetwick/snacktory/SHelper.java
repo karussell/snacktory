@@ -163,6 +163,9 @@ public class SHelper {
      * @return 
      */
     public static String useDomainOfFirstArg4Second(String urlForDomain, String path) {
+        if (path.startsWith("http"))
+            return path;
+        
         if ("favicon.ico".equals(path))
             path = "/favicon.ico";
 
@@ -170,11 +173,9 @@ public class SHelper {
             // wikipedia special case, see tests
             if (urlForDomain.startsWith("https:"))
                 return "https:" + path;
-            else
-                return "http:" + path;
-        } else if (path.startsWith("http"))
-            return path;
-        else if (path.startsWith("/"))
+            
+            return "http:" + path;
+        } else if (path.startsWith("/"))
             return "http://" + extractHost(urlForDomain) + path;
         else if (path.startsWith("../")) {
             int slashIndex = urlForDomain.lastIndexOf("/");
