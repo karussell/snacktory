@@ -82,6 +82,8 @@ public class ArticleTextExtractor {
         res.setTitle(extractTitle(doc));
 
         res.setDescription(extractDescription(doc));
+        
+        res.setCanonicalUrl(extractCanonicalUrl(doc));
 
         // now remove the clutter
         prepareDocument(doc);
@@ -139,13 +141,28 @@ public class ArticleTextExtractor {
             title = SHelper.innerTrim(doc.select("head title").text());
             if(title.isEmpty()){
                 title = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
+                if(title.isEmpty()){
+                    title = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
+                }
             }
         }
         return title;
     }
 
+    protected String extractCanonicalUrl(Document doc){
+        String url = SHelper.replaceSpaces(doc.select("head link[rel=canonical]").attr("href"));
+        if(url.isEmpty()){
+          url = SHelper.replaceSpaces(doc.select("head meta[property=og:url]").attr("content"));
+        }
+        return url;
+    }
+
     protected String extractDescription(Document doc){
-        return SHelper.innerTrim(doc.select("head meta[name=description]").attr("content"));
+        String description = SHelper.innerTrim(doc.select("head meta[name=description]").attr("content"));
+        if(description.isEmpty()){
+          description = SHelper.innerTrim(doc.select("head meta[property=og:description]").attr("content"));
+        }
+        return description;
     }
 
     protected Collection<String> extractKeywords(Document doc){

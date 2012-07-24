@@ -28,6 +28,7 @@ public class JResult implements Serializable {
     private String title;
     private String url;
     private String originalUrl;
+    private String canonicalUrl;
     private String imageUrl;
     private String videoUrl;
     private String rssUrl;
@@ -59,7 +60,16 @@ public class JResult implements Serializable {
     public String getOriginalUrl() {
         return originalUrl;
     }
-    
+
+    public JResult setCanonicalUrl(String canonicalUrl) {
+      this.canonicalUrl = canonicalUrl;
+      return this;
+    }
+
+    public String getCanonicalUrl() {
+      return canonicalUrl;
+    }
+
     public String getFaviconUrl() {
         if (faviconUrl == null)
             return "";
