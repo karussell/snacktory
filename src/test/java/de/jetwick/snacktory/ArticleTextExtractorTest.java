@@ -64,7 +64,7 @@ public class ArticleTextExtractorTest {
         assertEquals("/2011/WORLD/africa/04/06/libya.war/t1larg.libyarebel.gi.jpg", res.getImageUrl());
         assertTrue("cnn:" + res.getText(), res.getText().startsWith("Tripoli, Libya (CNN) -- As rebel and pro-government forces in Libya maneuvered on the battlefield Wedn"));
     }
-    
+
     @Test
     public void testReuters() throws Exception {
         // http://www.reuters.com/article/2012/08/03/us-knightcapital-trading-technology-idUSBRE87203X20120803
@@ -72,6 +72,14 @@ public class ArticleTextExtractorTest {
         assertEquals("Knight trading loss shows cracks in equity markets", res.getTitle());
         assertEquals("http://s1.reutersmedia.net/resources/r/?m=02&d=20120803&t=2&i=637797752&w=460&fh=&fw=&ll=&pl=&r=CBRE872074Y00", res.getImageUrl());
         assertTrue("reuters:" + res.getText(), res.getText().startsWith("(Reuters) - The software glitch that cost Knight Capital Group $440 million in just 45 minutes reveals the deep fault lines in stock markets that are increasingly dominated by sophisticated high-speed trading systems. But Wall Street firms and regulators have few easy solutions for such problems."));
+    }
+
+    @Test
+    public void testCaltonCaldwell() throws Exception {
+        // http://daltoncaldwell.com/dear-mark-zuckerberg (html5)
+        JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("daltoncaldwell.html")));
+        assertEquals("Dear Mark Zuckerberg by Dalton Caldwell", res.getTitle());
+        assertTrue("daltoncaldwell:" + res.getText(), res.getText().startsWith("On June 13, 2012, at 4:30 p.m., I attended a meeting at Facebook HQ in Menlo Park, California."));
     }
 
     @Test
@@ -112,11 +120,11 @@ public class ArticleTextExtractorTest {
         assertTrue(res.getText(), res.getText().startsWith("Deutschland hat vor, ganz auf Atomkraft zu verzichten. Ist das eine gute"));
         assertEquals("/m/{5F104CCF-3B5A-4B4C-B83E-4774ECB29889}g225_4.jpg", res.getImageUrl());
 
-        assertEquals(Arrays.asList("Atomkraft", "Deutschland", "Jahren", "Atommüll", "Fukushima", "Problem", "Brand", "Kohle", "2011", "11", 
-                                   "Stewart", "Atomdebatte", "Jahre", "Boden", "Treibhausgase", "April", "Welt", "Müll", "Radioaktivität", 
-                                   "Gesamtbild", "Klimawandel", "Reaktoren", "Verzicht", "Scheinheiligkeit", "Leute", "Risiken", "Löcher", 
-                                   "Fusion", "Gefahren", "Land"),
-                   res.getKeywords());
+        assertEquals(Arrays.asList("Atomkraft", "Deutschland", "Jahren", "Atommüll", "Fukushima", "Problem", "Brand", "Kohle", "2011", "11",
+                "Stewart", "Atomdebatte", "Jahre", "Boden", "Treibhausgase", "April", "Welt", "Müll", "Radioaktivität",
+                "Gesamtbild", "Klimawandel", "Reaktoren", "Verzicht", "Scheinheiligkeit", "Leute", "Risiken", "Löcher",
+                "Fusion", "Gefahren", "Land"),
+                res.getKeywords());
     }
 
     @Test
@@ -146,10 +154,10 @@ public class ArticleTextExtractorTest {
         assertTrue(res.getTitle(), res.getTitle().startsWith("finn. & Dirk von Lowtzow \"CRYING IN THE RAIN\""));
 //        assertEquals("http://b.vimeocdn.com/ts/134/104/134104048_200.jpg", res.getImageUrl());
         assertEquals("", res.getVideoUrl());
-        assertEquals(Arrays.asList("finn", "finn.", "Dirk von Lowtzow", "crying in the rain", "I wish I was someone else", "Tocotronic", 
-                                   "Sunday Service", "Indigo", "Patrick Zimmer", "Patrick Zimmer aka finn.", "video", "video sharing", 
-                                   "digital cameras", "videoblog", "vidblog", "video blogging", "home video", "home movie"),
-                     res.getKeywords());
+        assertEquals(Arrays.asList("finn", "finn.", "Dirk von Lowtzow", "crying in the rain", "I wish I was someone else", "Tocotronic",
+                "Sunday Service", "Indigo", "Patrick Zimmer", "Patrick Zimmer aka finn.", "video", "video sharing",
+                "digital cameras", "videoblog", "vidblog", "video blogging", "home video", "home movie"),
+                res.getKeywords());
     }
 
     @Test
@@ -353,9 +361,9 @@ public class ArticleTextExtractorTest {
         assertEquals("http://o.aolcdn.com/art/ch_news/aol_favicon.ico", article.getFaviconUrl());
         assertTrue(article.getText(), article.getText().startsWith("WASHINGTON (Aug. 13) -- Declaring \"the maritime soul of the Marine Corps"));
         assertEquals("http://o.aolcdn.com/photo-hub/news_gallery/6/8/680919/1281734929876.JPEG", article.getImageUrl());
-        assertEquals(Arrays.asList("news", "update", "breaking", "nation", "U.S.", "elections", "world", "entertainment", "sports", "business", 
-                                   "weird news", "health", "science", "latest news articles", "breaking news", "current news", "top news"), 
-                     article.getKeywords());
+        assertEquals(Arrays.asList("news", "update", "breaking", "nation", "U.S.", "elections", "world", "entertainment", "sports", "business",
+                "weird news", "health", "science", "latest news articles", "breaking news", "current news", "top news"),
+                article.getKeywords());
     }
 
     @Test

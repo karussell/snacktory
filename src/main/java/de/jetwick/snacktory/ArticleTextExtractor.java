@@ -20,12 +20,15 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class is thread safe.
- * 
+ *
  * @author Peter Karich, jetwick_@_pannous_._info
  */
 public class ArticleTextExtractor {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleTextExtractor.class);
+    // Interessting nodes
+    private static final Pattern NODES =
+            Pattern.compile("p|div|td|h1|h2|article|section");
     // Unlikely candidates
     private static final Pattern UNLIKELY =
             Pattern.compile("^(com(bx|ment|munity)|dis(qus|cuss)|e(xtra|[-]?mail)|foot|"
@@ -41,11 +44,9 @@ public class ArticleTextExtractor {
             Pattern.compile("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
             + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
             + "sidebar|sponsor|tags|tool|widget|player|disclaimer");
-    
     private static final Pattern NEGATIVE_STYLE = Pattern.compile("hidden|display: ?none");
     private static final String IMAGE_CAPTION = "caption";
     private static final Set<String> IGNORED_TITLE_PARTS = new LinkedHashSet<String>() {
-
         {
             add("hacker news");
             add("facebook");
@@ -53,10 +54,9 @@ public class ArticleTextExtractor {
     };
     private static final OutputFormatter DEFAULT_FORMATTER = new OutputFormatter();
 
-    /** 
-     * @param html extracts article text from given html string. 
-     * wasn't tested with improper HTML, although jSoup should be able 
-     * to handle minor stuff.
+    /**
+     * @param html extracts article text from given html string. wasn't tested with improper HTML,
+     * although jSoup should be able to handle minor stuff.
      * @returns extracted article, all HTML tags stripped
      */
     public JResult extractContent(String html) throws Exception {
@@ -74,7 +74,7 @@ public class ArticleTextExtractor {
         // http://jsoup.org/cookbook/extracting-data/selector-syntax
         return extractContent(res, Jsoup.parse(html), formatter);
     }
-    
+
     public JResult extractContent(JResult res, Document doc, OutputFormatter formatter) throws Exception {
         if (doc == null)
             throw new NullPointerException("missing document");
@@ -82,7 +82,7 @@ public class ArticleTextExtractor {
         res.setTitle(extractTitle(doc));
 
         res.setDescription(extractDescription(doc));
-        
+
         res.setCanonicalUrl(extractCanonicalUrl(doc));
 
         // now remove the clutter
@@ -120,7 +120,7 @@ public class ArticleTextExtractor {
             }
         }
 
-        if(res.getImageUrl().isEmpty()){
+        if (res.getImageUrl().isEmpty()) {
             res.setImageUrl(extractImageUrl(doc));
         }
 
@@ -131,17 +131,17 @@ public class ArticleTextExtractor {
         res.setFaviconUrl(extractFaviconUrl(doc));
 
         res.setKeywords(extractKeywords(doc));
-        
+
         return res;
     }
 
-    protected String extractTitle(Document doc){
+    protected String extractTitle(Document doc) {
         String title = cleanTitle(doc.title());
-        if(title.isEmpty()){
+        if (title.isEmpty()) {
             title = SHelper.innerTrim(doc.select("head title").text());
-            if(title.isEmpty()){
+            if (title.isEmpty()) {
                 title = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
-                if(title.isEmpty()){
+                if (title.isEmpty()) {
                     title = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
                 }
             }
@@ -149,77 +149,79 @@ public class ArticleTextExtractor {
         return title;
     }
 
-    protected String extractCanonicalUrl(Document doc){
+    protected String extractCanonicalUrl(Document doc) {
         String url = SHelper.replaceSpaces(doc.select("head link[rel=canonical]").attr("href"));
-        if(url.isEmpty()){
-          url = SHelper.replaceSpaces(doc.select("head meta[property=og:url]").attr("content"));
+        if (url.isEmpty()) {
+            url = SHelper.replaceSpaces(doc.select("head meta[property=og:url]").attr("content"));
         }
         return url;
     }
 
-    protected String extractDescription(Document doc){
+    protected String extractDescription(Document doc) {
         String description = SHelper.innerTrim(doc.select("head meta[name=description]").attr("content"));
-        if(description.isEmpty()){
-          description = SHelper.innerTrim(doc.select("head meta[property=og:description]").attr("content"));
+        if (description.isEmpty()) {
+            description = SHelper.innerTrim(doc.select("head meta[property=og:description]").attr("content"));
         }
         return description;
     }
 
-    protected Collection<String> extractKeywords(Document doc){
+    protected Collection<String> extractKeywords(Document doc) {
         String content = SHelper.innerTrim(doc.select("head meta[name=keywords]").attr("content"));
-        
-        if(content != null) {
-            if(content.startsWith("[") && content.endsWith("]"))
+
+        if (content != null) {
+            if (content.startsWith("[") && content.endsWith("]"))
                 content = content.substring(1, content.length() - 1);
-            
+
             String[] split = content.split("\\s*,\\s*");
 
-            if(split.length > 1 || !split[0].equals(""))
+            if (split.length > 1 || !split[0].equals(""))
                 return Arrays.asList(split);
         }
-        
+
         return Collections.emptyList();
     }
-    
-    /***
-     *  Tries to extract an image url from metadata if determineImageSource failed
+
+    /**
+     * *
+     * Tries to extract an image url from metadata if determineImageSource failed
+     *
      * @param doc
      * @return image url or empty str
      */
-    protected String extractImageUrl(Document doc){
+    protected String extractImageUrl(Document doc) {
         // use open graph tag to get image
         String imageUrl = SHelper.replaceSpaces(doc.select("head meta[property=og:image]").attr("content"));
-        if(imageUrl.isEmpty()){
+        if (imageUrl.isEmpty()) {
             // prefer link over thumbnail-meta if empty
             imageUrl = SHelper.replaceSpaces(doc.select("link[rel=image_src]").attr("href"));
-            if(imageUrl.isEmpty()){
+            if (imageUrl.isEmpty()) {
                 imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=thumbnail]").attr("content"));
             }
         }
         return imageUrl;
     }
 
-    protected String extractRssUrl(Document doc){
+    protected String extractRssUrl(Document doc) {
         return SHelper.replaceSpaces(doc.select("link[rel=alternate]").select("link[type=application/rss+xml]").attr("href"));
     }
 
-    protected String extractVideoUrl(Document doc){
+    protected String extractVideoUrl(Document doc) {
         return SHelper.replaceSpaces(doc.select("head meta[property=og:video]").attr("content"));
     }
 
-    protected String extractFaviconUrl(Document doc){
+    protected String extractFaviconUrl(Document doc) {
         String faviconUrl = SHelper.replaceSpaces(doc.select("head link[rel=icon]").attr("href"));
-        if(faviconUrl.isEmpty()){
+        if (faviconUrl.isEmpty()) {
             faviconUrl = SHelper.replaceSpaces(doc.select("head link[rel^=shortcut],link[rel$=icon]").attr("href"));
         }
         return faviconUrl;
     }
 
     /**
-     * Weights current element. By matching it with positive candidates and 
-     * weighting child nodes. Since it's impossible to predict which
-     * exactly names, ids or class names will be used in HTML, major
-     * role is played by child nodes
+     * Weights current element. By matching it with positive candidates and weighting child nodes.
+     * Since it's impossible to predict which exactly names, ids or class names will be used in
+     * HTML, major role is played by child nodes
+     *
      * @param e Element to weight, along with child nodes
      */
     protected int getWeight(Element e) {
@@ -241,9 +243,9 @@ public class ArticleTextExtractor {
 
         if (NEGATIVE.matcher(e.id()).find())
             weight -= 50;
-        
+
         String style = e.attr("style");
-        if(style != null && !style.isEmpty() && NEGATIVE_STYLE.matcher(style).find())
+        if (style != null && !style.isEmpty() && NEGATIVE_STYLE.matcher(style).find())
             weight -= 50;
 
         weight += (int) Math.round(e.ownText().length() / 100.0 * 10);
@@ -251,15 +253,14 @@ public class ArticleTextExtractor {
         return weight;
     }
 
-    /** 
-     * Weights a child nodes of given Element. During tests some difficulties
-     * were met. For instanance, not every single document has nested 
-     * paragraph tags inside of the major article tag. Sometimes people 
-     * are adding one more nesting level. So, we're adding 4 points for every 
-     * 100 symbols contained in tag nested inside of the current weighted 
-     * element, but only 3 points for every element that's nested 2 levels
-     * deep. This way we give more chances to extract the element that has 
-     * less nested levels, increasing probability of the correct extraction.
+    /**
+     * Weights a child nodes of given Element. During tests some difficulties were met. For
+     * instanance, not every single document has nested paragraph tags inside of the major article
+     * tag. Sometimes people are adding one more nesting level. So, we're adding 4 points for every
+     * 100 symbols contained in tag nested inside of the current weighted element, but only 3 points
+     * for every element that's nested 2 levels deep. This way we give more chances to extract the
+     * element that has less nested levels, increasing probability of the correct extraction.
+     *
      * @param e Element, who's child nodes will be weighted
      */
     protected int weightChildNodes(Element e) {
@@ -400,11 +401,10 @@ public class ArticleTextExtractor {
         return maxNode;
     }
 
-    /** 
-     * Prepares document. Currently only stipping unlikely candidates, 
-     * since from time to time they're getting more score than good ones 
-     * especially in cases when major text is short.
-     * 
+    /**
+     * Prepares document. Currently only stipping unlikely candidates, since from time to time
+     * they're getting more score than good ones especially in cases when major text is short.
+     *
      * @param doc document to prepare. Passed as reference, and changed inside of function
      */
     protected void prepareDocument(Document doc) {
@@ -412,9 +412,11 @@ public class ArticleTextExtractor {
         removeScriptsAndStyles(doc);
     }
 
-    /** 
-     *  Removes unlikely candidates from HTML. Currently takes id and class name and matches them against list of patterns
-     *  @param doc document to strip unlikely candidates from
+    /**
+     * Removes unlikely candidates from HTML. Currently takes id and class name and matches them
+     * against list of patterns
+     *
+     * @param doc document to strip unlikely candidates from
      */
     protected void stripUnlikelyCandidates(Document doc) {
         for (Element child : doc.select("body").select("*")) {
@@ -460,7 +462,7 @@ public class ArticleTextExtractor {
         return SHelper.count(imageUrl, "ad") >= 2;
     }
 
-    /**   
+    /**
      * Match only exact matching as longestSubstring can be too fuzzy
      */
     public String removeTitleFromText(String text, String title) {
@@ -473,7 +475,8 @@ public class ArticleTextExtractor {
     }
 
     /**
-     * based on a delimeter in the title take the longest piece or do some custom logic based on the site
+     * based on a delimeter in the title take the longest piece or do some custom logic based on the
+     * site
      *
      * @param title
      * @param delimeter
@@ -500,11 +503,11 @@ public class ArticleTextExtractor {
     /**
      * @return a set of all important nodes
      */
-    public Collection<Element> getNodes(Document doc) {        
+    public Collection<Element> getNodes(Document doc) {
         Map<Element, Object> nodes = new LinkedHashMap<Element, Object>(64);
         int score = 100;
         for (Element el : doc.select("body").select("*")) {
-            if ("p;div;td;h1;h2".contains(el.tagName())) {
+            if (NODES.matcher(el.tagName()).matches()) {
                 nodes.put(el, null);
                 setScore(el, score);
                 score = score / 2;
