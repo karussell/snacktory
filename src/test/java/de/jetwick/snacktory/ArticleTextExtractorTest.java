@@ -64,6 +64,15 @@ public class ArticleTextExtractorTest {
         assertEquals("/2011/WORLD/africa/04/06/libya.war/t1larg.libyarebel.gi.jpg", res.getImageUrl());
         assertTrue("cnn:" + res.getText(), res.getText().startsWith("Tripoli, Libya (CNN) -- As rebel and pro-government forces in Libya maneuvered on the battlefield Wedn"));
     }
+    
+    @Test
+    public void testReuters() throws Exception {
+        // http://www.reuters.com/article/2012/08/03/us-knightcapital-trading-technology-idUSBRE87203X20120803
+        JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("reuters.html")));
+        assertEquals("Knight trading loss shows cracks in equity markets", res.getTitle());
+        assertEquals("http://s1.reutersmedia.net/resources/r/?m=02&d=20120803&t=2&i=637797752&w=460&fh=&fw=&ll=&pl=&r=CBRE872074Y00", res.getImageUrl());
+        assertTrue("reuters:" + res.getText(), res.getText().startsWith("(Reuters) - The software glitch that cost Knight Capital Group $440 million in just 45 minutes reveals the deep fault lines in stock markets that are increasingly dominated by sophisticated high-speed trading systems. But Wall Street firms and regulators have few easy solutions for such problems."));
+    }
 
     @Test
     public void testWordpress() throws Exception {

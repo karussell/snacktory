@@ -74,7 +74,9 @@ public class OutputFormatter {
 
     protected void append(Element node, StringBuilder sb, String tagName) {
         for (Element e : node.getElementsByTag(tagName)) {
-            if (e.attr("class") != null && e.attr("class").contains("caption"))
+            Element p = e.parent();
+            if ((e.attr("class") != null && e.attr("class").contains("caption")) || 
+                (p.attr("class") != null && p.attr("class").contains("caption")))
                 continue;
 
             String text = e.text();
