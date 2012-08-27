@@ -44,8 +44,8 @@ public class ArticleTextExtractor {
             Pattern.compile("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
             + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
             + "sidebar|sponsor|tags|tool|widget|player|disclaimer");
-    private static final Pattern NEGATIVE_STYLE = Pattern.compile("hidden|display: ?none");
-    private static final String IMAGE_CAPTION = "caption";
+    private static final Pattern NEGATIVE_STYLE =
+            Pattern.compile("hidden|display: ?none|font-size: ?small");
     private static final Set<String> IGNORED_TITLE_PARTS = new LinkedHashSet<String>() {
         {
             add("hacker news");
@@ -80,9 +80,7 @@ public class ArticleTextExtractor {
             throw new NullPointerException("missing document");
 
         res.setTitle(extractTitle(doc));
-
         res.setDescription(extractDescription(doc));
-
         res.setCanonicalUrl(extractCanonicalUrl(doc));
 
         // now remove the clutter
@@ -125,13 +123,9 @@ public class ArticleTextExtractor {
         }
 
         res.setRssUrl(extractRssUrl(doc));
-
         res.setVideoUrl(extractVideoUrl(doc));
-
         res.setFaviconUrl(extractFaviconUrl(doc));
-
         res.setKeywords(extractKeywords(doc));
-
         return res;
     }
 
@@ -173,19 +167,15 @@ public class ArticleTextExtractor {
                 content = content.substring(1, content.length() - 1);
 
             String[] split = content.split("\\s*,\\s*");
-
-            if (split.length > 1 || (split.length > 0 && !split[0].equals("")))
+            if (split.length > 1 || (split.length > 0 && !"".equals(split[0])))
                 return Arrays.asList(split);
         }
-
         return Collections.emptyList();
     }
 
     /**
-     * *
      * Tries to extract an image url from metadata if determineImageSource failed
      *
-     * @param doc
      * @return image url or empty str
      */
     protected String extractImageUrl(Document doc) {
@@ -266,9 +256,7 @@ public class ArticleTextExtractor {
     protected int weightChildNodes(Element e) {
         int weight = 0;
         Element caption = null;
-        List<Element> headerEls = new ArrayList<Element>(5);
         List<Element> pEls = new ArrayList<Element>(5);
-
         for (Element child : e.children()) {
             String ownText = child.ownText();
             int ownTextLength = ownText.length();
@@ -277,9 +265,6 @@ public class ArticleTextExtractor {
 
             if (ownTextLength > 200)
                 weight += Math.max(50, ownTextLength / 10);
-
-            if (e.id().contains(IMAGE_CAPTION) || e.className().contains(IMAGE_CAPTION))
-                weight += 30;
 
             if (child.tagName().equals("h1") || child.tagName().equals("h2")) {
                 weight += 30;
@@ -301,7 +286,7 @@ public class ArticleTextExtractor {
             for (Element subEl : e.children()) {
                 if ("h1;h2;h3;h4;h5;h6".contains(subEl.tagName())) {
                     weight += 20;
-                    headerEls.add(subEl);
+                    // headerEls.add(subEl);
                 }
 
                 if ("p".contains(subEl.tagName()))
@@ -311,6 +296,11 @@ public class ArticleTextExtractor {
         }
         return weight;
     }
+    
+    public void addScore(Element el, int score) {
+        int old = getScore(el);
+        setScore(el, score + old);
+    }
 
     public int getScore(Element el) {
         int old = 0;
@@ -319,11 +309,6 @@ public class ArticleTextExtractor {
         } catch (Exception ex) {
         }
         return old;
-    }
-
-    public void addScore(Element el, int score) {
-        int old = getScore(el);
-        setScore(el, score + old);
     }
 
     public void setScore(Element el, int score) {

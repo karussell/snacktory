@@ -75,7 +75,7 @@ public class HtmlFetcherIntegrationTest {
         assertTrue(res.getTitle(), res.getTitle().startsWith("Democracy Now! "));
 
         res = new HtmlFetcher().fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
-        assertTrue(res.getTitle(), res.getTitle().startsWith("Twitter / TH61: “@AntiAtomPiraten: \"Prot"));
+        assertTrue(res.getTitle(), res.getTitle().startsWith("Twitter / TH61: “@AntiAtomPiraten:"));
     }
 
     public void testImage() throws Exception {

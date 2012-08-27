@@ -564,6 +564,13 @@ public class ArticleTextExtractorTest {
     }
 
     @Test
+    public void testWikipedia2() throws Exception {
+        // http://en.wikipedia.org/wiki/President_of_the_United_States
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("wikipedia_president.html")));
+        assertTrue(article.getText(), article.getText().startsWith("The President of the United States of America (acronym: POTUS)[6] is the head of state and head of government"));
+    }
+
+    @Test
     public void testData4() throws Exception {
         // http://blog.traindom.com/places-where-to-submit-your-startup-for-coverage/
         JResult res = extractor.extractContent(readFileAsString("test_data/4.html"));

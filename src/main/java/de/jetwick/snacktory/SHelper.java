@@ -90,8 +90,8 @@ public class SHelper {
     }
 
     /**
-     * Starts reading the encoding from the first valid character until an invalid
-     * encoding character occurs.
+     * Starts reading the encoding from the first valid character until an invalid encoding
+     * character occurs.
      */
     public static String encodingCleanup(String str) {
         StringBuilder sb = new StringBuilder();
@@ -160,12 +160,12 @@ public class SHelper {
     /**
      * @param urlForDomain extract the domain from this url
      * @param path this url does not have a domain
-     * @return 
+     * @return
      */
     public static String useDomainOfFirstArg4Second(String urlForDomain, String path) {
         if (path.startsWith("http"))
             return path;
-        
+
         if ("favicon.ico".equals(path))
             path = "/favicon.ico";
 
@@ -173,7 +173,7 @@ public class SHelper {
             // wikipedia special case, see tests
             if (urlForDomain.startsWith("https:"))
                 return "https:" + path;
-            
+
             return "http:" + path;
         } else if (path.startsWith("/"))
             return "http://" + extractHost(urlForDomain) + path;
@@ -303,8 +303,7 @@ public class SHelper {
     }
 
     /**
-     * Popular sites uses the #! to indicate the importance of
-     * the following chars. Ugly but true.
+     * Popular sites uses the #! to indicate the importance of the following chars. Ugly but true.
      * Such as: facebook, twitter, gizmodo, ...
      */
     public static String removeHashbang(String url) {
@@ -419,8 +418,8 @@ public class SHelper {
     }
 
     /**
-     * keep in mind: simpleDateFormatter is not thread safe!
-     * call completeDate before applying this formatter.     
+     * keep in mind: simpleDateFormatter is not thread safe! call completeDate before applying this
+     * formatter.
      */
     public static SimpleDateFormat createDateFormatter() {
         return new SimpleDateFormat("yyyy/MM/dd");
@@ -451,5 +450,15 @@ public class SHelper {
         public X509Certificate[] getAcceptedIssuers() {
             return null;
         }
+    }
+
+    public static int countLetters(String str) {
+        int len = str.length();
+        int chars = 0;
+        for (int i = 0; i < len; i++) {
+            if (Character.isLetter(str.charAt(i)))
+                chars++;
+        }
+        return chars;
     }
 }
