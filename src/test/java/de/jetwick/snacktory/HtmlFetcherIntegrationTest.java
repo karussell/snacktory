@@ -89,19 +89,6 @@ public class HtmlFetcherIntegrationTest {
     public void testFurther() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://linksunten.indymedia.org/de/node/41619?utm_source=twitterfeed&utm_medium=twitter", 10000, true);
         assertTrue(res.getText(), res.getText().startsWith("Es gibt kein ruhiges Hinterland! Schon wieder den "));
-
-//        res = new HtmlFetcher().fetchAndExtract("http://www.paulgraham.com/seesv.html", 10000, true);
-//        System.out.println("url2:" + res.getUrl());
-//        System.out.println("text2:" + res.getText());                               
-//        
-//        Document doc = Jsoup.parse(new URL("http://www.paulgraham.com/seesv.html"), 10000);
-//        for(Element el : doc.select("p")) {
-//            System.out.println(el.className() + ":" + el.ownText());
-//        }
-
-        res = new HtmlFetcher().fetchAndExtract("http://www.flickr.com/photos/artetextilmerlina/5958866593/in/pool-54743695@N00?utm_source=twitterfeed&utm_medium=twitter", 10000, true);
-        assertTrue(res.getText(), res.getText().
-                startsWith("One pill makes you larger And one pill makes you small And the ones that mother gives you Don't do anything at all Go ask Alice When she's ten feet tall And "));
     }
 
     @Test
