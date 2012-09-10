@@ -571,6 +571,13 @@ public class ArticleTextExtractorTest {
     }
 
     @Test
+    public void testWikipedia3() throws Exception {
+        // http://en.wikipedia.org/wiki/Muhammad
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("wikipedia_muhammad.html")));
+        assertTrue(article.getText(), article.getText().startsWith("Muhammad (c. 570 – c. 8 June 632);[1] also transliterated as Mohammad, Mohammed, or Muhammed; Arabic: محمد‎, full name: Abū al-Qāsim Muḥammad"));
+    }
+
+    @Test
     public void testData4() throws Exception {
         // http://blog.traindom.com/places-where-to-submit-your-startup-for-coverage/
         JResult res = extractor.extractContent(readFileAsString("test_data/4.html"));

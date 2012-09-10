@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -43,7 +42,7 @@ public class ArticleTextExtractor {
     private static final Pattern NEGATIVE =
             Pattern.compile("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
             + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
-            + "sidebar|sponsor|tags|tool|widget|player|disclaimer");
+            + "sidebar|sponsor|tags|tool|widget|player|disclaimer|toc|infobox|vcard");
     private static final Pattern NEGATIVE_STYLE =
             Pattern.compile("hidden|display: ?none|font-size: ?small");
     private static final Set<String> IGNORED_TITLE_PARTS = new LinkedHashSet<String>() {
@@ -215,8 +214,102 @@ public class ArticleTextExtractor {
      * @param e Element to weight, along with child nodes
      */
     protected int getWeight(Element e) {
-        Integer weight = 0;
-        if (POSITIVE.matcher(e.className()).find())
+        int weight = calcWeight(e);
+        weight += (int) Math.round(e.ownText().length() / 100.0 * 10);
+        weight += weightChildNodes(e);
+        return weight;
+    }
+
+    /**
+     * Weights a child nodes of given Element. During tests some difficulties were met. For
+     * instanance, not every single document has nested paragraph tags inside of the major article
+     * tag. Sometimes people are adding one more nesting level. So, we're adding 4 points for every
+     * 100 symbols contained in tag nested inside of the current weighted element, but only 3 points
+     * for every element that's nested 2 levels deep. This way we give more chances to extract the
+     * element that has less nested levels, increasing probability of the correct extraction.
+     *
+     * @param rootEl Element, who's child nodes will be weighted
+     */
+    protected int weightChildNodes(Element rootEl) {
+        int weight = 0;
+        Element caption = null;
+        List<Element> pEls = new ArrayList<Element>(5);
+        for (Element child : rootEl.children()) {
+            String ownText = child.ownText();
+            int ownTextLength = ownText.length();
+            if (ownTextLength < 20)
+                continue;
+            
+            if (ownTextLength > 200)
+                weight += Math.max(50, ownTextLength / 10);
+
+            if (child.tagName().equals("h1") || child.tagName().equals("h2")) {
+                weight += 30;
+            } else if (child.tagName().equals("div") || child.tagName().equals("p")) {
+                weight += calcWeightForChild(child, ownText);
+                if (child.tagName().equals("p") && ownTextLength > 50)
+                    pEls.add(child);
+
+                if (child.className().toLowerCase().equals("caption"))
+                    caption = child;
+            }
+        }
+
+        // use caption and image
+        if (caption != null)
+            weight += 30;
+
+        if (pEls.size() >= 2) {
+            for (Element subEl : rootEl.children()) {
+                if ("h1;h2;h3;h4;h5;h6".contains(subEl.tagName())) {
+                    weight += 20;
+                    // headerEls.add(subEl);
+                } else if("table;li;td;th".contains(subEl.tagName()))
+                    addScore(subEl, -30);
+                
+                if ("p".contains(subEl.tagName()))
+                    addScore(subEl, 30);
+            }
+        }
+        return weight;
+    }
+
+    public void addScore(Element el, int score) {
+        int old = getScore(el);
+        setScore(el, score + old);
+    }
+
+    public int getScore(Element el) {
+        int old = 0;
+        try {
+            old = Integer.parseInt(el.attr("gravityScore"));
+        } catch (Exception ex) {
+        }
+        return old;
+    }
+
+    public void setScore(Element el, int score) {
+        el.attr("gravityScore", Integer.toString(score));
+    }
+
+    private int calcWeightForChild(Element child, String ownText) {
+        int c = SHelper.count(ownText, "&quot;");
+        c += SHelper.count(ownText, "&lt;");
+        c += SHelper.count(ownText, "&gt;");
+        c += SHelper.count(ownText, "px");
+        int val;
+        if (c > 5)
+            val = -30;
+        else
+            val = (int) Math.round(ownText.length() / 25.0);
+
+        addScore(child, val);
+        return val;
+    }
+
+    private int calcWeight(Element e) {
+        int weight = 0;
+            if (POSITIVE.matcher(e.className()).find())
             weight += 35;
 
         if (POSITIVE.matcher(e.id()).find())
@@ -237,97 +330,7 @@ public class ArticleTextExtractor {
         String style = e.attr("style");
         if (style != null && !style.isEmpty() && NEGATIVE_STYLE.matcher(style).find())
             weight -= 50;
-
-        weight += (int) Math.round(e.ownText().length() / 100.0 * 10);
-        weight += weightChildNodes(e);
         return weight;
-    }
-
-    /**
-     * Weights a child nodes of given Element. During tests some difficulties were met. For
-     * instanance, not every single document has nested paragraph tags inside of the major article
-     * tag. Sometimes people are adding one more nesting level. So, we're adding 4 points for every
-     * 100 symbols contained in tag nested inside of the current weighted element, but only 3 points
-     * for every element that's nested 2 levels deep. This way we give more chances to extract the
-     * element that has less nested levels, increasing probability of the correct extraction.
-     *
-     * @param e Element, who's child nodes will be weighted
-     */
-    protected int weightChildNodes(Element e) {
-        int weight = 0;
-        Element caption = null;
-        List<Element> pEls = new ArrayList<Element>(5);
-        for (Element child : e.children()) {
-            String ownText = child.ownText();
-            int ownTextLength = ownText.length();
-            if (ownTextLength < 20)
-                continue;
-
-            if (ownTextLength > 200)
-                weight += Math.max(50, ownTextLength / 10);
-
-            if (child.tagName().equals("h1") || child.tagName().equals("h2")) {
-                weight += 30;
-            } else if (child.tagName().equals("div") || child.tagName().equals("p")) {
-                weight += calcWeightForChild(child, e, ownText);
-                if (child.tagName().equals("p") && ownTextLength > 50)
-                    pEls.add(child);
-
-                if (child.className().toLowerCase().equals("caption"))
-                    caption = child;
-            }
-        }
-
-        // use caption and image
-        if (caption != null)
-            weight += 30;
-
-        if (pEls.size() >= 2) {
-            for (Element subEl : e.children()) {
-                if ("h1;h2;h3;h4;h5;h6".contains(subEl.tagName())) {
-                    weight += 20;
-                    // headerEls.add(subEl);
-                }
-
-                if ("p".contains(subEl.tagName()))
-                    addScore(subEl, 30);
-            }
-            weight += 60;
-        }
-        return weight;
-    }
-    
-    public void addScore(Element el, int score) {
-        int old = getScore(el);
-        setScore(el, score + old);
-    }
-
-    public int getScore(Element el) {
-        int old = 0;
-        try {
-            old = Integer.parseInt(el.attr("gravityScore"));
-        } catch (Exception ex) {
-        }
-        return old;
-    }
-
-    public void setScore(Element el, int score) {
-        el.attr("gravityScore", Integer.toString(score));
-    }
-
-    public int calcWeightForChild(Element child, Element e, String ownText) {
-        int c = SHelper.count(ownText, "&quot;");
-        c += SHelper.count(ownText, "&lt;");
-        c += SHelper.count(ownText, "&gt;");
-        c += SHelper.count(ownText, "px");
-        int val;
-        if (c > 5)
-            val = -30;
-        else
-            val = (int) Math.round(ownText.length() / 25.0);
-
-        addScore(child, val);
-        return val;
     }
 
     public Element determineImageSource(Element el) {
