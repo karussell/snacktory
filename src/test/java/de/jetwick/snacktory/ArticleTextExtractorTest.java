@@ -576,6 +576,13 @@ public class ArticleTextExtractorTest {
     }
 
     @Test
+    public void testWikipedia4() throws Exception {
+        // http://de.wikipedia.org/wiki/Henne_Strand
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("wikipedia_Henne_Strand.html")));
+        assertTrue(article.getText(), article.getText().startsWith("Der dänische Ort Henne Strand befindet sich in Südwest-Jütland und gehört zur Kommune Varde"));
+    }
+
+    @Test
     public void testData4() throws Exception {
         // http://blog.traindom.com/places-where-to-submit-your-startup-for-coverage/
         JResult res = extractor.extractContent(readFileAsString("test_data/4.html"));

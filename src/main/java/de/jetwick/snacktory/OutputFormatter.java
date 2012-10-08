@@ -6,6 +6,8 @@ import org.jsoup.select.Elements;
 
 import java.util.Arrays;
 import java.util.List;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 
 /**
  * @author goose | jim
@@ -66,19 +68,57 @@ public class OutputFormatter {
         }
     }
 
-    protected void append(Element node, StringBuilder sb, String tagName) {        
+    protected void append(Element node, StringBuilder sb, String tagName) {
         for (Element e : node.getElementsByTag(tagName)) {
             Element p = e.parent();
             if ((e.attr("class") != null && e.attr("class").toLowerCase().contains("caption"))
                     || (p.attr("class") != null && p.attr("class").toLowerCase().contains("caption")))
                 continue;
 
-            String text = e.text();
+            String text = node2Text(e);
             if (text.isEmpty() || text.length() < minParagraphText || text.length() > SHelper.countLetters(text) * 2)
                 continue;
 
             sb.append(text);
             sb.append("\n\n");
         }
+    }
+
+    void appendTextSkipHidden(Element node, StringBuilder accum) {
+//        boolean previousWasText = false;
+        for (Node child : node.childNodes()) {
+            String style = child.attr("style");
+            if (style.contains("display:none") || style.contains("visibility:hidden;"))
+                continue;
+
+            if (child instanceof TextNode) {
+                TextNode textNode = (TextNode) child;
+                String txt = textNode.text();
+                accum.append(txt);
+            } else if (child instanceof Element) {
+                Element element = (Element) child;
+                if (accum.length() > 0 && element.isBlock() && !lastCharIsWhitespace(accum))
+                    accum.append(" ");
+                else if (element.tagName().equals("br"))
+                    accum.append(" ");
+                appendTextSkipHidden(element, accum);
+            }
+        }
+    }
+
+    boolean lastCharIsWhitespace(StringBuilder accum) {
+        if (accum.length() == 0)
+            return false;
+        return Character.isWhitespace(accum.charAt(accum.length() - 1));
+    }
+
+    protected String node2TextOld(Element el) {
+        return el.text();
+    }
+
+    protected String node2Text(Element el) {
+        StringBuilder sb = new StringBuilder(200);
+        appendTextSkipHidden(el, sb);
+        return sb.toString();
     }
 }
