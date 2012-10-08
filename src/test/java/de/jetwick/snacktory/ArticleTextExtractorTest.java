@@ -581,6 +581,13 @@ public class ArticleTextExtractorTest {
         JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("wikipedia_Henne_Strand.html")));
         assertTrue(article.getText(), article.getText().startsWith("Der dänische Ort Henne Strand befindet sich in Südwest-Jütland und gehört zur Kommune Varde"));
     }
+    
+     @Test
+    public void testWikipedia5() throws Exception {
+        // http://de.wikipedia.org/wiki/Java
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("wikipedia_java.html")));
+        assertTrue(article.getText(), article.getText().startsWith("Java (Indonesian: Jawa) is an island of Indonesia. With a population of 135 million"));
+    }
 
     @Test
     public void testData4() throws Exception {

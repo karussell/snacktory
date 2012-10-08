@@ -71,7 +71,8 @@ public class OutputFormatter {
     }
 
     protected void append(Element node, StringBuilder sb, String tagName) {
-        for (Element e : node.getElementsByTag(tagName)) {
+        // is select more costly then getElementsByTag?
+        for (Element e : node.select(tagName)) {
             Element p = e.parent();
             if ((e.attr("class") != null && e.attr("class").toLowerCase().contains("caption"))
                     || (p.attr("class") != null && p.attr("class").toLowerCase().contains("caption")))
