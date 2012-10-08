@@ -6,6 +6,7 @@ import org.jsoup.select.Elements;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
@@ -20,6 +21,7 @@ public class OutputFormatter {
 
     public static final int MIN_PARAGRAPH_TEXT = 50;
     private static final List<String> NODES_TO_REPLACE = Arrays.asList("strong", "b", "i");
+    private Pattern unlikelyPattern = Pattern.compile("display\\:none|visibility\\:hidden");
     protected final int minParagraphText;
     protected final List<String> nodesToReplace;
 
@@ -84,11 +86,11 @@ public class OutputFormatter {
         }
     }
 
-    void appendTextSkipHidden(Element node, StringBuilder accum) {
-//        boolean previousWasText = false;
-        for (Node child : node.childNodes()) {
+    void appendTextSkipHidden(Element e, StringBuilder accum) {
+        for (Node child : e.childNodes()) {
             String style = child.attr("style");
-            if (style.contains("display:none") || style.contains("visibility:hidden;"))
+            String clazz = child.attr("class");
+            if (unlikelyPattern.matcher(style).find() || unlikelyPattern.matcher(clazz).find())
                 continue;
 
             if (child instanceof TextNode) {
@@ -120,5 +122,14 @@ public class OutputFormatter {
         StringBuilder sb = new StringBuilder(200);
         appendTextSkipHidden(el, sb);
         return sb.toString();
+    }
+
+    public OutputFormatter setUnlikelyPattern(String unlikelyPattern) {
+        this.unlikelyPattern = Pattern.compile(unlikelyPattern);
+        return this;
+    }
+
+    public OutputFormatter appendUnlikelyPattern(String str) {
+        return setUnlikelyPattern(unlikelyPattern.toString() + "|" + str);
     }
 }

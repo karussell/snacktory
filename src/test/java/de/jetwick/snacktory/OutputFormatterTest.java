@@ -16,8 +16,7 @@
 package de.jetwick.snacktory;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
+import org.jsoup.nodes.Document;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -26,5 +25,13 @@ import static org.junit.Assert.*;
  * @author Peter Karich
  */
 public class OutputFormatterTest {
-    
+
+    @Test
+    public void testSkipHidden() {
+        OutputFormatter formatter = new OutputFormatter();
+        Document doc = Jsoup.parse("<div><div style=\"display:none\">xy</div>test</div>");
+        StringBuilder sb = new StringBuilder();
+        formatter.appendTextSkipHidden(doc, sb);
+        assertEquals("test", sb.toString());
+    }
 }
