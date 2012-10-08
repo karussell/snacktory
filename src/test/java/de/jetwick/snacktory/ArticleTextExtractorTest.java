@@ -1,11 +1,9 @@
 package de.jetwick.snacktory;
 
-import static org.junit.Assert.*;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Arrays;
-
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -52,6 +52,11 @@ public class ArticleTextExtractor {
         }
     };
     private static final OutputFormatter DEFAULT_FORMATTER = new OutputFormatter();
+    private OutputFormatter formatter = DEFAULT_FORMATTER;
+
+    public void setOutputFormatter(OutputFormatter formatter) {
+        this.formatter = formatter;
+    }
 
     /**
      * @param html extracts article text from given html string. wasn't tested with improper HTML,
@@ -63,7 +68,7 @@ public class ArticleTextExtractor {
     }
 
     public JResult extractContent(JResult res, String html) throws Exception {
-        return extractContent(res, html, DEFAULT_FORMATTER);
+        return extractContent(res, html, formatter);
     }
 
     public JResult extractContent(JResult res, String html, OutputFormatter formatter) throws Exception {
@@ -239,7 +244,7 @@ public class ArticleTextExtractor {
             int ownTextLength = ownText.length();
             if (ownTextLength < 20)
                 continue;
-            
+
             if (ownTextLength > 200)
                 weight += Math.max(50, ownTextLength / 10);
 
@@ -264,9 +269,9 @@ public class ArticleTextExtractor {
                 if ("h1;h2;h3;h4;h5;h6".contains(subEl.tagName())) {
                     weight += 20;
                     // headerEls.add(subEl);
-                } else if("table;li;td;th".contains(subEl.tagName()))
+                } else if ("table;li;td;th".contains(subEl.tagName()))
                     addScore(subEl, -30);
-                
+
                 if ("p".contains(subEl.tagName()))
                     addScore(subEl, 30);
             }
@@ -309,7 +314,7 @@ public class ArticleTextExtractor {
 
     private int calcWeight(Element e) {
         int weight = 0;
-            if (POSITIVE.matcher(e.className()).find())
+        if (POSITIVE.matcher(e.className()).find())
             weight += 35;
 
         if (POSITIVE.matcher(e.id()).find())

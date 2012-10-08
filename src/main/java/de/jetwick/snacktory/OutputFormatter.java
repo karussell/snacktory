@@ -66,7 +66,7 @@ public class OutputFormatter {
         }
     }
 
-    protected void append(Element node, StringBuilder sb, String tagName) {
+    protected void append(Element node, StringBuilder sb, String tagName) {        
         for (Element e : node.getElementsByTag(tagName)) {
             Element p = e.parent();
             if ((e.attr("class") != null && e.attr("class").toLowerCase().contains("caption"))
