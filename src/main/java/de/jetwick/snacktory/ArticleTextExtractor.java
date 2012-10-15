@@ -26,23 +26,16 @@ public class ArticleTextExtractor {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleTextExtractor.class);
     // Interessting nodes
-    private static final Pattern NODES =
-            Pattern.compile("p|div|td|h1|h2|article|section");
+    private static final Pattern NODES = Pattern.compile("p|div|td|h1|h2|article|section");
     // Unlikely candidates
-    private static final Pattern UNLIKELY =
-            Pattern.compile("^(com(bx|ment|munity)|dis(qus|cuss)|e(xtra|[-]?mail)|foot|"
-            + "header|menu|re(mark|ply)|rss|sh(are|outbox)|sponsor"
-            + "a(d|ll|gegate|rchive|ttachment)|(pag(er|ination))|popup|print|"
-            + "login|si(debar|gn|ngle))");
+    private String unlikelyStr;
+    private Pattern UNLIKELY;
     // Most likely positive candidates
-    private static final Pattern POSITIVE =
-            Pattern.compile("(^(body|content|h?entry|main|page|post|text|blog|story|haupt))"
-            + "|arti(cle|kel)|instapaper_body");
+    private String positiveStr;
+    private Pattern POSITIVE;
     // Most likely negative candidates
-    private static final Pattern NEGATIVE =
-            Pattern.compile("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
-            + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
-            + "sidebar|sponsor|tags|tool|widget|player|disclaimer|toc|infobox|vcard");
+    private String negativeStr;
+    private Pattern NEGATIVE;
     private static final Pattern NEGATIVE_STYLE =
             Pattern.compile("hidden|display: ?none|font-size: ?small");
     private static final Set<String> IGNORED_TITLE_PARTS = new LinkedHashSet<String>() {
@@ -53,6 +46,49 @@ public class ArticleTextExtractor {
     };
     private static final OutputFormatter DEFAULT_FORMATTER = new OutputFormatter();
     private OutputFormatter formatter = DEFAULT_FORMATTER;
+
+    public ArticleTextExtractor() {
+        setUnlikely("com(bx|ment|munity)|dis(qus|cuss)|e(xtra|[-]?mail)|foot|"
+                + "header|menu|re(mark|ply)|rss|sh(are|outbox)|sponsor"
+                + "a(d|ll|gegate|rchive|ttachment)|(pag(er|ination))|popup|print|"
+                + "login|si(debar|gn|ngle)");
+        setPositive("(^(body|content|h?entry|main|page|post|text|blog|story|haupt))"
+                + "|arti(cle|kel)|instapaper_body");
+        setNegative("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
+                + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
+                + "sidebar|sponsor|tags|tool|widget|player|disclaimer|toc|infobox|vcard");
+    }
+
+    public ArticleTextExtractor setUnlikely(String unlikelyStr) {
+        this.unlikelyStr = unlikelyStr;
+        UNLIKELY = Pattern.compile(unlikelyStr);
+        return this;
+    }
+
+    public ArticleTextExtractor addUnlikely(String unlikelyMatches) {
+        return setUnlikely(unlikelyStr + "|" + unlikelyMatches);
+    }
+
+    public ArticleTextExtractor setPositive(String positiveStr) {
+        this.positiveStr = positiveStr;
+        POSITIVE = Pattern.compile(positiveStr);
+        return this;
+    }
+
+    public ArticleTextExtractor addPositive(String pos) {
+        return setPositive(positiveStr + "|" + pos);
+    }
+
+    public ArticleTextExtractor setNegative(String negativeStr) {
+        this.negativeStr = negativeStr;
+        NEGATIVE = Pattern.compile(negativeStr);
+        return this;
+    }
+
+    public ArticleTextExtractor addNegative(String neg) {
+        setNegative(negativeStr + "|" + neg);
+        return this;
+    }
 
     public void setOutputFormatter(OutputFormatter formatter) {
         this.formatter = formatter;
@@ -269,8 +305,9 @@ public class ArticleTextExtractor {
                 if ("h1;h2;h3;h4;h5;h6".contains(subEl.tagName())) {
                     weight += 20;
                     // headerEls.add(subEl);
-                } else if ("table;li;td;th".contains(subEl.tagName()))
+                } else if ("table;li;td;th".contains(subEl.tagName())) {
                     addScore(subEl, -30);
+                }
 
                 if ("p".contains(subEl.tagName()))
                     addScore(subEl, 30);

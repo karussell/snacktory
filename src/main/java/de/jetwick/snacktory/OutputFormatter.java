@@ -72,11 +72,15 @@ public class OutputFormatter {
 
     protected void append(Element node, StringBuilder sb, String tagName) {
         // is select more costly then getElementsByTag?
+        MAIN:
         for (Element e : node.select(tagName)) {
-            Element p = e.parent();
-            if ((e.attr("class") != null && e.attr("class").toLowerCase().contains("caption"))
-                    || (p.attr("class") != null && p.attr("class").toLowerCase().contains("caption")))
-                continue;
+            Element tmpEl = e;
+            // check all elements until 'node'
+            while (tmpEl != null && !tmpEl.equals(node)) {
+                if (unlikely(tmpEl))
+                    continue MAIN;
+                tmpEl = tmpEl.parent();
+            }
 
             String text = node2Text(e);
             if (text.isEmpty() || text.length() < minParagraphText || text.length() > SHelper.countLetters(text) * 2)
@@ -87,13 +91,21 @@ public class OutputFormatter {
         }
     }
 
+    boolean unlikely(Node e) {
+        if (e.attr("class") != null && e.attr("class").toLowerCase().contains("caption"))
+            return true;
+
+        String style = e.attr("style");
+        String clazz = e.attr("class");
+        if (unlikelyPattern.matcher(style).find() || unlikelyPattern.matcher(clazz).find())
+            return true;
+        return false;
+    }
+
     void appendTextSkipHidden(Element e, StringBuilder accum) {
         for (Node child : e.childNodes()) {
-            String style = child.attr("style");
-            String clazz = child.attr("class");
-            if (unlikelyPattern.matcher(style).find() || unlikelyPattern.matcher(clazz).find())
+            if (unlikely(child))
                 continue;
-
             if (child instanceof TextNode) {
                 TextNode textNode = (TextNode) child;
                 String txt = textNode.text();
