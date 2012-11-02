@@ -177,6 +177,9 @@ public class ArticleTextExtractor {
                 title = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
                 if (title.isEmpty()) {
                     title = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
+                    if (title.isEmpty()) {
+                        title = SHelper.innerTrim(doc.select("head meta[name=twitter:title]").attr("content"));
+                    }
                 }
             }
         }
@@ -187,6 +190,9 @@ public class ArticleTextExtractor {
         String url = SHelper.replaceSpaces(doc.select("head link[rel=canonical]").attr("href"));
         if (url.isEmpty()) {
             url = SHelper.replaceSpaces(doc.select("head meta[property=og:url]").attr("content"));
+            if (url.isEmpty()) {
+                url = SHelper.replaceSpaces(doc.select("head meta[name=twitter:url]").attr("content"));
+            }
         }
         return url;
     }
@@ -195,6 +201,9 @@ public class ArticleTextExtractor {
         String description = SHelper.innerTrim(doc.select("head meta[name=description]").attr("content"));
         if (description.isEmpty()) {
             description = SHelper.innerTrim(doc.select("head meta[property=og:description]").attr("content"));
+            if (description.isEmpty()) {
+                description = SHelper.innerTrim(doc.select("head meta[name=twitter:description]").attr("content"));
+            }
         }
         return description;
     }
@@ -222,10 +231,13 @@ public class ArticleTextExtractor {
         // use open graph tag to get image
         String imageUrl = SHelper.replaceSpaces(doc.select("head meta[property=og:image]").attr("content"));
         if (imageUrl.isEmpty()) {
-            // prefer link over thumbnail-meta if empty
-            imageUrl = SHelper.replaceSpaces(doc.select("link[rel=image_src]").attr("href"));
+            imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=twitter:image]").attr("content"));
             if (imageUrl.isEmpty()) {
-                imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=thumbnail]").attr("content"));
+                // prefer link over thumbnail-meta if empty
+                imageUrl = SHelper.replaceSpaces(doc.select("link[rel=image_src]").attr("href"));
+                if (imageUrl.isEmpty()) {
+                    imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=thumbnail]").attr("content"));
+                }
             }
         }
         return imageUrl;
