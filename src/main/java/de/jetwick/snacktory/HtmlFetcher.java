@@ -28,13 +28,15 @@ import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.Inflater;
+import java.util.zip.InflaterInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class to fetch articles.
- * This class is thread safe.
- * 
+ * Class to fetch articles. This class is thread safe.
+ *
  * @author Peter Karich, jetwick_@_pannous_._info
  */
 public class HtmlFetcher {
@@ -81,7 +83,6 @@ public class HtmlFetcher {
     private int maxTextLength = -1;
     private ArticleTextExtractor extractor = new ArticleTextExtractor();
     private Set<String> furtherResolveNecessary = new LinkedHashSet<String>() {
-
         {
             add("bit.ly");
             add("cli.gs");
@@ -122,7 +123,7 @@ public class HtmlFetcher {
     public ArticleTextExtractor getExtractor() {
         return extractor;
     }
-    
+
     public HtmlFetcher setCache(SCache cache) {
         this.cache = cache;
         return this;
@@ -301,10 +302,15 @@ public class HtmlFetcher {
             throws MalformedURLException, IOException {
         HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
         hConn.setInstanceFollowRedirects(true);
-        InputStream is = hConn.getInputStream();
-
-//            if ("gzip".equals(hConn.getContentEncoding()))
-//                is = new GZIPInputStream(is);                        
+        String encoding = hConn.getContentEncoding();
+        InputStream is;
+        if (encoding != null && encoding.equalsIgnoreCase("gzip")) {
+            is = new GZIPInputStream(hConn.getInputStream());
+        } else if (encoding != null && encoding.equalsIgnoreCase("deflate")) {
+            is = new InflaterInputStream(hConn.getInputStream(), new Inflater(true));
+        } else {
+            is = hConn.getInputStream();
+        }
 
         String enc = Converter.extractEncoding(hConn.getContentType());
         String res = createConverter(urlAsString).streamToString(is, enc);
@@ -312,7 +318,7 @@ public class HtmlFetcher {
             logger.debug(res.length() + " FetchAsString:" + urlAsString);
         return res;
     }
-    
+
     public Converter createConverter(String url) {
         return new Converter(url);
     }
@@ -320,9 +326,10 @@ public class HtmlFetcher {
     /**
      * On some devices we have to hack:
      * http://developers.sun.com/mobility/reference/techart/design_guidelines/http_redirection.html
+     *
      * @param timeout Sets a specified timeout value, in milliseconds
-     * @return the resolved url if any. Or null if it couldn't resolve the url
-     * (within the specified time) or the same url if response code is OK
+     * @return the resolved url if any. Or null if it couldn't resolve the url (within the specified
+     * time) or the same url if response code is OK
      */
     public String getResolvedUrl(String urlAsString, int timeout) {
         String newUrl = null;
@@ -365,9 +372,8 @@ public class HtmlFetcher {
     }
 
     /**
-     * Takes a URI that was decoded as ISO-8859-1 and applies percent-encoding
-     * to non-ASCII characters. Workaround for broken origin servers that send
-     * UTF-8 in the Location: header.
+     * Takes a URI that was decoded as ISO-8859-1 and applies percent-encoding to non-ASCII
+     * characters. Workaround for broken origin servers that send UTF-8 in the Location: header.
      */
     static String encodeUriFromHeader(String badLocation) {
         StringBuilder sb = new StringBuilder();
@@ -384,7 +390,7 @@ public class HtmlFetcher {
         return sb.toString();
     }
 
-    private HttpURLConnection createUrlConnection(String urlAsStr, int timeout,
+    protected HttpURLConnection createUrlConnection(String urlAsStr, int timeout,
             boolean includeSomeGooseOptions) throws MalformedURLException, IOException {
         URL url = new URL(urlAsStr);
         //using proxy may increase latency
@@ -398,11 +404,11 @@ public class HtmlFetcher {
             hConn.addRequestProperty("Referer", referrer);
             // avoid the cache for testing purposes only?
             hConn.setRequestProperty("Cache-Control", cacheControl);
-        }
-
-        // On android we got timeouts because of this!!   
-        // and here this also results in invalid html for e.g. http://twitpic.com/4kuem8
-//        hConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
+        }        
+        
+        // suggest respond to be gzipped or deflated (which is just another compression)
+        // http://stackoverflow.com/q/3932117
+        hConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
         hConn.setConnectTimeout(timeout);
         hConn.setReadTimeout(timeout);
         return hConn;
