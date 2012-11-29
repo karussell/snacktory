@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 Peter Karich jetwick_@_pannous_._info
+ *  Copyright 2011 Peter Karich 
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
  * This class is not thread safe. Use one new instance every time due to encoding
  * variable.
  * 
- * @author Peter Karich, jetwick_@_pannous_._info
+ * @author Peter Karich
  */
 public class Converter {
 

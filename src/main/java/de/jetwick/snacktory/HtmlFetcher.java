@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 Peter Karich jetwick_@_pannous_._info
+ *  Copyright 2011 Peter Karich 
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Class to fetch articles. This class is thread safe.
  *
- * @author Peter Karich, jetwick_@_pannous_._info
+ * @author Peter Karich
  */
 public class HtmlFetcher {
 
@@ -363,7 +363,7 @@ public class HtmlFetcher {
                 return urlAsString;
 
         } catch (Exception ex) {
-            logger.error("getResolvedUrl:" + urlAsString + " Error:" + ex.getMessage());
+            logger.warn("getResolvedUrl:" + urlAsString + " Error:" + ex.getMessage());
             return "";
         } finally {
             if (logger.isDebugEnabled())

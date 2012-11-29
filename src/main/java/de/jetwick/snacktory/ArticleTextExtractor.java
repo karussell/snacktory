@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 /**
  * This class is thread safe.
  *
- * @author Peter Karich, jetwick_@_pannous_._info
+ * @author Peter Karich
  */
 public class ArticleTextExtractor {
 
