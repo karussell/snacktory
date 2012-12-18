@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Converter {
 
-    private static final Logger logger = LoggerFactory.getLogger(HtmlFetcher.class);
+    private static final Logger logger = LoggerFactory.getLogger(Converter.class);
     public final static String UTF8 = "UTF-8";
     public final static String ISO = "ISO-8859-1";
     public final static int K2 = 2048;
