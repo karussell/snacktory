@@ -1,4 +1,4 @@
-= Snacktory
+# Snacktory
 
 This is a small helper utility for pepole don't want to write yet another java clone of Readability.
 
@@ -7,11 +7,11 @@ area, extract its text, keywords, its main picture and more.
 
 Have a look into http://jetsli.de where Snacktory is used. Jetslide is a new way to consume news, it does not only display the Websites' title but it displays a small preview of the site ('a snack') and the important image if available.
 
-= License 
+# License 
 
 The software stands under Apache 2 License and comes with NO WARRANTY
 
-= Features
+# Features
 
 Snacktory borrows some ideas and a lot of test cases from goose:
 https://github.com/jiminoc/goose
@@ -30,7 +30,8 @@ The disadvantages to Goose are
       But added a bunch of other useful sites (stackoverflow, facebook, other languages ...)
 
 
-= Usage
+# Usage
+
  Include the repo at see README: https://github.com/karussell/mvnrepo
  Then add the dependency
  <dependency>
@@ -50,6 +51,6 @@ The disadvantages to Goose are
  String title = res.getTitle(); 
  String imageUrl = res.getImageUrl();
 
-= Build
+# Build
 
 via Maven. Maven will automatically resolve dependencies to jsoup, log4j and slf4j-api
