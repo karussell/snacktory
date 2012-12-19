@@ -42,7 +42,8 @@ The disadvantages to Goose are
  <dependency>
     <groupId>de.jetwick</groupId>
     <artifactId>snacktory</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
+    <!-- or if you prefer the latest build <version>1.2-SNAPSHOT</version> -->
  </dependency>
  ```
  
