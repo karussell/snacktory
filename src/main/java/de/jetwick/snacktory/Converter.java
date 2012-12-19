@@ -18,7 +18,8 @@ package de.jetwick.snacktory;
 import java.io.*;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is not thread safe. Use one new instance every time due to encoding
@@ -28,7 +29,7 @@ import org.apache.log4j.Logger;
  */
 public class Converter {
 
-    private final static Logger logger = Logger.getLogger(Converter.class);
+    private static final Logger logger = LoggerFactory.getLogger(Converter.class);
     public final static String UTF8 = "UTF-8";
     public final static String ISO = "ISO-8859-1";
     public final static int K2 = 2048;
