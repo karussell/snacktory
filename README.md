@@ -34,14 +34,18 @@ The disadvantages to Goose are
 
  Include the repo at see README: https://github.com/karussell/mvnrepo
  Then add the dependency
+ 
+ ```xml
  <dependency>
     <groupId>de.jetwick</groupId>
     <artifactId>snacktory</artifactId>
     <version>1.1-SNAPSHOT</version>
  </dependency>
+ ```
  
  Now you can use it as follows:
  
+ ```java
  HtmlFetcher fetcher = new HtmlFetcher();
  // set cache. e.g. take the map implementation from google collections:
  // fetcher.setCache(new MapMaker().concurrencyLevel(20).maximumSize(count).expireAfterWrite(minutes, TimeUnit.MINUTES).makeMap();
@@ -50,6 +54,7 @@ The disadvantages to Goose are
  String text = res.getText(); 
  String title = res.getTitle(); 
  String imageUrl = res.getImageUrl();
+```
 
 # Build
 
