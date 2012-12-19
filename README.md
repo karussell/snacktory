@@ -1,17 +1,12 @@
 # Snacktory
 
-This is a small helper utility for pepole don't want to write yet another java clone of Readability.
-
+This is a small helper utility for pepole who don't want to write yet another java clone of Readability.
 In most cases, this is applied to articles, although it should work for any website to find its major
 area, extract its text, keywords, its main picture and more.
 
-The core of snacktory is used from http://paper.li
-https://twitter.com/timetabling/status/274193754615853056
-
-Also have a look into the following article:
-http://karussell.wordpress.com/2011/07/12/introducing-jetslide-news-reader/
-
-It describes a news aggregator service which uses snacktory. But jetslide is no longer online.
+The resulting quality is high, even [paper.li uses](https://twitter.com/timetabling/status/274193754615853056) the core of snacktory.
+Also have a look into [this article](http://karussell.wordpress.com/2011/07/12/introducing-jetslide-news-reader/), 
+it describes a news aggregator service which uses snacktory. But jetslide is no longer online.
 
 # License 
 
@@ -23,17 +18,18 @@ Snacktory borrows some ideas and a lot of test cases from goose:
 https://github.com/jiminoc/goose
 
 The advantages over Goose are
-    * similar article text detection although better detection for none-english sites (German, Japanese, ...)
-    * snacktory does not depend on the word count in its text detection to support CJK languages
-    * no http GET required to run the core tests => faster tests
-    * better charset detection
-    * possible to do URL resolving, but caching is still possible after resolving
-    * skipping some known filetypes
+
+ * similar article text detection although better detection for none-english sites (German, Japanese, ...)
+ * snacktory does not depend on the word count in its text detection to support CJK languages
+ * no http GET required to run the core tests => faster tests
+ * better charset detection
+ * possible to do URL resolving, but caching is still possible after resolving
+ * skipping some known filetypes
 
 The disadvantages to Goose are
-    * only top image and top text supported at the moment. see issues #16 for more infos
-    * some articles which passed do not pass. 
-      But added a bunch of other useful sites (stackoverflow, facebook, other languages ...)
+
+ * only top image and top text supported at the moment. see issues #16 for more infos
+ * some articles which passed do not pass. But added a bunch of other useful sites (stackoverflow, facebook, other languages ...)
 
 
 # Usage
