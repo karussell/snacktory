@@ -62,6 +62,15 @@ public class ArticleTextExtractorTest {
         assertEquals("/2011/WORLD/africa/04/06/libya.war/t1larg.libyarebel.gi.jpg", res.getImageUrl());
         assertTrue("cnn:" + res.getText(), res.getText().startsWith("Tripoli, Libya (CNN) -- As rebel and pro-government forces in Libya maneuvered on the battlefield Wedn"));
     }
+    
+    @Test
+    public void testBBC() throws Exception {
+        // http://www.bbc.co.uk/news/world-latin-america-21226565
+        JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("bbc_noscript.html")));
+        assertEquals("BBC News - Brazil mourns Santa Maria nightclub fire victims", res.getTitle());
+        assertEquals("http://news.bbcimg.co.uk/media/images/65545000/gif/_65545798_brazil_santa_m_kiss_464.gif", res.getImageUrl());
+        assertTrue(res.getText().startsWith("Brazil has declared three days of national mourning for 231 people killed in a nightclub fire in the southern city of Santa Maria."));
+    }
 
     @Test
     public void testReuters() throws Exception {

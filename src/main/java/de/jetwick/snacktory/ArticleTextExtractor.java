@@ -478,6 +478,11 @@ public class ArticleTextExtractor {
         for (Element item : scripts) {
             item.remove();
         }
+        
+        Elements noscripts = doc.getElementsByTag("noscript");
+        for (Element item : noscripts) {
+            item.remove();
+        }
 
         Elements styles = doc.getElementsByTag("style");
         for (Element style : styles) {
