@@ -7,6 +7,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Alex P, (ifesdjeen from jreadability)
+ * @author Peter Karich
+ */
 public class ArticleTextExtractorTest {
 
     ArticleTextExtractor extractor;
@@ -62,7 +66,7 @@ public class ArticleTextExtractorTest {
         assertEquals("/2011/WORLD/africa/04/06/libya.war/t1larg.libyarebel.gi.jpg", res.getImageUrl());
         assertTrue("cnn:" + res.getText(), res.getText().startsWith("Tripoli, Libya (CNN) -- As rebel and pro-government forces in Libya maneuvered on the battlefield Wedn"));
     }
-    
+
     @Test
     public void testBBC() throws Exception {
         // http://www.bbc.co.uk/news/world-latin-america-21226565
@@ -708,8 +712,9 @@ public class ArticleTextExtractorTest {
     }
 
     /**
-     * @param filePath the name of the file to open. Not sure if it can accept URLs or just
-     * filenames. Path handling could be better, and buffer sizes are hardcoded
+     * @param filePath the name of the file to open. Not sure if it can accept
+     * URLs or just filenames. Path handling could be better, and buffer sizes
+     * are hardcoded
      */
     public static String readFileAsString(String filePath)
             throws java.io.IOException {

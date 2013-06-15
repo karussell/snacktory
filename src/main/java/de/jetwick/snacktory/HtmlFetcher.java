@@ -404,8 +404,8 @@ public class HtmlFetcher {
             hConn.addRequestProperty("Referer", referrer);
             // avoid the cache for testing purposes only?
             hConn.setRequestProperty("Cache-Control", cacheControl);
-        }        
-        
+        }
+
         // suggest respond to be gzipped or deflated (which is just another compression)
         // http://stackoverflow.com/q/3932117
         hConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
