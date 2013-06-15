@@ -14,7 +14,7 @@ The software stands under Apache 2 License and comes with NO WARRANTY
 
 # Features
 
-Snacktory borrows some ideas and a lot of test cases from [goose](https://github.com/jiminoc/goose) 
+Snacktory borrows some ideas and a lot of test cases from [goose](https://github.com/GravityLabs/goose) 
 and [jreadability](https://github.com/ifesdjeen/jReadability):
 
 The advantages over Goose are
