@@ -57,11 +57,13 @@ public class HtmlFetcherIntegrationTest {
 //        JResult res = new HtmlFetcher().fetchAndExtract("http://bit.ly/eZPI1c", 10000, true);
 //        assertEquals("12 Minuten Battlefield 3 Gameplay - ohne Facebook-Bedingungen | Spaß und Spiele", res.getTitle());
 //    }
-    @Test
-    public void testTwitpicGzipDoesNOTwork() throws Exception {
-        JResult res = new HtmlFetcher().fetchAndExtract("http://twitpic.com/4kuem8", 12000, true);
-        assertTrue(res.getText(), res.getText().contains("*Not* what you want to see"));
-    }
+
+    // not available anymore
+//    @Test
+//    public void testTwitpicGzipDoesNOTwork() throws Exception {
+//        JResult res = new HtmlFetcher().fetchAndExtract("http://twitpic.com/4kuem8", 12000, true);
+//        assertTrue(res.getText(), res.getText().contains("*Not* what you want to see"));
+//    }
 
     @Test
     public void testEncoding() throws Exception {
@@ -74,8 +76,9 @@ public class HtmlFetcherIntegrationTest {
         JResult res = new HtmlFetcher().fetchAndExtract("http://www.facebook.com/democracynow", 10000, true);
         assertTrue(res.getTitle(), res.getTitle().startsWith("Democracy Now! "));
 
-        res = new HtmlFetcher().fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
-        assertTrue(res.getTitle(), res.getTitle().startsWith("Twitter / TH61: “@AntiAtomPiraten:"));
+ // not available anymore
+ //       res = new HtmlFetcher().fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
+ //       assertTrue(res.getTitle(), res.getTitle().startsWith("Twitter / TH61: “@AntiAtomPiraten:"));
     }
 
     public void testImage() throws Exception {
