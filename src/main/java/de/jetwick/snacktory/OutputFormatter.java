@@ -24,6 +24,7 @@ public class OutputFormatter {
     private Pattern unlikelyPattern = Pattern.compile("display\\:none|visibility\\:hidden");
     protected final int minParagraphText;
     protected final List<String> nodesToReplace;
+    protected String nodesToKeepCssSelector = "p";
 
     public OutputFormatter() {
         this(MIN_PARAGRAPH_TEXT, NODES_TO_REPLACE);
@@ -37,6 +38,13 @@ public class OutputFormatter {
         this.minParagraphText = minParagraphText;
         this.nodesToReplace = nodesToReplace;
     }
+    
+    /**
+     * set elements to keep in output text
+     */
+    public void setNodesToKeepCssSelector(String nodesToKeepCssSelector) {
+        this.nodesToKeepCssSelector = nodesToKeepCssSelector;
+    }
 
     /**
      * takes an element and turns the P tags into \n\n
@@ -44,7 +52,7 @@ public class OutputFormatter {
     public String getFormattedText(Element topNode) {
         removeNodesWithNegativeScores(topNode);
         StringBuilder sb = new StringBuilder();
-        append(topNode, sb, "p");
+        append(topNode, sb, nodesToKeepCssSelector);
         String str = SHelper.innerTrim(sb.toString());
         if (str.length() > 100)
             return str;
