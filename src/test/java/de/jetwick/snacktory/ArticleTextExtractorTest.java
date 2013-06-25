@@ -710,6 +710,21 @@ public class ArticleTextExtractorTest {
         res = extractor.extractContent("<html><body><div> aaa <strong> bbb </strong>ccc</div></body></html>");
         assertEquals("aaa bbb ccc", res.getText());
     }
+    
+    @Test
+    public void testI4Online() throws Exception {
+        //https://i4online.com
+        JResult article = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("i4online.html")));
+        assertTrue(article.getText(), article.getText().startsWith("Just one week to go and everything is set for the summer Forum 2013"));
+  
+        ArticleTextExtractor extractor2 = new ArticleTextExtractor();
+		OutputFormatter outputFormater = new OutputFormatter(10);
+		outputFormater.setNodesToKeepCssSelector("p,h1,h2,h3,h4,h5,h6");
+		extractor2.setOutputFormatter(outputFormater);
+        article = extractor2.extractContent(c.streamToString(getClass().getResourceAsStream("i4online.html")));
+        assertTrue(article.getText(), article.getText().startsWith("Upcoming events: Forum 79 Just one week to go and everything is set for the summer Forum 2013"));
+     
+    }
 
     /**
      * @param filePath the name of the file to open. Not sure if it can accept
