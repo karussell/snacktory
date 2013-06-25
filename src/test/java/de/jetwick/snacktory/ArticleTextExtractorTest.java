@@ -723,7 +723,6 @@ public class ArticleTextExtractorTest {
 		extractor2.setOutputFormatter(outputFormater);
         article = extractor2.extractContent(c.streamToString(getClass().getResourceAsStream("i4online.html")));
         assertTrue(article.getText(), article.getText().startsWith("Upcoming events: Forum 79 Just one week to go and everything is set for the summer Forum 2013"));
-     
     }
 
     /**
