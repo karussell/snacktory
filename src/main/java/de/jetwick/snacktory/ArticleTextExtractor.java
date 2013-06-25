@@ -406,7 +406,7 @@ public class ArticleTextExtractor {
                 int height = Integer.parseInt(e.attr("height"));
                 if (height >= 50)
                     weight += 20;
-                else if (height < 50)
+                else 
                     weight -= 20;
             } catch (Exception ex) {
             }
@@ -415,7 +415,7 @@ public class ArticleTextExtractor {
                 int width = Integer.parseInt(e.attr("width"));
                 if (width >= 50)
                     weight += 20;
-                else if (width < 50)
+                else 
                     weight -= 20;
             } catch (Exception ex) {
             }
