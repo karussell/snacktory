@@ -8,28 +8,28 @@ The resulting quality is high, even [paper.li uses](https://twitter.com/timetabl
 Also have a look into [this article](http://karussell.wordpress.com/2011/07/12/introducing-jetslide-news-reader/), 
 it describes a news aggregator service which uses snacktory. But jetslide is no longer online.
 
+Snacktory borrows some ideas and a lot of test cases from [goose](https://github.com/GravityLabs/goose) 
+and [jreadability](https://github.com/ifesdjeen/jReadability):
+
 # License 
 
 The software stands under Apache 2 License and comes with NO WARRANTY
 
 # Features
 
-Snacktory borrows some ideas and a lot of test cases from [goose](https://github.com/GravityLabs/goose) 
-and [jreadability](https://github.com/ifesdjeen/jReadability):
-
-The advantages over Goose are
-
- * similar article text detection although better detection for none-english sites (German, Japanese, ...)
- * snacktory does not depend on the word count in its text detection to support CJK languages
- * no http GET required to run the core tests => faster tests
- * better charset detection
+ * article text detection 
+ * get top image url(s)
+ * get top video url
+ * extraction of description, keywords, ...
+ * good detection for none-english sites (German, Japanese, ...), snacktory does not depend on the word count in its text detection to support CJK languages 
+ * good charset detection
  * possible to do URL resolving, but caching is still possible after resolving
  * skipping some known filetypes
+ * no http GET required to run the core tests
 
-The disadvantages to Goose are
+TODOs
 
- * only top image and top text supported at the moment. see issues #16 for more infos
- * some articles which passed do not pass. But added a bunch of other useful sites (stackoverflow, facebook, other languages ...)
+ * only top text supported at the moment
 
 
 # Usage
