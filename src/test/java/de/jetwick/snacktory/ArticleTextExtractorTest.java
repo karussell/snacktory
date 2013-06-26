@@ -725,6 +725,22 @@ public class ArticleTextExtractorTest {
         assertTrue(article.getText(), article.getText().startsWith("Upcoming events: Forum 79 Just one week to go and everything is set for the summer Forum 2013"));
     }
 
+    @Test
+    public void testImagesList() throws Exception {
+         // http://www.reuters.com/article/2012/08/03/us-knightcapital-trading-technology-idUSBRE87203X20120803
+        JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("reuters.html")));
+        assertTrue(res.getImagesCount()==1);
+        assertEquals(res.getImages().get(0).src, "http://s1.reutersmedia.net/resources/r/?m=02&d=20120803&t=2&i=637797752&w=460&fh=&fw=&ll=&pl=&r=CBRE872074Y00");
+
+        // http://thevacationgals.com/vacation-rental-homes-are-a-family-reunion-necessity/
+        res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("thevacationgals.html")));
+        assertTrue(res.getImagesCount()==3);
+        assertEquals(res.getImages().get(0).src, "http://thevacationgals.com/wp-content/uploads/2010/11/Gemmel-Family-Reunion-at-a-Vacation-Rental-Home1-300x225.jpg");
+        assertEquals(res.getImages().get(1).src, "../wp-content/uploads/2010/11/The-Gemmel-Family-Does-a-Gilligans-Island-Theme-Family-Reunion-Vacation-Sarah-Gemmel-300x225.jpg");
+        assertEquals(res.getImages().get(2).src, "http://www.linkwithin.com/pixel.png");
+   }
+    
+    
     /**
      * @param filePath the name of the file to open. Not sure if it can accept
      * URLs or just filenames. Path handling could be better, and buffer sizes

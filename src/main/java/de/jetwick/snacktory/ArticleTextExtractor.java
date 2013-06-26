@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -48,6 +49,8 @@ public class ArticleTextExtractor {
     private static final OutputFormatter DEFAULT_FORMATTER = new OutputFormatter();
     private OutputFormatter formatter = DEFAULT_FORMATTER;
 
+    private List<ImageResult> images = null;
+    
     public ArticleTextExtractor() {
         setUnlikely("com(bx|ment|munity)|dis(qus|cuss)|e(xtra|[-]?mail)|foot|"
                 + "header|menu|re(mark|ply)|rss|sh(are|outbox)|sponsor"
@@ -147,6 +150,8 @@ public class ArticleTextExtractor {
                 res.setImageUrl(SHelper.replaceSpaces(imgEl.attr("src")));
                 // TODO remove parent container of image if it is contained in bestMatchElement
                 // to avoid image subtitles flooding in
+                
+                res.setImages(images);
             }
 
             // clean before grabbing text
@@ -395,6 +400,8 @@ public class ArticleTextExtractor {
         if (els.isEmpty())
             els = el.parent().select("img");
 
+        images = new ArrayList<ImageResult>();
+        
         double score = 1;
         for (Element e : els) {
             String sourceUrl = e.attr("src");
@@ -402,8 +409,9 @@ public class ArticleTextExtractor {
                 continue;
 
             int weight = 0;
+            int height = 0;
             try {
-                int height = Integer.parseInt(e.attr("height"));
+                height = Integer.parseInt(e.attr("height"));
                 if (height >= 50)
                     weight += 20;
                 else 
@@ -411,8 +419,9 @@ public class ArticleTextExtractor {
             } catch (Exception ex) {
             }
 
+            int width = 0;
             try {
-                int width = Integer.parseInt(e.attr("width"));
+                width = Integer.parseInt(e.attr("width"));
                 if (width >= 50)
                     weight += 20;
                 else 
@@ -427,10 +436,14 @@ public class ArticleTextExtractor {
             if (title.length() > 35)
                 weight += 20;
 
+            String rel = null;
+            boolean noFollow = false;
             if (e.parent() != null) {
-                String rel = e.parent().attr("rel");
-                if (rel != null && rel.contains("nofollow"))
+                rel = e.parent().attr("rel");
+                if (rel != null && rel.contains("nofollow")) {
+                	noFollow = rel.contains("nofollow");
                     weight -= 40;
+                }
             }
 
             weight = (int) (weight * score);
@@ -439,8 +452,12 @@ public class ArticleTextExtractor {
                 maxNode = e;
                 score = score / 2;
             }
+            
+            ImageResult image = new ImageResult(sourceUrl, weight, title, height, width, alt, noFollow);
+            images.add(image);
         }
 
+        Collections.sort(images, new ImageComparator());
         return maxNode;
     }
 
@@ -587,5 +604,19 @@ public class ArticleTextExtractor {
         }
 
         return SHelper.innerTrim(res.toString());
+    }
+    
+    /**
+     * Comparator for Image by weight
+     * 
+     * @author Chris Alexander, chris@chris-alexander.co.uk
+     *
+     */
+    public class ImageComparator implements Comparator<ImageResult> {
+        @Override
+        public int compare(ImageResult o1, ImageResult o2) {
+            // Returns the highest weight first
+            return o2.weight.compareTo(o1.weight);
+        }
     }
 }
