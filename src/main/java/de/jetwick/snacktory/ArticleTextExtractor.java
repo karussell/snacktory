@@ -48,8 +48,6 @@ public class ArticleTextExtractor {
     };
     private static final OutputFormatter DEFAULT_FORMATTER = new OutputFormatter();
     private OutputFormatter formatter = DEFAULT_FORMATTER;
-
-    private List<ImageResult> images = null;
     
     public ArticleTextExtractor() {
         setUnlikely("com(bx|ment|munity)|dis(qus|cuss)|e(xtra|[-]?mail)|foot|"
@@ -145,7 +143,8 @@ public class ArticleTextExtractor {
         }
 
         if (bestMatchElement != null) {
-            Element imgEl = determineImageSource(bestMatchElement);
+            List<ImageResult> images = new ArrayList<ImageResult>();
+            Element imgEl = determineImageSource(bestMatchElement, images);
             if (imgEl != null) {
                 res.setImageUrl(SHelper.replaceSpaces(imgEl.attr("src")));
                 // TODO remove parent container of image if it is contained in bestMatchElement
@@ -393,14 +392,12 @@ public class ArticleTextExtractor {
         return weight;
     }
 
-    public Element determineImageSource(Element el) {
+    public Element determineImageSource(Element el, List<ImageResult> images) {
         int maxWeight = 0;
         Element maxNode = null;
         Elements els = el.select("img");
         if (els.isEmpty())
-            els = el.parent().select("img");
-
-        images = new ArrayList<ImageResult>();
+            els = el.parent().select("img");        
         
         double score = 1;
         for (Element e : els) {
