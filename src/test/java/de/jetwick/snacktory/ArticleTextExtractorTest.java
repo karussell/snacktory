@@ -730,6 +730,7 @@ public class ArticleTextExtractorTest {
         // http://www.reuters.com/article/2012/08/03/us-knightcapital-trading-technology-idUSBRE87203X20120803
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("reuters.html")));
         assertEquals(1, res.getImagesCount());
+        assertEquals(res.getImageUrl(), res.getImages().get(0).src);
         assertEquals("http://s1.reutersmedia.net/resources/r/?m=02&d=20120803&t=2&i=637797752&w=460&fh=&fw=&ll=&pl=&r=CBRE872074Y00",
                 res.getImages().get(0).src);
 
