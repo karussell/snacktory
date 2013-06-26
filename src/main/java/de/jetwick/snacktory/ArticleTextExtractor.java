@@ -48,7 +48,7 @@ public class ArticleTextExtractor {
     };
     private static final OutputFormatter DEFAULT_FORMATTER = new OutputFormatter();
     private OutputFormatter formatter = DEFAULT_FORMATTER;
-
+    
     public ArticleTextExtractor() {
         setUnlikely("com(bx|ment|munity)|dis(qus|cuss)|e(xtra|[-]?mail)|foot|"
                 + "header|menu|re(mark|ply)|rss|sh(are|outbox)|sponsor"
@@ -97,8 +97,8 @@ public class ArticleTextExtractor {
     }
 
     /**
-     * @param html extracts article text from given html string. wasn't tested
-     * with improper HTML, although jSoup should be able to handle minor stuff.
+     * @param html extracts article text from given html string. wasn't tested with improper HTML,
+     * although jSoup should be able to handle minor stuff.
      * @returns extracted article, all HTML tags stripped
      */
     public JResult extractContent(String html) throws Exception {
@@ -149,7 +149,7 @@ public class ArticleTextExtractor {
                 res.setImageUrl(SHelper.replaceSpaces(imgEl.attr("src")));
                 // TODO remove parent container of image if it is contained in bestMatchElement
                 // to avoid image subtitles flooding in
-
+                
                 res.setImages(images);
             }
 
@@ -228,8 +228,7 @@ public class ArticleTextExtractor {
     }
 
     /**
-     * Tries to extract an image url from metadata if determineImageSource
-     * failed
+     * Tries to extract an image url from metadata if determineImageSource failed
      *
      * @return image url or empty str
      */
@@ -266,10 +265,9 @@ public class ArticleTextExtractor {
     }
 
     /**
-     * Weights current element. By matching it with positive candidates and
-     * weighting child nodes. Since it's impossible to predict which exactly
-     * names, ids or class names will be used in HTML, major role is played by
-     * child nodes
+     * Weights current element. By matching it with positive candidates and weighting child nodes.
+     * Since it's impossible to predict which exactly names, ids or class names will be used in
+     * HTML, major role is played by child nodes
      *
      * @param e Element to weight, along with child nodes
      */
@@ -281,14 +279,12 @@ public class ArticleTextExtractor {
     }
 
     /**
-     * Weights a child nodes of given Element. During tests some difficulties
-     * were met. For instanance, not every single document has nested paragraph
-     * tags inside of the major article tag. Sometimes people are adding one
-     * more nesting level. So, we're adding 4 points for every 100 symbols
-     * contained in tag nested inside of the current weighted element, but only
-     * 3 points for every element that's nested 2 levels deep. This way we give
-     * more chances to extract the element that has less nested levels,
-     * increasing probability of the correct extraction.
+     * Weights a child nodes of given Element. During tests some difficulties were met. For
+     * instanance, not every single document has nested paragraph tags inside of the major article
+     * tag. Sometimes people are adding one more nesting level. So, we're adding 4 points for every
+     * 100 symbols contained in tag nested inside of the current weighted element, but only 3 points
+     * for every element that's nested 2 levels deep. This way we give more chances to extract the
+     * element that has less nested levels, increasing probability of the correct extraction.
      *
      * @param rootEl Element, who's child nodes will be weighted
      */
@@ -401,8 +397,8 @@ public class ArticleTextExtractor {
         Element maxNode = null;
         Elements els = el.select("img");
         if (els.isEmpty())
-            els = el.parent().select("img");
-
+            els = el.parent().select("img");        
+        
         double score = 1;
         for (Element e : els) {
             String sourceUrl = e.attr("src");
@@ -415,7 +411,7 @@ public class ArticleTextExtractor {
                 height = Integer.parseInt(e.attr("height"));
                 if (height >= 50)
                     weight += 20;
-                else
+                else 
                     weight -= 20;
             } catch (Exception ex) {
             }
@@ -425,7 +421,7 @@ public class ArticleTextExtractor {
                 width = Integer.parseInt(e.attr("width"));
                 if (width >= 50)
                     weight += 20;
-                else
+                else 
                     weight -= 20;
             } catch (Exception ex) {
             }
@@ -442,7 +438,7 @@ public class ArticleTextExtractor {
             if (e.parent() != null) {
                 rel = e.parent().attr("rel");
                 if (rel != null && rel.contains("nofollow")) {
-                    noFollow = rel.contains("nofollow");
+                	noFollow = rel.contains("nofollow");
                     weight -= 40;
                 }
             }
@@ -453,7 +449,7 @@ public class ArticleTextExtractor {
                 maxNode = e;
                 score = score / 2;
             }
-
+            
             ImageResult image = new ImageResult(sourceUrl, weight, title, height, width, alt, noFollow);
             images.add(image);
         }
@@ -463,12 +459,10 @@ public class ArticleTextExtractor {
     }
 
     /**
-     * Prepares document. Currently only stipping unlikely candidates, since
-     * from time to time they're getting more score than good ones especially in
-     * cases when major text is short.
+     * Prepares document. Currently only stipping unlikely candidates, since from time to time
+     * they're getting more score than good ones especially in cases when major text is short.
      *
-     * @param doc document to prepare. Passed as reference, and changed inside
-     * of function
+     * @param doc document to prepare. Passed as reference, and changed inside of function
      */
     protected void prepareDocument(Document doc) {
 //        stripUnlikelyCandidates(doc);
@@ -476,8 +470,8 @@ public class ArticleTextExtractor {
     }
 
     /**
-     * Removes unlikely candidates from HTML. Currently takes id and class name
-     * and matches them against list of patterns
+     * Removes unlikely candidates from HTML. Currently takes id and class name and matches them
+     * against list of patterns
      *
      * @param doc document to strip unlikely candidates from
      */
@@ -499,7 +493,7 @@ public class ArticleTextExtractor {
         for (Element item : scripts) {
             item.remove();
         }
-
+        
         Elements noscripts = doc.getElementsByTag("noscript");
         for (Element item : noscripts) {
             item.remove();
@@ -543,8 +537,8 @@ public class ArticleTextExtractor {
     }
 
     /**
-     * based on a delimeter in the title take the longest piece or do some
-     * custom logic based on the site
+     * based on a delimeter in the title take the longest piece or do some custom logic based on the
+     * site
      *
      * @param title
      * @param delimeter
@@ -608,15 +602,14 @@ public class ArticleTextExtractor {
 
         return SHelper.innerTrim(res.toString());
     }
-
+    
     /**
      * Comparator for Image by weight
-     *
+     * 
      * @author Chris Alexander, chris@chris-alexander.co.uk
      *
      */
     public class ImageComparator implements Comparator<ImageResult> {
-
         @Override
         public int compare(ImageResult o1, ImageResult o2) {
             // Returns the highest weight first
