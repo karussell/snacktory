@@ -328,8 +328,8 @@ public class HtmlFetcher {
      * http://developers.sun.com/mobility/reference/techart/design_guidelines/http_redirection.html
      *
      * @param timeout Sets a specified timeout value, in milliseconds
-     * @return the resolved url if any. Or null if it couldn't resolve the url (within the specified
-     * time) or the same url if response code is OK
+     * @return the resolved url if any. Or null if it couldn't resolve the url
+     * (within the specified time) or the same url if response code is OK
      */
     public String getResolvedUrl(String urlAsString, int timeout) {
         String newUrl = null;
@@ -372,8 +372,9 @@ public class HtmlFetcher {
     }
 
     /**
-     * Takes a URI that was decoded as ISO-8859-1 and applies percent-encoding to non-ASCII
-     * characters. Workaround for broken origin servers that send UTF-8 in the Location: header.
+     * Takes a URI that was decoded as ISO-8859-1 and applies percent-encoding
+     * to non-ASCII characters. Workaround for broken origin servers that send
+     * UTF-8 in the Location: header.
      */
     static String encodeUriFromHeader(String badLocation) {
         StringBuilder sb = new StringBuilder();

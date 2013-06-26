@@ -27,7 +27,7 @@ public class ConverterTest extends TestCase {
     public ConverterTest(String testName) {
         super(testName);
     }
-    
+
     public void testDetermineEncoding() throws Exception {
         Converter d = new Converter();
         d.streamToString(getClass().getResourceAsStream("faz.html"));
@@ -65,7 +65,7 @@ public class ConverterTest extends TestCase {
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("badenc.html"));
         assertEquals("utf-8", d.getEncoding());
-        
+
         d = new Converter();
         d.streamToString(getClass().getResourceAsStream("br-online.html"));
         assertEquals("iso-8859-15", d.getEncoding());

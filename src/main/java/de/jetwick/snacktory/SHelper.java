@@ -90,8 +90,8 @@ public class SHelper {
     }
 
     /**
-     * Starts reading the encoding from the first valid character until an invalid encoding
-     * character occurs.
+     * Starts reading the encoding from the first valid character until an
+     * invalid encoding character occurs.
      */
     public static String encodingCleanup(String str) {
         StringBuilder sb = new StringBuilder();
@@ -248,7 +248,8 @@ public class SHelper {
     }
 
     /**
-     * @see http://blogs.sun.com/CoreJavaTechTips/entry/cookie_handling_in_java_se
+     * @see
+     * http://blogs.sun.com/CoreJavaTechTips/entry/cookie_handling_in_java_se
      */
     public static void enableCookieMgmt() {
         CookieManager manager = new CookieManager();
@@ -257,7 +258,8 @@ public class SHelper {
     }
 
     /**
-     * @see http://stackoverflow.com/questions/2529682/setting-user-agent-of-a-java-urlconnection
+     * @see
+     * http://stackoverflow.com/questions/2529682/setting-user-agent-of-a-java-urlconnection
      */
     public static void enableUserAgentOverwrite() {
         System.setProperty("http.agent", "");
@@ -303,8 +305,8 @@ public class SHelper {
     }
 
     /**
-     * Popular sites uses the #! to indicate the importance of the following chars. Ugly but true.
-     * Such as: facebook, twitter, gizmodo, ...
+     * Popular sites uses the #! to indicate the importance of the following
+     * chars. Ugly but true. Such as: facebook, twitter, gizmodo, ...
      */
     public static String removeHashbang(String url) {
         return url.replaceFirst("#!", "");
@@ -418,8 +420,8 @@ public class SHelper {
     }
 
     /**
-     * keep in mind: simpleDateFormatter is not thread safe! call completeDate before applying this
-     * formatter.
+     * keep in mind: simpleDateFormatter is not thread safe! call completeDate
+     * before applying this formatter.
      */
     public static SimpleDateFormat createDateFormatter() {
         return new SimpleDateFormat("yyyy/MM/dd");

@@ -22,9 +22,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is not thread safe. Use one new instance every time due to encoding
- * variable.
- * 
+ * This class is not thread safe. Use one new instance every time due to
+ * encoding variable.
+ *
  * @author Peter Karich
  */
 public class Converter {
@@ -49,13 +49,13 @@ public class Converter {
         return this;
     }
 
-    public static String extractEncoding(String contentType) {        
+    public static String extractEncoding(String contentType) {
         String[] values;
-        if(contentType != null)
+        if (contentType != null)
             values = contentType.split(";");
-        else            
+        else
             values = new String[0];
-        
+
         String charset = "";
 
         for (String value : values) {
@@ -88,6 +88,7 @@ public class Converter {
 
     /**
      * reads bytes off the string and returns a string
+     *
      * @param is
      * @param maxBytes The max bytes that we want to read from the input stream
      * @return String
@@ -114,7 +115,7 @@ public class Converter {
                     logger.debug("no charset found in first stage");
                     // detect with the help of xml beginning ala encoding="charset"
                     tmpEnc = detectCharset("encoding=", output, in, encoding);
-                    if (tmpEnc != null)                        
+                    if (tmpEnc != null)
                         encoding = tmpEnc;
                     else
                         logger.debug("no charset found in second stage");
@@ -132,7 +133,7 @@ public class Converter {
             // IOException: missing CR    => problem on server (probably some xml character thing?)
             // IOException: Premature EOF => socket unexpectly closed from server
             int bytesRead = output.size();
-            byte[] arr = new byte[K2];            
+            byte[] arr = new byte[K2];
             while (true) {
                 if (bytesRead >= maxBytes) {
                     logger.warn("Maxbyte of " + maxBytes + " exceeded! Maybe html is now broken but try it nevertheless. Url: " + url);
@@ -163,15 +164,15 @@ public class Converter {
     }
 
     /**
-     * This method detects the charset even if the first call only returns
-     * some bytes. It will read until 4K bytes are reached and then try to 
-     * determine the encoding
-     * 
-     * @throws IOException 
+     * This method detects the charset even if the first call only returns some
+     * bytes. It will read until 4K bytes are reached and then try to determine
+     * the encoding
+     *
+     * @throws IOException
      */
-    protected String detectCharset(String key, ByteArrayOutputStream bos, BufferedInputStream in, 
+    protected String detectCharset(String key, ByteArrayOutputStream bos, BufferedInputStream in,
             String enc) throws IOException {
-        
+
         // Grab better encoding from stream        
         byte[] arr = new byte[K2];
         int nSum = 0;

@@ -33,7 +33,7 @@ public class SHelperTest {
         assertEquals("t", SHelper.innerTrim("  t "));
         assertEquals("t t t", SHelper.innerTrim("t t t "));
         assertEquals("t t", SHelper.innerTrim("t    \nt "));
-        assertEquals("t peter", SHelper.innerTrim("t  peter "));        
+        assertEquals("t peter", SHelper.innerTrim("t  peter "));
         assertEquals("t t", SHelper.innerTrim("t    \n     t "));
     }
 
@@ -101,7 +101,6 @@ public class SHelperTest {
                 SHelper.useDomainOfFirstArg4Second("http://de.wikipedia.org/wiki/Griechenland", "//upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/150px-Flag_of_Greece.svg.png"));
     }
 
-
     @Test
     public void testEncodingCleanup() {
         assertEquals("utf-8", SHelper.encodingCleanup("utf-8"));
@@ -115,18 +114,18 @@ public class SHelperTest {
         assertEquals("http://www.bet.com/collegemarketingreps&h=42263",
                 SHelper.getUrlFromUglyFacebookRedirect("http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.bet.com%2Fcollegemarketingreps&h=42263"));
     }
-        
+
     @Test
     public void testEstimateDate() {
         assertNull(SHelper.estimateDate("http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.bet.com%2Fcollegemarketin"));
         assertEquals("2010/02/15", SHelper.estimateDate("http://www.vogella.de/blog/2010/02/15/twitter-android/"));
         assertEquals("2010/02", SHelper.estimateDate("http://www.vogella.de/blog/2010/02/twitter-android/12"));
-        assertEquals("2009/11/05", SHelper.estimateDate("http://cagataycivici.wordpress.com/2009/11/05/mobile-twitter-client-with-jsf/"));        
-        assertEquals("2009", SHelper.estimateDate("http://cagataycivici.wordpress.com/2009/sf/12/1/"));        
+        assertEquals("2009/11/05", SHelper.estimateDate("http://cagataycivici.wordpress.com/2009/11/05/mobile-twitter-client-with-jsf/"));
+        assertEquals("2009", SHelper.estimateDate("http://cagataycivici.wordpress.com/2009/sf/12/1/"));
         assertEquals("2011/06", SHelper.estimateDate("http://bdoughan.blogspot.com/2011/06/using-jaxbs-xmlaccessortype-to.html"));
         assertEquals("2011", SHelper.estimateDate("http://bdoughan.blogspot.com/2011/13/using-jaxbs-xmlaccessortype-to.html"));
     }
-    
+
     @Test
     public void testCompleteDate() {
         assertNull(SHelper.completeDate(null));

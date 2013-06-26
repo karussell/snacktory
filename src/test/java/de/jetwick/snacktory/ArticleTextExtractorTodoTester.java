@@ -16,7 +16,7 @@ public class ArticleTextExtractorTodoTester {
         c = new Converter();
         extractor = new ArticleTextExtractor();
     }
-    
+
     @Test
     public void testEspn2() throws Exception {
         //String url = "http://sports.espn.go.com/golf/pgachampionship10/news/story?id=5463456";
@@ -48,7 +48,7 @@ public class ArticleTextExtractorTodoTester {
         assertTrue(article.getText(), article.getText().startsWith("In the heart of downtown Chandler, Arizona"));
         assertEquals("http://rww.readwriteweb.netdna-cdn.com/start/images/logopagely_aug10.jpg", article.getImageUrl());
     }
-    
+
     @Test
     public void testYahooNewsEvenThoughTheyFuckedUpDeliciousWeWillTestThemAnyway() throws Exception {
         //String url = "http://news.yahoo.com/s/ap/20110305/ap_on_re_af/af_libya";
@@ -83,7 +83,7 @@ public class ArticleTextExtractorTodoTester {
         assertEquals("http://imgs.sfgate.com/c/pictures/2010/10/26/ba-foreclosures2_SFCG1288130091.jpg",
                 article.getImageUrl());
     }
-    
+
     @Test
     public void testScientificdaily() throws Exception {
         //String url = "http://www.scientificamerican.com/article.cfm?id=bpa-semen-quality";
@@ -223,7 +223,7 @@ public class ArticleTextExtractorTodoTester {
         assertEquals("http://cdn-www.golflink.com/Cms/images/GlobalPhoto/Articles/2011/2/17/1496/fotolia4152707XS-main_Full.jpg",
                 article.getImageUrl());
     }
-    
+
     @Test
     public void testNewsweek() throws Exception {
         //String url = "http://www.newsweek.com/2010/10/09/how-moscow-s-war-on-islamist-rebels-is-backfiring.html";
@@ -251,10 +251,11 @@ public class ArticleTextExtractorTodoTester {
         assertTrue(article.getText(), article.getText().startsWith("As the immediate threat from Fukushima "
                 + "Daiichi's damaged nuclear reactors recedes, engineers and scientists are"));
     }
-    
+
     /**
-     * @param filePath the name of the file to open. Not sure if it can accept URLs 
-     * or just filenames. Path handling could be better, and buffer sizes are hardcoded
+     * @param filePath the name of the file to open. Not sure if it can accept
+     * URLs or just filenames. Path handling could be better, and buffer sizes
+     * are hardcoded
      */
     public static String readFileAsString(String filePath)
             throws java.io.IOException {

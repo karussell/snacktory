@@ -730,15 +730,15 @@ public class ArticleTextExtractorTest {
         // http://www.reuters.com/article/2012/08/03/us-knightcapital-trading-technology-idUSBRE87203X20120803
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("reuters.html")));
         assertEquals(1, res.getImagesCount());
-        assertEquals("http://s1.reutersmedia.net/resources/r/?m=02&d=20120803&t=2&i=637797752&w=460&fh=&fw=&ll=&pl=&r=CBRE872074Y00", 
+        assertEquals("http://s1.reutersmedia.net/resources/r/?m=02&d=20120803&t=2&i=637797752&w=460&fh=&fw=&ll=&pl=&r=CBRE872074Y00",
                 res.getImages().get(0).src);
 
         // http://thevacationgals.com/vacation-rental-homes-are-a-family-reunion-necessity/
         res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("thevacationgals.html")));
         assertEquals(3, res.getImagesCount());
-        assertEquals("http://thevacationgals.com/wp-content/uploads/2010/11/Gemmel-Family-Reunion-at-a-Vacation-Rental-Home1-300x225.jpg", 
+        assertEquals("http://thevacationgals.com/wp-content/uploads/2010/11/Gemmel-Family-Reunion-at-a-Vacation-Rental-Home1-300x225.jpg",
                 res.getImages().get(0).src);
-        assertEquals("../wp-content/uploads/2010/11/The-Gemmel-Family-Does-a-Gilligans-Island-Theme-Family-Reunion-Vacation-Sarah-Gemmel-300x225.jpg", 
+        assertEquals("../wp-content/uploads/2010/11/The-Gemmel-Family-Does-a-Gilligans-Island-Theme-Family-Reunion-Vacation-Sarah-Gemmel-300x225.jpg",
                 res.getImages().get(1).src);
         assertEquals("http://www.linkwithin.com/pixel.png", res.getImages().get(2).src);
     }
