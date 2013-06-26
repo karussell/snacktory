@@ -17,6 +17,7 @@ package de.jetwick.snacktory;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Parsed result from web page containing important title, text and image.
@@ -37,6 +38,7 @@ public class JResult implements Serializable {
     private String description;
     private String dateString;
     private Collection<String> keywords;
+    private List<ImageResult> images = null;
     
     public JResult() {
     }
@@ -168,6 +170,28 @@ public class JResult implements Serializable {
         return dateString;
     }
     
+    /**
+     * @return images list
+     */
+    public List<ImageResult> getImages() {
+        return images;
+    }
+
+    /**
+     * @return images count
+     */
+    public int getImagesCount() {
+    	if (images==null) return 0;
+        return images.size();
+    }
+
+    /**
+     * set images list
+     */
+    public void setImages(List<ImageResult> images) {
+        this.images = images;
+    }
+   
     @Override
     public String toString() {
         return "title:" + getTitle() + " imageUrl:" + getImageUrl() + " text:" + text;
