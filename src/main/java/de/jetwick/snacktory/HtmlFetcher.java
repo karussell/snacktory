@@ -72,8 +72,8 @@ public class HtmlFetcher {
         }
         reader.close();
     }
-    private String referrer = "http://jetsli.de/crawler";
-    private String userAgent = "Mozilla/5.0 (compatible; Jetslide; +" + referrer + ")";
+    private String referrer = "https://github.com/karussell/snacktory";
+    private String userAgent = "Mozilla/5.0 (compatible; Snacktory; +" + referrer + ")";
     private String cacheControl = "max-age=0";
     private String language = "en-us";
     private String accept = "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
@@ -302,7 +302,7 @@ public class HtmlFetcher {
             throws MalformedURLException, IOException {
         HttpURLConnection hConn = createUrlConnection(urlAsString, timeout, includeSomeGooseOptions);
         hConn.setInstanceFollowRedirects(true);
-        String encoding = hConn.getContentEncoding();
+        String encoding = hConn.getContentEncoding();        
         InputStream is;
         if (encoding != null && encoding.equalsIgnoreCase("gzip")) {
             is = new GZIPInputStream(hConn.getInputStream());
