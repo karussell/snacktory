@@ -101,6 +101,14 @@ public class ArticleTextExtractor {
      * with improper HTML, although jSoup should be able to handle minor stuff.
      * @returns extracted article, all HTML tags stripped
      */
+    public JResult extractContent(Document doc) throws Exception {
+        return extractContent(new JResult(), doc, formatter);
+    }
+
+    public JResult extractContent(Document doc, OutputFormatter formatter) throws Exception {
+        return extractContent(new JResult(), doc, formatter);
+    }
+
     public JResult extractContent(String html) throws Exception {
         return extractContent(new JResult(), html);
     }
@@ -401,8 +409,8 @@ public class ArticleTextExtractor {
         Element maxNode = null;
         Elements els = el.select("img");
         if (els.isEmpty())
-            els = el.parent().select("img");
-
+            els = el.parent().select("img");        
+        
         double score = 1;
         for (Element e : els) {
             String sourceUrl = e.attr("src");
