@@ -475,7 +475,8 @@ public class ArticleTextExtractor {
      * from time to time they're getting more score than good ones especially in
      * cases when major text is short.
      *
-     * @param doc document to prepare. Passed as reference, and changed inside of function
+     * @param doc document to prepare. Passed as reference, and changed inside
+     * of function
      */
     protected void prepareDocument(Document doc) {
 //        stripUnlikelyCandidates(doc);
@@ -484,7 +485,7 @@ public class ArticleTextExtractor {
 
     /**
      * Removes unlikely candidates from HTML. Currently takes id and class name
-     * and matches them against list of patterns     
+     * and matches them against list of patterns
      *
      * @param doc document to strip unlikely candidates from
      */
