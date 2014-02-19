@@ -101,6 +101,14 @@ public class ArticleTextExtractor {
      * although jSoup should be able to handle minor stuff.
      * @returns extracted article, all HTML tags stripped
      */
+    public JResult extractContent(Document doc) throws Exception {
+        return extractContent(new JResult(), doc, formatter);
+    }
+
+    public JResult extractContent(Document doc, OutputFormatter formatter) throws Exception {
+        return extractContent(new JResult(), doc, formatter);
+    }
+
     public JResult extractContent(String html) throws Exception {
         return extractContent(new JResult(), html);
     }
