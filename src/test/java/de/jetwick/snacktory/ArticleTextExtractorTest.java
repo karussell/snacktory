@@ -3,6 +3,8 @@ package de.jetwick.snacktory;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -742,6 +744,16 @@ public class ArticleTextExtractorTest {
         assertEquals("../wp-content/uploads/2010/11/The-Gemmel-Family-Does-a-Gilligans-Island-Theme-Family-Reunion-Vacation-Sarah-Gemmel-300x225.jpg",
                 res.getImages().get(1).src);
         assertEquals("http://www.linkwithin.com/pixel.png", res.getImages().get(2).src);
+    }
+
+    @Test
+    public void testTextList() throws Exception {
+        JResult res = extractor.extractContent(readFileAsString("test_data/1.html"));
+        String text = res.getText();
+        List<String> textList = res.getTextList();
+        assertEquals(23, textList.size());
+        assertTrue(textList.get(0).startsWith(text.substring(0, 15)));
+        assertTrue(textList.get(22).endsWith(text.substring(text.length() - 15, text.length())));
     }
 
     /**

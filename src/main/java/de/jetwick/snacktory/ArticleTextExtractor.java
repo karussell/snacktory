@@ -169,6 +169,7 @@ public class ArticleTextExtractor {
                 res.setText(text);
 //                print("best element:", bestMatchElement);
             }
+            res.setTextList(formatter.getTextList(bestMatchElement));
         }
 
         if (res.getImageUrl().isEmpty()) {
