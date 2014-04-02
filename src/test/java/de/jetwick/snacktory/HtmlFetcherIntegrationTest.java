@@ -65,8 +65,8 @@ public class HtmlFetcherIntegrationTest {
 //    }
     @Test
     public void testEncoding() throws Exception {
-        JResult res = new HtmlFetcher().fetchAndExtract("http://www.yomiuri.co.jp/science/news/20110415-OYT1T00568.htm", 10000, true);
-        assertEquals("海水汚染には猫トイレの砂…セシウム吸着 : 科学 : YOMIURI ONLINE（読売新聞）", res.getTitle());
+        JResult res = new HtmlFetcher().fetchAndExtract("http://www.yomiuri.co.jp/science/20140401-OYT1T50144.html", 10000, true);
+        assertEquals("承服できない・悪意ない…小保方晴子氏コメント：科学：読売新聞（YOMIURI ONLINE）", res.getTitle());
     }
 
     @Test
