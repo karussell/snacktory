@@ -46,7 +46,9 @@ TODOs
     <!-- or if you prefer the latest build <version>1.2-SNAPSHOT</version> -->
  </dependency>
  ```
- 
+
+ If you need this for Android be sure you read [this issue](https://github.com/karussell/snacktory/issues/36).
+
  Now you can use it as follows:
  
  ```java
