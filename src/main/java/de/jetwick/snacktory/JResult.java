@@ -16,6 +16,7 @@
 package de.jetwick.snacktory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +39,7 @@ public class JResult implements Serializable {
     private String faviconUrl;
     private String description;
     private String dateString;
+    private List<String> textList;
     private Collection<String> keywords;
     private List<ImageResult> images = null;
 
@@ -126,6 +128,17 @@ public class JResult implements Serializable {
 
     public JResult setText(String text) {
         this.text = text;
+        return this;
+    }
+
+    public List<String> getTextList() {
+        if(this.textList == null)
+            return new ArrayList<String>();
+        return this.textList;
+    }
+
+    public JResult setTextList(List<String> textList) {
+        this.textList = textList;
         return this;
     }
 

@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -64,6 +65,19 @@ public class OutputFormatter {
         // if jsoup failed to parse the whole html now parse this smaller 
         // snippet again to avoid html tags disturbing our text:
         return Jsoup.parse(str).text();
+    }
+
+    /**
+     * Takes an element and returns a list of texts extracted from the P tags
+     */
+    public List<String> getTextList(Element topNode) {
+        List<String> texts = new ArrayList<String>();
+        for(Element element : topNode.select(this.nodesToKeepCssSelector)) {
+            if(element.hasText()) {
+                texts.add(element.text());
+            }
+        }
+        return texts;
     }
 
     /**
