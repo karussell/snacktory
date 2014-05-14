@@ -1,6 +1,6 @@
 # Snacktory
 
-This is a small helper utility for pepole who don't want to write yet another java clone of Readability.
+This is a small helper utility for people who don't want to write yet another java clone of Readability.
 In most cases, this is applied to articles, although it should work for any website to find its major
 area, extract its text, keywords, its main picture and more.
 
