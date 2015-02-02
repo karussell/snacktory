@@ -22,8 +22,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.Proxy.Type;
+import java.net.SocketAddress;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -31,6 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,6 +83,9 @@ public class HtmlFetcher {
     private String accept = "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
     private String charset = "UTF-8";
     private SCache cache;
+    private String proxyServer = null;
+    private int proxyPort = 0;
+    private Type proxyType = null;
     private AtomicInteger cacheCounter = new AtomicInteger(0);
     private int maxTextLength = -1;
     private ArticleTextExtractor extractor = new ArticleTextExtractor();
@@ -198,6 +205,35 @@ public class HtmlFetcher {
 
     public String getCharset() {
         return charset;
+    }
+
+    public void setProxyServer(String proxyServer) {
+        this.proxyServer = proxyServer;
+    }
+
+    public String getProxyServer() {
+        return proxyServer;
+    }
+
+    public void setProxyPort(int proxyPort) {
+        this.proxyPort = proxyPort;
+    }
+
+    public int getProxyPort() {
+        return proxyPort;
+    }
+
+    public boolean isProxySet() {
+        return (this.proxyServer != null && !this.proxyServer.trim().equals(""))
+                && this.proxyPort > 0;
+    }
+
+    public void setProxyType(String proxyType) {
+        this.proxyType = Type.valueOf(proxyType);
+    }
+
+    public String getProxyType() {
+        return (this.proxyType != null) ? this.proxyType.name() : null;
     }
 
     public JResult fetchAndExtract(String url, int timeout, boolean resolve) throws Exception {
@@ -363,7 +399,7 @@ public class HtmlFetcher {
                 return urlAsString;
 
         } catch (Exception ex) {
-            logger.warn("getResolvedUrl:" + urlAsString + " Error:" + ex.getMessage());
+            logger.warn("getResolvedUrl:" + urlAsString + " Error:" + ex.getMessage(), ex);
             return "";
         } finally {
             if (logger.isDebugEnabled())
@@ -395,7 +431,13 @@ public class HtmlFetcher {
             boolean includeSomeGooseOptions) throws MalformedURLException, IOException {
         URL url = new URL(urlAsStr);
         //using proxy may increase latency
-        HttpURLConnection hConn = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
+        Proxy proxy = Proxy.NO_PROXY;
+        if (isProxySet()) {
+            SocketAddress socketAddress = new InetSocketAddress(getProxyServer(), getProxyPort());
+            Type proxyType = Type.valueOf(getProxyType());
+            proxy = new Proxy(proxyType, socketAddress);
+        }
+        HttpURLConnection hConn = (HttpURLConnection) url.openConnection(proxy);
         hConn.setRequestProperty("User-Agent", userAgent);
         hConn.setRequestProperty("Accept", accept);
 
