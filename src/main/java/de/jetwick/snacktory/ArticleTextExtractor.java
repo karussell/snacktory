@@ -307,6 +307,10 @@ public class ArticleTextExtractor {
         List<Element> pEls = new ArrayList<Element>(5);
         for (Element child : rootEl.children()) {
             String ownText = child.ownText();
+
+            // if you are on a paragraph, grab all the text including that surrounded by additional formatting.
+            if (child.tagName().equals("p")) ownText = child.text();
+
             int ownTextLength = ownText.length();
             if (ownTextLength < 20)
                 continue;

@@ -61,6 +61,12 @@ public class ArticleTextExtractorTest {
     }
 
     @Test
+    public void testData6() throws Exception {
+        JResult res = extractor.extractContent(readFileAsString("test_data/6.html"));
+        assertEquals(res.getText(), "Acting Governor of Balkh province, Atta Mohammad Noor, said that differences between leaders of the National Unity Government (NUG) – namely President Ashraf Ghani and CEO Abdullah Abdullah— have paved the ground for mounting insecurity. Hundreds of worried relatives gathered outside Kabul hospitals on Tuesday desperate for news of loved ones following the deadly suicide bombing earlier in the day.");
+    }
+
+    @Test
     public void testCNN() throws Exception {
         // http://edition.cnn.com/2011/WORLD/africa/04/06/libya.war/index.html?on.cnn=1
         JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("cnn.html")));
