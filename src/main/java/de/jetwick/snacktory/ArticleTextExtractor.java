@@ -58,7 +58,7 @@ public class ArticleTextExtractor {
                 + "|arti(cle|kel)|instapaper_body");
         setNegative("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
                 + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
-                + "sidebar|sponsor|tags|tool|widget|player|disclaimer|toc|infobox|vcard");
+                + "sidebar|sponsor|tags|tool|widget|player|disclaimer|toc|infobox|vcard|post-ratings");
     }
 
     public ArticleTextExtractor setUnlikely(String unlikelyStr) {

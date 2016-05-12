@@ -32,7 +32,7 @@ public class HtmlFetcherIntegrationTest {
         JResult res = new HtmlFetcher().fetchAndExtract("http://www.tumblr.com/xeb22gs619", 10000, true);
 //        System.out.println("tumblr:" + res.getUrl());
 
-        res = new HtmlFetcher().fetchAndExtract("http://www.faz.net/-01s7fc", 10000, true);
+//        res = new HtmlFetcher().fetchAndExtract("http://www.faz.net/-01s7fc", 10000, true);
 //        System.out.println("faz:" + res.getUrl());
 
         res = new HtmlFetcher().fetchAndExtract("http://www.google.com/url?sa=x&q=http://www.taz.de/1/politik/asien/artikel/1/anti-atomkraft-nein-danke/&ct=ga&cad=caeqargbiaaoataaoabaltmh7qrialaawabibwrllurf&cd=d5glzns5m_4&usg=afqjcnetx___sph8sjwhjwi-_mmdnhilra&utm_source=twitterfeed&utm_medium=twitter", 10000, true);
@@ -65,14 +65,14 @@ public class HtmlFetcherIntegrationTest {
 //    }
     @Test
     public void testEncoding() throws Exception {
-        JResult res = new HtmlFetcher().fetchAndExtract("http://www.yomiuri.co.jp/science/20140401-OYT1T50144.html", 10000, true);
-        assertEquals("承服できない・悪意ない…小保方晴子氏コメント：科学：読売新聞（YOMIURI ONLINE）", res.getTitle());
+        JResult res = new HtmlFetcher().fetchAndExtract("http://www.yomiuri.co.jp/science/", 10000, true);
+        assertEquals("科学・ＩＴニュース：読売新聞(YOMIURI ONLINE)", res.getTitle());
     }
 
     @Test
     public void testHashbang() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://www.facebook.com/democracynow", 10000, true);
-        assertTrue(res.getTitle(), res.getTitle().startsWith("Democracy Now! "));
+        assertTrue(res.getTitle(), res.getTitle().startsWith("Democracy Now!"));
 
         // not available anymore
         //       res = new HtmlFetcher().fetchAndExtract("http://twitter.com/#!/th61/status/57141697720745984", 10000, true);
@@ -88,19 +88,19 @@ public class HtmlFetcherIntegrationTest {
 
     @Test
     public void testFurther() throws Exception {
-        JResult res = new HtmlFetcher().fetchAndExtract("http://linksunten.indymedia.org/de/node/41619?utm_source=twitterfeed&utm_medium=twitter", 10000, true);
+        JResult res = new HtmlFetcher().fetchAndExtract("https://linksunten.indymedia.org/de/node/41619?utm_source=twitterfeed&utm_medium=twitter", 10000, true);
         assertTrue(res.getText(), res.getText().startsWith("Es gibt kein ruhiges Hinterland! Schon wieder den "));
     }
 
     @Test
     public void testDoubleResolve() throws Exception {
         JResult res = new HtmlFetcher().fetchAndExtract("http://t.co/eZRKcEYI", 10000, true);
-        assertTrue(res.getTitle(), res.getTitle().startsWith("teleject/Responsive-Web-Design-Artboards "));
+        assertTrue(res.getTitle(), res.getTitle().startsWith("GitHub - teleject/Responsive-Web-Design-Artboards"));
     }
 
     @Test
     public void testXml() throws Exception {
-        String str = new HtmlFetcher().fetchAsString("http://karussell.wordpress.com/feed/", 10000);
+        String str = new HtmlFetcher().fetchAsString("https://karussell.wordpress.com/feed/", 10000);
         assertTrue(str, str.startsWith("<?xml version="));
     }
 }
