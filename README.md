@@ -11,6 +11,10 @@ it describes a news aggregator service which uses snacktory. But jetslide is no 
 Snacktory borrows some ideas and a lot of test cases from [goose](https://github.com/GravityLabs/goose) 
 and [jreadability](https://github.com/ifesdjeen/jReadability):
 
+# Future
+
+I would love to find one for maintenance and future development. Contact [me](https://github.com/karussell/) if you have interests!
+
 # License 
 
 The software stands under Apache 2 License and comes with NO WARRANTY
