@@ -758,6 +758,18 @@ public class ArticleTextExtractorTest {
         assertEquals("http://www.linkwithin.com/pixel.png", res.getImages().get(2).src);
     }
 
+    /**
+     * Verify that all images are extracted, even if they have all the weights exactly {@code 0} (no dimensions, no title, no alt, e.g. {@code <img src="first-image.jpg"/>}).
+     */
+    @Test
+    public void testImagesZeroWeight() throws Exception {
+        JResult res = extractor.extractContent(c.streamToString(getClass().getResourceAsStream("artificial/zero-weight-images.html")));
+        final List<ImageResult> images = res.getImages();
+        assertEquals(2, images.size());
+        assertEquals("first-image.jpg", images.get(0).src);
+        assertEquals("second-image.jpg", images.get(1).src);
+    }
+
     @Test
     public void testTextList() throws Exception {
         JResult res = extractor.extractContent(readFileAsString("test_data/1.html"));

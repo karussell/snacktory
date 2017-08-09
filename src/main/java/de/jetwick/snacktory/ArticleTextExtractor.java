@@ -410,7 +410,7 @@ public class ArticleTextExtractor {
     }
 
     public Element determineImageSource(Element el, List<ImageResult> images) {
-        int maxWeight = 0;
+        int maxWeight = Integer.MIN_VALUE;
         Element maxNode = null;
         Elements els = el.select("img");
         if (els.isEmpty())
