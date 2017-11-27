@@ -1,3 +1,17 @@
+# Future
+
+Snacktory is no longer actively maintained by @karussell.
+
+[Crux](https://github.com/chimbori/crux) is a fork under active development and is the recommended alternative.
+
+- Available under the same permissive Apache 2.0 License.
+- Adds several new features, such as Rich Text output (HTML), preserves links, extracts more metadata content, etc.
+- Optimized for Android. Decoupled from optional dependencies such as HttpUrlConnection, log4j, etc.
+- Actively developed by [Chimbori](https://github.com/chimbori), the developers of [Hermit, a Lite Apps Browser for Android](https://hermit.chimbori.com/).
+- Already being used in multiple apps.
+- Crux has a different architecture from Snacktory: it is designed as a collection of several separate APIs instead of a single one. Clients can pick and choose which ones they wish to use.
+- As a result, Crux is not a drop-in replacement for Snacktory, but fairly easy to migrate to.
+
 # Snacktory
 
 This is a small helper utility for people who don't want to write yet another java clone of Readability.
@@ -11,9 +25,6 @@ it describes a news aggregator service which uses snacktory. But jetslide is no 
 Snacktory borrows some ideas and a lot of test cases from [goose](https://github.com/GravityLabs/goose) 
 and [jreadability](https://github.com/ifesdjeen/jReadability):
 
-# Future
-
-I would love to find one for maintenance and future development. Contact [me](https://github.com/karussell/) if you have interests!
 
 # License 
 
